@@ -8,6 +8,8 @@ import { IconType } from "react-icons";
 import { LuGoal } from "react-icons/lu";
 import { FaUserCog } from "react-icons/fa";
 import { GrAnalytics } from "react-icons/gr";
+import { useMenuOption } from "@/hooks/useMenuOption";
+import { useEffect } from "react";
 
 type MenuOptionsProps = {
   MenuIcon: IconType;
@@ -16,33 +18,44 @@ type MenuOptionsProps = {
 };
 
 const SidebarMenu = () => {
-  const menuOption: MenuOptionsProps[] = [
+  const [actualPage] = useMenuOption();
+
+  const menuOption = [
     {
       MenuIcon: MdDashboard,
-      isSelected: true,
+      pageName: "dashboard",
+      href: "/dashboard",
       menuTitle: "Dashboard",
     },
     {
       MenuIcon: IoMdClipboard,
-      isSelected: false,
+      pageName: "producao",
+      href: "/producao",
       menuTitle: "Produção",
     },
     {
       MenuIcon: LuGoal,
-      isSelected: false,
+      pageName: "metas",
+      href: "/metas",
       menuTitle: "Metas",
     },
     {
       MenuIcon: FaUserCog,
-      isSelected: false,
+      pageName: "usuarios",
+      href: "/usuarios",
       menuTitle: "Usuários",
     },
     {
       MenuIcon: GrAnalytics,
-      isSelected: false,
+      pageName: "analises",
+      href: "/analises",
       menuTitle: "Análises",
     },
   ];
+
+  useEffect(() => {
+    console.log(actualPage);
+  }, [actualPage]);
 
   return (
     <div className={styles.sidebarMenuContainer}>
@@ -53,7 +66,8 @@ const SidebarMenu = () => {
           <MenuOption
             key={option.menuTitle}
             MenuIcon={option.MenuIcon}
-            isSelected={option.isSelected}
+            isSelected={option.pageName === actualPage}
+            href={option.href}
             menuTitle={option.menuTitle}
           />
         ))}
