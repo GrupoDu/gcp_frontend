@@ -1,0 +1,23 @@
+.sidebarMenuContainer {
+    width: 24rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100dvh;
+    background-color: #F0F0F0;
+    padding: 1rem;
+    gap: .6rem;
+    box-sizing: border-box;
+
+    hr {
+        width: 100%;
+    }
+
+    .menuOptionsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
