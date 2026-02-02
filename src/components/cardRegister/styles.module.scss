@@ -1,0 +1,50 @@
+.cardRegisterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid #e7e5ff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-sizing: border-box;
+  width: 30rem;
+
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+
+    h3 {
+      flex: 1;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 0.5rem;
+
+      .button {
+        object-fit: contain;
+        width: 1.5rem;
+        height: fit-content;
+        cursor: pointer;
+        padding: 0.2rem;
+        border-radius: 0.2rem;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .deleteButton {
+        background-color: #000000;
+        color: white;
+      }
+    }
+  }
+
+  .status {
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+  }
+}
