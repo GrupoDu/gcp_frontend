@@ -1,0 +1,43 @@
+@import "@/styles/colors/styles.module.scss";
+
+.menuOptionContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1rem;
+  color: #000000;
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 4px;
+  opacity: 0.6;
+
+  h4 {
+    font-weight: 400;
+  }
+
+  .selected {
+    color: $menuSelectedTextBlue;
+  }
+
+  .menuIcon.selected {
+    color: $menuSelectedTextBlue;
+  }
+
+  .menuIcon {
+    color: #000000;
+    object-fit: contain;
+    width: 1.5rem;
+    height: auto;
+  }
+}
+
+.menuOptionContainer.selected {
+  background-color: $menuSelectedBlue;
+  border-left: 0.3rem solid $menuSelectedTextBlue;
+  opacity: 1;
+
+  h4 {
+    font-weight: bold;
+  }
+}
