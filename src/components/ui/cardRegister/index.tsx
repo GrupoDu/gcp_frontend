@@ -1,10 +1,11 @@
 import styles from "./styles.module.scss";
 import { FaEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
-import LinkButton from "../linkButton";
+import LinkButton from "../../linkButton";
 
 type CardRegisterProps = {
-  status: "Pendente" | "Entregue" | "Não finalizado";
+  status: string;
+  register_id: string;
   title: string;
   date: string;
   description: string;
@@ -33,10 +34,13 @@ const CardRegister = (props: CardRegisterProps) => {
           />
         </div>
       </div>
-      <span>{props.date}</span>
+      <span>{props.date.toString()}</span>
       <hr />
       <p>{props.description}</p>
-      <LinkButton href="/" placeholder="Visualizar registro" />
+      <LinkButton
+        color="black"
+        href={`/producao/${props.register_id}`}
+      >Visualizar registro</LinkButton>
     </div>
   );
 };

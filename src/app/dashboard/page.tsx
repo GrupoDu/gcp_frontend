@@ -1,4 +1,4 @@
-import PageHeader from "@/components/pageHeader";
+import PageHeader from "@/components/ui/pageHeader";
 import styles from "./page.module.scss";
 import { MdDashboard } from "react-icons/md";
 import { IoMdClipboard } from "react-icons/io";

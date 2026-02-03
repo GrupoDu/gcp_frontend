@@ -1,11 +1,16 @@
 .linkButtonContainer {
-  background-color: black;
-  color: white;
   padding: .4rem;
   display: flex;
   align-items: center;
   gap: .4rem;
   border-radius: 4px;
-  width: fit-content;
   text-decoration: none;
+  min-width: fit-content;
+  box-sizing: border-box;
+
+  .linkButtonIcon {
+    object-fit: contain;
+    width: 1.5rem;
+    height: fit-content;
+  }
 }

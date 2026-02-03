@@ -1,0 +1,18 @@
+.ul {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: auto auto auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  list-style: none;
+  padding: 1rem;
+  background-color: #F0F0F0;
+  border: 1px solid #E0E0E0;
+  overflow-y: auto;
+
+  li {
+    flex-shrink: 0;
+  }
+}

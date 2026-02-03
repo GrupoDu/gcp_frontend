@@ -16,8 +16,9 @@
     margin-top: 0.6rem;
 
     li {
-      width: 30rem;
+      width: 26rem;
       margin-bottom: 0.6rem;
+      flex-shrink: 0;
     }
   }
 }

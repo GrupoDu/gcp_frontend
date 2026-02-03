@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import LinkButton from "../linkButton";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
-import CardGoal from "../cardGoal";
+import CardGoal from "../ui/cardGoal";
 
 const GoalSection = () => {
   const metas = [
@@ -85,12 +85,12 @@ const GoalSection = () => {
   return (
     <div className={styles.goalSectionContainer}>
       <div className={styles.goalButtons}>
-        <LinkButton href="/" placeholder="Criar nova meta" Icon={FaPlus} />
-        <LinkButton
-          href="/"
-          placeholder="Visualizar metas"
-          Icon={FaExternalLinkAlt}
-        />
+        <LinkButton color="black" href="/" fullWidth={false} Icon={FaPlus}>
+          Criar nova meta
+        </LinkButton>
+        <LinkButton color="black" href="/" Icon={FaExternalLinkAlt}>
+          Visualizar metas
+        </LinkButton>
       </div>
       <ul>
         {metas.map((meta) => (
