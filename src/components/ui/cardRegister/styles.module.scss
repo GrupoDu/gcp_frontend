@@ -7,6 +7,7 @@
   padding: 1rem;
   box-sizing: border-box;
   width: 100%;
+  // flex:1;
   background-color: white;
 
   .cardHeader {
@@ -17,28 +18,45 @@
 
     h3 {
       flex: 1;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 10rem;
     }
 
     .buttons {
       display: flex;
       gap: 0.5rem;
 
-      .button {
+      button {
         object-fit: contain;
-        width: 1.5rem;
+        width: fit-content;
+        display: flex;
         height: fit-content;
         cursor: pointer;
-        padding: 0.2rem;
+        padding: 0.4rem;
         border-radius: 0.2rem;
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
         display: flex;
         justify-content: center;
         align-items: center;
+        border: none;
+
+        .buttonIcon {
+          object-fit: contain;
+          width: 1.2rem;
+          height: fit-content;
+        }
       }
 
       .deleteButton {
         background-color: #000000;
         color: white;
+      }
+
+      .editButton {
+        background-color: white;
+        color: #000000;
       }
     }
   }
@@ -47,5 +65,19 @@
     width: 1em;
     height: 1em;
     border-radius: 50%;
+  }
+
+  .observationField {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 15rem;
+    display: inline-block;
+    height: 1.2rem;
+    white-space: nowrap;
+  }
+
+  .noObservation {
+    font-style: italic;
+    opacity: 0.5;
   }
 }

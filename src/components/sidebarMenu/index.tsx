@@ -30,7 +30,7 @@ const SidebarMenu = () => {
     {
       MenuIcon: IoMdClipboard,
       pageName: "producao",
-      href: "/producao",
+      href: "/producao?prazo=&produto=todos&funcionario=todos&estado=todos",
       menuTitle: "Produção",
     },
     {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.scss";
 import SidebarMenu from "@/components/sidebarMenu";
+import { ToastContainer } from "react-toastify";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={`${roboto.variable}`}>
         <SidebarMenu />
+        <ToastContainer position="top-center" autoClose={3000} theme="light" />
         {children}
       </body>
     </html>

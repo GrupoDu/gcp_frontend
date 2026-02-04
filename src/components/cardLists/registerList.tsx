@@ -1,28 +1,54 @@
 "use client";
 
-import { useFetch } from "@/hooks/useFetch";
-import { Register } from "@/types/register.type";
 import CardRegister from "../ui/cardRegister";
 import styles from "./styles.module.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { dataFormater } from "@/utils/dataFormater";
+import { useRegisters } from "@/hooks/useRegisters";
+import { useSearchParams } from "next/navigation";
+import { Register } from "@/types/register.type";
 
 const RegisterList = () => {
-  const { data, err, status } = useFetch<Register>(
-    "http://localhost:8000/registers",
-  );
+  const { registersData, err, status, refetch } = useRegisters();
+  const searchParams = useSearchParams();
+  const [filteredRegisters, setFilteredRegisters] = useState<Register[]>();
+
+  useEffect(() => {
+    const productFilter = searchParams.get("produto");
+    const employeeFilter = searchParams.get("funcionario");
+    const deadlineFilter = searchParams.get("prazo");
+    const statusFilter = searchParams.get("estado");
+
+    setFilteredRegisters(
+      registersData?.filter((item) => {
+        console.log(item.deadline);
+        return (
+          (productFilter ? item.product_uuid === productFilter : true) &&
+          (employeeFilter ? item.employee_uuid === employeeFilter : true) &&
+          (deadlineFilter ? item.deadline.includes(deadlineFilter) : true) &&
+          (statusFilter ? item.status === statusFilter : true)
+        );
+      }),
+    );
+
+    console.log(deadlineFilter);
+  }, [registersData, searchParams]);
 
   useEffect(() => {
     console.log("status: ", status);
-    console.log("data: ", data);
+    console.log("data: ", registersData);
     console.log("err: ", err);
-  }, [data, status, err]);
+
+    if (registersData) {
+    }
+  }, [registersData, status, err]);
 
   return (
     <ul className={styles.ul}>
-      {data?.registers!.map((item) => (
+      {filteredRegisters?.map((item) => (
         <li key={item.register_id}>
           <CardRegister
+            refetch={refetch}
             status={item.status}
             title={item.title}
             date={dataFormater(item.deadline)}

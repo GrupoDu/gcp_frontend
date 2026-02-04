@@ -1,3 +1,8 @@
+.buttons {
+    display: flex;
+    gap: .6rem;
+}
+
 .registerInfosContainer {
     display: flex;
     flex-direction: column;
@@ -20,7 +25,16 @@
         }
     }
 
+    .descriptionField {
+        font-size: 1.1rem;
+    }
+
     .dates {
+        font-style: italic;
+        opacity: .5;
+    }
+
+    p.observationField {
         font-style: italic;
         opacity: .5;
     }

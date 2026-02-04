@@ -1,0 +1,27 @@
+"use client";
+
+import { ProductContext } from "@/context/productContext";
+import { useFetch } from "@/hooks/useFetch";
+import { Product } from "@/types/product.type";
+import { useMemo } from "react";
+
+export function ProductProvider({ children }: { children: React.ReactNode }) {
+  const { data, err, status } = useFetch<Product>(
+    "http://localhost:8000/products/",
+  );
+
+  const productData = useMemo(
+    () => ({
+      productsData: data?.data || undefined,
+      err,
+      status,
+    }),
+    [data, err, status],
+  );
+
+  return (
+    <ProductContext.Provider value={productData}>
+      {children}
+    </ProductContext.Provider>
+  );
+}

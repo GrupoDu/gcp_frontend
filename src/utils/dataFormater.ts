@@ -1,3 +1,5 @@
 export function dataFormater(date: string) {
-  return new Date(date).toLocaleDateString("pt-BR");
+  const dataPart = date.split("T")[0];
+  const [ano, mes, dia] = dataPart.split("-");
+  return `${dia}/${mes}/${ano}`;
 }

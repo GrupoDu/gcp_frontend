@@ -7,5 +7,6 @@ export type Register = {
   status: string;
   delivered_at: string;
   employee_uuid: string;
+  product_uuid: string;
   deliver_observation: string;
 };

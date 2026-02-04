@@ -1,29 +1,37 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { IconType } from "react-icons";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type FilterDropdownProps = {
   label: string;
-  Icon: IconType;
+  // Icon: IconType;
+  children: React.ReactNode;
   placeholder?: string;
   options?: string[];
+  value?: string;
+  setValue: (value: string) => void;
 };
 
-const FilterDropdown = (props: FilterDropdownProps) => {
+const FilterDropdownBase = (props: FilterDropdownProps) => {
   return (
     <label className={styles.filterDropdownContainer}>
       <span>
-        <props.Icon />
+        {/* <props.Icon /> */}
         <p>{props.placeholder}</p>
       </span>
-      <select name="filter-dropdown" className="filter-dropdown">
-        <option value="">{props.label}</option>
-        {props.options?.map((option) => (
-          <option key={option}>{option}</option>
-        ))}
+      <select
+        value={props.value}
+        onChange={(e) => props.setValue(e.target.value)}
+        name="filter-dropdown"
+        className="filter-dropdown"
+      >
+        {props.children}
       </select>
     </label>
   );
 };
 
-export default FilterDropdown;
+export default FilterDropdownBase;
