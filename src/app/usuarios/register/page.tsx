@@ -1,4 +1,5 @@
 import PageHeader from "@/components/ui/pageHeader";
+// @ts-expect-error tipagem chata do ts
 import "../../globals.scss";
 import styles from "./page.module.scss";
 import { FaUserCog } from "react-icons/fa";

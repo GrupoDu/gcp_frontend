@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
+// @ts-expect-error tipagem chata do ts 
 import "../globals.scss";
 import { LuGoal } from "react-icons/lu";
 import GoalListContainer from "@/components/goalListContainer";
