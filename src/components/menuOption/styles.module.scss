@@ -1,4 +1,4 @@
-@import "@/styles/colors/styles.module.scss";
+@use "@/styles/_colors.scss";
 
 .menuOptionContainer {
   display: flex;
@@ -18,11 +18,11 @@
   }
 
   .selected {
-    color: $menuSelectedTextBlue;
+    color: colors.$menuSelectedTextBlue;
   }
 
   .menuIcon.selected {
-    color: $menuSelectedTextBlue;
+    color: colors.$menuSelectedTextBlue;
   }
 
   .menuIcon {
@@ -34,8 +34,8 @@
 }
 
 .menuOptionContainer.selected {
-  background-color: $menuSelectedBlue;
-  border-left: 0.3rem solid $menuSelectedTextBlue;
+  background-color: colors.$menuSelectedBlue;
+  border-left: 0.3rem solid colors.$menuSelectedTextBlue;
   opacity: 1;
 
   h4 {

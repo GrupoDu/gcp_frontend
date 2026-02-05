@@ -1,23 +1,34 @@
+@use "@/styles/_colors.scss";
+
 .sidebarMenuContainer {
-    width: 24rem;
+  width: 24rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100dvh;
+  background-color: #f9f9f9;
+  gap: 0.6rem;
+  box-sizing: border-box;
+  border-right: colors.$borderColor;
+
+  h1 {
+    height: 4.4rem;
+  }
+
+  hr {
+    width: 100%;
+    height: 1px;
+    color: #e9e9e9;
+    border: none;
+    background-color: #e9e9e9;
+  }
+
+  .menuOptionsContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    height: 100dvh;
-    background-color: #F0F0F0;
-    padding: 1rem;
-    gap: .6rem;
+    gap: 0.5rem;
+    width: 100%;
     box-sizing: border-box;
-
-    hr {
-        width: 100%;
-    }
-
-    .menuOptionsContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
-        box-sizing: border-box;
-    }
+    padding: 1rem;
+  }
 }

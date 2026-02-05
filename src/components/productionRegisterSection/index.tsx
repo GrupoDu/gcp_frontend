@@ -7,13 +7,24 @@ import CardRegister from "../ui/cardRegister";
 import { useFetch } from "@/hooks/useFetch";
 import { Register } from "@/types/register.type";
 import { dataFormater } from "@/utils/dataFormater";
+import { useEffect, useState } from "react";
 
 const ProductionRegisterSection = () => {
   const { data } = useFetch<Register>("http://localhost:8000/registers");
+  const [registers, setRegisters] = useState<Register[]>([]);
+  const [isPendingRegistersPopulated, setIsPendingRegistersPopulated] =
+    useState(false);
 
-  const pendingRegisters = data?.registers!.filter(
-    (register) => register.status === "Pendente",
-  );
+  const pendingRegisters =
+    data?.registers!.filter((register) => register.status === "Pendente") || [];
+
+  useEffect(() => {
+    setRegisters(pendingRegisters);
+
+    if (pendingRegisters.length > 0) {
+      setIsPendingRegistersPopulated(false);
+    }
+  }, [data]);
 
   return (
     <div className={styles.productionRegisterSectionContainer}>
@@ -21,19 +32,25 @@ const ProductionRegisterSection = () => {
         href="/pendingRegisters"
         Icon={FaExternalLinkAlt}
         color="black"
-      >Lista completa</LinkButton>
+      >
+        Lista completa
+      </LinkButton>
       <ul>
-        {pendingRegisters?.map((register) => (
-          <li key={register.register_id}>
-            <CardRegister
-              register_id={register.register_id}
-              status={register.status}
-              title={register.title}
-              date={dataFormater(register.deadline)}
-              description={register.description}
-            />
-          </li>
-        ))}
+        {isPendingRegistersPopulated ? (
+          pendingRegisters?.map((register) => (
+            <li key={register.register_id}>
+              <CardRegister
+                register_id={register.register_id}
+                status={register.status}
+                title={register.title}
+                date={dataFormater(register.deadline)}
+                description={register.description}
+              />
+            </li>
+          ))
+        ) : (
+          <h3>Nenhum registro pendente</h3>
+        )}
       </ul>
     </div>
   );

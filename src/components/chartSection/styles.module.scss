@@ -1,3 +1,5 @@
+@use "@/styles/_colors.scss";
+
 .chartSectionContainer {
   display: flex;
   gap: 1rem;
@@ -9,12 +11,12 @@
     gap: 1rem;
     padding: 1rem;
     padding-bottom: 0;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
     border-radius: 0.4rem;
+    border: colors.$borderDefault;
 
     .chartTitle {
-        display: flex;
-        gap: .4rem;
+      display: flex;
+      gap: 0.4rem;
 
       .chartIcon {
         object-fit: contain;

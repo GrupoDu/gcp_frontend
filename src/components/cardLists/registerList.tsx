@@ -12,6 +12,7 @@ const RegisterList = () => {
   const { registersData, err, status, refetch } = useRegisters();
   const searchParams = useSearchParams();
   const [filteredRegisters, setFilteredRegisters] = useState<Register[]>();
+  const [isListPopulated, setIsListPopulated] = useState(false);
 
   useEffect(() => {
     const productFilter = searchParams.get("produto");
@@ -31,6 +32,8 @@ const RegisterList = () => {
       }),
     );
 
+    if (registersData && registersData.length > 0) setIsListPopulated(true);
+
     console.log(deadlineFilter);
   }, [registersData, searchParams]);
 
@@ -44,19 +47,30 @@ const RegisterList = () => {
   }, [registersData, status, err]);
 
   return (
-    <ul className={styles.ul}>
-      {filteredRegisters?.map((item) => (
-        <li key={item.register_id}>
-          <CardRegister
-            refetch={refetch}
-            status={item.status}
-            title={item.title}
-            date={dataFormater(item.deadline)}
-            description={item.description}
-            register_id={item.register_id}
-          />
-        </li>
-      ))}
+    <ul
+      className={styles.ul}
+      style={
+        isListPopulated
+          ? { display: "grid" }
+          : { display: "flex", justifyContent: "center", alignItems: "center" }
+      }
+    >
+      {isListPopulated ? (
+        filteredRegisters?.map((item) => (
+          <li key={item.register_id}>
+            <CardRegister
+              refetch={refetch}
+              status={item.status}
+              title={item.title}
+              date={dataFormater(item.deadline)}
+              description={item.description}
+              register_id={item.register_id}
+            />
+          </li>
+        ))
+      ) : (
+        <h1>Não há registros</h1>
+      )}
     </ul>
   );
 };
