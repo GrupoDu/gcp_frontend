@@ -10,7 +10,7 @@ import LinkButton from "../linkButton";
 import { IoIosArrowBack } from "react-icons/io";
 import DeliverButton from "../ui/deliverButton";
 import { CiSquareCheck } from "react-icons/ci";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const RegisterInfos = ({ register_id }: { register_id: string }) => {
   const [deliverObservation, setDeliverObservation] = useState<string>("");
@@ -29,10 +29,6 @@ const RegisterInfos = ({ register_id }: { register_id: string }) => {
     );
 
   const registerId = data?.register_id || "";
-
-  useEffect(() => {
-    console.log("deliverObservation: ", deliverObservation);
-  }, [deliverObservation]);
 
   return (
     <>
@@ -56,7 +52,7 @@ const RegisterInfos = ({ register_id }: { register_id: string }) => {
         </div>
         <hr />
         <span className={styles.dates}>
-          prazo de entrega: {dataFormater(data?.deadline)}
+          prazo de entrega: {dataFormater(data?.deadline.toString() || "")}
         </span>
         {data?.status === "Entregue" && (
           <span className={styles.dates}>

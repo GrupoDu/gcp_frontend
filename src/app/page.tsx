@@ -6,6 +6,7 @@ import ChartSection from "@/components/chartSection";
 import ProductionRegisterSection from "@/components/productionRegisterSection";
 import { LuGoal } from "react-icons/lu";
 import GoalSection from "@/components/goalSection";
+import { RegisterAnalysisProvider } from "@/providers/registerAnalysis.provider";
 
 export default function Home() {
   return (
@@ -13,7 +14,9 @@ export default function Home() {
       <PageHeader HeaderIcon={MdDashboard} headerTitle="Dashboard" />
       <main className={styles.mainContainer}>
         <h2>Análises</h2>
-        <ChartSection />
+        <RegisterAnalysisProvider>
+          <ChartSection />
+        </RegisterAnalysisProvider>
         <h2>
           <IoMdClipboard /> Registros de produção pendentes
         </h2>

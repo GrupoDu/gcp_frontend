@@ -11,12 +11,6 @@ import { GrAnalytics } from "react-icons/gr";
 import { useMenuOption } from "@/hooks/useMenuOption";
 import { useEffect } from "react";
 
-type MenuOptionsProps = {
-  MenuIcon: IconType;
-  isSelected: boolean;
-  menuTitle: string;
-};
-
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
 

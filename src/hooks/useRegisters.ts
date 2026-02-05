@@ -1,4 +1,4 @@
-import { RegisterContext } from "@/context/registerContext";
+import { RegisterContext } from "@/context/register.context";
 import { useContext } from "react";
 
 export function useRegisters() {

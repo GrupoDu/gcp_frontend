@@ -1,3 +1,5 @@
+@use "@/styles/_colors.scss";
+
 .pageHeaderContainer {
   display: flex;
   align-items: center;
@@ -13,10 +15,12 @@
 
   h1 {
     flex: 1;
+    color: colors.$menuSelectedTextBlue;
   }
 
   .headerIcon {
     width: 2rem;
     height: 2rem;
+    color: colors.$menuSelectedTextBlue;
   }
 }

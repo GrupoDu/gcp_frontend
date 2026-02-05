@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductContext } from "@/context/productContext";
+import { ProductContext } from "@/context/product.context";
 import { useFetch } from "@/hooks/useFetch";
 import { Product } from "@/types/product.type";
 import { useMemo } from "react";

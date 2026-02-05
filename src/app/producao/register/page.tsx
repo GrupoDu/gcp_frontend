@@ -2,8 +2,8 @@ import CreateRegisterForm from "@/components/forms/createRegisterForm";
 import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
-import { UserProvider } from "@/app/providers/usersProvider";
-import { ProductProvider } from "@/app/providers/productsProvider";
+import { UserProvider } from "@/providers/users.provider";
+import { ProductProvider } from "@/providers/products.provider";
 
 const RegisterPage = () => {
   return (

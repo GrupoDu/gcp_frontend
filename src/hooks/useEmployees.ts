@@ -1,4 +1,4 @@
-import { EmployeeContext } from "@/context/employeeContext";
+import { EmployeeContext } from "@/context/employee.context";
 import { useContext } from "react";
 
 export function useEmployees() {

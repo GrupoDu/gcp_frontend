@@ -1,0 +1,15 @@
+.searchBarContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+    justify-content: center;
+
+    input {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0.4rem;
+        border: 1px solid #e0e0e0;
+        box-sizing: border-box;
+    }
+}

@@ -1,4 +1,6 @@
-import { EmployeeContext } from "@/context/employeeContext";
+"use client";
+
+import { EmployeeContext } from "@/context/employee.context";
 import { useFetch } from "@/hooks/useFetch";
 import { Employee } from "@/types/employee.type";
 import { useMemo } from "react";

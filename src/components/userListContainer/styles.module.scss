@@ -1,0 +1,37 @@
+@use "@/styles/_colors.scss";
+
+.userListContainer {
+  // flex: 1;
+}
+
+.listContainer {
+  flex: 1;
+  background-color: white;
+  border: colors.$borderDefault;
+  border-radius: 0.4rem;
+
+  .listHeader {
+    display: flex;
+    padding: 0.8rem;
+
+    span {
+      flex: 1;
+      font-weight: 600;
+      padding: 0 1rem;
+    }
+
+    .actionsSpan {
+      flex: 0;
+      width: fit-content;
+    }
+  }
+
+  li {
+    flex: 1;
+    list-style-type: none;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
+}

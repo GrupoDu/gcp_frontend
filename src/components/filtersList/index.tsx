@@ -5,7 +5,7 @@ import LinkButton from "../linkButton";
 
 type FiltersListProps = {
   children: React.ReactNode;
-  // buttonPlaceholder: string;
+  hrefButton: string;
 };
 
 const FiltersList = (props: FiltersListProps) => {
@@ -14,7 +14,7 @@ const FiltersList = (props: FiltersListProps) => {
       {props.children} 
       <label className={styles.addButton}>
         <span>Button</span>
-        <LinkButton href="/producao/register" color="black" fullWidth={true}>
+        <LinkButton href={props.hrefButton} color="black" fullWidth={true}>
           <FaPlus color={"white"} />
           Adicionar
         </LinkButton>

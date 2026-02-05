@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 
 type FetchResponse<T> = {
@@ -7,7 +9,7 @@ type FetchResponse<T> = {
 };
 
 export const authToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTBkYTkwMjQtZTc5Yy00NzYxLTk0NjgtODAyNjAyNTNiYmYyIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpYXQiOjE3NzAxMTg5MzEsImV4cCI6MTc3MjcxMDkzMX0.sXJPHJILZDl-MJSw0e1hj4iqaQDRltIrm2XM2QQg5cw";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTBkYTkwMjQtZTc5Yy00NzYxLTk0NjgtODAyNjAyNTNiYmYyIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpYXQiOjE3NzAyOTM1ODUsImV4cCI6MTc3Mjg4NTU4NX0.lB0u9nAtj0p9tULIBEuFzPLsYWwDwEqWbqURSde-BG0";
 
 export function useFetch<T>(url: string, params?: string) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
@@ -32,6 +34,8 @@ export function useFetch<T>(url: string, params?: string) {
 
         return;
       }
+
+      console.log(data);
 
       setFetchedData({
         status: "success",

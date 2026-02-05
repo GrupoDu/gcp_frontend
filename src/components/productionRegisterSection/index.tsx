@@ -12,24 +12,20 @@ import { useEffect, useState } from "react";
 const ProductionRegisterSection = () => {
   const { data } = useFetch<Register>("http://localhost:8000/registers");
   const [registers, setRegisters] = useState<Register[]>([]);
-  const [isPendingRegistersPopulated, setIsPendingRegistersPopulated] =
-    useState(false);
-
-  const pendingRegisters =
-    data?.registers!.filter((register) => register.status === "Pendente") || [];
+  const isPendingRegistersPopulated = registers.length > 0;
 
   useEffect(() => {
-    setRegisters(pendingRegisters);
-
-    if (pendingRegisters.length > 0) {
-      setIsPendingRegistersPopulated(false);
-    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRegisters(
+      data?.registers!.filter((register) => register.status === "Pendente") ||
+        [],
+    );
   }, [data]);
 
   return (
     <div className={styles.productionRegisterSectionContainer}>
       <LinkButton
-        href="/pendingRegisters"
+        href="/producao"
         Icon={FaExternalLinkAlt}
         color="black"
       >
@@ -37,7 +33,7 @@ const ProductionRegisterSection = () => {
       </LinkButton>
       <ul>
         {isPendingRegistersPopulated ? (
-          pendingRegisters?.map((register) => (
+          registers?.map((register) => (
             <li key={register.register_id}>
               <CardRegister
                 register_id={register.register_id}

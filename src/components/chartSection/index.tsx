@@ -1,51 +1,17 @@
 "use client";
 
-import { GrAnalytics } from "react-icons/gr";
 import styles from "./styles.module.scss";
-import { LineChart, PieChart } from "@mui/x-charts";
+import { LineChart } from "@mui/x-charts";
 import { FaChartLine } from "react-icons/fa";
+import { RegisterAnalysisProvider } from "@/providers/registerAnalysis.provider";
+import PieChartContainer from "../pieChartContainer";
 
 const ChartSection = () => {
-  const fakeData = [
-    {
-      value: 50,
-      label: "Pendente",
-    },
-    {
-      value: 72,
-      label: "Concluido",
-    },
-    {
-      value: 28,
-      label: "Não finalizado",
-    },
-  ];
-
   return (
     <div className={styles.chartSectionContainer}>
-      <div className={`${styles.pieChartContainer} ${styles.chartContainer}`}>
-        <div className={styles.chartTitle}>
-          <GrAnalytics className={styles.chartIcon} />
-          <h3>Gráfico de atividades</h3>
-        </div>
-        <PieChart
-          series={[
-            {
-              data: fakeData,
-              innerRadius: 10,
-            },
-          ]}
-          slotProps={{
-            legend: {
-              direction: "vertical",
-              position: { vertical: "middle", horizontal: "center" },
-            },
-          }}
-          width={100}
-          height={100}
-          className={styles.pieChart}
-        />
-      </div>
+      <RegisterAnalysisProvider>
+        <PieChartContainer />
+      </RegisterAnalysisProvider>
       <div
         className={`${styles.linearChartContainer} ${styles.chartContainer}`}
       >
@@ -56,9 +22,6 @@ const ChartSection = () => {
         <LineChart
           style={{
             height: "100%",
-            // padding: "0",
-            // margin: "0",
-            // boxSizing: "border-box",
           }}
           series={[
             {

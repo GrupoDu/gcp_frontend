@@ -4,17 +4,17 @@ import styles from "./styles.module.scss";
 import FiltersList from "../filtersList";
 import DeadlineInput from "../ui/deadlineInput";
 import ProductsDropdown from "../ui/productsDropdown";
-import { ProductProvider } from "@/app/providers/productsProvider";
+import { ProductProvider } from "@/providers/products.provider";
 import EmployeeDropdown from "../employeeDropdown";
 import StatusDropdown from "../ui/statusDropdown";
 import RegisterList from "../cardLists/registerList";
 import ListFooter from "../listFooter";
-import { RegisterProvider } from "@/context/registerContext";
+import { RegisterProvider } from "@/context/register.context";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EmployeeProvider } from "@/app/providers/employee.provider";
+import { EmployeeProvider } from "@/providers/employee.provider";
 
-const ListContainer = () => {
+const RegisterListContainer = () => {
   const [productValue, setProductValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [employeeValue, setEmployeeValue] = useState("");
@@ -37,7 +37,7 @@ const ListContainer = () => {
   return (
     <RegisterProvider>
       <div className={styles.listContainer}>
-        <FiltersList>
+        <FiltersList hrefButton="/producao/register">
           <DeadlineInput
             deadlineValue={deadlineValue}
             setDeadlineValue={setDeadlineValue}
@@ -66,4 +66,4 @@ const ListContainer = () => {
   );
 };
 
-export default ListContainer;
+export default RegisterListContainer;

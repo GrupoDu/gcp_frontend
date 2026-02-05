@@ -4,6 +4,8 @@ import { MdOutlineDelete } from "react-icons/md";
 import LinkButton from "../../linkButton";
 import { authToken } from "@/hooks/useFetch";
 import { toast } from "react-toastify";
+import DeleteButton from "@/components/deleteButton";
+import EditButton from "@/components/editButton";
 
 type CardRegisterProps = {
   status: string;
@@ -11,7 +13,7 @@ type CardRegisterProps = {
   title: string;
   date: string;
   description: string;
-  refetch: () => void;
+  refetch?: () => void;
 };
 
 const CardRegister = (props: CardRegisterProps) => {
@@ -22,29 +24,6 @@ const CardRegister = (props: CardRegisterProps) => {
         ? "green"
         : "red";
 
-  async function deleteRegister(uuid: string) {
-    try {
-      const response = await fetch(
-        `http://localhost:8000/registers/${uuid}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Erro ao excluir registro.");
-      }
-
-      toast.success("Registro excluido com sucesso!");
-      props.refetch();
-    } catch (err) {
-      toast.error((err as Error).message);
-    }
-  }
-
   return (
     <div className={styles.cardRegisterContainer}>
       <div className={styles.cardHeader}>
@@ -54,16 +33,12 @@ const CardRegister = (props: CardRegisterProps) => {
         ></div>
         <h3>{props.title}</h3>
         <div className={styles.buttons}>
-          <button type="button" className={styles.editButton}>
-            <FaEdit className={styles.buttonIcon} />
-          </button>
-          <button
-            type="button"
-            onClick={() => deleteRegister(props.register_id)}
-            className={styles.deleteButton}
-          >
-            <MdOutlineDelete className={styles.buttonIcon} />
-          </button>
+          <EditButton />
+          <DeleteButton
+            endpoint="registers"
+            uuid={props.register_id}
+            refetch={props.refetch}
+          />
         </div>
       </div>
       <span>{props.date}</span>

@@ -12,6 +12,9 @@ export function useMenuOption() {
       } else if (pathname.includes("producao")) {
         setActualPathname("producao");
       } else if (pathname.includes("metas")) {
+        setActualPathname("metas");
+      } else if (pathname.includes("usuarios")) {
+        setActualPathname("usuarios");
       }
     }
 
