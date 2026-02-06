@@ -1,16 +1,27 @@
-.cardGoalContainer {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    border: 1px solid #e7e5ff;
-    background-color: white;
-    border-radius: 8px;
-    padding: 1rem;
-    box-sizing: border-box;
+@use "@/styles/_colors";
 
-    .goalTitle {
-        display: flex;
-        gap: .6rem;
-    }
+.cardGoalContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  //   gap: 0.5rem;
+  border: 1px solid #e7e5ff;
+  background-color: white;
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  .goalTitle {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.6rem;
+    align-items: center;
+  }
+
+  p {
+    padding: 0.6rem;
+  }
+
+  hr {
+    border: colors.$borderDefault;
+  }
 }

@@ -20,6 +20,8 @@ export function GoalProvider({ children }: { children: React.ReactNode }) {
     [data, err, status, refetch],
   );
 
+  console.log("Dados das metas(goalProvider): ", goalData);
+
   return (
     <GoalContext.Provider value={goalData}>{children}</GoalContext.Provider>
   );

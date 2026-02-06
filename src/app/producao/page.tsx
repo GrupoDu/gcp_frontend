@@ -4,6 +4,7 @@ import "../globals.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
 import RegisterListContainer from "@/components/registerListContainer";
+import { RegisterProvider } from "@/context/register.context";
 
 const ProductionPage = () => {
   return (
@@ -11,7 +12,9 @@ const ProductionPage = () => {
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Produção" />
       <main className="mainContainer">
         <h2>Registros de produção</h2>
-        <RegisterListContainer />
+        <RegisterProvider>
+          <RegisterListContainer />
+        </RegisterProvider>
       </main>
     </div>
   );

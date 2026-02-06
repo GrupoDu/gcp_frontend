@@ -3,7 +3,7 @@ export type Goal = {
   goals?: Goal[];
   title: string;
   description: string;
-  goal_status: boolean;
+  goal_status: string;
   goal_type: string;
   deadline: Date;
   employee_goal: string;

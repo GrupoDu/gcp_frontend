@@ -42,7 +42,7 @@ const CardRegister = (props: CardRegisterProps) => {
         </div>
       </div>
       <span>{props.date}</span>
-      <hr />
+      <div className={styles.dash} />
       {props.description ? (
         <p className={styles.observationField}>{props.description}</p>
       ) : (

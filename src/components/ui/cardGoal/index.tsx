@@ -1,16 +1,30 @@
 import styles from "./styles.module.scss";
+import { FaCheckCircle } from "react-icons/fa";
+import { IoIosCloseCircle } from "react-icons/io";
+import { FaClock } from "react-icons/fa";
 
 type CardGoalProps = {
   title: string;
   description: string;
-  isChecked: boolean;
+  status: string;
 };
 
-const CardGoal = ({ title, description, isChecked }: CardGoalProps) => {
+const CardGoal = ({ title, description, status }: CardGoalProps) => {
+  const statusIcon =
+    status === "Batido" ? (
+      <FaCheckCircle color="green" />
+    ) : status === "Pendente" ? (
+      <FaClock color="#FFD079" />
+    ) : (
+      <IoIosCloseCircle color="red" />
+    );
+
+  console.log("Status: ", status);
+
   return (
     <div className={styles.cardGoalContainer}>
       <div className={styles.goalTitle}>
-        <input type="checkbox" name="goal-check" defaultChecked={isChecked} />
+        {statusIcon}
         <h4>{title}</h4>
       </div>
       <hr />

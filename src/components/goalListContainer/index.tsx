@@ -10,6 +10,8 @@ import SearchBar from "../searchBar";
 import EmployeeDropdown from "../employeeDropdown";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import StatusDropdown from "../ui/statusDropdown";
+import GoalList from "../cardLists/goalList";
+import ListFooter from "../listFooter";
 
 const GoalListContainer = () => {
   const { goalsData, err, status } = useGoal();
@@ -17,6 +19,8 @@ const GoalListContainer = () => {
   const [deadlineValue, setDeadlineValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [deadlineFilterValue, setDeadlineFilterValue] = useState("");
+
+  console.log("Dados das metas(goalListContainer): ", goalsData);
 
   return (
     <div className={styles.goalListContainer}>
@@ -37,17 +41,8 @@ const GoalListContainer = () => {
           statusValue={statusValue}
         ></StatusDropdown>
       </FiltersList>
-      <ul className={styles.ul}>
-        {goalsData?.map((goal) => (
-          <li key={goal.goal_id}>
-            <CardGoal
-              title={goal.title}
-              description={goal.description}
-              isChecked={goal.goal_status}
-            />
-          </li>
-        ))}
-      </ul>
+      <GoalList goalData={goalsData} />
+      <ListFooter status={["Batida", "Pendente", "Não batida"]} />
     </div>
   );
 };

@@ -7,14 +7,16 @@ import ProductsDropdown from "../ui/productsDropdown";
 import { ProductProvider } from "@/providers/products.provider";
 import EmployeeDropdown from "../employeeDropdown";
 import StatusDropdown from "../ui/statusDropdown";
-import RegisterList from "../cardLists/registerList";
 import ListFooter from "../listFooter";
 import { RegisterProvider } from "@/context/register.context";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EmployeeProvider } from "@/providers/employee.provider";
+import { useRegisters } from "@/hooks/useRegisters";
+import RegisterList from "../cardLists/registerList";
 
 const RegisterListContainer = () => {
+  const { registersData, err, status, refetch } = useRegisters();
   const [productValue, setProductValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [employeeValue, setEmployeeValue] = useState("");
@@ -32,7 +34,14 @@ const RegisterListContainer = () => {
     console.log(productValue, statusValue, deadlineValue, employeeValue);
 
     return router.push(`/producao?${filterParams.toString()}`);
-  }, [deadlineValue, router, productValue, statusValue, employeeValue]);
+  }, [
+    deadlineValue,
+    router,
+    productValue,
+    statusValue,
+    employeeValue,
+    refetch,
+  ]);
 
   return (
     <RegisterProvider>
@@ -59,7 +68,7 @@ const RegisterListContainer = () => {
             setStatusValue={setStatusValue}
           />
         </FiltersList>
-        <RegisterList />
+        <RegisterList registersData={registersData} />
         <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
       </div>
     </RegisterProvider>

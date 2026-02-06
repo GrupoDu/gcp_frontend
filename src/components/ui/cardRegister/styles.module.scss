@@ -1,3 +1,5 @@
+@use "@/styles/_colors.scss";
+
 .cardRegisterContainer {
   display: flex;
   flex-direction: column;
@@ -34,6 +36,13 @@
     width: 1em;
     height: 1em;
     border-radius: 50%;
+  }
+
+  .dash {
+    width: 100%;
+    border: colors.$borderDefault;
+    height: none;
+    border-style: dashed;
   }
 
   .observationField {
