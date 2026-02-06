@@ -19,6 +19,13 @@
 
   p {
     padding: 0.6rem;
+    padding-top: 0;
+  }
+
+  .deadline {
+    font-style: italic;
+    padding: 0.6rem;
+    opacity: 0.6;
   }
 
   hr {

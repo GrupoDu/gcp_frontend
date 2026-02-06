@@ -6,6 +6,7 @@ import ChartSection from "@/components/chartSection";
 import ProductionRegisterSection from "@/components/productionRegisterSection";
 import { LuGoal } from "react-icons/lu";
 import GoalSection from "@/components/goalSection";
+import { GoalProvider } from "@/providers/goal.provider";
 import { RegisterAnalysisProvider } from "@/providers/registerAnalysis.provider";
 
 export default function Home() {
@@ -24,7 +25,9 @@ export default function Home() {
         <h2>
           <LuGoal /> Metas
         </h2>
-        <GoalSection />
+        <GoalProvider>
+          <GoalSection />
+        </GoalProvider>
       </main>
     </div>
   );

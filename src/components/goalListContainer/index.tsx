@@ -2,7 +2,6 @@
 
 import styles from "./styles.module.scss";
 import { useGoal } from "@/hooks/useGoal";
-import CardGoal from "../ui/cardGoal";
 import FiltersList from "../filtersList";
 import DeadlineInput from "../ui/deadlineInput";
 import { useState } from "react";

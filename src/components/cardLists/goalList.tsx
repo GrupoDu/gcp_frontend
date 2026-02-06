@@ -4,7 +4,6 @@ import CardGoal from "../ui/cardGoal";
 import { Goal } from "@/types/goal.type";
 
 const GoalList = ({ goalData }: { goalData: Goal[] | undefined }) => {
-
   return (
     <ul className={styles.cardListContainer}>
       {goalData?.map((goal) => (
@@ -13,6 +12,7 @@ const GoalList = ({ goalData }: { goalData: Goal[] | undefined }) => {
             description={goal.description}
             title={goal.title}
             status={goal.goal_status}
+            deadline={goal.deadline.toString()}
           />
         </li>
       ))}
