@@ -16,7 +16,7 @@ import { useRegisters } from "@/hooks/useRegisters";
 import RegisterList from "../cardLists/registerList";
 
 const RegisterListContainer = () => {
-  const { registersData, err, status, refetch } = useRegisters();
+  const { registersData, refetch } = useRegisters();
   const [productValue, setProductValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [employeeValue, setEmployeeValue] = useState("");

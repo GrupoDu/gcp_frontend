@@ -5,7 +5,6 @@ import LinkButton from "../linkButton";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import CardGoal from "../ui/cardGoal";
-import { useGoal } from "@/hooks/useGoal";
 import { useFetch } from "@/hooks/useFetch";
 import { Goal } from "@/types/goal.type";
 

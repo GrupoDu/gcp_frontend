@@ -1,9 +1,5 @@
 import styles from "./styles.module.scss";
-import { FaEdit } from "react-icons/fa";
-import { MdOutlineDelete } from "react-icons/md";
 import LinkButton from "../../linkButton";
-import { authToken } from "@/hooks/useFetch";
-import { toast } from "react-toastify";
 import DeleteButton from "@/components/deleteButton";
 import EditButton from "@/components/editButton";
 

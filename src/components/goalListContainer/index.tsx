@@ -13,9 +13,8 @@ import GoalList from "../cardLists/goalList";
 import ListFooter from "../listFooter";
 
 const GoalListContainer = () => {
-  const { goalsData, err, status } = useGoal();
+  const { goalsData } = useGoal();
   const [searchValue, setSearchValue] = useState("");
-  const [deadlineValue, setDeadlineValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [deadlineFilterValue, setDeadlineFilterValue] = useState("");
 
