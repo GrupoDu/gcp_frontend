@@ -30,7 +30,6 @@ const CardGoal = ({ title, description, status, deadline }: CardGoalProps) => {
         <h4>{title}</h4>
       </div>
       <hr />
-      <div></div>
       <p className={styles.deadline}>Prazo: {dataFormater(deadline)}</p>
       <p>{description}</p>
     </div>

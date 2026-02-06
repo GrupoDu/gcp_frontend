@@ -20,15 +20,18 @@
   p {
     padding: 0.6rem;
     padding-top: 0;
+    box-sizing: border-box;
   }
 
   .deadline {
     font-style: italic;
     padding: 0.6rem;
     opacity: 0.6;
+    box-sizing: border-box;
   }
 
   hr {
     border: colors.$borderDefault;
+    box-sizing: border-box;
   }
 }

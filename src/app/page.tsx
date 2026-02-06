@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className={styles.pageContainer}>
       <PageHeader HeaderIcon={MdDashboard} headerTitle="Dashboard" />
-      <main className={styles.mainContainer}>
+      <main className="mainContainer">
         <h2>Análises</h2>
         <RegisterAnalysisProvider>
           <ChartSection />

@@ -2,12 +2,13 @@
   width: 100%;
   display: flex;
   gap: 0.8rem;
-  padding: .6rem;
+  padding: 0.6rem;
   border-radius: 0.4rem;
   border: 1px solid #e0e0e0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   box-sizing: border-box;
+  background-color: white;
 
   .statusContainer {
     display: flex;

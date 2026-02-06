@@ -1,6 +1,6 @@
 import styles from "./page.module.scss";
 // @ts-expect-error tipagem chata do ts
-import "../globals.scss";
+import "../../globals.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
 import RegisterListContainer from "@/components/registerListContainer";

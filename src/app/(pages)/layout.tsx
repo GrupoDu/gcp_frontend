@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-// @ts-expect-error aviso chato de tipagem do ts
-import "./globals.scss";
+// @ts-expect-error aaaaa
+import "../globals.scss";
+import SidebarMenu from "@/components/sidebarMenu";
+import { ToastContainer } from "react-toastify";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -20,7 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className={`${roboto.variable}`}>{children}</body>
+      <body className={`${roboto.variable}`}>
+        <SidebarMenu />
+        <ToastContainer position="top-center" autoClose={3000} theme="light" />
+        {children}
+      </body>
     </html>
   );
 }

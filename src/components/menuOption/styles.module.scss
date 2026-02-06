@@ -12,6 +12,7 @@
   border-radius: 4px;
   opacity: 0.6;
   text-decoration: none;
+  transition: all 0.2s ease-in-out;
 
   h4 {
     font-weight: 400;
@@ -31,6 +32,10 @@
     width: 1.5rem;
     height: auto;
   }
+
+  &:hover {
+    transform: translateX(0.4em);
+  }
 }
 
 .menuOptionContainer.selected {
@@ -40,5 +45,9 @@
 
   h4 {
     font-weight: bold;
+  }
+
+  &:hover {
+    transform: translateX(0em);
   }
 }
