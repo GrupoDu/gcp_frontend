@@ -68,7 +68,7 @@ const RegisterListContainer = () => {
             setStatusValue={setStatusValue}
           />
         </FiltersList>
-        <RegisterList registersData={registersData} />
+        <RegisterList />
         <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
       </div>
     </RegisterProvider>

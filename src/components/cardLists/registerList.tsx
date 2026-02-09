@@ -6,12 +6,10 @@ import { Register } from "@/types/register.type";
 import CardRegister from "../ui/cardRegister";
 import { dataFormater } from "@/utils/dataFormater";
 import { useSearchParams } from "next/navigation";
+import { useRegisters } from "@/hooks/useRegisters";
 
-const RegisterList = ({
-  registersData,
-}: {
-  registersData: Register[] | undefined;
-}) => {
+const RegisterList = () => {
+  const { registersData } = useRegisters();
   const [filteredList, setFilteredList] = useState<Register[] | undefined>([]);
   const searchParams = useSearchParams();
   const productFilter = searchParams.get("produto");

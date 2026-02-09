@@ -4,8 +4,8 @@ import "../../globals.scss";
 import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { FaUserCog } from "react-icons/fa";
-import UserListContainer from "@/components/userListContainer";
 import { UserProvider } from "@/providers/users.provider";
+import UserListContainer from "@/components/lists/userList";
 
 const UsersPage = () => {
   return (

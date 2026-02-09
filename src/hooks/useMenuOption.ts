@@ -15,6 +15,8 @@ export function useMenuOption() {
         setActualPathname("metas");
       } else if (pathname.includes("usuarios")) {
         setActualPathname("usuarios");
+      } else if (pathname.includes("funcionarios")) {
+        setActualPathname("funcionarios");
       }
     }
 

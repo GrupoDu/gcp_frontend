@@ -3,8 +3,9 @@ import styles from "./page.module.scss";
 import "../../globals.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
-import RegisterListContainer from "@/components/registerListContainer";
+import RegisterList from "@/components/cardLists/registerList";
 import { RegisterProvider } from "@/context/register.context";
+import RegisterListContainer from "@/components/registerListContainer";
 
 const ProductionPage = () => {
   return (

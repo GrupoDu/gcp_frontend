@@ -40,19 +40,17 @@ const UserListContainer = () => {
   }, [router, userTypeFilter, searchFilter, usersData]);
 
   return (
-    <UserProvider>
-      <div className={styles.userListContainer}>
-        <FiltersList hrefButton="/usuarios/register">
-          <SearchBar
-            searchValue={searchFilter}
-            setSearchValue={setSearchFilter}
-          />
-          <UserTypeFilter
-            setUserFilter={setUserTypeFilter}
-            userFilter={userTypeFilter}
-          />
-        </FiltersList>
-      </div>
+    <>
+      <FiltersList hrefButton="/usuarios/register">
+        <SearchBar
+          searchValue={searchFilter}
+          setSearchValue={setSearchFilter}
+        />
+        <UserTypeFilter
+          setUserFilter={setUserTypeFilter}
+          userFilter={userTypeFilter}
+        />
+      </FiltersList>
       <ul className={styles.listContainer}>
         <div className={styles.listHeader}>
           <span>ID</span>
@@ -64,7 +62,7 @@ const UserListContainer = () => {
         {userListFiltered?.map((user) => (
           <li key={user.user_id}>
             <ListItem
-              deleteButtonEndpoint={`/usuarios/${user.user_id}`}
+              deleteButtonEndpoint="users"
               refetch={refetch}
               user_name={user.name}
               user_id={user.user_id}
@@ -74,7 +72,7 @@ const UserListContainer = () => {
           </li>
         ))}
       </ul>
-    </UserProvider>
+    </>
   );
 };
 

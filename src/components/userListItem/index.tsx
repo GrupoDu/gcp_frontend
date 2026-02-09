@@ -3,33 +3,39 @@ import styles from "./styles.module.scss";
 import DeleteButton from "../deleteButton";
 import EditButton from "../editButton";
 
-type UserListItemProps = {
+type ListItemProps = {
   user_id: string;
   user_name: string;
-  user_email: string;
+  user_email?: string;
   user_type: string;
   refetch: () => void;
+  deleteButtonEndpoint: string;
 };
 
-const UserListItem = ({
+const ListItem = ({
   user_id,
   user_name,
   user_email,
   user_type,
   refetch,
-}: UserListItemProps) => {
+  deleteButtonEndpoint,
+}: ListItemProps) => {
   return (
     <div className={styles.userListItem}>
       <span>{user_id}</span>
       <span>{user_name}</span>
-      <span>{user_email}</span>
+      {user_email && <span>{user_email}</span>}
       <span>{user_type}</span>
       <div className={styles.buttons}>
-        <DeleteButton endpoint="users" refetch={refetch} uuid={user_id} />
+        <DeleteButton
+          endpoint={deleteButtonEndpoint}
+          refetch={refetch}
+          uuid={user_id}
+        />
         <EditButton />
       </div>
     </div>
   );
 };
 
-export default UserListItem;
+export default ListItem;

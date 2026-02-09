@@ -1,41 +1,5 @@
-@use "@/styles/_colors.scss";
-
 .chartSectionContainer {
   display: flex;
   gap: 1rem;
   border-radius: 0.4rem;
-
-  .chartContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-    padding-bottom: 0;
-    border-radius: 0.4rem;
-    border: colors.$borderDefault;
-
-    .chartTitle {
-      display: flex;
-      gap: 0.4rem;
-
-      .chartIcon {
-        object-fit: contain;
-        width: 1.6rem;
-        height: fit-content;
-      }
-    }
-  }
-
-  
-
-  .linearChartContainer {
-    background-color: #f9f9f9;
-    width: 80%;
-
-    .linearChart {
-      width: 100%;
-      height: fit-content;
-      object-fit: contain;
-    }
-  }
 }

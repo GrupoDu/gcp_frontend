@@ -4,12 +4,12 @@ import styles from "./styles.module.scss";
 import MenuOption from "../menuOption";
 import { MdDashboard } from "react-icons/md";
 import { IoMdClipboard } from "react-icons/io";
-import { IconType } from "react-icons";
 import { LuGoal } from "react-icons/lu";
 import { FaUserCog } from "react-icons/fa";
 import { GrAnalytics } from "react-icons/gr";
 import { useMenuOption } from "@/hooks/useMenuOption";
 import { useEffect } from "react";
+import { GrUserWorker } from "react-icons/gr";
 
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
@@ -38,6 +38,12 @@ const SidebarMenu = () => {
       pageName: "usuarios",
       href: "/usuarios",
       menuTitle: "Usuários",
+    },
+    {
+      MenuIcon: GrUserWorker,
+      pageName: "funcionarios",
+      href: "/funcionarios",
+      menuTitle: "Funcionários",
     },
     {
       MenuIcon: GrAnalytics,
