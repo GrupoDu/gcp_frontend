@@ -4,7 +4,6 @@ import styles from "./styles.module.scss";
 import FiltersList from "../filtersList";
 import SearchBar from "../searchBar";
 import UserTypeFilter from "../userTypeFilter";
-import { UserProvider } from "@/providers/users.provider";
 import { useUsers } from "@/hooks/useUsers";
 import ListItem from "../userListItem";
 import { useEffect, useState } from "react";

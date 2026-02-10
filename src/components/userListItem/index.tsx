@@ -35,7 +35,7 @@ const ListItem = ({
           refetch={refetch}
           uuid={user_id}
         />
-        <EditButton href={`${pathname}/${user_id}`} />
+        <EditButton href={`${pathname}/edit/${user_id}`} />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const UserTypeFilter = ({
     >
       <option value="">Todos</option>
       <option value="admin">Admin</option>
-      <option value="cliente">Cliente</option>
+      <option value="supervisor">Supervisor</option>
     </FilterDropdownBase>
   );
 };
