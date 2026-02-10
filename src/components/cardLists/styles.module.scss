@@ -6,11 +6,10 @@
   grid-template-rows: 11rem 11rem 11rem;
   gap: .6rem;
   flex: 1;
-  // max-height: 50%;
   overflow-y: auto;
   padding: 0.8rem;
   list-style: none;
-  background-color: #f0f0f0;
+  background-color: colors.$backgroundGray;
   border: colors.$borderDefault;
 
   li {

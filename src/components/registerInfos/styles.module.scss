@@ -49,6 +49,8 @@
     display: flex;
     gap: 0.4rem;
     background-color: #f5f5f5;
+    border: colors.$borderDefault;
+    border-left: 3px solid colors.$borderColor;
 
     .assistantList {
       list-style: none;
@@ -57,19 +59,12 @@
       gap: 0.4rem;
       margin: 0;
       padding: 0.8rem;
+      user-select: none;
 
       .undefinedAssistant {
         opacity: 0.5;
         font-style: italic;
       }
-    }
-
-    &::before {
-      content: "";
-      display: block;
-      width: 2px;
-      height: 100%;
-      background-color: colors.$menuSelectedTextBlue;
     }
   }
 

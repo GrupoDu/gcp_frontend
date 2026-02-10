@@ -1,3 +1,5 @@
+@use "@/styles/_colors.scss" as colors;
+
 * {
   padding: 0;
   margin: 0;
@@ -54,4 +56,11 @@ h4 {
   h2 {
     color: #383838;
   }
+}
+
+select {
+  background-color: white;
+  border: colors.$borderDefault;
+  border-radius: .4rem;
+  flex: 1;
 }

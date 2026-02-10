@@ -7,7 +7,7 @@
   padding: 1rem;
   border: colors.$borderDefault;
   border-radius: 0.4rem;
-  background-color: #f9f9f9;
+  background-color: colors.$backgroundGray;
   width: 40%;
   height: fit-content;
 
@@ -25,5 +25,13 @@
     margin: 0;
     overflow-y: auto;
     height: 16rem;
+
+    .noGoalsText {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
   }
 }

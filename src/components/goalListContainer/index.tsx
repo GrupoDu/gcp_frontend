@@ -13,7 +13,7 @@ import GoalList from "../cardLists/goalList";
 import ListFooter from "../listFooter";
 
 const GoalListContainer = () => {
-  const { goalsData } = useGoal();
+  const { goalsData, refetch } = useGoal();
   const [searchValue, setSearchValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [deadlineFilterValue, setDeadlineFilterValue] = useState("");
@@ -39,7 +39,7 @@ const GoalListContainer = () => {
           statusValue={statusValue}
         ></StatusDropdown>
       </FiltersList>
-      <GoalList goalData={goalsData} />
+      <GoalList refetch={refetch} goalData={goalsData} />
       <ListFooter status={["Batida", "Pendente", "Não batida"]} />
     </div>
   );

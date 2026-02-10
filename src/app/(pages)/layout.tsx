@@ -24,7 +24,12 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={`${roboto.variable}`}>
         <SidebarMenu />
-        <ToastContainer position="top-center" autoClose={3000} theme="light" />
+        <ToastContainer
+          stacked
+          position="top-center"
+          autoClose={3000}
+          theme="light"
+        />
         {children}
       </body>
     </html>
