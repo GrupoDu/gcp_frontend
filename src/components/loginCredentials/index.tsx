@@ -47,6 +47,7 @@ const LoginCredentials = () => {
           placeholder="seu-email@email.com"
           className={styles.loginInput}
           onChange={(e) => setEmail(e.target.value)}
+          required
           value={email}
         />
       </label>
@@ -59,6 +60,7 @@ const LoginCredentials = () => {
           className={styles.loginInput}
           onChange={(e) => setPassword(e.target.value)}
           value={password}
+          required
         />
       </label>
       {loginTries > 0 && <p className={styles.loginError}>{error}</p>}

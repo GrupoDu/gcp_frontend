@@ -5,6 +5,7 @@ import { IoMdClipboard } from "react-icons/io";
 import { UserProvider } from "@/providers/users.provider";
 import { ProductProvider } from "@/providers/products.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
+import { RegisterProvider } from "@/providers/register.provider";
 
 const RegisterPage = () => {
   return (
@@ -15,7 +16,9 @@ const RegisterPage = () => {
         <UserProvider>
           <ProductProvider>
             <EmployeeProvider>
-              <RegisterForm isEditPage={false} />
+              <RegisterProvider>
+                <RegisterForm isEditPage={false} />
+              </RegisterProvider>
             </EmployeeProvider>
           </ProductProvider>
         </UserProvider>

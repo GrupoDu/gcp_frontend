@@ -35,6 +35,29 @@
     gap: 0.5rem;
     width: 100%;
     box-sizing: border-box;
+    flex: 1;
     padding: 1rem;
+  }
+
+  .logoutButtonContainer {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    button {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 0.4rem;
+      border: none;
+      cursor: pointer;
+      box-sizing: border-box;
+      background-color: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      font-size: 1rem;
+    }
   }
 }

@@ -10,9 +10,12 @@ import { GrAnalytics } from "react-icons/gr";
 import { useMenuOption } from "@/hooks/useMenuOption";
 import { useEffect } from "react";
 import { GrUserWorker } from "react-icons/gr";
+import { useRouter } from "next/navigation";
+import { BiLogOutCircle } from "react-icons/bi";
 
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
+  const router = useRouter();
 
   const menuOption = [
     {
@@ -53,6 +56,23 @@ const SidebarMenu = () => {
     },
   ];
 
+  async function handleLogout() {
+    try {
+      const response = await fetch("http://localhost:8000/login/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao fazer logout.");
+      }
+
+      window.location.href = "/login";
+    } catch (err) {
+      console.log((err as Error).message);
+    }
+  }
+
   useEffect(() => {
     console.log(actualPage);
   }, [actualPage]);
@@ -71,6 +91,12 @@ const SidebarMenu = () => {
             menuTitle={option.menuTitle}
           />
         ))}
+      </div>
+      <div className={styles.logoutButtonContainer}>
+        <button type="button" onClick={handleLogout}>
+          <BiLogOutCircle className={styles.logoutIcon} />
+          Sair
+        </button>
       </div>
     </div>
   );
