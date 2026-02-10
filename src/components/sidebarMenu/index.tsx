@@ -10,12 +10,10 @@ import { GrAnalytics } from "react-icons/gr";
 import { useMenuOption } from "@/hooks/useMenuOption";
 import { useEffect } from "react";
 import { GrUserWorker } from "react-icons/gr";
-import { useRouter } from "next/navigation";
 import { BiLogOutCircle } from "react-icons/bi";
 
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
-  const router = useRouter();
 
   const menuOption = [
     {
