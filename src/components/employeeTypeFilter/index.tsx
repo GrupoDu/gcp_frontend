@@ -14,9 +14,9 @@ export function EmployeeTypeFilter({
       label="Tipo de funcionário"
       placeholder="Tipo de funcionário"
     >
-      <option value="">Tipo de funcionário</option>
+      <option value="">Todos</option>
       <option value="assistente">Assistente</option>
-      <option value="funcionario">Funcionário</option>
+      <option value="soldador">Soldador</option>
     </FilterDropdownBase>
   );
 }

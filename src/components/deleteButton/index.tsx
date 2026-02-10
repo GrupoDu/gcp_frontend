@@ -3,7 +3,6 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import { MdOutlineDelete } from "react-icons/md";
-import { authToken } from "@/hooks/useFetch";
 import { toast } from "react-toastify";
 
 const DeleteButton = ({
@@ -17,12 +16,13 @@ const DeleteButton = ({
 }) => {
   async function handleDelete(uuid: string) {
     try {
-      const response = await fetch(`http://localhost:8000/${endpoint}/${uuid}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
+      const response = await fetch(
+        `http://localhost:8000/${endpoint}/${uuid}`,
+        {
+          method: "DELETE",
+          credentials: "include",
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Erro ao excluir registro.");

@@ -1,20 +1,19 @@
-import PageHeader from "@/components/ui/pageHeader";
-// @ts-expect-error tipagem chata do ts
-import "../../../globals.scss";
+import React from "react";
 import styles from "./page.module.scss";
+import PageHeader from "@/components/ui/pageHeader";
 import { FaUserCog } from "react-icons/fa";
-import RegisterUserForm from "@/components/forms/registerUserForm";
+import RegisterEmployeeForm from "@/components/forms/registerEmployeeForm";
 
-const RegisterUserPage = () => {
+const EmployeeRegisterPage = () => {
   return (
     <div className={styles.pageContainer}>
       <PageHeader headerTitle="Usuários" HeaderIcon={FaUserCog} />
       <main className="mainContainer">
         <h3>Registrar novo usuário</h3>
-        <RegisterUserForm />
+        <RegisterEmployeeForm />
       </main>
     </div>
   );
 };
 
-export default RegisterUserPage;
+export default EmployeeRegisterPage;

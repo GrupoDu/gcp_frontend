@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import styles from "./styles.module.scss";
 import FilterDropdownBase from "../ui/filterDropdown";
-import { useEmployees } from "@/hooks/useEmployees";
+import { useEmployeeType } from "@/hooks/useEmployeeType";
 
 const EmployeeDropdown = ({
   setEmployeeValue,
@@ -12,7 +10,7 @@ const EmployeeDropdown = ({
   setEmployeeValue: (value: string) => void;
   employeeValue: string;
 }) => {
-  const { employeesData, status, err } = useEmployees();
+  const { welders } = useEmployeeType();
 
   return (
     <FilterDropdownBase
@@ -22,9 +20,9 @@ const EmployeeDropdown = ({
       placeholder="Funcionário responsável"
     >
       <option value="">Todos</option>
-      {employeesData?.map((employee) => (
-        <option key={employee.employee_id} value={employee.employee_id}>
-          {employee.name}
+      {welders?.map((welder) => (
+        <option key={welder.employee_id} value={welder.employee_id}>
+          {welder.name}
         </option>
       ))}
     </FilterDropdownBase>

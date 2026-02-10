@@ -6,13 +6,13 @@ import { Product } from "@/types/product.type";
 import { useMemo } from "react";
 
 export function ProductProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<Product>(
+  const { data, err, status } = useFetch<Product[]>(
     "http://localhost:8000/products/",
   );
 
   const productData = useMemo(
     () => ({
-      productsData: data?.data || undefined,
+      productsData: data || undefined,
       err,
       status,
     }),

@@ -4,8 +4,6 @@ import styles from "./styles.module.scss";
 import { GrAnalytics } from "react-icons/gr";
 import { PieChart } from "@mui/x-charts";
 import { useRegisterAnalysis } from "@/hooks/useRegisterAnalysis";
-import { RegisterAnalysis } from "@/types/registerAnalysis.type";
-import { useFetch } from "@/hooks/useFetch";
 
 const PieChartContainer = () => {
   const { registerAnalysis } = useRegisterAnalysis();

@@ -1,7 +1,7 @@
-import React from "react";
 import styles from "./page.module.scss";
 import Image from "next/image";
 import GrupoduImage from "../../assets/grupodu_new_logo.png";
+import LoginCredentials from "@/components/loginCredentials";
 
 const LoginPage = () => {
   return (
@@ -13,27 +13,7 @@ const LoginPage = () => {
           <h4>Gerenciador de Controle de Produção</h4>
         </div>
         <hr />
-        <div className={styles.loginCredentials}>
-          <label className={styles.loginLabel}>
-            <span>Email</span>
-            <input
-              type="email"
-              name="email-input"
-              placeholder="seu-email@email.com"
-              className={styles.loginInput}
-            />
-          </label>
-          <label className={styles.loginLabel}>
-            <span>Senha</span>
-            <input
-              type="password"
-              name="password-input"
-              placeholder="sua-senha"
-              className={styles.loginInput}
-            />
-          </label>
-          <button type="button">Entrar</button>
-        </div>
+        <LoginCredentials />
       </div>
     </div>
   );

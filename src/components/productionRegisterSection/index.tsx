@@ -10,25 +10,20 @@ import { dataFormater } from "@/utils/dataFormater";
 import { useEffect, useState } from "react";
 
 const ProductionRegisterSection = () => {
-  const { data } = useFetch<Register>("http://localhost:8000/registers");
+  const { data } = useFetch<Register[]>("http://localhost:8000/registers");
   const [registers, setRegisters] = useState<Register[]>([]);
   const isPendingRegistersPopulated = registers.length > 0;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setRegisters(
-      data?.registers!.filter((register) => register.status === "Pendente") ||
-        [],
+      data?.filter((register) => register.status === "Pendente") || [],
     );
   }, [data]);
 
   return (
     <div className={styles.productionRegisterSectionContainer}>
-      <LinkButton
-        href="/producao"
-        Icon={FaExternalLinkAlt}
-        color="black"
-      >
+      <LinkButton href="/producao" Icon={FaExternalLinkAlt} color="black">
         Lista completa
       </LinkButton>
       <ul>

@@ -41,7 +41,10 @@ const UserListContainer = () => {
 
   return (
     <>
-      <FiltersList hrefButton="/usuarios/register">
+      <FiltersList
+        buttonLabel="Adicionar usuário"
+        hrefButton="/usuarios/register"
+      >
         <SearchBar
           searchValue={searchFilter}
           setSearchValue={setSearchFilter}

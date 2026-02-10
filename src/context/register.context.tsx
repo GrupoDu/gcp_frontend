@@ -1,6 +1,5 @@
 "use client";
 
-import { useFetch } from "@/hooks/useFetch";
 import { Register } from "@/types/register.type";
 import { createContext } from "react";
 
@@ -15,16 +14,3 @@ export const RegisterContext = createContext<RegisterContextValues | undefined>(
   undefined,
 );
 
-export function RegisterProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<Register>(
-    "http://localhost:8000/registers/",
-  );
-
-  return (
-    <RegisterContext.Provider
-      value={{ registersData: data?.registers, err, status, refetch }}
-    >
-      {children}
-    </RegisterContext.Provider>
-  );
-}

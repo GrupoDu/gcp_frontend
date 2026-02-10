@@ -3,8 +3,6 @@
 import { useState } from "react";
 import styles from "./styles.module.scss";
 import LinkButton from "@/components/linkButton";
-import DeliverButton from "@/components/ui/deliverButton";
-import { authToken } from "@/hooks/useFetch";
 import { useRouter } from "next/navigation";
 
 const RegisterUserForm = () => {
@@ -21,8 +19,8 @@ const RegisterUserForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
         },
+        credentials: "include",
         body: JSON.stringify({
           name: nameValue,
           user_type: userTypeValue,

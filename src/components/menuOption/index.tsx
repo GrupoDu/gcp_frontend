@@ -1,10 +1,5 @@
-"use client";
-
-import { usePathname } from "next/navigation";
 import styles from "./styles.module.scss";
 import { IconType } from "react-icons";
-import { useEffect, useState } from "react";
-import { useMenuOption } from "@/hooks/useMenuOption";
 import Link from "next/link";
 
 type MenuOptionsProps = {

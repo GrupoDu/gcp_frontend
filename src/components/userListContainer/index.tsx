@@ -42,7 +42,7 @@ const UserListContainer = () => {
   return (
     <UserProvider>
       <div className={styles.userListContainer}>
-        <FiltersList hrefButton="/usuarios/register">
+        <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register">
           <SearchBar
             searchValue={searchFilter}
             setSearchValue={setSearchFilter}

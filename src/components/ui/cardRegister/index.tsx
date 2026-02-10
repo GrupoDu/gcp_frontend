@@ -29,7 +29,7 @@ const CardRegister = (props: CardRegisterProps) => {
         ></div>
         <h3>{props.title}</h3>
         <div className={styles.buttons}>
-          <EditButton />
+          <EditButton href={`/producao/edit/${props.register_id}`} />
           <DeleteButton
             endpoint="registers"
             uuid={props.register_id}

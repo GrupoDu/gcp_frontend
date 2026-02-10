@@ -6,14 +6,15 @@ import LinkButton from "../linkButton";
 type FiltersListProps = {
   children: React.ReactNode;
   hrefButton: string;
+  buttonLabel: string;
 };
 
 const FiltersList = (props: FiltersListProps) => {
   return (
     <div className={styles.filtersListContainer}>
-      {props.children} 
+      {props.children}
       <label className={styles.addButton}>
-        <span>Button</span>
+        <span>{props.buttonLabel}</span>
         <LinkButton href={props.hrefButton} color="black" fullWidth={true}>
           <FaPlus color={"white"} />
           Adicionar

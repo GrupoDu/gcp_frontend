@@ -22,7 +22,7 @@ const GoalListContainer = () => {
 
   return (
     <div className={styles.goalListContainer}>
-      <FiltersList hrefButton="/metas/register">
+      <FiltersList buttonLabel="Adicionar meta" hrefButton="/metas/register">
         <DeadlineInput
           deadlineValue={deadlineFilterValue}
           setDeadlineValue={setDeadlineFilterValue}

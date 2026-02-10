@@ -40,7 +40,10 @@ const EmployeeListContainer = () => {
   return (
     <>
       <div>
-        <FiltersList hrefButton="/usuarios/register">
+        <FiltersList
+          buttonLabel="Registrar funcionário"
+          hrefButton="/funcionarios/register"
+        >
           <SearchBar
             searchValue={searchFilter}
             setSearchValue={setSearchFilter}
@@ -61,7 +64,7 @@ const EmployeeListContainer = () => {
         {employeeListFiltered?.map((employee) => (
           <li key={employee.employee_id}>
             <ListItem
-              deleteButtonEndpoint={`/employees/${employee.employee_id}`}
+              deleteButtonEndpoint="employees"
               refetch={refetch}
               user_name={employee.name}
               user_id={employee.employee_id}

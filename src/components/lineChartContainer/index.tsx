@@ -57,25 +57,22 @@ const LineChartContainer = () => {
         }}
         series={[
           {
-            // @ts-expect-error acessando propriedade que não existe na tipagem
-            data: anualAnalysis?.anualAnalysis.map(
+            data: anualAnalysis?.map(
               (item: AnualAnalysis) => item.delivered || [],
-            ),
+            ) as number[],
             label: "Concluído",
           },
           {
-            // @ts-expect-error acessando propriedade que não existe na tipagem
-            data: anualAnalysis?.anualAnalysis.map(
+            data: anualAnalysis?.map(
               (item: AnualAnalysis) => item.not_delivered || [],
-            ),
+            ) as number[],
             label: "Não finalizado",
           },
         ]}
         alignmentBaseline="baseline"
         xAxis={[
           {
-            // @ts-expect-error acessando propriedade que não existe na tipagem
-            data: anualAnalysis?.anualAnalysis.map(
+            data: anualAnalysis?.map(
               (item: AnualAnalysis) => months[item.month - 1] || [],
             ),
             scaleType: "band",

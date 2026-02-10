@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import DeleteButton from "../deleteButton";
 import EditButton from "../editButton";
+import { usePathname } from "next/navigation";
 
 type ListItemProps = {
   user_id: string;
@@ -20,6 +21,8 @@ const ListItem = ({
   refetch,
   deleteButtonEndpoint,
 }: ListItemProps) => {
+  const pathname = usePathname();
+
   return (
     <div className={styles.userListItem}>
       <span>{user_id}</span>
@@ -32,7 +35,7 @@ const ListItem = ({
           refetch={refetch}
           uuid={user_id}
         />
-        <EditButton />
+        <EditButton href={`${pathname}/${user_id}`} />
       </div>
     </div>
   );
