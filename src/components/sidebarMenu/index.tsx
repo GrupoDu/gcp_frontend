@@ -11,6 +11,8 @@ import { useMenuOption } from "@/hooks/useMenuOption";
 import { useEffect } from "react";
 import { GrUserWorker } from "react-icons/gr";
 import { BiLogOutCircle } from "react-icons/bi";
+import Image from "next/image";
+import GrupoduImage from "../../assets/grupodu_new_logo.png";
 
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
@@ -77,7 +79,10 @@ const SidebarMenu = () => {
 
   return (
     <div className={styles.sidebarMenuContainer}>
-      <h1>GCP</h1>
+      <div className={styles.sidebarHeader}>
+        <Image src={GrupoduImage} alt="Login" className={styles.grupoduLogo} />
+        <h1>GCP</h1>
+      </div>
       <hr />
       <div className={styles.menuOptionsContainer}>
         {menuOption.map((option) => (

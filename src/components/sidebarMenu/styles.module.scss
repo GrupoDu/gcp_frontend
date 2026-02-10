@@ -11,7 +11,7 @@
   box-sizing: border-box;
   border-right: colors.$borderDefault;
 
-  h1 {
+  .sidebarHeader {
     height: 4.4rem;
     display: flex;
     align-items: center;
@@ -19,6 +19,13 @@
     width: 100%;
     box-sizing: border-box;
     color: colors.$menuSelectedTextBlue;
+    gap: 0.8rem;
+
+    .grupoduLogo {
+      object-fit: contain;
+      width: 2.8rem;
+      height: 2.8rem;
+    }
   }
 
   hr {
