@@ -1,4 +1,4 @@
-import { NextRouter } from "next/router";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
 
 export async function handleFormSubmit(
@@ -7,16 +7,12 @@ export async function handleFormSubmit(
   bodyValues: Record<string, unknown>,
   endpoint: string,
   redirectHref: string,
-  endpointParams?: string,
+  router?: AppRouterInstance,
 ) {
   e.preventDefault();
 
-  const fullEndpointName = endpointParams
-    ? `${endpoint}/${endpointParams}`
-    : endpoint;
-
   try {
-    const response = await fetch(`http://localhost:8000/${fullEndpointName}`, {
+    const response = await fetch(`http://localhost:8000/${endpoint}`, {
       method,
       headers: {
         "Content-Type": "application/json",
@@ -25,9 +21,16 @@ export async function handleFormSubmit(
       body: JSON.stringify(bodyValues),
     });
 
-    // window.location.href = redirectHref;
+    console.log("=== START DEBUG handleFormSubmit ===");
+    console.log("Body values: ", bodyValues);
+    console.log("method: ", method);
+    console.log("redirectHref: ", redirectHref);
+    console.log("endpoint: ", endpoint);
+    console.log("=== END DEBUG handleFormSubmit ===");
+
+    router?.push(redirectHref);
     return toast.success("Operação realizada com sucesso!");
   } catch (err) {
-    toast.error((err as Error).message);
+    return toast.error((err as Error).message);
   }
 }

@@ -2,7 +2,8 @@ import React from "react";
 import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { FaUserCog } from "react-icons/fa";
-import RegisterEmployeeForm from "@/components/forms/registerEmployeeForm";
+import EmployeeForm from "@/components/forms/employeeForm";
+import { EmployeeProvider } from "@/providers/employee.provider";
 
 const EmployeeRegisterPage = () => {
   return (
@@ -10,7 +11,9 @@ const EmployeeRegisterPage = () => {
       <PageHeader headerTitle="Usuários" HeaderIcon={FaUserCog} />
       <main className="mainContainer">
         <h3>Registrar novo usuário</h3>
-        <RegisterEmployeeForm />
+        <EmployeeProvider>
+          <EmployeeForm isEdit={false} />
+        </EmployeeProvider>
       </main>
     </div>
   );

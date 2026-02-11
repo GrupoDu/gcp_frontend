@@ -3,7 +3,7 @@ import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { LuGoal } from "react-icons/lu";
 import { EmployeeProvider } from "@/providers/employee.provider";
-import RegisterGoalForm from "@/components/forms/registerGoalForm";
+import RegisterGoalForm from "@/components/forms/goalForm";
 import { GoalProvider } from "@/providers/goal.provider";
 
 const GoalEditPage = async ({

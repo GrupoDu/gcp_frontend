@@ -6,6 +6,8 @@ import LinkButton from "@/components/linkButton";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { User } from "@/types/user.type";
 import { useUsers } from "@/hooks/useUsers";
+import { useRouter } from "next/navigation";
+import generator from "generate-password-ts";
 
 const UserForm = ({
   isEdit,
@@ -15,12 +17,14 @@ const UserForm = ({
   user_id?: string;
 }) => {
   const { usersData } = useUsers();
+  const router = useRouter();
+  const password = generator.generate({ length: 20, numbers: true });
   const [userInfosFields, setUserInfosFields] = useState<User>({
     user_id: "",
     name: "",
     user_type: "",
     email: "",
-    password: "1234",
+    password: password,
   });
 
   useEffect(() => {
@@ -34,7 +38,6 @@ const UserForm = ({
           name: fetchedUser.name,
           user_type: fetchedUser.user_type,
           email: fetchedUser.email,
-          password: "1234",
         });
       }
     }
@@ -42,6 +45,10 @@ const UserForm = ({
 
   const endpoint = isEdit ? `users/${user_id}` : "users";
   const method = isEdit ? "PUT" : "POST";
+  const userUpdateBody = {
+    updateInfos: userInfosFields,
+  };
+  const userBodyValues = isEdit ? userUpdateBody : userInfosFields;
 
   return (
     <form
@@ -49,9 +56,10 @@ const UserForm = ({
         await handleFormSubmit(
           e,
           method,
-          isEdit ? { updateInfos: userInfosFields } : userInfosFields,
+          userBodyValues,
           endpoint,
           "/usuarios",
+          router,
         )
       }
       className={styles.registerUserContainer}
@@ -102,7 +110,12 @@ const UserForm = ({
       </label>
       <label>
         <span>Senha</span>
-        <input type="text" name="input-password" />
+        <input
+          type="text"
+          name="input-password"
+          readOnly
+          value={userInfosFields.password}
+        />
       </label>
       <div className={styles.buttons}>
         <LinkButton href="/usuarios" color="black">

@@ -9,7 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { useRegisters } from "@/hooks/useRegisters";
 
 const RegisterList = () => {
-  const { registersData } = useRegisters();
+  const { registersData, refetch } = useRegisters();
   const [filteredList, setFilteredList] = useState<Register[] | undefined>([]);
   const searchParams = useSearchParams();
   const productFilter = searchParams.get("produto");
@@ -47,7 +47,8 @@ const RegisterList = () => {
             description={register.description}
             title={register.title}
             status={register.status}
-            register_id={register.register_id}
+            register_id={register?.register_id || ""}
+            refetch={refetch}
           />
         </li>
       ))}

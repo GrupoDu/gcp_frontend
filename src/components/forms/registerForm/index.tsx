@@ -8,6 +8,8 @@ import { useProducts } from "@/hooks/useProducts";
 import { Register } from "@/types/register.type";
 import { useRegisters } from "@/hooks/useRegisters";
 import { useEmployeeType } from "@/hooks/useEmployeeType";
+import { handleFormSubmit } from "@/utils/handleFormSubmit";
+import { Product } from "@/types/product.type";
 import { useRouter } from "next/navigation";
 
 const RegisterForm = ({
@@ -20,127 +22,99 @@ const RegisterForm = ({
   const { registersData } = useRegisters();
   const { usersData } = useUsers();
   const { productsData } = useProducts();
+  const router = useRouter();
   const { welders, assistants } = useEmployeeType();
-  const [fetchedRegister, setFetchedRegister] = useState<Register | undefined>(
-    undefined,
-  );
+  const [fetchedRegisterProduct, setFetchedRegisterProduct] = useState<
+    Product | undefined
+  >();
   const [registerValues, setRegisterValues] = useState<Register>({
     client_uuid: "",
     product_uuid: "",
-    employee_uuid: "",
-    cut_assistant: "",
-    fold_assistant: "",
-    finishing_assistant: "",
-    paint_assistant: "",
+    employee_uuid: null,
+    cut_assistant: null,
+    fold_assistant: null,
+    finishing_assistant: null,
+    paint_assistant: null,
     product_quantity: 0,
     deadline: "",
     title: "",
     description: "",
-    status: "",
-    delivered_at: "",
+    status: "Pendente",
+    delivered_at: null,
     deliver_observation: "",
-    register_id: "",
   });
-  const router = useRouter();
 
   const clientUsers =
-    usersData?.filter((user) => user.user_type === "cliente") || [];
+    usersData?.filter((user) => user.user_type === "supervisor") || [];
 
   useEffect(() => {
     if (isEditPage) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFetchedRegister(
-        registersData?.find((register) => register.register_id === registerId),
+      const fetchedRegister = registersData?.find(
+        (register) => register.register_id === registerId,
       );
-
-      // Formata a data para o input type="date"
       const formattedDeadline = fetchedRegister?.deadline
-        ? new Date(fetchedRegister.deadline).toISOString().split("T")[0]
+        ? new Date(fetchedRegister.deadline).toISOString()
         : "";
+
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setFetchedRegisterProduct(
+        productsData?.find(
+          (product) => product.uuid === fetchedRegister?.product_uuid,
+        ),
+      );
 
       setRegisterValues({
         client_uuid: fetchedRegister?.client_uuid || "",
         product_uuid: fetchedRegister?.product_uuid || "",
-        employee_uuid: fetchedRegister?.employee_uuid || "",
-        cut_assistant: fetchedRegister?.cut_assistant || "",
-        fold_assistant: fetchedRegister?.fold_assistant || "",
-        finishing_assistant: fetchedRegister?.finishing_assistant || "",
-        paint_assistant: fetchedRegister?.paint_assistant || "",
+        employee_uuid: fetchedRegister?.employee_uuid || null,
+        cut_assistant: fetchedRegister?.cut_assistant || null,
+        fold_assistant: fetchedRegister?.fold_assistant || null,
+        finishing_assistant: fetchedRegister?.finishing_assistant || null,
+        paint_assistant: fetchedRegister?.paint_assistant || null,
         product_quantity: fetchedRegister?.product_quantity || 0,
         deadline: formattedDeadline,
         title: fetchedRegister?.title || "",
         description: fetchedRegister?.description || "",
         status: fetchedRegister?.status || "",
-        delivered_at: fetchedRegister?.delivered_at || "",
+        delivered_at: fetchedRegister?.delivered_at || null,
         deliver_observation: fetchedRegister?.deliver_observation || "",
         register_id: fetchedRegister?.register_id || "",
       });
     }
-  }, [isEditPage, registerId, registersData]);
+  }, [isEditPage, registerId, registersData, productsData]);
 
-  async function submitUpdatedRegister(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleProductChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setFetchedRegisterProduct(
+      productsData?.find((product) => product.uuid === e.target.value),
+    );
 
-    try {
-      const response = await fetch(
-        `http://localhost:8000/registers/${registerId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            ...registerValues,
-            delivered_at: null,
-            cut_assistant: registerValues.cut_assistant
-              ? registerValues.cut_assistant
-              : null,
-            fold_assistant: registerValues.fold_assistant
-              ? registerValues.fold_assistant
-              : null,
-            finishing_assistant: registerValues.finishing_assistant
-              ? registerValues.finishing_assistant
-              : null,
-            paint_assistant: registerValues.paint_assistant
-              ? registerValues.paint_assistant
-              : null,
-            employee_uuid: registerValues.employee_uuid
-              ? registerValues.employee_uuid
-              : null,
-            deadline: new Date(registerValues.deadline).toISOString(),
-          }),
-        },
-      );
-      await response.json();
-      return router.push("/producao");
-    } catch (err) {
-      console.log((err as Error).message);
-    }
+    setRegisterValues({
+      ...registerValues,
+      product_uuid: fetchedRegisterProduct?.uuid || "",
+    });
   }
 
-  async function createRegister(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    try {
-      const response = await fetch("http://localhost:8000/registers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(registerValues),
-      });
-      await response.json();
-    } catch (err) {
-      console.log((err as Error).message);
-    }
-  }
+  const endpoint = isEditPage ? `registers/${registerId}` : "registers";
+  const method = isEditPage ? "PUT" : "POST";
+  const formattedUpdatedTitle = `${registerValues.product_quantity} ${fetchedRegisterProduct?.name}`;
+  const registerBodyValues = {
+    ...registerValues,
+    title: formattedUpdatedTitle,
+    delivered_at: null,
+    product_uuid: fetchedRegisterProduct?.uuid || "",
+  };
 
   return (
     <form
       onSubmit={(e) =>
-        isEditPage ? submitUpdatedRegister(e) : createRegister(e)
+        handleFormSubmit(
+          e,
+          method,
+          registerBodyValues,
+          endpoint,
+          "/producao",
+          router,
+        )
       }
       className={styles.registerForm}
     >
@@ -149,9 +123,12 @@ const RegisterForm = ({
           <span className={styles.deliverDateLabel}>Data de entrega:</span>
           <input
             onChange={(e) =>
-              setRegisterValues({ ...registerValues, deadline: e.target.value })
+              setRegisterValues({
+                ...registerValues,
+                deadline: new Date(e.target.value).toISOString(),
+              })
             }
-            value={registerValues.deadline}
+            value={registerValues.deadline.split("T")[0]}
             type="date"
             required
             name="deliver-date"
@@ -163,11 +140,9 @@ const RegisterForm = ({
             type="text"
             name="title-input"
             required
+            readOnly
             placeholder="Digite um título"
-            value={registerValues.title}
-            onChange={(e) =>
-              setRegisterValues({ ...registerValues, title: e.target.value })
-            }
+            value={`${registerValues.product_quantity} ${fetchedRegisterProduct?.name}`}
           />
         </label>
         <label className={styles.descriptionInput}>
@@ -185,7 +160,7 @@ const RegisterForm = ({
           />
         </label>
         <label className={styles.clientSelect}>
-          <span>Cliente</span>
+          <span>Supervisor</span>
           <select
             value={registerValues.client_uuid}
             onChange={(e) =>
@@ -211,13 +186,8 @@ const RegisterForm = ({
           <span>Produto</span>
           <select
             name="product-select"
-            value={registerValues.product_uuid}
-            onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
-                product_uuid: e.target.value,
-              })
-            }
+            value={fetchedRegisterProduct?.uuid}
+            onChange={(e) => handleProductChange(e)}
             required
           >
             <option value="">Nenhum</option>
@@ -249,7 +219,7 @@ const RegisterForm = ({
         <label className={styles.employee}>
           <span>Soldador</span>
           <select
-            value={registerValues?.employee_uuid}
+            value={registerValues?.employee_uuid as string}
             onChange={(e) =>
               setRegisterValues({
                 ...registerValues,
@@ -271,7 +241,7 @@ const RegisterForm = ({
         <label className={styles.cutAssitant}>
           <span>Corte</span>
           <select
-            value={registerValues?.cut_assistant}
+            value={registerValues?.cut_assistant as string}
             onChange={(e) =>
               setRegisterValues({
                 ...registerValues,
@@ -293,7 +263,7 @@ const RegisterForm = ({
         <label className={styles.paintAssitant}>
           <span>Pintura</span>
           <select
-            value={registerValues?.paint_assistant}
+            value={registerValues?.paint_assistant as string}
             onChange={(e) =>
               setRegisterValues({
                 ...registerValues,
@@ -315,7 +285,7 @@ const RegisterForm = ({
         <label className={styles.foldAssitant}>
           <span>Dobra</span>
           <select
-            value={registerValues?.fold_assistant}
+            value={registerValues?.fold_assistant as string}
             onChange={(e) =>
               setRegisterValues({
                 ...registerValues,
@@ -337,7 +307,7 @@ const RegisterForm = ({
         <label className={styles.finishAssitant}>
           <span>Acabamento</span>
           <select
-            value={registerValues?.finishing_assistant}
+            value={registerValues?.finishing_assistant as string}
             onChange={(e) =>
               setRegisterValues({
                 ...registerValues,

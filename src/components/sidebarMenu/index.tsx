@@ -73,10 +73,6 @@ const SidebarMenu = () => {
     }
   }
 
-  useEffect(() => {
-    console.log(actualPage);
-  }, [actualPage]);
-
   return (
     <div className={styles.sidebarMenuContainer}>
       <div className={styles.sidebarHeader}>

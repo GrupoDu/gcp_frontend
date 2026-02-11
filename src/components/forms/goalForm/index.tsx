@@ -7,9 +7,9 @@ import LinkButton from "@/components/linkButton";
 import { useRouter } from "next/navigation";
 import { useGoal } from "@/hooks/useGoal";
 import { Goal } from "@/types/goal.type";
-import { toast } from "react-toastify";
+import { handleFormSubmit } from "@/utils/handleFormSubmit";
 
-const RegisterGoalForm = ({
+const GoalForm = ({
   isEdit,
   goal_id,
 }: {
@@ -27,69 +27,6 @@ const RegisterGoalForm = ({
     employee_goal: null,
   });
 
-  async function createGoal(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    try {
-      const response = await fetch("http://localhost:8000/goals", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          title: goalField.title,
-          description: goalField.description,
-          goal_type: goalField.goal_type,
-          deadline: new Date(goalField.deadline).toISOString(),
-          employee_goal: goalField.employee_goal
-            ? goalField.employee_goal
-            : null,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao cadastrar meta.");
-      }
-
-      return router.push("/metas");
-    } catch (err) {
-      console.log((err as Error).message);
-    }
-  }
-
-  async function updateGoal(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(`http://localhost:8000/goals/${goal_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          updateGoalValues: {
-            title: goalField.title,
-            description: goalField.description,
-            goal_type: goalField.goal_type,
-            deadline: new Date(goalField.deadline).toISOString(),
-            employee_goal: null,
-          },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao atualizar meta.");
-      }
-
-      router.push("/metas");
-      return toast.success("Meta atualizada com sucesso!");
-    } catch (err) {
-      console.log((err as Error).message);
-    }
-  }
-
   useEffect(() => {
     let fetchedGoal: Goal | undefined;
     if (isEdit && goalsData) {
@@ -97,9 +34,9 @@ const RegisterGoalForm = ({
 
       if (fetchedGoal) {
         const formattedDeadline =
-          fetchedGoal &&
-          new Date(fetchedGoal.deadline).toISOString().split("T")[0];
+          fetchedGoal && new Date(fetchedGoal.deadline).toISOString();
 
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setGoalField({
           title: fetchedGoal?.title || "",
           description: fetchedGoal?.description || "",
@@ -113,9 +50,16 @@ const RegisterGoalForm = ({
 
   console.log("goalField: ", goalField);
 
+  const method = isEdit ? "PUT" : "POST";
+  const endpoint = isEdit ? `goals/${goal_id}` : "goals";
+  const updateGoalBody = { updateGoalValues: goalField };
+  const goalBodyValues = isEdit ? updateGoalBody : goalField;
+
   return (
     <form
-      onSubmit={(e) => (isEdit ? updateGoal(e) : createGoal(e))}
+      onSubmit={(e) =>
+        handleFormSubmit(e, method, goalBodyValues, endpoint, "/metas", router)
+      }
       className={styles.registerGoalFormContainer}
     >
       <label className={styles.deadlineInput}>
@@ -123,9 +67,12 @@ const RegisterGoalForm = ({
         <input
           type="date"
           onChange={(e) =>
-            setGoalField({ ...goalField, deadline: e.target.value })
+            setGoalField({
+              ...goalField,
+              deadline: new Date(e.target.value).toISOString(),
+            })
           }
-          value={goalField.deadline}
+          value={goalField.deadline.split("T")[0]}
         />
       </label>
       <label className={styles.titleInput}>
@@ -193,4 +140,4 @@ const RegisterGoalForm = ({
   );
 };
 
-export default RegisterGoalForm;
+export default GoalForm;

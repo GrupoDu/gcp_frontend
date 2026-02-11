@@ -4,8 +4,9 @@ import { LuGoal } from "react-icons/lu";
 import styles from "./page.module.scss";
 // @ts-expect-error tipagem chata do ts
 import "../../../globals.scss";
-import RegisterGoalForm from "@/components/forms/registerGoalForm";
+import GoalForm from "@/components/forms/goalForm";
 import { EmployeeProvider } from "@/providers/employee.provider";
+import { GoalProvider } from "@/providers/goal.provider";
 
 const GoalRegisterPage = () => {
   return (
@@ -14,7 +15,9 @@ const GoalRegisterPage = () => {
       <main className="mainContainer">
         <h3>Registrar nova meta</h3>
         <EmployeeProvider>
-          <RegisterGoalForm />
+          <GoalProvider>
+            <GoalForm isEdit={false} />
+          </GoalProvider>
         </EmployeeProvider>
       </main>
     </div>
