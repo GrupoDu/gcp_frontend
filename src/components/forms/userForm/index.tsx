@@ -46,7 +46,7 @@ const UserForm = ({
   const endpoint = isEdit ? `users/${user_id}` : "users";
   const method = isEdit ? "PUT" : "POST";
   const userUpdateBody = {
-    updateInfos: userInfosFields,
+    updateInfos: { ...userInfosFields, password },
   };
   const userBodyValues = isEdit ? userUpdateBody : userInfosFields;
 
