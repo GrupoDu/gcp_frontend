@@ -51,3 +51,23 @@
     transform: translateX(0em);
   }
 }
+
+@media screen and (max-width: 768px) {
+  .menuOptionContainer {
+    align-items: center;
+    justify-content: center;
+
+    .menuIcon {
+      width: 2rem;
+    }
+
+    h4 {
+      display: none;
+    }
+  }
+
+  .menuOptionContainer.selected {
+    border-left: none;
+    border: 2px solid colors.$menuSelectedTextBlue;
+  }
+}

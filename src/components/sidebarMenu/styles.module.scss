@@ -50,7 +50,7 @@
     padding: 1rem;
     box-sizing: border-box;
 
-    button {
+    .logoutButton {
       width: 100%;
       padding: 0.6rem;
       border-radius: 0.4rem;
@@ -64,6 +64,28 @@
       justify-content: center;
       gap: 0.4rem;
       font-size: 1rem;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebarMenuContainer {
+    width: 6rem;
+
+    .sidebarHeader {
+      h1 {
+        display: none;
+      }
+    }
+
+    .logoutButtonContainer {
+      .logoutButton {
+        padding: 1rem;
+
+        span {
+          display: none;
+        }
+      }
     }
   }
 }

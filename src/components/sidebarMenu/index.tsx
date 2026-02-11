@@ -92,10 +92,10 @@ const SidebarMenu = () => {
         ))}
       </div>
       <div className={styles.logoutButtonContainer}>
-        <button type="button" onClick={handleLogout}>
+        <div className={styles.logoutButton} onClick={handleLogout}>
           <BiLogOutCircle className={styles.logoutIcon} />
-          Sair
-        </button>
+          <span>Sair</span>
+        </div>
       </div>
     </div>
   );
