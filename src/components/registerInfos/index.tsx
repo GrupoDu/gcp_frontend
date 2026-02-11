@@ -40,8 +40,13 @@ const RegisterInfos = ({ register_id }: { register_id: string }) => {
         </LinkButton>
         {registerData?.status === "Pendente" && (
           <DeliverButton
-            register_id={registerId}
-            deliver_observation={deliverObservation}
+            bodyValues={{
+              deliver_observation: deliverObservation,
+              status: "Entregue",
+              delivered_at: new Date().toISOString(),
+            }}
+            endpoint={`registers/${registerId}`}
+            redirectHref="/producao"
           >
             <CiSquareCheck /> Marcar como entregue
           </DeliverButton>
@@ -59,7 +64,7 @@ const RegisterInfos = ({ register_id }: { register_id: string }) => {
         </span>
         {registerData?.status === "Entregue" && (
           <span className={styles.dates}>
-            Entregue: {dataFormater(registerData!.delivered_at)}
+            Entregue: {dataFormater(registerData?.delivered_at || "")}
           </span>
         )}
         <p className={styles.descriptionField}>

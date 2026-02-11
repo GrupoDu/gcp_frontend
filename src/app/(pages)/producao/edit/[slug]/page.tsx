@@ -26,7 +26,7 @@ const EditRegisterPage = async ({
           <RegisterProvider>
             <UserProvider>
               <ProductProvider>
-                <RegisterForm isEditPage={true} registerId={slug} />
+                <RegisterForm isEdit={true} registerId={slug} />
               </ProductProvider>
             </UserProvider>
           </RegisterProvider>

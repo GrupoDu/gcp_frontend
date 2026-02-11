@@ -15,14 +15,43 @@
     padding: 0.6rem;
     align-items: center;
 
+    .iconStatus {
+      object-fit: contain;
+      width: 1.6rem;
+      height: fit-content;
+    }
+
     h4 {
       flex: 1;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 10rem;
     }
   }
 
   p {
     padding: 0.6rem;
     padding-top: 0;
+    box-sizing: border-box;
+  }
+
+  .status {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.6rem;
+    align-items: center;
+    box-sizing: border-box;
+
+    p {
+      padding: 0;
+      flex: 1;
+    }
+  }
+
+  .deliverButtonContainer {
+    display: flex;
+    padding: 0.6rem;
     box-sizing: border-box;
   }
 

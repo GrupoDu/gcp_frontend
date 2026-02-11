@@ -4,49 +4,47 @@ import { useRouter } from "next/navigation";
 import styles from "./styles.module.scss";
 
 type DeliverButtonProps = {
-  register_id: string;
   children: React.ReactNode;
-  deliver_observation?: string;
+  bodyValues: Record<string, unknown>;
+  endpoint: string;
+  redirectHref?: string;
+  refetch?: () => void;
 };
 
 const DeliverButton = ({
-  register_id,
   children,
-  deliver_observation,
+  bodyValues,
+  endpoint,
+  redirectHref,
+  refetch,
 }: DeliverButtonProps) => {
   const router = useRouter();
 
-  async function deliver(register_id: string) {
+  async function deliver() {
     try {
-      const response = await fetch(
-        `http://localhost:8000/registers/${register_id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            status: "Entregue",
-            deliver_observation,
-            delivered_at: new Date().toISOString(),
-          }),
+      const response = await fetch(`http://localhost:8000/${endpoint}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify(bodyValues),
+      });
       const data = await response.json();
       console.log(data);
 
-      return router.push("/producao");
+      if (redirectHref) {
+        return router.push(redirectHref);
+      } else if (refetch) {
+        refetch();
+      }
     } catch (err) {
       console.log((err as Error).message);
     }
   }
 
   return (
-    <button
-      type="button"
-      onClick={() => deliver(register_id)}
-      className={styles.deliverButton}
-    >
+    <button type="button" onClick={deliver} className={styles.deliverButton}>
       {children}
     </button>
   );

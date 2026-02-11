@@ -11,16 +11,19 @@ import { useEmployeeType } from "@/hooks/useEmployeeType";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { Product } from "@/types/product.type";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import SubmitButton from "@/components/ui/submitButton";
 
 const RegisterForm = ({
-  isEditPage,
+  isEdit,
   registerId,
 }: {
-  isEditPage: boolean;
+  isEdit: boolean;
   registerId?: string;
 }) => {
   const { registersData } = useRegisters();
   const { usersData } = useUsers();
+  const [canEdit, setCanEdit] = useState(false);
   const { productsData } = useProducts();
   const router = useRouter();
   const { welders, assistants } = useEmployeeType();
@@ -48,15 +51,20 @@ const RegisterForm = ({
     usersData?.filter((user) => user.user_type === "supervisor") || [];
 
   useEffect(() => {
-    if (isEditPage) {
+    if (isEdit) {
       const fetchedRegister = registersData?.find(
         (register) => register.register_id === registerId,
       );
+
+      if (fetchedRegister?.status !== "Pendente") {
+        router.push("/producao");
+        toast.error("Registro não pode ser editado.");
+      }
+
       const formattedDeadline = fetchedRegister?.deadline
         ? new Date(fetchedRegister.deadline).toISOString()
         : "";
 
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFetchedRegisterProduct(
         productsData?.find(
           (product) => product.uuid === fetchedRegister?.product_uuid,
@@ -80,8 +88,11 @@ const RegisterForm = ({
         deliver_observation: fetchedRegister?.deliver_observation || "",
         register_id: fetchedRegister?.register_id || "",
       });
+
+      setCanEdit(!!fetchedRegister); 
     }
-  }, [isEditPage, registerId, registersData, productsData]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEdit, registerId, registersData, productsData]);
 
   async function handleProductChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setFetchedRegisterProduct(
@@ -94,8 +105,8 @@ const RegisterForm = ({
     });
   }
 
-  const endpoint = isEditPage ? `registers/${registerId}` : "registers";
-  const method = isEditPage ? "PUT" : "POST";
+  const endpoint = isEdit ? `registers/${registerId}` : "registers";
+  const method = isEdit ? "PUT" : "POST";
   const formattedUpdatedTitle = `${registerValues.product_quantity} ${fetchedRegisterProduct?.name}`;
   const registerBodyValues = {
     ...registerValues,
@@ -331,7 +342,9 @@ const RegisterForm = ({
         <LinkButton color="black" href="/producao">
           Cancelar
         </LinkButton>
-        <button type="submit">{isEditPage ? "Editar" : "Criar"}</button>
+        <SubmitButton canEdit={canEdit}>
+          {isEdit ? "Salvar" : "Criar"}
+        </SubmitButton>
       </div>
     </form>
   );

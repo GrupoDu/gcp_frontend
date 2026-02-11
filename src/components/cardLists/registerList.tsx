@@ -36,8 +36,6 @@ const RegisterList = () => {
     employeeFilter,
   ]);
 
-  console.log("registersData: ", registersData);
-
   return (
     <ul className={styles.cardListContainer}>
       {filteredList?.map((register) => (

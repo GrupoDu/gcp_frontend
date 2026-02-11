@@ -8,6 +8,7 @@ import { User } from "@/types/user.type";
 import { useUsers } from "@/hooks/useUsers";
 import { useRouter } from "next/navigation";
 import generator from "generate-password-ts";
+import SubmitButton from "@/components/ui/submitButton";
 
 const UserForm = ({
   isEdit,
@@ -18,6 +19,7 @@ const UserForm = ({
 }) => {
   const { usersData } = useUsers();
   const router = useRouter();
+  const [canEdit, setCanEdit] = useState(false);
   const password = generator.generate({ length: 20, numbers: true });
   const [userInfosFields, setUserInfosFields] = useState<User>({
     user_id: "",
@@ -40,15 +42,13 @@ const UserForm = ({
           email: fetchedUser.email,
         });
       }
+
+      setCanEdit(!!fetchedUser);
     }
   }, [isEdit, user_id, usersData]);
 
   const endpoint = isEdit ? `users/${user_id}` : "users";
   const method = isEdit ? "PUT" : "POST";
-  const userUpdateBody = {
-    updateInfos: { ...userInfosFields, password },
-  };
-  const userBodyValues = isEdit ? userUpdateBody : userInfosFields;
 
   return (
     <form
@@ -56,7 +56,7 @@ const UserForm = ({
         await handleFormSubmit(
           e,
           method,
-          userBodyValues,
+          userInfosFields,
           endpoint,
           "/usuarios",
           router,
@@ -121,9 +121,9 @@ const UserForm = ({
         <LinkButton href="/usuarios" color="black">
           Cancelar
         </LinkButton>
-        <button type="submit" className={styles.submitButton}>
-          Enviar
-        </button>
+        <SubmitButton canEdit={canEdit}>
+          {isEdit ? "Salvar" : "Registrar"}
+        </SubmitButton>
       </div>
     </form>
   );

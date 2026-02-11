@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useGoal } from "@/hooks/useGoal";
 import { Goal } from "@/types/goal.type";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
+import SubmitButton from "@/components/ui/submitButton";
 
 const GoalForm = ({
   isEdit,
@@ -18,6 +19,7 @@ const GoalForm = ({
 }) => {
   const { welders } = useEmployeeType();
   const { goalsData } = useGoal();
+  const [canEdit, setCanEdit] = useState(false);
   const router = useRouter();
   const [goalField, setGoalField] = useState<Goal>({
     title: "",
@@ -46,19 +48,16 @@ const GoalForm = ({
         });
       }
     }
+    setCanEdit(!!fetchedGoal);
   }, [isEdit, goalsData, goal_id]);
-
-  console.log("goalField: ", goalField);
 
   const method = isEdit ? "PUT" : "POST";
   const endpoint = isEdit ? `goals/${goal_id}` : "goals";
-  const updateGoalBody = { updateGoalValues: goalField };
-  const goalBodyValues = isEdit ? updateGoalBody : goalField;
 
   return (
     <form
       onSubmit={(e) =>
-        handleFormSubmit(e, method, goalBodyValues, endpoint, "/metas", router)
+        handleFormSubmit(e, method, goalField, endpoint, "/metas", router)
       }
       className={styles.registerGoalFormContainer}
     >
@@ -132,9 +131,7 @@ const GoalForm = ({
         <LinkButton color="black" href="/metas">
           Cancelar
         </LinkButton>
-        <button type="submit" className={styles.saveButton}>
-          {isEdit ? "Salvar" : "Criar"}
-        </button>
+        <SubmitButton canEdit={canEdit}>{isEdit ? "Editar" : "Salvar"}</SubmitButton>
       </div>
     </form>
   );

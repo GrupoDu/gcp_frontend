@@ -7,6 +7,7 @@ import { Employee } from "@/types/employee.type";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { useEmployees } from "@/hooks/useEmployees";
 import { useRouter } from "next/navigation";
+import SubmitButton from "@/components/ui/submitButton";
 
 const EmployeeForm = ({
   isEdit,
@@ -17,6 +18,7 @@ const EmployeeForm = ({
 }) => {
   const { employeesData } = useEmployees();
   const router = useRouter();
+  const [canEdit, setCanEdit] = useState(false);
   const [employeeValues, setEmployeeValues] = useState<Employee>({
     name: "",
     employee_type: "",
@@ -24,15 +26,17 @@ const EmployeeForm = ({
 
   useEffect(() => {
     if (isEdit) {
-      const fetchedEmpoyee = employeesData?.find(
+      const fetchedEmployee = employeesData?.find(
         (employee) => employee.employee_id === employee_id,
       );
 
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEmployeeValues({
-        name: fetchedEmpoyee?.name || "",
-        employee_type: fetchedEmpoyee?.employee_type || "",
+        name: fetchedEmployee?.name || "",
+        employee_type: fetchedEmployee?.employee_type || "",
       });
+
+      setCanEdit(!!fetchedEmployee);
     }
   }, [isEdit, employee_id, employeesData]);
 
@@ -87,9 +91,9 @@ const EmployeeForm = ({
         <LinkButton color="black" href="/funcionarios">
           Cancelar
         </LinkButton>
-        <button type="submit" className={styles.submitButton}>
-          Registrar
-        </button>
+        <SubmitButton canEdit={canEdit}>
+          {isEdit ? "Salvar" : "Cadastrar"}
+        </SubmitButton>
       </div>
     </form>
   );
