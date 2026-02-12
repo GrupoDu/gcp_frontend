@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { RegisterAnalysisProvider } from "@/providers/registerAnalysis.provider";
+import { ProductionOrderAnalysisProvider } from "@/providers/productionOrderAnalysis.provider";
 import PieChartContainer from "../pieChartContainer";
 import LineChartContainer from "../lineChartContainer";
 import { AnualAnalysisProvider } from "@/providers/anualAnalysis.provider";
@@ -9,9 +9,9 @@ import { AnualAnalysisProvider } from "@/providers/anualAnalysis.provider";
 const ChartSection = () => {
   return (
     <div className={styles.chartSectionContainer}>
-      <RegisterAnalysisProvider>
+      <ProductionOrderAnalysisProvider>
         <PieChartContainer />
-      </RegisterAnalysisProvider>
+      </ProductionOrderAnalysisProvider>
       <AnualAnalysisProvider>
         <LineChartContainer />
       </AnualAnalysisProvider>

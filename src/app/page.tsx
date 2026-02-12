@@ -3,11 +3,11 @@ import styles from "./page.module.scss";
 import { MdDashboard } from "react-icons/md";
 import { IoMdClipboard } from "react-icons/io";
 import ChartSection from "@/components/chartSection";
-import ProductionRegisterSection from "@/components/productionRegisterSection";
+import ProductionRegisterSection from "@/components/productionOrderSection";
 import { LuGoal } from "react-icons/lu";
 import GoalSection from "@/components/goalSection";
 import { GoalProvider } from "@/providers/goal.provider";
-import { RegisterAnalysisProvider } from "@/providers/registerAnalysis.provider";
+import { RegisterAnalysisProvider } from "@/providers/productionOrderAnalysis.provider";
 
 export default function Home() {
   return (

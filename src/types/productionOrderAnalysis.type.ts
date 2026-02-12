@@ -1,4 +1,4 @@
-export type RegisterAnalysis = {
+export type ProductionOrderAnalysis = {
   deliveredRegisterQuantity: number;
   notDeliveredRegisterQuantity: number;
   pendingRegisterQuantity: number;

@@ -2,7 +2,7 @@
 
 import { useFetch } from "@/hooks/useFetch";
 import styles from "./styles.module.scss";
-import { Register } from "@/types/register.type";
+import { ProductionOrder } from "@/types/productionOrder.type";
 import { LuClipboardPenLine } from "react-icons/lu";
 import { dataFormater } from "@/utils/dataFormater";
 import { LuClipboardCheck, LuClipboardX } from "react-icons/lu";
@@ -11,26 +11,30 @@ import { IoIosArrowBack } from "react-icons/io";
 import DeliverButton from "../ui/deliverButton";
 import { CiSquareCheck } from "react-icons/ci";
 import { useState } from "react";
-import { useRegisterEmployees } from "@/hooks/useRegisterEmployees";
+import { useRegisterEmployees } from "@/hooks/useProductionOrderEmployees";
 
-const RegisterInfos = ({ register_id }: { register_id: string }) => {
+const ProductionOrderInfos = ({
+  production_order_id,
+}: {
+  production_order_id: string;
+}) => {
   const [deliverObservation, setDeliverObservation] = useState<string>("");
-  const { data: registerData } = useFetch<Register>(
-    "http://localhost:8000/registers/",
-    register_id,
+  const { data: allProductionOrders } = useFetch<ProductionOrder>(
+    "http://localhost:8000/productionOrder/",
+    production_order_id,
   );
   const employees = useRegisterEmployees();
 
   const statusIcon =
-    registerData?.status === "Entregue" ? (
+    allProductionOrders?.production_order_status === "Entregue" ? (
       <LuClipboardCheck color="green" className={styles.clipboardIcon} />
-    ) : registerData?.status === "Pendente" ? (
+    ) : allProductionOrders?.production_order_status === "Pendente" ? (
       <LuClipboardPenLine color="#FFD079" className={styles.clipboardIcon} />
     ) : (
       <LuClipboardX color="red" className={styles.clipboardIcon} />
     );
 
-  const registerId = registerData?.register_id || "";
+  const registerId = allProductionOrders?.production_order_id || "";
 
   return (
     <>
@@ -38,15 +42,16 @@ const RegisterInfos = ({ register_id }: { register_id: string }) => {
         <LinkButton Icon={IoIosArrowBack} color="black" href={`/producao`}>
           Voltar
         </LinkButton>
-        {registerData?.status === "Pendente" && (
+        {allProductionOrders?.production_order_status === "Pendente" && (
           <DeliverButton
             bodyValues={{
               deliver_observation: deliverObservation,
-              status: "Entregue",
+              production_order_status: "Entregue",
               delivered_at: new Date().toISOString(),
             }}
             endpoint={`registers/${registerId}`}
             redirectHref="/producao"
+            employeeUuid={allProductionOrders?.employee_uuid || ""}
           >
             <CiSquareCheck /> Marcar como entregue
           </DeliverButton>
@@ -55,27 +60,29 @@ const RegisterInfos = ({ register_id }: { register_id: string }) => {
       <div className={styles.registerInfosContainer}>
         <div className={styles.registerTitle}>
           {statusIcon}
-          <h2>{registerData?.title}</h2>
+          <h2>{allProductionOrders?.production_order_status}</h2>
         </div>
         <hr />
         <span className={styles.dates}>
           prazo de entrega:{" "}
-          {dataFormater(registerData?.deadline.toString() || "")}
+          {dataFormater(
+            allProductionOrders?.production_order_deadline.toString() || "",
+          )}
         </span>
-        {registerData?.status === "Entregue" && (
+        {allProductionOrders?.production_order_status === "Entregue" && (
           <span className={styles.dates}>
-            Entregue: {dataFormater(registerData?.delivered_at || "")}
+            Entregue: {dataFormater(allProductionOrders?.delivered_at || "")}
           </span>
         )}
         <p className={styles.descriptionField}>
-          {registerData?.description
-            ? registerData?.description
+          {allProductionOrders?.production_order_description
+            ? allProductionOrders?.production_order_description
             : "Registro sem descrição"}
         </p>
         <hr />
         <h4>
           Soldador:{" "}
-          {registerData?.employee_uuid
+          {allProductionOrders?.employee_uuid
             ? employees.welder?.name
             : "Ainda sem soldador."}
         </h4>
@@ -83,45 +90,45 @@ const RegisterInfos = ({ register_id }: { register_id: string }) => {
         <ul>
           <div className={styles.assistantList}>
             <li
-              className={`${styles.assistant} ${!registerData?.cut_assistant && styles.undefinedAssistant}`}
+              className={`${styles.assistant} ${!allProductionOrders?.cut_assistant && styles.undefinedAssistant}`}
             >
               <b>Corte:</b>{" "}
-              {registerData?.cut_assistant
+              {allProductionOrders?.cut_assistant
                 ? employees.cutAssistant?.name
                 : "Não definido."}
             </li>
             <li
-              className={`${styles.assistant} ${!registerData?.fold_assistant && styles.undefinedAssistant}`}
+              className={`${styles.assistant} ${!allProductionOrders?.fold_assistant && styles.undefinedAssistant}`}
             >
               <b>Dobra:</b>{" "}
-              {registerData?.fold_assistant
+              {allProductionOrders?.fold_assistant
                 ? employees.foldAssistant?.name
                 : "Não definido."}
             </li>
             <li
-              className={`${styles.assistant} ${!registerData?.finishing_assistant && styles.undefinedAssistant}`}
+              className={`${styles.assistant} ${!allProductionOrders?.finishing_assistant && styles.undefinedAssistant}`}
             >
               <b>Finalização:</b>{" "}
-              {registerData?.finishing_assistant
+              {allProductionOrders?.finishing_assistant
                 ? employees.finishingAssistant?.name
                 : "Não definido."}
             </li>
             <li
-              className={`${styles.assistant} ${!registerData?.paint_assistant && styles.undefinedAssistant}`}
+              className={`${styles.assistant} ${!allProductionOrders?.paint_assistant && styles.undefinedAssistant}`}
             >
               <b>Pintura:</b>{" "}
-              {registerData?.paint_assistant
+              {allProductionOrders?.paint_assistant
                 ? employees.paintAssistant?.name
                 : "Não definido."}
             </li>
           </div>
         </ul>
         <h4>Observação de entrega:</h4>
-        {registerData?.status === "Entregue" ? (
+        {allProductionOrders?.production_order_status === "Entregue" ? (
           <p className={styles.observationField}>
-            {registerData?.deliver_observation}
+            {allProductionOrders?.deliver_observation}
           </p>
-        ) : registerData?.status === "Não entregue" ? (
+        ) : allProductionOrders?.production_order_status === "Não entregue" ? (
           "Registro não entregue"
         ) : (
           <textarea
@@ -135,4 +142,4 @@ const RegisterInfos = ({ register_id }: { register_id: string }) => {
   );
 };
 
-export default RegisterInfos;
+export default ProductionOrderInfos;

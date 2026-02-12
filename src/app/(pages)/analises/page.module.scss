@@ -2,23 +2,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 
-  .mainContainer {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    h2 {
-      opacity: 0.6;
-      font-style: italic;
-    }
-
-    .gearIcon {
-      width: 4rem;
-      height: 4rem;
-      opacity: 0.6;
-    }
+  .gearIcon {
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.6;
   }
 }

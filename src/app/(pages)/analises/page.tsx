@@ -4,14 +4,15 @@ import styles from "./page.module.scss";
 import "../../globals.scss";
 import { FaGears } from "react-icons/fa6";
 import PageHeader from "@/components/ui/pageHeader";
+import AnalyticsContainer from "@/components/analyticsContainer";
 
 const AnalysisPage = () => {
   return (
     <div className={styles.pageContainer}>
       <PageHeader headerTitle="Análises" HeaderIcon={FaGears} />
       <main className={`${styles.mainContainer} mainContainer`}>
-        <h2>Página de analises em desenvolvimento...</h2>
-        <FaGears className={styles.gearIcon} />
+        <h2>Análises</h2>
+        <AnalyticsContainer />
       </main>
     </div>
   );

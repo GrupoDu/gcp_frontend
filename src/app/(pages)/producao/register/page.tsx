@@ -1,11 +1,11 @@
-import RegisterForm from "@/components/forms/registerForm";
+import RegisterForm from "@/components/forms/productionOrderForm";
 import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
 import { UserProvider } from "@/providers/users.provider";
 import { ProductProvider } from "@/providers/products.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
-import { RegisterProvider } from "@/providers/register.provider";
+import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 
 const RegisterPage = () => {
   return (
@@ -16,9 +16,9 @@ const RegisterPage = () => {
         <UserProvider>
           <ProductProvider>
             <EmployeeProvider>
-              <RegisterProvider>
-                <RegisterForm isEditPage={false} />
-              </RegisterProvider>
+              <ProductionOrderProvider>
+                <RegisterForm isEdit={false} />
+              </ProductionOrderProvider>
             </EmployeeProvider>
           </ProductProvider>
         </UserProvider>

@@ -3,10 +3,10 @@
 import styles from "./styles.module.scss";
 import { GrAnalytics } from "react-icons/gr";
 import { PieChart } from "@mui/x-charts";
-import { useRegisterAnalysis } from "@/hooks/useRegisterAnalysis";
+import { useProductionOrderAnalysis } from "@/hooks/useProductionOrderAnalysis";
 
 const PieChartContainer = () => {
-  const { registerAnalysis } = useRegisterAnalysis();
+  const { registerAnalysis } = useProductionOrderAnalysis();
 
   const analysisData = [
     {
@@ -20,7 +20,7 @@ const PieChartContainer = () => {
 
     {
       value: registerAnalysis?.notDeliveredRegisterQuantity || 0,
-      label: "Nao finalizado",
+      label: "Não finalizado",
     },
   ];
 

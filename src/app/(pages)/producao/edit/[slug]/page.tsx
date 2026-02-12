@@ -6,9 +6,9 @@ import { IoMdClipboard } from "react-icons/io";
 import "../../../../globals.scss";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import { UserProvider } from "@/providers/users.provider";
-import RegisterForm from "@/components/forms/registerForm";
+import ProductionOrderForm from "@/components/forms/productionOrderForm";
 import { ProductProvider } from "@/providers/products.provider";
-import { RegisterProvider } from "@/providers/register.provider";
+import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 
 const EditRegisterPage = async ({
   params,
@@ -23,13 +23,13 @@ const EditRegisterPage = async ({
       <main className="mainContainer">
         <h2>Editar registro de produção</h2>
         <EmployeeProvider>
-          <RegisterProvider>
+          <ProductionOrderProvider>
             <UserProvider>
               <ProductProvider>
-                <RegisterForm isEdit={true} registerId={slug} />
+                <ProductionOrderForm isEdit={true} productionOrderId={slug} />
               </ProductProvider>
             </UserProvider>
-          </RegisterProvider>
+          </ProductionOrderProvider>
         </EmployeeProvider>
       </main>
     </div>

@@ -10,6 +10,9 @@ import { useGoal } from "@/hooks/useGoal";
 const GoalSection = () => {
   const { goalsData, refetch } = useGoal();
   let isGoalsEmpty: boolean;
+  const pendingGoals = goalsData?.filter(
+    (goal) => goal.goal_status === "Pendente",
+  );
 
   if (goalsData && goalsData.length > 0) {
     isGoalsEmpty = false;
@@ -36,15 +39,15 @@ const GoalSection = () => {
         {isGoalsEmpty ? (
           <h4 className={styles.noGoalsText}>Nenhuma meta cadastrada</h4>
         ) : (
-          goalsData?.map((meta) => (
+          pendingGoals?.map((meta) => (
             <li key={meta.goal_id}>
               <CardGoal
                 refetch={refetch}
-                goal_id={meta.goal_id}
-                title={meta.title}
-                description={meta.description}
-                deadline={meta.deadline.toString()}
-                status={meta.goal_status}
+                goal_id={meta.goal_id || ""}
+                title={meta.goal_title}
+                description={meta.goal_description}
+                deadline={meta.goal_deadline.toString()}
+                status={meta.goal_status || "Pendente"}
               />
             </li>
           ))

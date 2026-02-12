@@ -8,7 +8,8 @@
   padding-bottom: 0;
   border-radius: 0.4rem;
   border: colors.$borderDefault;
-  width: 100%;
+  flex: 1;
+  background-color: colors.$backgroundGray;
 
   .chartTitle {
     display: flex;
@@ -19,16 +20,5 @@
       width: 1.6rem;
       height: fit-content;
     }
-  }
-}
-
-.pieChartContainer {
-  background-color: colors.$backgroundGray;
-  width: 35%;
-
-  .pieChart {
-    width: 100%;
-    height: fit-content;
-    object-fit: contain;
   }
 }

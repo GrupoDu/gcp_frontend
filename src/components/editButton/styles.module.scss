@@ -1,3 +1,5 @@
+@use "@/styles/_colors.scss";
+
 .editButton {
   gap: 0.5rem;
   background-color: white;
@@ -9,11 +11,11 @@
   cursor: pointer;
   padding: 0.4rem;
   border-radius: 0.2rem;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  border: colors.$borderDefault;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: none;
 
   .buttonIcon {
     object-fit: contain;

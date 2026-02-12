@@ -45,6 +45,7 @@ const UserForm = ({
 
       setCanEdit(!!fetchedUser);
     }
+    setCanEdit(true);
   }, [isEdit, user_id, usersData]);
 
   const endpoint = isEdit ? `users/${user_id}` : "users";

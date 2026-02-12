@@ -5,115 +5,136 @@ import LinkButton from "@/components/linkButton";
 import React, { useEffect, useState } from "react";
 import { useUsers } from "@/hooks/useUsers";
 import { useProducts } from "@/hooks/useProducts";
-import { Register } from "@/types/register.type";
-import { useRegisters } from "@/hooks/useRegisters";
+import { ProductionOrder } from "@/types/productionOrder.type";
+import { useProductionOrders } from "@/hooks/useProductionOrder";
 import { useEmployeeType } from "@/hooks/useEmployeeType";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { Product } from "@/types/product.type";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import SubmitButton from "@/components/ui/submitButton";
 
-const RegisterForm = ({
+const ProductionOrderForm = ({
   isEdit,
-  registerId,
+  productionOrderId,
 }: {
   isEdit: boolean;
-  registerId?: string;
+  productionOrderId?: string;
 }) => {
-  const { registersData } = useRegisters();
+  const { allProductionOrders } = useProductionOrders();
   const { usersData } = useUsers();
   const [canEdit, setCanEdit] = useState(false);
+  const [fetchedProductionOrder, setFetchedProductionOrder] = useState<
+    ProductionOrder | undefined
+  >();
   const { productsData } = useProducts();
   const router = useRouter();
   const { welders, assistants } = useEmployeeType();
   const [fetchedRegisterProduct, setFetchedRegisterProduct] = useState<
     Product | undefined
   >();
-  const [registerValues, setRegisterValues] = useState<Register>({
-    client_uuid: "",
-    product_uuid: "",
-    employee_uuid: null,
-    cut_assistant: null,
-    fold_assistant: null,
-    finishing_assistant: null,
-    paint_assistant: null,
-    product_quantity: 0,
-    deadline: "",
-    title: "",
-    description: "",
-    status: "Pendente",
-    delivered_at: null,
-    deliver_observation: "",
-  });
+  const [productionOrderValues, setProductionOrderValues] =
+    useState<ProductionOrder>({
+      client_uuid: "",
+      product_uuid: "",
+      employee_uuid: null,
+      cut_assistant: null,
+      fold_assistant: null,
+      finishing_assistant: null,
+      paint_assistant: null,
+      product_quantity: 0,
+      production_order_deadline: "",
+      production_order_title: "",
+      production_order_description: "",
+      production_order_status: "Pendente",
+      delivered_at: null,
+      deliver_observation: "",
+    });
 
   const clientUsers =
     usersData?.filter((user) => user.user_type === "supervisor") || [];
 
   useEffect(() => {
     if (isEdit) {
-      const fetchedRegister = registersData?.find(
-        (register) => register.register_id === registerId,
-      );
-
-      if (fetchedRegister?.status !== "Pendente") {
-        router.push("/producao");
-        toast.error("Registro não pode ser editado.");
-      }
-
-      const formattedDeadline = fetchedRegister?.deadline
-        ? new Date(fetchedRegister.deadline).toISOString()
-        : "";
-
-      setFetchedRegisterProduct(
-        productsData?.find(
-          (product) => product.uuid === fetchedRegister?.product_uuid,
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setFetchedProductionOrder(
+        allProductionOrders?.find(
+          (order) => order.production_order_id === productionOrderId,
         ),
       );
 
-      setRegisterValues({
-        client_uuid: fetchedRegister?.client_uuid || "",
-        product_uuid: fetchedRegister?.product_uuid || "",
-        employee_uuid: fetchedRegister?.employee_uuid || null,
-        cut_assistant: fetchedRegister?.cut_assistant || null,
-        fold_assistant: fetchedRegister?.fold_assistant || null,
-        finishing_assistant: fetchedRegister?.finishing_assistant || null,
-        paint_assistant: fetchedRegister?.paint_assistant || null,
-        product_quantity: fetchedRegister?.product_quantity || 0,
-        deadline: formattedDeadline,
-        title: fetchedRegister?.title || "",
-        description: fetchedRegister?.description || "",
-        status: fetchedRegister?.status || "",
-        delivered_at: fetchedRegister?.delivered_at || null,
-        deliver_observation: fetchedRegister?.deliver_observation || "",
-        register_id: fetchedRegister?.register_id || "",
-      });
+      const formattedDeadline =
+        fetchedProductionOrder?.production_order_deadline
+          ? new Date(
+              fetchedProductionOrder.production_order_deadline,
+            ).toISOString()
+          : "";
 
-      setCanEdit(!!fetchedRegister); 
+      setFetchedRegisterProduct(
+        productsData?.find(
+          (product) => product.uuid === fetchedProductionOrder?.product_uuid,
+        ),
+      );
+
+      setProductionOrderValues({
+        client_uuid: fetchedProductionOrder?.client_uuid || "",
+        product_uuid: fetchedProductionOrder?.product_uuid || "",
+        employee_uuid: fetchedProductionOrder?.employee_uuid || null,
+        cut_assistant: fetchedProductionOrder?.cut_assistant || null,
+        fold_assistant: fetchedProductionOrder?.fold_assistant || null,
+        finishing_assistant:
+          fetchedProductionOrder?.finishing_assistant || null,
+        paint_assistant: fetchedProductionOrder?.paint_assistant || null,
+        product_quantity: fetchedProductionOrder?.product_quantity || 0,
+        production_order_deadline: formattedDeadline,
+        production_order_title:
+          fetchedProductionOrder?.production_order_title || "",
+        production_order_description:
+          fetchedProductionOrder?.production_order_description || "",
+        production_order_status:
+          fetchedProductionOrder?.production_order_status || "",
+        delivered_at: fetchedProductionOrder?.delivered_at || null,
+        deliver_observation: fetchedProductionOrder?.deliver_observation || "",
+        production_order_id: fetchedProductionOrder?.production_order_id || "",
+      });
+      setCanEdit(
+        fetchedProductionOrder?.production_order_status === "Pendente",
+      );
+
+      console.log(isEdit);
+    } else {
+      setCanEdit(true);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, registerId, registersData, productsData]);
+  }, [
+    isEdit,
+    productionOrderId,
+    allProductionOrders,
+    productsData,
+    fetchedProductionOrder,
+  ]);
 
   async function handleProductChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setFetchedRegisterProduct(
       productsData?.find((product) => product.uuid === e.target.value),
     );
 
-    setRegisterValues({
-      ...registerValues,
+    setProductionOrderValues({
+      ...productionOrderValues,
       product_uuid: fetchedRegisterProduct?.uuid || "",
     });
   }
 
-  const endpoint = isEdit ? `registers/${registerId}` : "registers";
+  const endpoint = isEdit
+    ? `productionOrder/${productionOrderId}`
+    : "productionOrder";
   const method = isEdit ? "PUT" : "POST";
-  const formattedUpdatedTitle = `${registerValues.product_quantity} ${fetchedRegisterProduct?.name}`;
-  const registerBodyValues = {
-    ...registerValues,
-    title: formattedUpdatedTitle,
+  const formattedUpdatedTitle = `${productionOrderValues.product_quantity} ${fetchedRegisterProduct?.name}`;
+  const productionOrderBodyValues = {
+    ...productionOrderValues,
+    production_order_title: formattedUpdatedTitle,
     delivered_at: null,
     product_uuid: fetchedRegisterProduct?.uuid || "",
   };
+  console.log("productionOrderBodyValues: ", productionOrderBodyValues);
 
   return (
     <form
@@ -121,10 +142,11 @@ const RegisterForm = ({
         handleFormSubmit(
           e,
           method,
-          registerBodyValues,
+          productionOrderBodyValues,
           endpoint,
           "/producao",
           router,
+          canEdit,
         )
       }
       className={styles.registerForm}
@@ -134,12 +156,16 @@ const RegisterForm = ({
           <span className={styles.deliverDateLabel}>Data de entrega:</span>
           <input
             onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
-                deadline: new Date(e.target.value).toISOString(),
+              setProductionOrderValues({
+                ...productionOrderValues,
+                production_order_deadline: new Date(
+                  e.target.value,
+                ).toISOString(),
               })
             }
-            value={registerValues.deadline.split("T")[0]}
+            value={
+              productionOrderValues.production_order_deadline.split("T")[0]
+            }
             type="date"
             required
             name="deliver-date"
@@ -153,7 +179,7 @@ const RegisterForm = ({
             required
             readOnly
             placeholder="Digite um título"
-            value={`${registerValues.product_quantity} ${fetchedRegisterProduct?.name}`}
+            value={`${productionOrderValues.product_quantity} ${fetchedRegisterProduct?.name}`}
           />
         </label>
         <label className={styles.descriptionInput}>
@@ -161,11 +187,11 @@ const RegisterForm = ({
           <textarea
             name="description-input"
             placeholder="Digite uma descrição"
-            value={registerValues.description}
+            value={productionOrderValues.production_order_description}
             onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
-                description: e.target.value,
+              setProductionOrderValues({
+                ...productionOrderValues,
+                production_order_description: e.target.value,
               })
             }
           />
@@ -173,10 +199,10 @@ const RegisterForm = ({
         <label className={styles.clientSelect}>
           <span>Supervisor</span>
           <select
-            value={registerValues.client_uuid}
+            value={productionOrderValues.client_uuid}
             onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
+              setProductionOrderValues({
+                ...productionOrderValues,
                 client_uuid: e.target.value,
               })
             }
@@ -213,10 +239,10 @@ const RegisterForm = ({
           <span>Quantidade</span>
           <input
             type="number"
-            value={registerValues.product_quantity}
+            value={productionOrderValues.product_quantity}
             onChange={(e) => {
-              setRegisterValues({
-                ...registerValues,
+              setProductionOrderValues({
+                ...productionOrderValues,
                 product_quantity: parseInt(e.target.value),
               });
             }}
@@ -230,10 +256,10 @@ const RegisterForm = ({
         <label className={styles.employee}>
           <span>Soldador</span>
           <select
-            value={registerValues?.employee_uuid as string}
+            value={productionOrderValues?.employee_uuid as string}
             onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
+              setProductionOrderValues({
+                ...productionOrderValues,
                 employee_uuid: e.target.value,
               })
             }
@@ -252,10 +278,10 @@ const RegisterForm = ({
         <label className={styles.cutAssitant}>
           <span>Corte</span>
           <select
-            value={registerValues?.cut_assistant as string}
+            value={productionOrderValues?.cut_assistant as string}
             onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
+              setProductionOrderValues({
+                ...productionOrderValues,
                 cut_assistant: e.target.value,
               })
             }
@@ -274,10 +300,10 @@ const RegisterForm = ({
         <label className={styles.paintAssitant}>
           <span>Pintura</span>
           <select
-            value={registerValues?.paint_assistant as string}
+            value={productionOrderValues?.paint_assistant as string}
             onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
+              setProductionOrderValues({
+                ...productionOrderValues,
                 paint_assistant: e.target.value,
               })
             }
@@ -296,10 +322,10 @@ const RegisterForm = ({
         <label className={styles.foldAssitant}>
           <span>Dobra</span>
           <select
-            value={registerValues?.fold_assistant as string}
+            value={productionOrderValues?.fold_assistant as string}
             onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
+              setProductionOrderValues({
+                ...productionOrderValues,
                 fold_assistant: e.target.value,
               })
             }
@@ -318,10 +344,10 @@ const RegisterForm = ({
         <label className={styles.finishAssitant}>
           <span>Acabamento</span>
           <select
-            value={registerValues?.finishing_assistant as string}
+            value={productionOrderValues?.finishing_assistant as string}
             onChange={(e) =>
-              setRegisterValues({
-                ...registerValues,
+              setProductionOrderValues({
+                ...productionOrderValues,
                 finishing_assistant: e.target.value,
               })
             }
@@ -350,4 +376,4 @@ const RegisterForm = ({
   );
 };
 
-export default RegisterForm;
+export default ProductionOrderForm;

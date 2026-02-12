@@ -15,12 +15,12 @@ const GoalList = ({
       {goalData?.map((goal) => (
         <li key={goal.goal_id}>
           <CardGoal
+            goal_id={goal.goal_id || ""}
+            status={goal.goal_status || ""}
             refetch={refetch}
-            goal_id={goal.goal_id}
-            description={goal.description}
-            title={goal.title}
-            status={goal.goal_status}
-            deadline={goal.deadline.toString()}
+            description={goal.goal_description}
+            title={goal.goal_title}
+            deadline={goal.goal_deadline.toString()}
           />
         </li>
       ))}

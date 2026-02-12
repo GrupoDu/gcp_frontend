@@ -22,33 +22,34 @@ const GoalForm = ({
   const [canEdit, setCanEdit] = useState(false);
   const router = useRouter();
   const [goalField, setGoalField] = useState<Goal>({
-    title: "",
-    description: "",
+    goal_title: "",
+    goal_description: "",
     goal_type: "geral",
-    deadline: "",
+    goal_deadline: "",
     employee_goal: null,
   });
 
   useEffect(() => {
-    let fetchedGoal: Goal | undefined;
     if (isEdit && goalsData) {
-      fetchedGoal = goalsData?.find((goal) => goal.goal_id === goal_id);
+      const fetchedGoal = goalsData?.find((goal) => goal.goal_id === goal_id);
 
       if (fetchedGoal) {
         const formattedDeadline =
-          fetchedGoal && new Date(fetchedGoal.deadline).toISOString();
+          fetchedGoal && new Date(fetchedGoal.goal_deadline).toISOString();
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setGoalField({
-          title: fetchedGoal?.title || "",
-          description: fetchedGoal?.description || "",
+          goal_title: fetchedGoal?.goal_title || "",
+          goal_description: fetchedGoal?.goal_description || "",
           goal_type: fetchedGoal?.goal_type || "geral",
-          deadline: formattedDeadline || "",
+          goal_deadline: formattedDeadline || "",
           employee_goal: fetchedGoal?.employee_goal || null,
         });
       }
+      setCanEdit(fetchedGoal?.goal_status === "Pendente");
+    } else {
+      setCanEdit(true);
     }
-    setCanEdit(!!fetchedGoal);
   }, [isEdit, goalsData, goal_id]);
 
   const method = isEdit ? "PUT" : "POST";
@@ -57,7 +58,15 @@ const GoalForm = ({
   return (
     <form
       onSubmit={(e) =>
-        handleFormSubmit(e, method, goalField, endpoint, "/metas", router)
+        handleFormSubmit(
+          e,
+          method,
+          goalField,
+          endpoint,
+          "/metas",
+          router,
+          canEdit,
+        )
       }
       className={styles.registerGoalFormContainer}
     >
@@ -68,18 +77,18 @@ const GoalForm = ({
           onChange={(e) =>
             setGoalField({
               ...goalField,
-              deadline: new Date(e.target.value).toISOString(),
+              goal_deadline: new Date(e.target.value).toISOString(),
             })
           }
-          value={goalField.deadline.split("T")[0]}
+          value={goalField.goal_deadline.split("T")[0]}
         />
       </label>
       <label className={styles.titleInput}>
         <span>Título</span>
         <input
-          value={goalField.title}
+          value={goalField.goal_title}
           onChange={(e) =>
-            setGoalField({ ...goalField, title: e.target.value })
+            setGoalField({ ...goalField, goal_title: e.target.value })
           }
           type="text"
           placeholder="Título da nova meta"
@@ -88,9 +97,9 @@ const GoalForm = ({
       <label className={styles.descriptionInput}>
         <span>Descrição</span>
         <textarea
-          value={goalField.description}
+          value={goalField.goal_description}
           onChange={(e) =>
-            setGoalField({ ...goalField, description: e.target.value })
+            setGoalField({ ...goalField, goal_description: e.target.value })
           }
         />
       </label>
@@ -131,7 +140,9 @@ const GoalForm = ({
         <LinkButton color="black" href="/metas">
           Cancelar
         </LinkButton>
-        <SubmitButton canEdit={canEdit}>{isEdit ? "Editar" : "Salvar"}</SubmitButton>
+        <SubmitButton canEdit={canEdit}>
+          {isEdit ? "Editar" : "Salvar"}
+        </SubmitButton>
       </div>
     </form>
   );

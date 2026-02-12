@@ -1,6 +1,6 @@
 import { Employee } from "@/types/employee.type";
 import { useFetch } from "./useFetch";
-import { Register } from "@/types/register.type";
+import { ProductionOrder } from "@/types/productionOrder.type";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ export function useRegisterEmployees() {
   const { data: employeesData } = useFetch<Employee[]>(
     "http://localhost:8000/employees",
   );
-  const { data: registerData } = useFetch<Register>(
+  const { data: allProductionOrders } = useFetch<ProductionOrder>(
     "http://localhost:8000/registers/",
     registerId,
   );
@@ -24,31 +24,31 @@ export function useRegisterEmployees() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setWelder(
       employeesData?.find(
-        (employee) => employee.employee_id === registerData?.employee_uuid,
+        (employee) => employee.employee_id === allProductionOrders?.employee_uuid,
       ),
     );
     setCutAssistant(
       employeesData?.find(
-        (employee) => employee.employee_id === registerData?.cut_assistant,
+        (employee) => employee.employee_id === allProductionOrders?.cut_assistant,
       ),
     );
     setFoldAssistant(
       employeesData?.find(
-        (employee) => employee.employee_id === registerData?.fold_assistant,
+        (employee) => employee.employee_id === allProductionOrders?.fold_assistant,
       ),
     );
     setFinishingAssistant(
       employeesData?.find(
         (employee) =>
-          employee.employee_id === registerData?.finishing_assistant,
+          employee.employee_id === allProductionOrders?.finishing_assistant,
       ),
     );
     setPaintAssistant(
       employeesData?.find(
-        (employee) => employee.employee_id === registerData?.paint_assistant,
+        (employee) => employee.employee_id === allProductionOrders?.paint_assistant,
       ),
     );
-  }, [employeesData, registerData]);
+  }, [employeesData, allProductionOrders]);
 
   return {
     welder,

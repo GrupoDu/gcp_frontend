@@ -11,8 +11,8 @@ import ListFooter from "../listFooter";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EmployeeProvider } from "@/providers/employee.provider";
-import RegisterList from "../cardLists/registerList";
-import { RegisterProvider } from "@/providers/register.provider";
+import ProductionOrderList from "../cardLists/productionOrderList";
+import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 
 const RegisterListContainer = () => {
   const [productValue, setProductValue] = useState("");
@@ -35,7 +35,7 @@ const RegisterListContainer = () => {
   }, [deadlineValue, router, productValue, statusValue, employeeValue]);
 
   return (
-    <RegisterProvider>
+    <ProductionOrderProvider>
       <div className={styles.listContainer}>
         <FiltersList
           buttonLabel="Adicionar registro"
@@ -62,10 +62,10 @@ const RegisterListContainer = () => {
             setStatusValue={setStatusValue}
           />
         </FiltersList>
-        <RegisterList />
+        <ProductionOrderList />
         <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
       </div>
-    </RegisterProvider>
+    </ProductionOrderProvider>
   );
 };
 

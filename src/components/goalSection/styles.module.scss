@@ -8,8 +8,9 @@
   border: colors.$borderDefault;
   border-radius: 0.4rem;
   background-color: colors.$backgroundGray;
-  width: 40%;
-  height: fit-content;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
 
   .goalButtons {
     display: flex;
@@ -24,7 +25,7 @@
     padding: 0;
     margin: 0;
     overflow-y: auto;
-    height: 16rem;
+    height: 24rem;
 
     .noGoalsText {
       display: flex;

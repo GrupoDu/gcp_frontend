@@ -3,7 +3,7 @@ import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { LuGoal } from "react-icons/lu";
 import { EmployeeProvider } from "@/providers/employee.provider";
-import RegisterGoalForm from "@/components/forms/goalForm";
+import GoalForm from "@/components/forms/goalForm";
 import { GoalProvider } from "@/providers/goal.provider";
 
 const GoalEditPage = async ({
@@ -20,7 +20,7 @@ const GoalEditPage = async ({
         <h3>Editar meta</h3>
         <GoalProvider>
           <EmployeeProvider>
-            <RegisterGoalForm isEdit={true} goal_id={slug} />
+            <GoalForm isEdit={true} goal_id={slug} />
           </EmployeeProvider>
         </GoalProvider>
       </main>

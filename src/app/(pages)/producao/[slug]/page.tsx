@@ -3,10 +3,9 @@ import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
 // @ts-expect-error tipagem chata do ts
 import "../../../globals.scss";
-import RegisterInfos from "@/components/registerInfos";
-import ProductionRegisterSection from "@/components/productionRegisterSection";
+import ProductionOrderInfos from "@/components/productionOrderInfos";
 
-async function ViewRegisterPage({
+async function ViewProductionOrderPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -17,14 +16,13 @@ async function ViewRegisterPage({
     <div className={styles.pageContainer}>
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Registro" />
       <main className="mainContainer">
-        <RegisterInfos register_id={slug} />
+        <ProductionOrderInfos production_order_id={slug} />
         <h3>
           <IoMdClipboard /> Registros de produção pendentes
         </h3>
-        <ProductionRegisterSection />
       </main>
     </div>
   );
 }
 
-export default ViewRegisterPage;
+export default ViewProductionOrderPage;

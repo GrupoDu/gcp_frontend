@@ -6,6 +6,7 @@
   gap: 1rem;
   padding: 1rem;
   padding-bottom: 0;
+  box-sizing: border-box;
   border-radius: 0.4rem;
   border: colors.$borderDefault;
 
@@ -23,7 +24,7 @@
 
 .linearChartContainer {
   background-color: colors.$backgroundGray;
-  width: 80%;
+  width: 100%;
 
   .linearChart {
     width: 100%;
