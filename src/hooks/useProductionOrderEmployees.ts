@@ -11,7 +11,7 @@ export function useRegisterEmployees() {
     "http://localhost:8000/employees",
   );
   const { data: allProductionOrders } = useFetch<ProductionOrder>(
-    "http://localhost:8000/registers/",
+    "http://localhost:8000/productionOrder/",
     registerId,
   );
   const [welder, setWelder] = useState<Employee>();

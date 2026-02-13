@@ -4,6 +4,8 @@ import { IoMdClipboard } from "react-icons/io";
 // @ts-expect-error tipagem chata do ts
 import "../../../globals.scss";
 import ProductionOrderInfos from "@/components/productionOrderInfos";
+import ProductionOrderSection from "@/components/productionOrderSection";
+import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 
 async function ViewProductionOrderPage({
   params,
@@ -20,6 +22,9 @@ async function ViewProductionOrderPage({
         <h3>
           <IoMdClipboard /> Registros de produção pendentes
         </h3>
+        <ProductionOrderProvider>
+          <ProductionOrderSection />
+        </ProductionOrderProvider>
       </main>
     </div>
   );

@@ -23,6 +23,7 @@ const ProductionOrderForm = ({
   const { allProductionOrders } = useProductionOrders();
   const { usersData } = useUsers();
   const [canEdit, setCanEdit] = useState(false);
+  const [formattedTitle, setFormattedTitle] = useState<string>("");
   const [fetchedProductionOrder, setFetchedProductionOrder] = useState<
     ProductionOrder | undefined
   >();
@@ -112,6 +113,23 @@ const ProductionOrderForm = ({
     fetchedProductionOrder,
   ]);
 
+  useEffect(() => {
+    const isFieldsFilled =
+      productionOrderValues.product_quantity !== 0 &&
+      fetchedRegisterProduct?.name !== "" &&
+      !Number.isNaN(productionOrderValues.product_quantity) &&
+      fetchedRegisterProduct !== undefined;
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFormattedTitle(
+      `${isFieldsFilled ? `${productionOrderValues.product_quantity} ${fetchedRegisterProduct?.name}` : "Preencha a quantidade e o produto"}`,
+    );
+  }, [
+    productionOrderValues.product_quantity,
+    fetchedRegisterProduct?.name,
+    fetchedRegisterProduct,
+  ]);
+
   async function handleProductChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setFetchedRegisterProduct(
       productsData?.find((product) => product.uuid === e.target.value),
@@ -179,7 +197,7 @@ const ProductionOrderForm = ({
             required
             readOnly
             placeholder="Digite um título"
-            value={`${productionOrderValues.product_quantity} ${fetchedRegisterProduct?.name}`}
+            value={formattedTitle}
           />
         </label>
         <label className={styles.descriptionInput}>
@@ -248,6 +266,7 @@ const ProductionOrderForm = ({
             }}
             name="quantity-input"
             placeholder="Digite uma quantidade"
+            min={0}
             required
           />
         </label>

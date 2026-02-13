@@ -33,7 +33,7 @@ const CardRegister = (props: CardRegisterProps) => {
             <EditButton href={`/producao/edit/${props.register_id}`} />
           )}
           <DeleteButton
-            endpoint="registers"
+            endpoint="productionOrder"
             uuid={props.register_id}
             refetch={props.refetch}
           />

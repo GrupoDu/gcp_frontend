@@ -12,6 +12,8 @@ import DeliverButton from "../ui/deliverButton";
 import { CiSquareCheck } from "react-icons/ci";
 import { useState } from "react";
 import { useRegisterEmployees } from "@/hooks/useProductionOrderEmployees";
+import { handleDeliver } from "@/utils/handleDeliverProductionOrder";
+import { useRouter } from "next/navigation";
 
 const ProductionOrderInfos = ({
   production_order_id,
@@ -19,6 +21,9 @@ const ProductionOrderInfos = ({
   production_order_id: string;
 }) => {
   const [deliverObservation, setDeliverObservation] = useState<string>("");
+  const [producedQuantity, setProducedQuantity] = useState<number>(1);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const router = useRouter();
   const { data: allProductionOrders } = useFetch<ProductionOrder>(
     "http://localhost:8000/productionOrder/",
     production_order_id,
@@ -34,25 +39,39 @@ const ProductionOrderInfos = ({
       <LuClipboardX color="red" className={styles.clipboardIcon} />
     );
 
-  const registerId = allProductionOrders?.production_order_id || "";
+  const productionOrderId = allProductionOrders?.production_order_id || "";
+  const endpoint = `productionOrder/${productionOrderId}`;
+  const redirectHref = "/producao";
+  const employeeUuid = allProductionOrders?.employee_uuid || "";
+  const bodyValues = {
+    deliver_observation: deliverObservation,
+    produced_quantity: producedQuantity,
+    production_order_status: "Entregue",
+    delivered_at: new Date().toISOString(),
+  };
 
   return (
-    <>
+    <form
+      onSubmit={(e) =>
+        handleDeliver(
+          e,
+          endpoint,
+          bodyValues,
+          employeeUuid,
+          setIsProcessing,
+          redirectHref,
+          undefined,
+          router,
+        )
+      }
+      className={styles.productionOrderInfosContainer}
+    >
       <div className={styles.buttons}>
         <LinkButton Icon={IoIosArrowBack} color="black" href={`/producao`}>
           Voltar
         </LinkButton>
         {allProductionOrders?.production_order_status === "Pendente" && (
-          <DeliverButton
-            bodyValues={{
-              deliver_observation: deliverObservation,
-              production_order_status: "Entregue",
-              delivered_at: new Date().toISOString(),
-            }}
-            endpoint={`registers/${registerId}`}
-            redirectHref="/producao"
-            employeeUuid={allProductionOrders?.employee_uuid || ""}
-          >
+          <DeliverButton isProcessing={isProcessing}>
             <CiSquareCheck /> Marcar como entregue
           </DeliverButton>
         )}
@@ -60,7 +79,7 @@ const ProductionOrderInfos = ({
       <div className={styles.registerInfosContainer}>
         <div className={styles.registerTitle}>
           {statusIcon}
-          <h2>{allProductionOrders?.production_order_status}</h2>
+          <h2>{allProductionOrders?.production_order_title}</h2>
         </div>
         <hr />
         <span className={styles.dates}>
@@ -123,6 +142,16 @@ const ProductionOrderInfos = ({
             </li>
           </div>
         </ul>
+        <label className={styles.productDeliveredQuantityContainer}>
+          <span>Quantia entregue:</span>
+          <input
+            type="number"
+            name="product-delivered-quantity"
+            required
+            value={producedQuantity}
+            onChange={(e) => setProducedQuantity(Number(e.target.value))}
+          />
+        </label>
         <h4>Observação de entrega:</h4>
         {allProductionOrders?.production_order_status === "Entregue" ? (
           <p className={styles.observationField}>
@@ -138,7 +167,7 @@ const ProductionOrderInfos = ({
           />
         )}
       </div>
-    </>
+    </form>
   );
 };
 

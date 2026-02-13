@@ -32,6 +32,16 @@ const EmployeeAnalysisContainer = () => {
       label: "Não entregue",
       color: "#f44336",
     },
+    {
+      data:
+        employeesData?.map((employee) =>
+          employee.employee_type === "soldador"
+            ? (employee.products_produced_quantity ?? null)
+            : null,
+        ) || [],
+        label: "Produzido",
+        color: "#2196f3",
+    },
   ];
 
   return (
