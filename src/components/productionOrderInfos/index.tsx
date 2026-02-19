@@ -24,28 +24,29 @@ const ProductionOrderInfos = ({
   const [producedQuantity, setProducedQuantity] = useState<number>(1);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
-  const { data: allProductionOrders } = useFetch<ProductionOrder>(
+  const { data: productionOrder } = useFetch<ProductionOrder>(
     "http://localhost:8000/productionOrder/",
     production_order_id,
   );
   const employees = useRegisterEmployees();
 
   const statusIcon =
-    allProductionOrders?.production_order_status === "Entregue" ? (
+    productionOrder?.production_order_status === "Entregue" ? (
       <LuClipboardCheck color="green" className={styles.clipboardIcon} />
-    ) : allProductionOrders?.production_order_status === "Pendente" ? (
+    ) : productionOrder?.production_order_status === "Pendente" ? (
       <LuClipboardPenLine color="#FFD079" className={styles.clipboardIcon} />
     ) : (
       <LuClipboardX color="red" className={styles.clipboardIcon} />
     );
 
-  const productionOrderId = allProductionOrders?.production_order_id || "";
-  const endpoint = `productionOrder/${productionOrderId}`;
+  const productionOrderId = productionOrder?.production_order_id || "";
+  const endpoint = `productionOrder/deliver/${productionOrderId}`;
   const redirectHref = "/producao";
-  const employeeUuid = allProductionOrders?.employee_uuid || "";
-  const bodyValues = {
+  const employeeUuid = productionOrder?.employee_uuid || "";
+  const productionOrderBody = {
     deliver_observation: deliverObservation,
-    produced_quantity: producedQuantity,
+    delivered_product_quantity: producedQuantity,
+    requested_product_quantity: productionOrder?.product_quantity || 0,
     production_order_status: "Entregue",
     delivered_at: new Date().toISOString(),
   };
@@ -56,7 +57,8 @@ const ProductionOrderInfos = ({
         handleDeliver(
           e,
           endpoint,
-          bodyValues,
+          productionOrderBody,
+          producedQuantity,
           employeeUuid,
           setIsProcessing,
           redirectHref,
@@ -70,7 +72,7 @@ const ProductionOrderInfos = ({
         <LinkButton Icon={IoIosArrowBack} color="black" href={`/producao`}>
           Voltar
         </LinkButton>
-        {allProductionOrders?.production_order_status === "Pendente" && (
+        {productionOrder?.production_order_status === "Pendente" && (
           <DeliverButton isProcessing={isProcessing}>
             <CiSquareCheck /> Marcar como entregue
           </DeliverButton>
@@ -79,29 +81,29 @@ const ProductionOrderInfos = ({
       <div className={styles.registerInfosContainer}>
         <div className={styles.registerTitle}>
           {statusIcon}
-          <h2>{allProductionOrders?.production_order_title}</h2>
+          <h2>{productionOrder?.production_order_title}</h2>
         </div>
         <hr />
         <span className={styles.dates}>
           prazo de entrega:{" "}
           {dataFormater(
-            allProductionOrders?.production_order_deadline.toString() || "",
+            productionOrder?.production_order_deadline.toString() || "",
           )}
         </span>
-        {allProductionOrders?.production_order_status === "Entregue" && (
+        {productionOrder?.production_order_status === "Entregue" && (
           <span className={styles.dates}>
-            Entregue: {dataFormater(allProductionOrders?.delivered_at || "")}
+            Entregue: {dataFormater(productionOrder?.delivered_at || "")}
           </span>
         )}
         <p className={styles.descriptionField}>
-          {allProductionOrders?.production_order_description
-            ? allProductionOrders?.production_order_description
+          {productionOrder?.production_order_description
+            ? productionOrder?.production_order_description
             : "Registro sem descrição"}
         </p>
         <hr />
         <h4>
           Soldador:{" "}
-          {allProductionOrders?.employee_uuid
+          {productionOrder?.employee_uuid
             ? employees.welder?.name
             : "Ainda sem soldador."}
         </h4>
@@ -109,55 +111,57 @@ const ProductionOrderInfos = ({
         <ul>
           <div className={styles.assistantList}>
             <li
-              className={`${styles.assistant} ${!allProductionOrders?.cut_assistant && styles.undefinedAssistant}`}
+              className={`${styles.assistant} ${!productionOrder?.cut_assistant && styles.undefinedAssistant}`}
             >
               <b>Corte:</b>{" "}
-              {allProductionOrders?.cut_assistant
+              {productionOrder?.cut_assistant
                 ? employees.cutAssistant?.name
                 : "Não definido."}
             </li>
             <li
-              className={`${styles.assistant} ${!allProductionOrders?.fold_assistant && styles.undefinedAssistant}`}
+              className={`${styles.assistant} ${!productionOrder?.fold_assistant && styles.undefinedAssistant}`}
             >
               <b>Dobra:</b>{" "}
-              {allProductionOrders?.fold_assistant
+              {productionOrder?.fold_assistant
                 ? employees.foldAssistant?.name
                 : "Não definido."}
             </li>
             <li
-              className={`${styles.assistant} ${!allProductionOrders?.finishing_assistant && styles.undefinedAssistant}`}
+              className={`${styles.assistant} ${!productionOrder?.finishing_assistant && styles.undefinedAssistant}`}
             >
               <b>Finalização:</b>{" "}
-              {allProductionOrders?.finishing_assistant
+              {productionOrder?.finishing_assistant
                 ? employees.finishingAssistant?.name
                 : "Não definido."}
             </li>
             <li
-              className={`${styles.assistant} ${!allProductionOrders?.paint_assistant && styles.undefinedAssistant}`}
+              className={`${styles.assistant} ${!productionOrder?.paint_assistant && styles.undefinedAssistant}`}
             >
               <b>Pintura:</b>{" "}
-              {allProductionOrders?.paint_assistant
+              {productionOrder?.paint_assistant
                 ? employees.paintAssistant?.name
                 : "Não definido."}
             </li>
           </div>
         </ul>
         <label className={styles.productDeliveredQuantityContainer}>
-          <span>Quantia entregue:</span>
+          <span>Quantidade produzida:</span>
           <input
             type="number"
             name="product-delivered-quantity"
             required
+            min={0}
+            max={productionOrder?.product_quantity}
             value={producedQuantity}
             onChange={(e) => setProducedQuantity(Number(e.target.value))}
           />
         </label>
         <h4>Observação de entrega:</h4>
-        {allProductionOrders?.production_order_status === "Entregue" ? (
+        {productionOrder?.production_order_status === "Entregue" ? (
           <p className={styles.observationField}>
-            {allProductionOrders?.deliver_observation}
+            {productionOrder?.deliver_observation}
           </p>
-        ) : allProductionOrders?.production_order_status === "Não entregue" ? (
+        ) : productionOrder?.production_order_status === "Não entregue" ? (
           "Registro não entregue"
         ) : (
           <textarea

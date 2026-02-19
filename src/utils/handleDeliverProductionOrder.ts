@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 export async function handleDeliver(
   e: React.FormEvent<HTMLFormElement>,
   endpoint: string,
-  bodyValues: Record<string, unknown>,
+  productionOrderBody: Record<string, unknown>,
+  incrementEmployeeUpdateBody: number,
   employeeUuid: string,
   isProcessing: (processing: boolean) => void,
   redirectHref?: string,
@@ -14,21 +15,10 @@ export async function handleDeliver(
   e.preventDefault();
   isProcessing(true);
 
-  const processedBodyValues = Object.fromEntries(
-    Object.entries(bodyValues).filter(
-      ([key, value]) => typeof value === "string",
-    ),
-  );
-  const producedQuantity = Object.values(
-    Object.entries(bodyValues).filter(
-      ([key, value]) => typeof value === "number",
-    ),
-  )[0][1] as number;
-
   console.log("=== START DEBUG handleDeliver ===");
-  console.log("body values: ", bodyValues);
-  console.log("processed body values: ", processedBodyValues);
-  console.log("produced quantity: ", producedQuantity);
+  console.log("body values: ", productionOrderBody);
+  console.log("produced quantity: ", incrementEmployeeUpdateBody);
+  console.log("employee uuid: ", employeeUuid);
   console.log("=== END DEBUG handleDeliver ===");
 
   try {
@@ -40,14 +30,19 @@ export async function handleDeliver(
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify(processedBodyValues),
+        body: JSON.stringify(productionOrderBody),
       },
     );
+
+    if (!responseUpdateRegister.ok) {
+      throw new Error("Erro ao realizar entrega.");
+    }    
+
     const data = await responseUpdateRegister.json();
     console.log(data);
 
     await employeeUpdateActivityQuantity(employeeUuid);
-    await incrementEmployeeProducedQuantity(employeeUuid, producedQuantity);
+    await incrementEmployeeProducedQuantity(employeeUuid, incrementEmployeeUpdateBody);
 
     if (redirectHref && router) {
       router.push(redirectHref);
