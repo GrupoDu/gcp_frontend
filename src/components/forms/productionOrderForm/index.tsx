@@ -3,7 +3,6 @@
 import styles from "./styles.module.scss";
 import LinkButton from "@/components/linkButton";
 import React, { useEffect, useState } from "react";
-import { useUsers } from "@/hooks/useUsers";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductionOrder } from "@/types/productionOrder.type";
 import { useProductionOrders } from "@/hooks/useProductionOrder";
@@ -12,6 +11,7 @@ import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { Product } from "@/types/product.type";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
+import { useSupervisor } from "@/hooks/useSupervisors";
 
 const ProductionOrderForm = ({
   isEdit,
@@ -21,7 +21,7 @@ const ProductionOrderForm = ({
   productionOrderId?: string;
 }) => {
   const { allProductionOrders } = useProductionOrders();
-  const { usersData } = useUsers();
+  const { supervisorsData } = useSupervisor();
   const [canEdit, setCanEdit] = useState(false);
   const [formattedTitle, setFormattedTitle] = useState<string>("");
   const [fetchedProductionOrder, setFetchedProductionOrder] = useState<
@@ -50,9 +50,6 @@ const ProductionOrderForm = ({
       delivered_at: null,
       deliver_observation: "",
     });
-
-  const clientUsers =
-    usersData?.filter((user) => user.user_type === "supervisor") || [];
 
   useEffect(() => {
     if (isEdit) {
@@ -230,7 +227,7 @@ const ProductionOrderForm = ({
             <option value="" defaultValue={""} disabled>
               Nenhum
             </option>
-            {clientUsers?.map((user) => (
+            {supervisorsData?.map((user) => (
               <option key={user.user_id} value={user.user_id}>
                 {user.name}
               </option>

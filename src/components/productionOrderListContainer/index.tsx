@@ -19,20 +19,6 @@ const RegisterListContainer = () => {
   const [statusValue, setStatusValue] = useState("");
   const [employeeValue, setEmployeeValue] = useState("");
   const [deadlineValue, setDeadlineValue] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    const filterParams = new URLSearchParams();
-
-    filterParams.set("produto", productValue);
-    filterParams.set("estado", statusValue);
-    filterParams.set("prazo", deadlineValue);
-    filterParams.set("funcionario", employeeValue);
-
-    console.log(productValue, statusValue, deadlineValue, employeeValue);
-
-    return router.push(`/producao?${filterParams.toString()}`);
-  }, [deadlineValue, router, productValue, statusValue, employeeValue]);
 
   return (
     <ProductionOrderProvider>

@@ -32,7 +32,7 @@ const LineChartContainer = () => {
     console.log("err: ", err);
   }, [anualAnalysis, status, err]);
 
-  if (!anualAnalysis)
+  if (!anualAnalysis || anualAnalysis === undefined) {
     return (
       <div
         className={`${styles.linearChartContainer} ${styles.chartContainer}`}
@@ -44,6 +44,7 @@ const LineChartContainer = () => {
         <h4>Nenhuma analise encontrada</h4>
       </div>
     );
+  }
 
   return (
     <div className={`${styles.linearChartContainer} ${styles.chartContainer}`}>

@@ -2,6 +2,7 @@ import styles from "./page.module.scss";
 import Image from "next/image";
 import GrupoduImage from "../../assets/grupodu_new_logo.png";
 import LoginCredentials from "@/components/loginCredentials";
+import { UserAuthProvider } from "@/providers/userAuth.provider";
 
 const LoginPage = () => {
   return (
@@ -13,7 +14,9 @@ const LoginPage = () => {
           <h4>Gerenciador de Controle de Produção</h4>
         </div>
         <hr />
-        <LoginCredentials />
+        <UserAuthProvider>
+          <LoginCredentials />
+        </UserAuthProvider>
       </div>
     </div>
   );

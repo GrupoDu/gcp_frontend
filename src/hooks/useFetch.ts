@@ -22,6 +22,11 @@ export function useFetch<T>(url: string, params?: string) {
         credentials: "include",
       });
 
+      if (response.status === 403) {
+        router.back();
+        return toast.warning("Sessão expirada ou credenciais inválidas.");
+      }
+
       const data = await response.json();
 
       if (!data) {

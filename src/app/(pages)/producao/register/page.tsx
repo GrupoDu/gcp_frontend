@@ -6,6 +6,7 @@ import { UserProvider } from "@/providers/users.provider";
 import { ProductProvider } from "@/providers/products.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
+import { SupervisorProvider } from "@/providers/supervisor.provider";
 
 const RegisterPage = () => {
   return (
@@ -17,7 +18,9 @@ const RegisterPage = () => {
           <ProductProvider>
             <EmployeeProvider>
               <ProductionOrderProvider>
-                <RegisterForm isEdit={false} />
+                <SupervisorProvider>
+                  <RegisterForm isEdit={false} />
+                </SupervisorProvider>
               </ProductionOrderProvider>
             </EmployeeProvider>
           </ProductProvider>

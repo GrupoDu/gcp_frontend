@@ -9,6 +9,7 @@ const LoginCredentials = () => {
   const [password, setPassword] = useState("");
   const [loginTries, setLoginTries] = useState(0);
   const [error, setError] = useState("");
+  const [user_type, setUserType] = useState("");
   const router = useRouter();
 
   async function handleLogin() {
@@ -22,6 +23,7 @@ const LoginCredentials = () => {
         body: JSON.stringify({
           email,
           password,
+          user_type: user_type,
         }),
       });
 
@@ -30,7 +32,19 @@ const LoginCredentials = () => {
         throw new Error("Erro ao fazer login. Verifique suas credenciais.");
       }
 
-      return router.push("/dashboard");
+      const user = await response.json();
+
+      console.log(user.user);
+
+      if (user.user.user_type === "admin") {
+        setUserType(user.user.user_type);
+        return router.push("/dashboard");
+      }
+
+      if (user.user.user_type === "supervisor") {
+        setUserType(user.user.user_type);
+        return router.push("/producao");
+      }
     } catch (err) {
       console.log((err as Error).message);
       setError((err as Error).message);
@@ -39,6 +53,18 @@ const LoginCredentials = () => {
 
   return (
     <div className={styles.loginCredentials}>
+      <label>
+        <span>Tipo de usuário</span>
+        <select
+          value={user_type}
+          onChange={(e) => setUserType(e.target.value)}
+          name="user-type-input"
+        >
+          <option value="">Selecionar tipo</option>
+          <option value="admin">Admin</option>
+          <option value="supervisor">Supervisor</option>
+        </select>
+      </label>
       <label className={styles.loginLabel}>
         <span>Email</span>
         <input

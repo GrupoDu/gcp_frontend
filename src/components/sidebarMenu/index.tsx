@@ -8,16 +8,59 @@ import { LuGoal } from "react-icons/lu";
 import { FaUserCog } from "react-icons/fa";
 import { GrAnalytics } from "react-icons/gr";
 import { useMenuOption } from "@/hooks/useMenuOption";
-import { useEffect } from "react";
 import { GrUserWorker } from "react-icons/gr";
 import { BiLogOutCircle } from "react-icons/bi";
 import Image from "next/image";
 import GrupoduImage from "../../assets/grupodu_new_logo.png";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
+  const [user_type, setUserType] = useState("");
+  const router = useRouter();
 
-  const menuOption = [
+  useEffect(() => {
+    async function tokenValidator() {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/users/validator",
+          {
+            credentials: "include",
+          },
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setUserType(data);
+        } else {
+          router.push("/login");
+        }
+      } catch (err) {
+        console.log((err as Error).message);
+      }
+    }
+
+    tokenValidator();
+  }, [router]);
+
+  const supervisorPages = [
+    {
+      MenuIcon: IoMdClipboard,
+      pageName: "producao",
+      href: "/producao",
+      menuTitle: "Produção",
+    },
+    {
+      MenuIcon: LuGoal,
+      pageName: "metas",
+      href: "/metas",
+      menuTitle: "Metas",
+    },
+  ];
+
+  const adminPages = [
     {
       MenuIcon: MdDashboard,
       pageName: "dashboard",
@@ -27,7 +70,7 @@ const SidebarMenu = () => {
     {
       MenuIcon: IoMdClipboard,
       pageName: "producao",
-      href: "/producao?prazo=&produto=todos&funcionario=todos&estado=todos",
+      href: "/producao",
       menuTitle: "Produção",
     },
     {
@@ -81,15 +124,25 @@ const SidebarMenu = () => {
       </div>
       <hr />
       <div className={styles.menuOptionsContainer}>
-        {menuOption.map((option) => (
-          <MenuOption
-            key={option.menuTitle}
-            MenuIcon={option.MenuIcon}
-            isSelected={option.pageName === actualPage}
-            href={option.href}
-            menuTitle={option.menuTitle}
-          />
-        ))}
+        {user_type === "admin"
+          ? adminPages.map((option) => (
+              <MenuOption
+                key={option.menuTitle}
+                MenuIcon={option.MenuIcon}
+                isSelected={option.pageName === actualPage}
+                href={option.href}
+                menuTitle={option.menuTitle}
+              />
+            ))
+          : supervisorPages.map((option) => (
+              <MenuOption
+                key={option.menuTitle}
+                MenuIcon={option.MenuIcon}
+                isSelected={option.pageName === actualPage}
+                href={option.href}
+                menuTitle={option.menuTitle}
+              />
+            ))}
       </div>
       <div className={styles.logoutButtonContainer}>
         <div className={styles.logoutButton} onClick={handleLogout}>
