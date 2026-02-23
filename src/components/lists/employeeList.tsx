@@ -67,7 +67,7 @@ const EmployeeListContainer = () => {
               deleteButtonEndpoint="employees"
               refetch={refetch}
               user_name={employee.name}
-              user_id={employee.employee_id}
+              user_id={employee.employee_id || ""}
               user_type={employee.employee_type}
             />
           </li>

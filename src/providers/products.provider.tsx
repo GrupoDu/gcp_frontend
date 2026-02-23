@@ -7,7 +7,7 @@ import { useMemo } from "react";
 
 export function ProductProvider({ children }: { children: React.ReactNode }) {
   const { data, err, status } = useFetch<Product[]>(
-    "http://localhost:8000/products/",
+    "products",
   );
 
   const productData = useMemo(

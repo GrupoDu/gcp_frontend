@@ -11,10 +11,13 @@ const LoginCredentials = () => {
   const [error, setError] = useState("");
   const [user_type, setUserType] = useState("");
   const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL_HTTP;
 
-  async function handleLogin() {
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
     try {
-      const response = await fetch("http://localhost:8000/login", {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +55,7 @@ const LoginCredentials = () => {
   }
 
   return (
-    <div className={styles.loginCredentials}>
+    <form onSubmit={(e) => handleLogin(e)} className={styles.loginCredentials}>
       <label>
         <span>Tipo de usuário</span>
         <select
@@ -90,10 +93,8 @@ const LoginCredentials = () => {
         />
       </label>
       {loginTries > 0 && <p className={styles.loginError}>{error}</p>}
-      <button onClick={handleLogin} type="button">
-        Entrar
-      </button>
-    </div>
+      <button type="submit">Entrar</button>
+    </form>
   );
 };
 

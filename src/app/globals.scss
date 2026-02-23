@@ -64,3 +64,9 @@ select {
   border-radius: .4rem;
   flex: 1;
 }
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  html {
+    font-size: 14px;
+  } 
+}

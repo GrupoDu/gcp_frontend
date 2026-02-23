@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 const ProductionOrderSection = () => {
   const { data } = useFetch<ProductionOrder[]>(
-    "http://localhost:8000/productionOrder",
+    "productionOrder",
   );
   const [registers, setRegisters] = useState<ProductionOrder[]>([]);
   const isPendingProductionOrderPopulated = registers.length > 0;

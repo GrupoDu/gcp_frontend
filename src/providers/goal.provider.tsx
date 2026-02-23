@@ -7,7 +7,7 @@ import { useMemo } from "react";
 
 export function GoalProvider({ children }: { children: React.ReactNode }) {
   const { data, err, status, refetch } = useFetch<Goal[]>(
-    "http://localhost:8000/goals/",
+    "goals",
   );
 
   const goalData = useMemo(

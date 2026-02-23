@@ -7,7 +7,7 @@ import { useMemo } from "react";
 
 export function EmployeeProvider({ children }: { children: React.ReactNode }) {
   const { data, err, status, refetch } = useFetch<Employee[]>(
-    "http://localhost:8000/employees/",
+    "employees",
   );
 
   const employeesData = useMemo(

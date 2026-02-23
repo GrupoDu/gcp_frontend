@@ -11,7 +11,7 @@ export function ProductionOrderAnalysisProvider({
   children: React.ReactNode;
 }) {
   const { data, err, status } = useFetch<ProductionOrderAnalysis>(
-    "http://localhost:8000/productionOrderAnalysis/",
+    "productionOrderAnalysis",
   );
 
   const registerAnalysisData = useMemo(

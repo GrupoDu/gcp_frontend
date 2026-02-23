@@ -25,7 +25,7 @@ const ProductionOrderInfos = ({
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
   const { data: productionOrder } = useFetch<ProductionOrder>(
-    "http://localhost:8000/productionOrder/",
+    "productionOrder/",
     production_order_id,
   );
   const employees = useRegisterEmployees();

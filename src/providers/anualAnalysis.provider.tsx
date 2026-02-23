@@ -9,7 +9,7 @@ export function AnualAnalysisProvider({
   children: React.ReactNode;
 }) {
   const { data, err, status } = useFetch<AnualAnalysis[]>(
-    "http://localhost:8000/anualAnalysis/",
+    "anualAnalysis",
   );
 
   const anualAnalysisData = useMemo(

@@ -4,25 +4,37 @@ import styles from "./styles.module.scss";
 import { useGoal } from "@/hooks/useGoal";
 import FiltersList from "../filtersList";
 import DeadlineInput from "../ui/deadlineInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../searchBar";
 import EmployeeDropdown from "../employeeDropdown";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import StatusDropdown from "../ui/statusDropdown";
 import GoalList from "../cardLists/goalList";
 import ListFooter from "../listFooter";
+import { useRouter } from "next/navigation";
 
 const GoalListContainer = () => {
   const { goalsData, refetch } = useGoal();
   const [searchValue, setSearchValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [deadlineFilterValue, setDeadlineFilterValue] = useState("");
+  const [openFilterContainer, setOpenFilterContainer] = useState(false);
+  const router = useRouter();
 
-  console.log("Dados das metas(goalListContainer): ", goalsData);
+  useEffect(() => {
+    router.push(
+      `/metas?search=${searchValue}&status=${statusValue}&deadline=${deadlineFilterValue}`,
+    );
+  }, [searchValue, statusValue, deadlineFilterValue]);
 
   return (
     <div className={styles.goalListContainer}>
-      <FiltersList buttonLabel="Adicionar meta" hrefButton="/metas/register">
+      <FiltersList
+        openFilterContainer={openFilterContainer}
+        openMobileFilters={setOpenFilterContainer}
+        buttonLabel="Adicionar meta"
+        hrefButton="/metas/register"
+      >
         <DeadlineInput
           deadlineValue={deadlineFilterValue}
           setDeadlineValue={setDeadlineFilterValue}

@@ -7,7 +7,7 @@ import { useMemo } from "react";
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const { data, err, status, refetch } = useFetch<User[]>(
-    "http://localhost:8000/users/",
+    "users",
   );
 
   const usersData = useMemo(

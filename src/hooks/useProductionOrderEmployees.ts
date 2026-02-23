@@ -7,11 +7,9 @@ import { useEffect, useState } from "react";
 export function useRegisterEmployees() {
   const pathname = usePathname();
   const registerId = pathname.split("/")[2];
-  const { data: employeesData } = useFetch<Employee[]>(
-    "http://localhost:8000/employees",
-  );
+  const { data: employeesData } = useFetch<Employee[]>("employees");
   const { data: allProductionOrders } = useFetch<ProductionOrder>(
-    "http://localhost:8000/productionOrder/",
+    "productionOrder/",
     registerId,
   );
   const [welder, setWelder] = useState<Employee>();
@@ -24,17 +22,20 @@ export function useRegisterEmployees() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setWelder(
       employeesData?.find(
-        (employee) => employee.employee_id === allProductionOrders?.employee_uuid,
+        (employee) =>
+          employee.employee_id === allProductionOrders?.employee_uuid,
       ),
     );
     setCutAssistant(
       employeesData?.find(
-        (employee) => employee.employee_id === allProductionOrders?.cut_assistant,
+        (employee) =>
+          employee.employee_id === allProductionOrders?.cut_assistant,
       ),
     );
     setFoldAssistant(
       employeesData?.find(
-        (employee) => employee.employee_id === allProductionOrders?.fold_assistant,
+        (employee) =>
+          employee.employee_id === allProductionOrders?.fold_assistant,
       ),
     );
     setFinishingAssistant(
@@ -45,7 +46,8 @@ export function useRegisterEmployees() {
     );
     setPaintAssistant(
       employeesData?.find(
-        (employee) => employee.employee_id === allProductionOrders?.paint_assistant,
+        (employee) =>
+          employee.employee_id === allProductionOrders?.paint_assistant,
       ),
     );
   }, [employeesData, allProductionOrders]);

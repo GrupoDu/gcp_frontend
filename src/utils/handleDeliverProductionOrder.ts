@@ -1,6 +1,8 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL_HTTP;
+
 export async function handleDeliver(
   e: React.FormEvent<HTMLFormElement>,
   endpoint: string,
@@ -15,34 +17,35 @@ export async function handleDeliver(
   e.preventDefault();
   isProcessing(true);
 
-  console.log("=== START DEBUG handleDeliver ===");
-  console.log("body values: ", productionOrderBody);
-  console.log("produced quantity: ", incrementEmployeeUpdateBody);
-  console.log("employee uuid: ", employeeUuid);
-  console.log("=== END DEBUG handleDeliver ===");
+  // console.log("=== START DEBUG handleDeliver ===");
+  // console.log("body values: ", productionOrderBody);
+  // console.log("produced quantity: ", incrementEmployeeUpdateBody);
+  // console.log("employee uuid: ", employeeUuid);
+  // console.log("=== END DEBUG handleDeliver ===");
 
   try {
-    const responseUpdateRegister = await fetch(
-      `http://localhost:8000/${endpoint}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(productionOrderBody),
+    const responseUpdateRegister = await fetch(`${API_URL}/${endpoint}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      credentials: "include",
+      body: JSON.stringify(productionOrderBody),
+    });
 
     if (!responseUpdateRegister.ok) {
       throw new Error("Erro ao realizar entrega.");
-    }    
+    }
 
     const data = await responseUpdateRegister.json();
     console.log(data);
 
     await employeeUpdateActivityQuantity(employeeUuid);
-    await incrementEmployeeProducedQuantity(employeeUuid, incrementEmployeeUpdateBody);
+    await incrementEmployeeProducedQuantity(
+      employeeUuid,
+      incrementEmployeeUpdateBody,
+    );
+    await incrementDeliveredProductionOrderAnalysis();
 
     if (redirectHref && router) {
       router.push(redirectHref);
@@ -59,7 +62,7 @@ export async function handleDeliver(
 async function employeeUpdateActivityQuantity(employeeUuid: string) {
   try {
     const updateEmployeeActivity = await fetch(
-      `http://localhost:8000/employees/activity/${employeeUuid}`,
+      `${API_URL}/employees/activity/${employeeUuid}`,
       {
         method: "PUT",
         headers: {
@@ -88,7 +91,7 @@ async function incrementEmployeeProducedQuantity(
 ) {
   try {
     const updateEmployeeActivity = await fetch(
-      `http://localhost:8000/employees/producedQuantity/${employeeUuid}`,
+      `${API_URL}/employees/producedQuantity/${employeeUuid}`,
       {
         method: "PUT",
         headers: {
@@ -107,6 +110,24 @@ async function incrementEmployeeProducedQuantity(
 
     const data = await updateEmployeeActivity.json();
     console.log(data);
+  } catch (err) {
+    return toast.error((err as Error).message);
+  }
+}
+
+async function incrementDeliveredProductionOrderAnalysis() {
+  try {
+    const updateDeliveredProductionOrderAnalysisResponse = await fetch(
+      `${API_URL}/anualAnalysis/updateAnalysis`,
+      {
+        method: "PUT",
+        credentials: "include",
+      },
+    );
+
+    if (!updateDeliveredProductionOrderAnalysisResponse.ok) {
+      throw new Error("Erro ao atualizar quantidade de entregas.");
+    }
   } catch (err) {
     return toast.error((err as Error).message);
   }

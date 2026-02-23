@@ -13,17 +13,30 @@ import { useRouter } from "next/navigation";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import ProductionOrderList from "../cardLists/productionOrderList";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
+import { IoFilter } from "react-icons/io5";
+import FilterMobileContainer from "../filterMobileContainer";
 
 const RegisterListContainer = () => {
   const [productValue, setProductValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [employeeValue, setEmployeeValue] = useState("");
   const [deadlineValue, setDeadlineValue] = useState("");
+  const [openFilterContainer, setOpenFilterContainer] = useState(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(
+      `/producao?product=${productValue}&status=${statusValue}&employee=${employeeValue}&deadline=${deadlineValue}`,
+    );
+  }, [productValue, statusValue, employeeValue, deadlineValue]);
 
   return (
     <ProductionOrderProvider>
       <div className={styles.listContainer}>
         <FiltersList
+          openFilterContainer={openFilterContainer}
+          openMobileFilters={setOpenFilterContainer}
           buttonLabel="Adicionar registro"
           hrefButton="/producao/register"
         >
@@ -48,6 +61,32 @@ const RegisterListContainer = () => {
             setStatusValue={setStatusValue}
           />
         </FiltersList>
+        <div
+          className={`${styles.filterMobileContainer} ${openFilterContainer && styles.open}`}
+        >
+          <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+            <DeadlineInput
+              deadlineValue={deadlineValue}
+              setDeadlineValue={setDeadlineValue}
+            />
+            <ProductProvider>
+              <ProductsDropdown
+                productValue={productValue}
+                setProductValue={setProductValue}
+              />
+            </ProductProvider>
+            <EmployeeProvider>
+              <EmployeeDropdown
+                employeeValue={employeeValue}
+                setEmployeeValue={setEmployeeValue}
+              />
+            </EmployeeProvider>
+            <StatusDropdown
+              statusValue={statusValue}
+              setStatusValue={setStatusValue}
+            />
+          </FilterMobileContainer>
+        </div>
         <ProductionOrderList />
         <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
       </div>

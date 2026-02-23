@@ -11,7 +11,7 @@ export function SupervisorProvider({
   children: React.ReactNode;
 }) {
   const { data, err, status } = useFetch<User[]>(
-    `http://localhost:8000/users/supervisors/`,
+    `users/supervisors/`,
   );
 
   const supervisorsData = useMemo(

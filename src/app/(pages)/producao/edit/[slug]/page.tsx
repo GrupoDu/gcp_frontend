@@ -9,6 +9,7 @@ import { UserProvider } from "@/providers/users.provider";
 import ProductionOrderForm from "@/components/forms/productionOrderForm";
 import { ProductProvider } from "@/providers/products.provider";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
+import { SupervisorProvider } from "@/providers/supervisor.provider";
 
 const EditRegisterPage = async ({
   params,
@@ -26,7 +27,9 @@ const EditRegisterPage = async ({
           <ProductionOrderProvider>
             <UserProvider>
               <ProductProvider>
-                <ProductionOrderForm isEdit={true} productionOrderId={slug} />
+                <SupervisorProvider>
+                  <ProductionOrderForm isEdit={true} productionOrderId={slug} />
+                </SupervisorProvider>
               </ProductProvider>
             </UserProvider>
           </ProductionOrderProvider>

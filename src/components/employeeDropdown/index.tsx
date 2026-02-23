@@ -17,7 +17,7 @@ const EmployeeDropdown = ({
       value={employeeValue}
       setValue={setEmployeeValue}
       label="aaaaa"
-      placeholder="Funcionário responsável"
+      placeholder="Soldador"
     >
       <option value="">Todos</option>
       {welders?.map((welder) => (

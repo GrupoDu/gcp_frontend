@@ -25,13 +25,6 @@ const LineChartContainer = () => {
     "Dezembro",
   ];
 
-  useEffect(() => {
-    // @ts-expect-error acessando propriedade que não existe na tipagem
-    console.log("anualAnalysis: ", anualAnalysis?.anualAnalysis);
-    console.log("status: ", status);
-    console.log("err: ", err);
-  }, [anualAnalysis, status, err]);
-
   if (!anualAnalysis || anualAnalysis === undefined) {
     return (
       <div

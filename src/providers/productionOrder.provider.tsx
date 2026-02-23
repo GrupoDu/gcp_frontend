@@ -11,7 +11,7 @@ export function ProductionOrderProvider({
   children: React.ReactNode;
 }) {
   const { data, err, status, refetch } = useFetch<ProductionOrder[]>(
-    "http://localhost:8000/productionOrder/",
+    "productionOrder",
   );
 
   const productionOrders = useMemo(

@@ -10,14 +10,15 @@ type FetchResponse<T> = {
   err?: string;
 };
 
-export function useFetch<T>(url: string, params?: string) {
+export function useFetch<T>(endpoint: string, params?: string) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
   const [trigger, setTrigger] = useState(0);
   const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL_HTTP;
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(`${url}${params ? params : ""}`, {
+      const response = await fetch(`${API_URL}/${endpoint}${params ? params : ""}`, {
         method: "GET",
         credentials: "include",
       });
@@ -51,7 +52,7 @@ export function useFetch<T>(url: string, params?: string) {
       router.push("/login");
       return toast.warning("Sessão expirada ou credenciais inválidas.");
     }
-  }, [url, params, router]);
+  }, [endpoint, params, router]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

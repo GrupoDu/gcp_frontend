@@ -2,8 +2,8 @@
 
 import styles from "./styles.module.scss";
 import MenuOption from "../menuOption";
-import { MdDashboard } from "react-icons/md";
-import { IoMdClipboard } from "react-icons/io";
+import { MdDashboard, MdKeyboardArrowRight } from "react-icons/md";
+import { IoMdClipboard, IoMdClose } from "react-icons/io";
 import { LuGoal } from "react-icons/lu";
 import { FaUserCog } from "react-icons/fa";
 import { GrAnalytics } from "react-icons/gr";
@@ -14,23 +14,23 @@ import Image from "next/image";
 import GrupoduImage from "../../assets/grupodu_new_logo.png";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
   const [user_type, setUserType] = useState("");
+  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL_HTTP;
 
   useEffect(() => {
     async function tokenValidator() {
       try {
-        const response = await fetch(
-          "http://localhost:8000/users/validator",
-          {
-            credentials: "include",
-          },
-        );
+        const response = await fetch(`${API_URL}/users/validator`, {
+          credentials: "include",
+        });
 
-        if (response.ok) {
+        if (response) {
           const data = await response.json();
           console.log(data);
           setUserType(data);
@@ -99,6 +99,10 @@ const SidebarMenu = () => {
     },
   ];
 
+  function toggleSidebar() {
+    setIsSidebarClosed(!isSidebarClosed);
+  }
+
   async function handleLogout() {
     try {
       const response = await fetch("http://localhost:8000/login/logout", {
@@ -117,12 +121,13 @@ const SidebarMenu = () => {
   }
 
   return (
-    <div className={styles.sidebarMenuContainer}>
+    <aside
+      className={`${styles.sidebarMenuContainer} ${isSidebarClosed ? styles.closed : ""}`}
+    >
       <div className={styles.sidebarHeader}>
         <Image src={GrupoduImage} alt="Login" className={styles.grupoduLogo} />
         <h1>GCP</h1>
       </div>
-      <hr />
       <div className={styles.menuOptionsContainer}>
         {user_type === "admin"
           ? adminPages.map((option) => (
@@ -144,13 +149,22 @@ const SidebarMenu = () => {
               />
             ))}
       </div>
+      <button onClick={toggleSidebar} className={`${styles.openSidebarButton} ${isSidebarClosed && styles.openSidebar}`}>
+        <MdKeyboardArrowRight />
+      </button>
       <div className={styles.logoutButtonContainer}>
-        <div className={styles.logoutButton} onClick={handleLogout}>
+        <button
+          onClick={toggleSidebar}
+          className={styles.closeSidebarButtonContainer}
+        >
+          <MdKeyboardArrowLeft className={styles.closeSidebarButton} />
+        </button>
+        <button className={styles.logoutButton} onClick={handleLogout}>
           <BiLogOutCircle className={styles.logoutIcon} />
           <span>Sair</span>
-        </div>
+        </button>
       </div>
-    </div>
+    </aside>
   );
 };
 

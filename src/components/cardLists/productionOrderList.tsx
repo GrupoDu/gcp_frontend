@@ -14,10 +14,10 @@ const RegisterList = () => {
     ProductionOrder[] | undefined
   >([]);
   const searchParams = useSearchParams();
-  const productFilter = searchParams.get("produto");
-  const statusFilter = searchParams.get("estado");
-  const deadlineFilter = searchParams.get("prazo");
-  const employeeFilter = searchParams.get("funcionario");
+  const productFilter = searchParams.get("product");
+  const statusFilter = searchParams.get("status");
+  const deadlineFilter = searchParams.get("deadline");
+  const employeeFilter = searchParams.get("employee");
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -34,6 +34,11 @@ const RegisterList = () => {
           (employeeFilter ? order.employee_uuid === employeeFilter : true),
       ),
     );
+
+    console.log("productFilter: ", productFilter);
+    console.log("statusFilter: ", statusFilter);
+    console.log("deadlineFilter: ", deadlineFilter);
+    console.log("employeeFilter: ", employeeFilter);
   }, [
     allProductionOrders,
     productFilter,

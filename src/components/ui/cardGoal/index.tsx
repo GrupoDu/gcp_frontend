@@ -25,7 +25,7 @@ const CardGoal = ({
   refetch,
 }: CardGoalProps) => {
   const statusIcon =
-    status === "Batido" ? (
+    status === "Batida" ? (
       <FaCheckCircle color="green" className={styles.iconStatus} />
     ) : status === "Pendente" ? (
       <FaClock color="#FFD079" className={styles.iconStatus} />

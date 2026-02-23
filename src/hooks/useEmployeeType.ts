@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export function useEmployeeType() {
   const { data: employeesData } = useFetch<Employee[]>(
-    "http://localhost:8000/employees",
+    "employees",
   );
   const [welders, setWelder] = useState<Employee[]>();
   const [assistants, setAssistants] = useState<Employee[]>();
