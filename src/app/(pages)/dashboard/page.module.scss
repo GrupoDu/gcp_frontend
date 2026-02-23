@@ -35,3 +35,13 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+@media screen and (max-width: 768px) {
+  .pageContainer {
+    .mainContainer {
+      .chartsContainer {
+        flex-direction: column;
+      }
+    }
+  }
+}

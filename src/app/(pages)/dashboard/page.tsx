@@ -16,7 +16,7 @@ export default function Home() {
         <h2>Análises</h2>
         <ChartSection />
         <h2>
-          <IoMdClipboard /> Registros de produção pendentes
+          <IoMdClipboard /> Ordens de produção pendentes
         </h2>
         <ProductionRegisterSection />
         <h2>

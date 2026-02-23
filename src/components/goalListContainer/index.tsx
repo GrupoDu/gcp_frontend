@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import { useGoal } from "@/hooks/useGoal";
 import FiltersList from "../filtersList";
 import DeadlineInput from "../ui/deadlineInput";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SearchBar from "../searchBar";
 import EmployeeDropdown from "../employeeDropdown";
 import { EmployeeProvider } from "@/providers/employee.provider";
@@ -26,6 +26,21 @@ const GoalListContainer = () => {
       `/metas?search=${searchValue}&status=${statusValue}&deadline=${deadlineFilterValue}`,
     );
   }, [searchValue, statusValue, deadlineFilterValue]);
+
+  const filteredGoals = useMemo(
+    () =>
+      goalsData?.filter(
+        (goal) =>
+          (searchValue
+            ? goal.goal_title.toLowerCase().includes(searchValue.toLowerCase())
+            : true) &&
+          (statusValue ? goal.goal_status === statusValue : true) &&
+          (deadlineFilterValue
+            ? goal.goal_deadline.toString().includes(deadlineFilterValue)
+            : true),
+      ),
+    [goalsData, searchValue, statusValue, deadlineFilterValue],
+  );
 
   return (
     <div className={styles.goalListContainer}>
@@ -51,7 +66,7 @@ const GoalListContainer = () => {
           statusValue={statusValue}
         ></StatusDropdown>
       </FiltersList>
-      <GoalList refetch={refetch} goalData={goalsData} />
+      <GoalList refetch={refetch} goalData={filteredGoals} />
       <ListFooter status={["Batida", "Pendente", "Não batida"]} />
     </div>
   );

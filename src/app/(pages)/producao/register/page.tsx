@@ -13,18 +13,16 @@ const RegisterPage = () => {
     <div className={styles.pageContainer}>
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Novo registro" />
       <main className="mainContainer">
-        <h2>Criar novo registro de produção</h2>
-        <UserProvider>
-          <ProductProvider>
-            <EmployeeProvider>
-              <ProductionOrderProvider>
-                <SupervisorProvider>
-                  <RegisterForm isEdit={false} />
-                </SupervisorProvider>
-              </ProductionOrderProvider>
-            </EmployeeProvider>
-          </ProductProvider>
-        </UserProvider>
+        <h2>Criar nova ordem de produção</h2>
+        <ProductProvider>
+          <EmployeeProvider>
+            <ProductionOrderProvider>
+              <SupervisorProvider>
+                <RegisterForm isEdit={false} />
+              </SupervisorProvider>
+            </ProductionOrderProvider>
+          </EmployeeProvider>
+        </ProductProvider>
       </main>
     </div>
   );

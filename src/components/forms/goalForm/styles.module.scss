@@ -99,3 +99,21 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .registerGoalFormContainer {
+    display: flex;
+    flex-direction: column;
+
+    label,
+    input,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  
+    .deadlineInput {
+      width: 100%;
+    }
+  }
+}

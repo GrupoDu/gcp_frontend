@@ -35,7 +35,7 @@
         content: "*";
         color: red;
         margin-left: 0.2rem;
-        font-size: .8rem;
+        font-size: 0.8rem;
       }
     }
 
@@ -139,6 +139,24 @@
       cursor: pointer;
       border-radius: 4px;
       border: 1px solid #e0e0e0;
+    }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 728px) {
+  .registerForm {
+    .registerContent {
+      display: flex;
+      flex-direction: column;
+
+      .deliverDate {
+        width: 100%;
+
+        input {
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
     }
   }
 }

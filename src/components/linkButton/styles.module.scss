@@ -1,8 +1,8 @@
 .linkButtonContainer {
-  padding: .4rem 1.4rem;
+  padding: 0.4rem 1.4rem;
   display: flex;
   align-items: center;
-  gap: .4rem;
+  gap: 0.4rem;
   border-radius: 4px;
   text-decoration: none;
   min-width: fit-content;
@@ -12,5 +12,11 @@
     object-fit: contain;
     width: 1.5rem;
     height: fit-content;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .linkButtonContainer {
+    padding: 0.8rem 1rem;
   }
 }

@@ -10,6 +10,12 @@ export function GoalProvider({ children }: { children: React.ReactNode }) {
     "goals",
   );
 
+  console.log(data);
+
+  console.log("error", err);
+
+  console.log("status", status);
+
   const goalData = useMemo(
     () => ({
       goalsData: data || undefined,

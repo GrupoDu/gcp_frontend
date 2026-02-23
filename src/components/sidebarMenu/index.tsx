@@ -105,7 +105,7 @@ const SidebarMenu = () => {
 
   async function handleLogout() {
     try {
-      const response = await fetch("http://localhost:8000/login/logout", {
+      const response = await fetch("https://192.168.1.8:8001/login/logout", {
         method: "POST",
         credentials: "include",
       });

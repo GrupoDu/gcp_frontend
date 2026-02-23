@@ -3,3 +3,9 @@
   gap: 1rem;
   border-radius: 0.4rem;
 }
+
+@media screen and (max-width: 768px) {
+  .chartSectionContainer {
+    flex-direction: column;
+  }
+}

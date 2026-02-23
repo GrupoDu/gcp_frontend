@@ -61,12 +61,17 @@ h4 {
 select {
   background-color: white;
   border: colors.$borderDefault;
-  border-radius: .4rem;
+  border-radius: 0.4rem;
   flex: 1;
 }
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
   html {
     font-size: 14px;
-  } 
+  }
+
+  input {
+    height: 3rem;
+    padding-left: 3rem;
+  }
 }
