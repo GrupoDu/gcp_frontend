@@ -67,8 +67,15 @@
       gap: 0.4rem;
 
       button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         box-sizing: border-box;
         padding: 0.4rem;
+        background-color: white;
+        border: colors.$borderDefault;
+        border-radius: 0.4rem;
+        height: 100%;
       }
     }
   }

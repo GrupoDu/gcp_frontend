@@ -61,32 +61,28 @@ const RegisterListContainer = () => {
             setStatusValue={setStatusValue}
           />
         </FiltersList>
-        <div
-          className={`${styles.filterMobileContainer} ${openFilterContainer && styles.open}`}
-        >
-          <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-            <DeadlineInput
-              deadlineValue={deadlineValue}
-              setDeadlineValue={setDeadlineValue}
+        <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+          <DeadlineInput
+            deadlineValue={deadlineValue}
+            setDeadlineValue={setDeadlineValue}
+          />
+          <ProductProvider>
+            <ProductsDropdown
+              productValue={productValue}
+              setProductValue={setProductValue}
             />
-            <ProductProvider>
-              <ProductsDropdown
-                productValue={productValue}
-                setProductValue={setProductValue}
-              />
-            </ProductProvider>
-            <EmployeeProvider>
-              <EmployeeDropdown
-                employeeValue={employeeValue}
-                setEmployeeValue={setEmployeeValue}
-              />
-            </EmployeeProvider>
-            <StatusDropdown
-              statusValue={statusValue}
-              setStatusValue={setStatusValue}
+          </ProductProvider>
+          <EmployeeProvider>
+            <EmployeeDropdown
+              employeeValue={employeeValue}
+              setEmployeeValue={setEmployeeValue}
             />
-          </FilterMobileContainer>
-        </div>
+          </EmployeeProvider>
+          <StatusDropdown
+            statusValue={statusValue}
+            setStatusValue={setStatusValue}
+          />
+        </FilterMobileContainer>
         <ProductionOrderList />
         <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
       </div>

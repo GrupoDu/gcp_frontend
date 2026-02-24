@@ -24,13 +24,19 @@
 
 .pieChartContainer {
   background-color: colors.$backgroundGray;
-  width: 35%;
+  width: 45%;
 
   .pieChart {
     width: 100%;
+    // padding: 10px;
     height: fit-content;
     object-fit: contain;
+    // box-sizing: border-box;
   }
+}
+
+.pieChartContainerAnalysis {
+  width: 90%;
 }
 
 @media screen and (max-width: 768px) {

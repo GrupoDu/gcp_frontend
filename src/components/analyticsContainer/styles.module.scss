@@ -18,6 +18,7 @@
     grid-area: productionOrderChart;
     display: flex;
     gap: 0.6rem;
+    flex: 1;
     width: 100%;
 
     .pieChartGoal {
@@ -37,5 +38,16 @@
   .employeesAnalysis {
     grid-area: employeeAnalysis;
     height: fit-content;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  .analyticsContainer {
+    display: flex;
+    flex-direction: column;
+
+    .pieChart {
+      flex-direction: column;
+    }
   }
 }

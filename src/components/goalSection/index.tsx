@@ -22,6 +22,7 @@ const GoalSection = () => {
 
   return (
     <div className={styles.goalSectionContainer}>
+      <h3>Metas pendentes</h3>
       <div className={styles.goalButtons}>
         <LinkButton
           color="black"

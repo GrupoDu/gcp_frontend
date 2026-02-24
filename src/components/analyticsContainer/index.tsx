@@ -10,6 +10,8 @@ import GoalSection from "../goalSection";
 import { GoalProvider } from "@/providers/goal.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import EmployeeAnalysisContainer from "../employeeAnalysisContainer";
+import { GoalsAnalysisProvider } from "@/providers/goalsAnalysis.provider";
+import { GoalsPieChart } from "../goalsPieChart";
 
 const AnalysticsContainer = () => {
   return (
@@ -23,7 +25,9 @@ const AnalysticsContainer = () => {
         <ProductionOrderAnalysisProvider>
           <PieChartContainer />
         </ProductionOrderAnalysisProvider>
-        <div className={styles.pieChartGoal} />
+        <GoalsAnalysisProvider>
+          <GoalsPieChart />
+        </GoalsAnalysisProvider>
       </div>
       <div className={styles.pendingGoal}>
         <GoalProvider>

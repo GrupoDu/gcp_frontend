@@ -9,6 +9,7 @@ import { useEmployees } from "@/hooks/useEmployees";
 import { Employee } from "@/types/employee.type";
 import { useRouter } from "next/navigation";
 import { EmployeeTypeFilter } from "../employeeTypeFilter";
+import FilterMobileContainer from "../filterMobileContainer";
 
 const EmployeeListContainer = () => {
   const { employeesData, refetch } = useEmployees();
@@ -17,6 +18,7 @@ const EmployeeListContainer = () => {
     Employee[] | undefined
   >([]);
   const [searchFilter, setSearchFilter] = useState("");
+  const [openFilterContainer, setOpenFilterContainer] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -43,6 +45,8 @@ const EmployeeListContainer = () => {
         <FiltersList
           buttonLabel="Registrar funcionário"
           hrefButton="/funcionarios/register"
+          openMobileFilters={setOpenFilterContainer}
+          openFilterContainer={openFilterContainer}
         >
           <SearchBar
             searchValue={searchFilter}
@@ -54,6 +58,16 @@ const EmployeeListContainer = () => {
           />
         </FiltersList>
       </div>
+      <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+        <SearchBar
+          searchValue={searchFilter}
+          setSearchValue={setSearchFilter}
+        />
+        <EmployeeTypeFilter
+          employeeValue={employeeTypeFilter}
+          setEmployeeValue={setEmployeeTypeFilter}
+        />
+      </FilterMobileContainer>
       <ul className={styles.listContainer}>
         <div className={styles.listHeader}>
           <span>ID</span>

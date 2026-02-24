@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./styles.module.scss";
 import { useAnualAnalysis } from "@/hooks/useAnualAnalysis";
 import { FaChartLine } from "react-icons/fa";
@@ -8,7 +8,7 @@ import { LineChart } from "@mui/x-charts";
 import { AnualAnalysis } from "@/types/anualAnalysis.type";
 
 const LineChartContainer = () => {
-  const { anualAnalysis, status, err } = useAnualAnalysis();
+  const { anualAnalysis } = useAnualAnalysis();
 
   const months = [
     "Janeiro",
@@ -27,17 +27,23 @@ const LineChartContainer = () => {
 
   if (!anualAnalysis || anualAnalysis === undefined) {
     return (
-      <div
-        className={`${styles.linearChartContainer} ${styles.chartContainer}`}
-      >
+      <div className={`${styles.linearChartContainer} ${styles.chartContainer}`}>
         <div className={styles.chartTitle}>
           <FaChartLine className={styles.chartIcon} />
           <h3>Gráfico de atividades</h3>
         </div>
-        <h4>Nenhuma analise encontrada</h4>
+        <h4>Nenhuma análise encontrada</h4>
       </div>
     );
   }
+
+  // Verifica quantos meses têm dados para calcular largura ideal
+  const monthsWithData = anualAnalysis.filter(item => 
+    item.delivered > 0 || item.not_delivered > 0
+  ).length;
+  
+  // Largura base: 100px por mês com dados, mínimo 700px para scroll
+  const chartWidth = Math.max(700, monthsWithData * 100);
 
   return (
     <div className={`${styles.linearChartContainer} ${styles.chartContainer}`}>
@@ -45,38 +51,63 @@ const LineChartContainer = () => {
         <FaChartLine className={styles.chartIcon} />
         <h3>Gráfico de atividades</h3>
       </div>
-      <LineChart
-        style={{
-          height: "100%",
-        }}
-        series={[
-          {
-            data: anualAnalysis?.map(
-              (item: AnualAnalysis) => item.delivered || [],
-            ) as number[],
-            label: "Concluído",
-          },
-          {
-            data: anualAnalysis?.map(
-              (item: AnualAnalysis) => item.not_delivered || [],
-            ) as number[],
-            label: "Não finalizado",
-          },
-        ]}
-        alignmentBaseline="baseline"
-        xAxis={[
-          {
-            data: anualAnalysis?.map(
-              (item: AnualAnalysis) => months[item.month - 1] || [],
-            ),
-            scaleType: "band",
-            height: 40,
-          },
-        ]}
-        yAxis={[{ width: 40 }]}
-        height={200}
-        className={styles.linearChart}
-      />
+      
+      <div className={styles.chartWrapper}>
+        <div 
+          className={styles.chartInnerWrapper}
+          style={{ width: chartWidth }}
+        >
+          <LineChart
+            series={[
+              {
+                data: anualAnalysis?.map(
+                  (item: AnualAnalysis) => item.delivered || 0,
+                ) as number[],
+                label: "Concluído",
+                color: "#4caf50",
+              },
+              {
+                data: anualAnalysis?.map(
+                  (item: AnualAnalysis) => item.not_delivered || 0,
+                ) as number[],
+                label: "Não finalizado",
+                color: "#f44336",
+              },
+            ]}
+            xAxis={[
+              {
+                data: anualAnalysis?.map(
+                  (item: AnualAnalysis) => months[item.month - 1] || "",
+                ),
+                scaleType: "band",
+                tickLabelStyle: {
+                  angle: 0,
+                  fontSize: 12,
+                },
+              },
+            ]}
+            yAxis={[{ 
+              width: 40,
+              tickLabelStyle: {
+                fontSize: 11,
+              },
+            }]}
+            width={chartWidth}
+            height={200}
+            className={styles.linearChart}
+            slotProps={{
+              legend: {
+                position: { vertical: 'top', horizontal: 'middle' },
+              },
+            }}
+          />
+        </div>
+      </div>
+      
+      {/* Indicador de scroll apenas no mobile */}
+      <div className={styles.scrollIndicator}>
+        <span>← Arraste para ver todos os meses →</span>
+      </div>
     </div>
   );
 };

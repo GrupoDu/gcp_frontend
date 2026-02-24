@@ -1,9 +1,23 @@
+@use "@/styles/_colors";
+
 .filterMobileContainer {
-  display: flex;
+  display: none;
+  position: absolute;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
+  transform: translateX(-2px);
   box-sizing: border-box;
   overflow: hidden;
+  background-color: white;
+  border: colors.$borderDefault;
   height: fit-content;
   padding: 1rem;
+  border-radius: 0.4rem;
+  top: 16rem;
+  z-index: 11;
+  gap: 0.4rem;
+}
+
+.open {
+  display: flex;
 }

@@ -4,9 +4,14 @@ import styles from "./styles.module.scss";
 import { GrAnalytics } from "react-icons/gr";
 import { PieChart } from "@mui/x-charts";
 import { useProductionOrderAnalysis } from "@/hooks/useProductionOrderAnalysis";
+import { usePathname } from "next/navigation";
+
 
 const PieChartContainer = () => {
   const { registerAnalysis } = useProductionOrderAnalysis();
+  const pathname = usePathname();
+
+  const isAnalysisPage = pathname.includes("analises");
 
   const analysisData = [
     {
@@ -25,7 +30,7 @@ const PieChartContainer = () => {
   ];
 
   return (
-    <div className={`${styles.pieChartContainer} ${styles.chartContainer}`}>
+    <div className={`${styles.pieChartContainer} ${styles.chartContainer} ${isAnalysisPage && styles.pieChartContainerAnalysis}`}>
       <div className={styles.chartTitle}>
         <GrAnalytics className={styles.chartIcon} />
         <h3>Gráfico de atividades</h3>
@@ -34,7 +39,9 @@ const PieChartContainer = () => {
         series={[
           {
             data: analysisData,
-            innerRadius: 10,
+            innerRadius: 30,
+            paddingAngle: 2,
+            cornerRadius: 4,
           },
         ]}
         slotProps={{
@@ -43,8 +50,8 @@ const PieChartContainer = () => {
             position: { vertical: "middle", horizontal: "center" },
           },
         }}
-        width={100}
-        height={100}
+        width={250}
+        height={200}
         className={styles.pieChart}
       />
     </div>

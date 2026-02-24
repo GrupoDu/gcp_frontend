@@ -12,6 +12,7 @@ import StatusDropdown from "../ui/statusDropdown";
 import GoalList from "../cardLists/goalList";
 import ListFooter from "../listFooter";
 import { useRouter } from "next/navigation";
+import FilterMobileContainer from "../filterMobileContainer";
 
 const GoalListContainer = () => {
   const { goalsData, refetch } = useGoal();
@@ -66,6 +67,23 @@ const GoalListContainer = () => {
           statusValue={statusValue}
         ></StatusDropdown>
       </FiltersList>
+      <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+        <DeadlineInput
+          deadlineValue={deadlineFilterValue}
+          setDeadlineValue={setDeadlineFilterValue}
+        />
+        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
+        <EmployeeProvider>
+          <EmployeeDropdown
+            setEmployeeValue={setStatusValue}
+            employeeValue={statusValue}
+          />
+        </EmployeeProvider>
+        <StatusDropdown
+          setStatusValue={setStatusValue}
+          statusValue={statusValue}
+        ></StatusDropdown>
+      </FilterMobileContainer>
       <GoalList refetch={refetch} goalData={filteredGoals} />
       <ListFooter status={["Batida", "Pendente", "Não batida"]} />
     </div>

@@ -33,8 +33,6 @@ const CardGoal = ({
       <IoIosCloseCircle color="red" className={styles.iconStatus} />
     );
 
-  console.log("Goal_id: ", goal_id);
-
   return (
     <div className={styles.cardGoalContainer}>
       <div className={styles.goalTitle}>

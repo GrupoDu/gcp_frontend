@@ -138,6 +138,9 @@
         width: 100%;
         padding: 1rem;
         box-sizing: border-box;
+        background-color: white;
+        border: colors.$borderDefault;
+        border-radius: .4rem;
       }
     }
   }

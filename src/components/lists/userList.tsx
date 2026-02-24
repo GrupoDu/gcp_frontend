@@ -9,6 +9,7 @@ import ListItem from "../userListItem";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/user.type";
+import FilterMobileContainer from "../filterMobileContainer";
 
 const UserListContainer = () => {
   const { usersData, refetch } = useUsers();
@@ -17,6 +18,7 @@ const UserListContainer = () => {
     [],
   );
   const [searchFilter, setSearchFilter] = useState("");
+  const [openFilterContainer, setOpenFilterContainer] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -43,6 +45,8 @@ const UserListContainer = () => {
       <FiltersList
         buttonLabel="Adicionar usuário"
         hrefButton="/usuarios/register"
+        openMobileFilters={setOpenFilterContainer}
+        openFilterContainer={openFilterContainer}
       >
         <SearchBar
           searchValue={searchFilter}
@@ -53,6 +57,16 @@ const UserListContainer = () => {
           userFilter={userTypeFilter}
         />
       </FiltersList>
+      <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+        <SearchBar
+          searchValue={searchFilter}
+          setSearchValue={setSearchFilter}
+        />
+        <UserTypeFilter
+          setUserFilter={setUserTypeFilter}
+          userFilter={userTypeFilter}
+        />
+      </FilterMobileContainer>
       <ul className={styles.listContainer}>
         <div className={styles.listHeader}>
           <span>ID</span>

@@ -33,9 +33,12 @@ export async function handleDeliver(
       body: JSON.stringify(productionOrderBody),
     });
 
+    alert(responseUpdateRegister.status);
+
     if (!responseUpdateRegister.ok) {
       throw new Error("Erro ao realizar entrega.");
     }
+
 
     const data = await responseUpdateRegister.json();
     console.log(data);

@@ -1,0 +1,128 @@
+@use "@/styles/_colors.scss";
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  padding-bottom: 0;
+  border-radius: 0.4rem;
+  border: colors.$borderDefault;
+  width: 100%;
+  background-color: colors.$backgroundGray;
+  box-sizing: border-box;
+
+  .chartTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    .chartIcon {
+      object-fit: contain;
+      width: 1.6rem;
+      height: fit-content;
+      color: colors.$textPrimary;
+    }
+
+    h3 {
+      font-weight: 600;
+      color: colors.$textPrimary;
+      margin: 0;
+    }
+  }
+
+  .pieChartWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.5rem 0;
+
+    .pieChart {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .legend {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+      width: 100%;
+
+      .legendItem {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+
+        .colorDot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          display: inline-block;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .label {
+          color: colors.$textSecondary;
+        }
+
+        .value {
+          font-weight: 600;
+          color: colors.$textPrimary;
+          background-color: colors.$borderColor;
+          padding: 0.15rem 0.4rem;
+          border-radius: 0.25rem;
+          min-width: 1.8rem;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: colors.$textSecondary;
+    font-size: 0.9rem;
+    background-color: colors.$backgroundGray;
+    border-radius: 0.4rem;
+    width: 100%;
+  }
+
+  .error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: colors.$errorRed;
+    font-size: 0.9rem;
+    background-color: colors.$errorBackground;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .emptyState {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    color: colors.$textSecondary;
+    font-size: 0.9rem;
+    background-color: colors.$borderColor;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
