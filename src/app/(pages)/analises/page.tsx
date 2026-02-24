@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./page.module.scss";
 // @ts-expect-error tipagem chata do ts
 import "../../globals.scss";

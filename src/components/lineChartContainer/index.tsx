@@ -27,7 +27,9 @@ const LineChartContainer = () => {
 
   if (!anualAnalysis || anualAnalysis === undefined) {
     return (
-      <div className={`${styles.linearChartContainer} ${styles.chartContainer}`}>
+      <div
+        className={`${styles.linearChartContainer} ${styles.chartContainer}`}
+      >
         <div className={styles.chartTitle}>
           <FaChartLine className={styles.chartIcon} />
           <h3>Gráfico de atividades</h3>
@@ -37,26 +39,15 @@ const LineChartContainer = () => {
     );
   }
 
-  // Verifica quantos meses têm dados para calcular largura ideal
-  const monthsWithData = anualAnalysis.filter(item => 
-    item.delivered > 0 || item.not_delivered > 0
-  ).length;
-  
-  // Largura base: 100px por mês com dados, mínimo 700px para scroll
-  const chartWidth = Math.max(700, monthsWithData * 100);
-
   return (
     <div className={`${styles.linearChartContainer} ${styles.chartContainer}`}>
       <div className={styles.chartTitle}>
         <FaChartLine className={styles.chartIcon} />
         <h3>Gráfico de atividades</h3>
       </div>
-      
+
       <div className={styles.chartWrapper}>
-        <div 
-          className={styles.chartInnerWrapper}
-          style={{ width: chartWidth }}
-        >
+        <div className={styles.chartInnerWrapper}>
           <LineChart
             series={[
               {
@@ -86,24 +77,25 @@ const LineChartContainer = () => {
                 },
               },
             ]}
-            yAxis={[{ 
-              width: 40,
-              tickLabelStyle: {
-                fontSize: 11,
+            yAxis={[
+              {
+                width: 40,
+                tickLabelStyle: {
+                  fontSize: 11,
+                },
               },
-            }]}
-            width={chartWidth}
-            height={200}
+            ]}
+            height={190}
             className={styles.linearChart}
             slotProps={{
               legend: {
-                position: { vertical: 'top', horizontal: 'middle' },
+                position: { vertical: "top", horizontal: "middle" },
               },
             }}
           />
         </div>
       </div>
-      
+
       {/* Indicador de scroll apenas no mobile */}
       <div className={styles.scrollIndicator}>
         <span>← Arraste para ver todos os meses →</span>
