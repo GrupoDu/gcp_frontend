@@ -20,8 +20,9 @@ export function useFetch<T>(endpoint: string, params?: string) {
     try {
       const response = await api.get(`/${endpoint}${params ? params : ""}`);
 
-      if (response.status === 403) {
-        router.back();
+      if (response.status === 403 || response.status === 401) {
+        await api.post("/login/logout");
+        router.push("/login");
         return toast.warning("Sessão expirada ou credenciais inválidas.");
       }
 
@@ -48,6 +49,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
       });
 
       router.push("/login");
+      await api.post("/login/logout");
       return toast.warning("Sessão expirada ou credenciais inválidas.");
     }
   }, [endpoint, params, router]);

@@ -7,6 +7,7 @@ type MenuOptionsProps = {
   menuTitle: string;
   isSelected: boolean;
   href: string;
+  onClick?: () => void;
 };
 
 const MenuOption = ({
@@ -14,10 +15,12 @@ const MenuOption = ({
   menuTitle,
   isSelected,
   href,
+  onClick,
 }: MenuOptionsProps) => {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={`${styles.menuOptionContainer} ${isSelected && styles.selected}`}
     >
       <MenuIcon

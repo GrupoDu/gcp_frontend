@@ -2,7 +2,6 @@ import RegisterForm from "@/components/forms/productionOrderForm";
 import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
-import { UserProvider } from "@/providers/users.provider";
 import { ProductProvider } from "@/providers/products.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";

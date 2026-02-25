@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
+import { toast } from "react-toastify";
 
 const LoginCredentials = () => {
   const [email, setEmail] = useState("");
@@ -15,9 +16,6 @@ const LoginCredentials = () => {
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    console.log("\n=== DEBUG ===");
-    console.log("Tentando fazer login...");
 
     try {
       const response = await api.post("/login", {
@@ -44,6 +42,7 @@ const LoginCredentials = () => {
       const error = err as Error;
       console.log(error.message);
       setError(error.message);
+      toast.error(error.message);
     }
   }
 

@@ -58,6 +58,11 @@ h4 {
   }
 }
 
+textarea {
+  border-radius: 0.3rem;
+  border: colors.$borderDefault;
+}
+
 select {
   background-color: white;
   border: colors.$borderDefault;
@@ -71,7 +76,6 @@ select {
   }
 
   input {
-    height: 3rem;
     padding-left: 3rem;
   }
 }

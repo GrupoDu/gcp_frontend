@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 export function useMenuOption() {
   const pathname = usePathname();
   const [actualPathname, setActualPathname] = useState<string>();
-  const [isWIP, setIsWIP] = useState<boolean>(false);
 
   useEffect(() => {
     function getActualPath() {
@@ -20,12 +19,13 @@ export function useMenuOption() {
         setActualPathname("funcionarios");
       } else if (pathname.includes("analises")) {
         setActualPathname("analises");
-        setIsWIP(true);
+      } else if (pathname.includes("feedback")) {
+        setActualPathname("feedback");
       }
     }
 
     getActualPath();
   });
 
-  return [actualPathname, isWIP];
+  return [actualPathname];
 }

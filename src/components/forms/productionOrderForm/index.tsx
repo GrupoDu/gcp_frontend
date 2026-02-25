@@ -149,7 +149,6 @@ const ProductionOrderForm = ({
     delivered_at: null,
     product_uuid: fetchedRegisterProduct?.uuid || "",
   };
-  console.log("productionOrderBodyValues: ", productionOrderBodyValues);
 
   return (
     <form

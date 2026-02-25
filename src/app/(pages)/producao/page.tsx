@@ -10,7 +10,7 @@ const ProductionPage = () => {
     <div className={styles.pageContainer}>
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Produção" />
       <main className="mainContainer">
-        <h2>Registros de produção</h2>
+        <h2>Ordens de produção</h2>
         <ProductionOrderListContainer />
       </main>
     </div>

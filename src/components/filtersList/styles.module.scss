@@ -30,7 +30,10 @@
     flex: 1;
 
     span {
-      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 98%;
     }
 
     button {

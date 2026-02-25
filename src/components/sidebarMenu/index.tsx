@@ -2,7 +2,11 @@
 
 import styles from "./styles.module.scss";
 import MenuOption from "../menuOption";
-import { MdDashboard, MdKeyboardArrowRight } from "react-icons/md";
+import {
+  MdDashboard,
+  MdKeyboardArrowRight,
+  MdOutlineFeedback,
+} from "react-icons/md";
 import { IoMdClipboard } from "react-icons/io";
 import { LuGoal } from "react-icons/lu";
 import { FaUserCog } from "react-icons/fa";
@@ -16,6 +20,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { api } from "@/services/api";
+import { toast } from "react-toastify";
 
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
@@ -112,6 +117,7 @@ const SidebarMenu = () => {
     } catch (err) {
       const error = err as Error;
       console.log(error.message);
+      toast.error("Não foi possível finalizar sessão.");
     }
   }
 
@@ -132,6 +138,7 @@ const SidebarMenu = () => {
           {user_type === "admin"
             ? adminPages.map((option) => (
                 <MenuOption
+                  onClick={() => setIsSidebarClosed(true)}
                   key={option.menuTitle}
                   MenuIcon={option.MenuIcon}
                   isSelected={option.pageName === actualPage}
@@ -141,6 +148,7 @@ const SidebarMenu = () => {
               ))
             : supervisorPages.map((option) => (
                 <MenuOption
+                  onClick={() => setIsSidebarClosed(true)}
                   key={option.menuTitle}
                   MenuIcon={option.MenuIcon}
                   isSelected={option.pageName === actualPage}
@@ -148,6 +156,13 @@ const SidebarMenu = () => {
                   menuTitle={option.menuTitle}
                 />
               ))}
+          <MenuOption
+            onClick={() => setIsSidebarClosed(true)}
+            MenuIcon={MdOutlineFeedback}
+            isSelected={actualPage === "feedback"}
+            href="/feedback"
+            menuTitle="Feedback"
+          />
         </div>
       )}
 

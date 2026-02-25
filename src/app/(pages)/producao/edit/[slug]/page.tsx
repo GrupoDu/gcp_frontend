@@ -5,7 +5,6 @@ import { IoMdClipboard } from "react-icons/io";
 // @ts-expect-error tipagem chata do ts
 import "../../../../globals.scss";
 import { EmployeeProvider } from "@/providers/employee.provider";
-import { UserProvider } from "@/providers/users.provider";
 import ProductionOrderForm from "@/components/forms/productionOrderForm";
 import { ProductProvider } from "@/providers/products.provider";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
@@ -25,13 +24,11 @@ const EditRegisterPage = async ({
         <h2>Editar registro de produção</h2>
         <EmployeeProvider>
           <ProductionOrderProvider>
-            <UserProvider>
-              <ProductProvider>
-                <SupervisorProvider>
-                  <ProductionOrderForm isEdit={true} productionOrderId={slug} />
-                </SupervisorProvider>
-              </ProductProvider>
-            </UserProvider>
+            <ProductProvider>
+              <SupervisorProvider>
+                <ProductionOrderForm isEdit={true} productionOrderId={slug} />
+              </SupervisorProvider>
+            </ProductProvider>
           </ProductionOrderProvider>
         </EmployeeProvider>
       </main>

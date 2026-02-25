@@ -37,7 +37,7 @@ const RegisterListContainer = () => {
         <FiltersList
           openFilterContainer={openFilterContainer}
           openMobileFilters={setOpenFilterContainer}
-          buttonLabel="Adicionar registro"
+          buttonLabel="Nova ordem de produção"
           hrefButton="/producao/register"
         >
           <DeadlineInput

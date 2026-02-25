@@ -16,7 +16,7 @@ const StatusDropdown = ({
   return (
     <FilterDropdownBase
       label="status"
-      placeholder="Estado do registro"
+      placeholder="Status da ordem"
       value={statusValue}
       setValue={setStatusValue}
     >

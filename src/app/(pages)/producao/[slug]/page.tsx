@@ -20,7 +20,7 @@ async function ViewProductionOrderPage({
       <main className="mainContainer">
         <ProductionOrderInfos production_order_id={slug} />
         <h3>
-          <IoMdClipboard /> Registros de produção pendentes
+          <IoMdClipboard /> Ordens de produção pendentes
         </h3>
         <ProductionOrderProvider>
           <ProductionOrderSection />

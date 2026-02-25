@@ -40,6 +40,7 @@
 
 .menuOptionContainer.selected {
   background-color: colors.$menuSelectedBlue;
+  border: 1px solid colors.$menuSelectedTextBlue;
   border-left: 0.3rem solid colors.$menuSelectedTextBlue;
   opacity: 1;
 

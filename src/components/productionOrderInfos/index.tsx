@@ -90,6 +90,9 @@ const ProductionOrderInfos = ({
             productionOrder?.production_order_deadline.toString() || "",
           )}
         </span>
+        <span className={styles.dates}>
+          status: {productionOrder?.production_order_status}
+        </span>
         {productionOrder?.production_order_status === "Entregue" && (
           <span className={styles.dates}>
             Entregue: {dataFormater(productionOrder?.delivered_at || "")}
@@ -107,9 +110,10 @@ const ProductionOrderInfos = ({
             ? employees.welder?.name
             : "Ainda sem soldador."}
         </h4>
-        <h4>Ajudantes:</h4>
         <ul>
           <div className={styles.assistantList}>
+            <h4>Ajudantes</h4>
+            <hr />
             <li
               className={`${styles.assistant} ${!productionOrder?.cut_assistant && styles.undefinedAssistant}`}
             >
