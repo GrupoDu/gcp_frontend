@@ -6,15 +6,7 @@ import { Goal } from "@/types/goal.type";
 import { useMemo } from "react";
 
 export function GoalProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<Goal[]>(
-    "goals",
-  );
-
-  console.log(data);
-
-  console.log("error", err);
-
-  console.log("status", status);
+  const { data, err, status, refetch } = useFetch<Goal[]>("goals");
 
   const goalData = useMemo(
     () => ({

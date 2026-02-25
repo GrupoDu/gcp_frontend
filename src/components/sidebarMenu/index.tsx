@@ -21,6 +21,7 @@ const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
   const [user_type, setUserType] = useState("");
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const SidebarMenu = () => {
         const response = await api.get(`/users/validator`);
 
         if (response) {
-          const data = await response.data();
+          const data = await response.data;
           console.log(data);
           setUserType(data);
         } else {
@@ -41,6 +42,8 @@ const SidebarMenu = () => {
     }
 
     tokenValidator();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoading(false);
   }, [router]);
 
   const supervisorPages = [
@@ -107,7 +110,8 @@ const SidebarMenu = () => {
 
       window.location.href = "/login";
     } catch (err) {
-      console.log((err as Error).message);
+      const error = err as Error;
+      console.log(error.message);
     }
   }
 
@@ -119,27 +123,34 @@ const SidebarMenu = () => {
         <Image src={GrupoduImage} alt="Login" className={styles.grupoduLogo} />
         <h1>GCP</h1>
       </div>
-      <div className={styles.menuOptionsContainer}>
-        {user_type === "admin"
-          ? adminPages.map((option) => (
-              <MenuOption
-                key={option.menuTitle}
-                MenuIcon={option.MenuIcon}
-                isSelected={option.pageName === actualPage}
-                href={option.href}
-                menuTitle={option.menuTitle}
-              />
-            ))
-          : supervisorPages.map((option) => (
-              <MenuOption
-                key={option.menuTitle}
-                MenuIcon={option.MenuIcon}
-                isSelected={option.pageName === actualPage}
-                href={option.href}
-                menuTitle={option.menuTitle}
-              />
-            ))}
-      </div>
+      {isLoading ? (
+        <div className={styles.loadingContainer}>
+          <span>Carregando...</span>
+        </div>
+      ) : (
+        <div className={styles.menuOptionsContainer}>
+          {user_type === "admin"
+            ? adminPages.map((option) => (
+                <MenuOption
+                  key={option.menuTitle}
+                  MenuIcon={option.MenuIcon}
+                  isSelected={option.pageName === actualPage}
+                  href={option.href}
+                  menuTitle={option.menuTitle}
+                />
+              ))
+            : supervisorPages.map((option) => (
+                <MenuOption
+                  key={option.menuTitle}
+                  MenuIcon={option.MenuIcon}
+                  isSelected={option.pageName === actualPage}
+                  href={option.href}
+                  menuTitle={option.menuTitle}
+                />
+              ))}
+        </div>
+      )}
+
       <button
         onClick={toggleSidebar}
         className={`${styles.openSidebarButton} ${isSidebarClosed && styles.openSidebar}`}

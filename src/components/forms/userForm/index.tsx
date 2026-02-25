@@ -61,6 +61,7 @@ const UserForm = ({
           endpoint,
           "/usuarios",
           router,
+          canEdit,
         )
       }
       className={styles.registerUserContainer}

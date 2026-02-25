@@ -25,7 +25,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
         return toast.warning("Sessão expirada ou credenciais inválidas.");
       }
 
-      const data = await response.data();
+      const data = await response.data;
 
       if (!data) {
         setFetchedData({
@@ -41,9 +41,10 @@ export function useFetch<T>(endpoint: string, params?: string) {
         data: data,
       });
     } catch (err) {
+      const error = err as Error;
       setFetchedData({
         status: "failed",
-        err: (err as Error).message,
+        err: error.message,
       });
 
       router.push("/login");

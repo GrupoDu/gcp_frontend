@@ -4,7 +4,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { BarChart } from "@mui/x-charts";
 import { useEmployees } from "@/hooks/useEmployees";
-import { FaChartLine } from "react-icons/fa";
+import { FaChartBar } from "react-icons/fa";
 
 interface EmployeeData {
   name: string;
@@ -53,7 +53,7 @@ const EmployeeAnalysisContainer = () => {
     return (
       <div className={styles.chartContainer}>
         <div className={styles.chartTitle}>
-          <FaChartLine className={styles.chartIcon} />
+          <FaChartBar className={styles.chartIcon} />
           <h3>Gráfico de soldadores</h3>
         </div>
         <div className={styles.emptyState}>Nenhum soldador encontrado</div>
@@ -64,7 +64,7 @@ const EmployeeAnalysisContainer = () => {
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartTitle}>
-        <FaChartLine className={styles.chartIcon} />
+        <FaChartBar className={styles.chartIcon} />
         <h3>Gráfico de soldadores ({weldersData.length})</h3>
       </div>
 

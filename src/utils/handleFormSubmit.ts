@@ -38,11 +38,11 @@ export async function handleFormSubmit(
 
   try {
     if (method === "POST") {
-      await api.post(`/endpoint`, bodyValues);
+      await api.post(`/${endpoint}`, bodyValues);
     }
 
     if (method === "PUT") {
-      await api.put(`/endpoint`, bodyValues);
+      await api.put(`/${endpoint}`, bodyValues);
     }
 
     console.log("=== START DEBUG handleFormSubmit ===");

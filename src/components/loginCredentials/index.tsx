@@ -16,6 +16,9 @@ const LoginCredentials = () => {
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    console.log("\n=== DEBUG ===");
+    console.log("Tentando fazer login...");
+
     try {
       const response = await api.post("/login", {
         email,
@@ -25,18 +28,22 @@ const LoginCredentials = () => {
 
       const user = response.data.user;
 
-      if (user.user_type === "admin") {
-        setUserType(user.user.user_type);
-        return router.push("/dashboard");
-      }
+      const isAdmin = user.user_type === "admin";
+      const isSupervisor = user.user_type === "supervisor";
 
-      if (user.user_type === "supervisor") {
-        setUserType(user.user.user_type);
+      if (isAdmin) {
+        setUserType(user.user_type);
+        return router.push("/dashboard");
+      } else if (isSupervisor) {
+        setUserType(user.user_type);
         return router.push("/producao");
+      } else {
+        throw new Error("Usuário não encontrado.");
       }
     } catch (err) {
-      console.log((err as Error).message);
-      setError((err as Error).message);
+      const error = err as Error;
+      console.log(error.message);
+      setError(error.message);
     }
   }
 

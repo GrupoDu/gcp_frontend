@@ -34,11 +34,6 @@ const RegisterList = () => {
           (employeeFilter ? order.employee_uuid === employeeFilter : true),
       ),
     );
-
-    console.log("productFilter: ", productFilter);
-    console.log("statusFilter: ", statusFilter);
-    console.log("deadlineFilter: ", deadlineFilter);
-    console.log("employeeFilter: ", employeeFilter);
   }, [
     allProductionOrders,
     productFilter,
