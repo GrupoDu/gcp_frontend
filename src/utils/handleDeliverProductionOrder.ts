@@ -1,7 +1,6 @@
+import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL_HTTP;
 
 export async function handleDeliver(
   e: React.FormEvent<HTMLFormElement>,
@@ -24,23 +23,11 @@ export async function handleDeliver(
   // console.log("=== END DEBUG handleDeliver ===");
 
   try {
-    const responseUpdateRegister = await fetch(`${API_URL}/${endpoint}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(productionOrderBody),
+    const responseUpdateRegister = await api.put(`/${endpoint}`, {
+      productionOrderBody,
     });
 
-    alert(responseUpdateRegister.status);
-
-    if (!responseUpdateRegister.ok) {
-      throw new Error("Erro ao realizar entrega.");
-    }
-
-
-    const data = await responseUpdateRegister.json();
+    const data = await responseUpdateRegister.data();
     console.log(data);
 
     await employeeUpdateActivityQuantity(employeeUuid);
@@ -64,23 +51,7 @@ export async function handleDeliver(
 
 async function employeeUpdateActivityQuantity(employeeUuid: string) {
   try {
-    const updateEmployeeActivity = await fetch(
-      `${API_URL}/employees/activity/${employeeUuid}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      },
-    );
-
-    if (!updateEmployeeActivity.ok) {
-      throw new Error("Erro ao atualizar quantidade de entregas.");
-    }
-
-    const data = await updateEmployeeActivity.json();
-    console.log(data);
+    await api.put(`/employees/activity/${employeeUuid}`);
 
     return toast.success("Quantidade de entregas atualizada com sucesso!");
   } catch (err) {
@@ -93,26 +64,9 @@ async function incrementEmployeeProducedQuantity(
   productsQuantity: number,
 ) {
   try {
-    const updateEmployeeActivity = await fetch(
-      `${API_URL}/employees/producedQuantity/${employeeUuid}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          productsQuantity,
-        }),
-      },
-    );
-
-    if (!updateEmployeeActivity.ok) {
-      throw new Error("Erro ao atualizar quantidade de entregas.");
-    }
-
-    const data = await updateEmployeeActivity.json();
-    console.log(data);
+    await api.put(`/employees/producedQuantity/${employeeUuid}`, {
+      productsQuantity,
+    });
   } catch (err) {
     return toast.error((err as Error).message);
   }
@@ -120,17 +74,7 @@ async function incrementEmployeeProducedQuantity(
 
 async function incrementDeliveredProductionOrderAnalysis() {
   try {
-    const updateDeliveredProductionOrderAnalysisResponse = await fetch(
-      `${API_URL}/anualAnalysis/updateAnalysis`,
-      {
-        method: "PUT",
-        credentials: "include",
-      },
-    );
-
-    if (!updateDeliveredProductionOrderAnalysisResponse.ok) {
-      throw new Error("Erro ao atualizar quantidade de entregas.");
-    }
+    await api.put(`/anualAnalysis/updateAnalysis`);
   } catch (err) {
     return toast.error((err as Error).message);
   }

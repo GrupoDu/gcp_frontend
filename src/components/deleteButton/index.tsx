@@ -4,6 +4,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { MdOutlineDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import { api } from "@/services/api";
 
 const DeleteButton = ({
   uuid,
@@ -16,17 +17,7 @@ const DeleteButton = ({
 }) => {
   async function handleDelete(uuid: string) {
     try {
-      const response = await fetch(
-        `http://localhost:8000/${endpoint}/${uuid}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Erro ao excluir registro.");
-      }
+      await api.delete(`${endpoint}/${uuid}`);
 
       toast.success("Registro excluido com sucesso!");
 

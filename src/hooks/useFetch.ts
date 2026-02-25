@@ -1,5 +1,6 @@
 "use client";
 
+import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
@@ -14,21 +15,17 @@ export function useFetch<T>(endpoint: string, params?: string) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
   const [trigger, setTrigger] = useState(0);
   const router = useRouter();
-  const API_URL = process.env.NEXT_PUBLIC_API_URL_HTTP;
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/${endpoint}${params ? params : ""}`, {
-        method: "GET",
-        credentials: "include",
-      });
+      const response = await api.get(`/${endpoint}${params ? params : ""}`);
 
       if (response.status === 403) {
         router.back();
         return toast.warning("Sessão expirada ou credenciais inválidas.");
       }
 
-      const data = await response.json();
+      const data = await response.data();
 
       if (!data) {
         setFetchedData({

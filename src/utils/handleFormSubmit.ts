@@ -1,3 +1,4 @@
+import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
 
@@ -36,17 +37,12 @@ export async function handleFormSubmit(
   }
 
   try {
-    const response = await fetch(`http://localhost:8000/${endpoint}`, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(bodyValues),
-    });
+    if (method === "POST") {
+      await api.post(`/endpoint`, bodyValues);
+    }
 
-    if (!response.ok) {
-      throw new Error("Erro ao realizar operação.");
+    if (method === "PUT") {
+      await api.put(`/endpoint`, bodyValues);
     }
 
     console.log("=== START DEBUG handleFormSubmit ===");

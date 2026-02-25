@@ -3,7 +3,7 @@
 import styles from "./styles.module.scss";
 import MenuOption from "../menuOption";
 import { MdDashboard, MdKeyboardArrowRight } from "react-icons/md";
-import { IoMdClipboard, IoMdClose } from "react-icons/io";
+import { IoMdClipboard } from "react-icons/io";
 import { LuGoal } from "react-icons/lu";
 import { FaUserCog } from "react-icons/fa";
 import { GrAnalytics } from "react-icons/gr";
@@ -15,23 +15,21 @@ import GrupoduImage from "../../assets/grupodu_new_logo.png";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { api } from "@/services/api";
 
 const SidebarMenu = () => {
   const [actualPage] = useMenuOption();
   const [user_type, setUserType] = useState("");
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const router = useRouter();
-  const API_URL = process.env.NEXT_PUBLIC_API_URL_HTTP;
 
   useEffect(() => {
     async function tokenValidator() {
       try {
-        const response = await fetch(`${API_URL}/users/validator`, {
-          credentials: "include",
-        });
+        const response = await api.get(`/users/validator`);
 
         if (response) {
-          const data = await response.json();
+          const data = await response.data();
           console.log(data);
           setUserType(data);
         } else {
@@ -105,14 +103,7 @@ const SidebarMenu = () => {
 
   async function handleLogout() {
     try {
-      const response = await fetch("https://192.168.1.8:8001/login/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao fazer logout.");
-      }
+      await api.post("/login/logout");
 
       window.location.href = "/login";
     } catch (err) {
@@ -149,7 +140,10 @@ const SidebarMenu = () => {
               />
             ))}
       </div>
-      <button onClick={toggleSidebar} className={`${styles.openSidebarButton} ${isSidebarClosed && styles.openSidebar}`}>
+      <button
+        onClick={toggleSidebar}
+        className={`${styles.openSidebarButton} ${isSidebarClosed && styles.openSidebar}`}
+      >
         <MdKeyboardArrowRight />
       </button>
       <div className={styles.logoutButtonContainer}>

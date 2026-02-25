@@ -3,48 +3,34 @@
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
+import { api } from "@/services/api";
 
 const LoginCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginTries, setLoginTries] = useState(0);
+  const [loginTries] = useState(0);
   const [error, setError] = useState("");
   const [user_type, setUserType] = useState("");
   const router = useRouter();
-  const API_URL = process.env.NEXT_PUBLIC_API_URL_HTTP;
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          email,
-          password,
-          user_type: user_type,
-        }),
+      const response = await api.post("/login", {
+        email,
+        password,
+        user_type: user_type,
       });
 
-      if (!response.ok) {
-        setLoginTries(loginTries + 1);
-        throw new Error("Erro ao fazer login. Verifique suas credenciais.");
-      }
+      const user = response.data.user;
 
-      const user = await response.json();
-
-      console.log(user.user);
-
-      if (user.user.user_type === "admin") {
+      if (user.user_type === "admin") {
         setUserType(user.user.user_type);
         return router.push("/dashboard");
       }
 
-      if (user.user.user_type === "supervisor") {
+      if (user.user_type === "supervisor") {
         setUserType(user.user.user_type);
         return router.push("/producao");
       }
