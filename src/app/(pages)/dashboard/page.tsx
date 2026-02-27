@@ -8,7 +8,7 @@ import { LuGoal } from "react-icons/lu";
 import GoalSection from "@/components/goalSection";
 import { GoalProvider } from "@/providers/goal.provider";
 
-export default function Home() {
+export default function DashboardPage() {
   return (
     <div className={styles.pageContainer}>
       <PageHeader HeaderIcon={MdDashboard} headerTitle="Dashboard" />

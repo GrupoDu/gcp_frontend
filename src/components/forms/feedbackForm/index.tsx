@@ -1,6 +1,5 @@
 "use client";
 
-import LinkButton from "@/components/linkButton";
 import styles from "./styles.module.scss";
 import { useState } from "react";
 import { api } from "@/services/api";

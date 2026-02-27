@@ -46,14 +46,7 @@ const EmployeeForm = ({
   return (
     <form
       onSubmit={(e) =>
-        handleFormSubmit(
-          e,
-          method,
-          employeeValues,
-          endpoint,
-          "/funcionarios",
-          router,
-        )
+        handleFormSubmit(e, method, employeeValues, endpoint, router, canEdit)
       }
       className={styles.registerEmployeeForm}
     >

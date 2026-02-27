@@ -1,6 +1,7 @@
 "use client";
 
 import { api } from "@/services/api";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
@@ -18,17 +19,19 @@ export function useFetch<T>(endpoint: string, params?: string) {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await api.get(`/${endpoint}${params ? params : ""}`);
+      const apiResponse = await api.get(`/${endpoint}${params ? params : ""}`);
 
-      if (response.status === 403 || response.status === 401) {
-        await api.post("/login/logout");
-        router.push("/login");
+      const isResponseUnauthorized: boolean =
+        apiResponse.status === 403 || apiResponse.status === 401;
+
+      if (isResponseUnauthorized) {
+        logout(router);
         return toast.warning("Sessão expirada ou credenciais inválidas.");
       }
 
-      const data = await response.data;
+      const responseData = await apiResponse.data;
 
-      if (!data) {
+      if (!responseData) {
         setFetchedData({
           status: "failed",
           err: "Dados não encontrados.",
@@ -39,7 +42,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
 
       setFetchedData({
         status: "success",
-        data: data,
+        data: responseData,
       });
     } catch (err) {
       const error = err as Error;
@@ -48,16 +51,15 @@ export function useFetch<T>(endpoint: string, params?: string) {
         err: error.message,
       });
 
-      router.push("/login");
-      await api.post("/login/logout");
+      logout(router);
       return toast.warning("Sessão expirada ou credenciais inválidas.");
     }
   }, [endpoint, params, router]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData();
-  }, [fetchData, trigger]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trigger]);
 
   const refetch = useCallback(() => {
     setTrigger((prev) => prev + 1);
@@ -69,4 +71,9 @@ export function useFetch<T>(endpoint: string, params?: string) {
     status: fetchedData?.status,
     refetch,
   };
+}
+
+async function logout(router: AppRouterInstance) {
+  await api.post("/login/logout");
+  router.push("/login");
 }

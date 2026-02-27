@@ -29,7 +29,7 @@ const RegisterListContainer = () => {
     router.push(
       `/producao?product=${productValue}&status=${statusValue}&employee=${employeeValue}&deadline=${deadlineValue}`,
     );
-  }, [productValue, statusValue, employeeValue, deadlineValue]);
+  }, [productValue, statusValue, employeeValue, deadlineValue, router]);
 
   return (
     <ProductionOrderProvider>

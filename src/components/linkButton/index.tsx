@@ -9,6 +9,7 @@ type LinkButtonProps = {
   href: string;
   color: "black" | "white";
   fullWidth?: boolean;
+  textAlign?: "center" | "flex-start";
 };
 
 const LinkButton = ({
@@ -17,6 +18,7 @@ const LinkButton = ({
   Icon,
   color,
   fullWidth,
+  textAlign,
 }: LinkButtonProps) => {
   return (
     <Link
@@ -27,6 +29,7 @@ const LinkButton = ({
         border: color === "black" ? "none" : "1px solid #D4D4D4",
         flex: fullWidth ? 1 : 0,
         width: fullWidth ? "100%" : "fit-content",
+        justifyContent: textAlign ? textAlign : "flex-start",
       }}
       className={styles.linkButtonContainer}
     >

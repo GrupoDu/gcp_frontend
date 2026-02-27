@@ -10,9 +10,9 @@ import LinkButton from "../linkButton";
 import { IoIosArrowBack } from "react-icons/io";
 import DeliverButton from "../ui/deliverButton";
 import { CiSquareCheck } from "react-icons/ci";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRegisterEmployees } from "@/hooks/useProductionOrderEmployees";
-import { handleDeliver } from "@/utils/handleDeliverProductionOrder";
+import { handleDelivery } from "@/utils/handleDeliveryProductionOrder";
 import { useRouter } from "next/navigation";
 
 const ProductionOrderInfos = ({
@@ -20,7 +20,7 @@ const ProductionOrderInfos = ({
 }: {
   production_order_id: string;
 }) => {
-  const [deliverObservation, setDeliverObservation] = useState<string>("");
+  const [deliveryObservation, setDeliveryObservation] = useState<string>("");
   const [producedQuantity, setProducedQuantity] = useState<number>(1);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
@@ -43,18 +43,32 @@ const ProductionOrderInfos = ({
   const endpoint = `productionOrder/deliver/${productionOrderId}`;
   const redirectHref = "/producao";
   const employeeUuid = productionOrder?.employee_uuid || "";
-  const productionOrderBody = {
-    deliver_observation: deliverObservation,
-    delivered_product_quantity: producedQuantity,
-    requested_product_quantity: productionOrder?.product_quantity || 0,
-    production_order_status: "Entregue",
-    delivered_at: new Date().toISOString(),
-  };
+  // const productionOrderBody = {
+  //   delivery_observation: deliveryObservation,
+  //   delivered_product_quantity: producedQuantity,
+  //   requested_product_quantity: productionOrder?.product_quantity || 0,
+  //   production_order_status: "Entregue",
+  //   delivered_at: new Date().toISOString(),
+  // };
+
+  const productionOrderBody = useMemo(() => {
+    return {
+      delivery_observation: deliveryObservation,
+      delivered_product_quantity: producedQuantity,
+      requested_product_quantity: productionOrder?.product_quantity || 0,
+      production_order_status: "Entregue",
+      delivered_at: new Date().toISOString(),
+    };
+  }, [
+    deliveryObservation,
+    producedQuantity,
+    productionOrder?.product_quantity,
+  ]);
 
   return (
     <form
       onSubmit={(e) =>
-        handleDeliver(
+        handleDelivery(
           e,
           endpoint,
           productionOrderBody,
@@ -148,22 +162,24 @@ const ProductionOrderInfos = ({
             </li>
           </div>
         </ul>
-        <label className={styles.productDeliveredQuantityContainer}>
-          <span>Quantidade produzida:</span>
-          <input
-            type="number"
-            name="product-delivered-quantity"
-            required
-            min={0}
-            max={productionOrder?.product_quantity}
-            value={producedQuantity}
-            onChange={(e) => setProducedQuantity(Number(e.target.value))}
-          />
-        </label>
+        {productionOrder?.production_order_status !== "Entregue" && (
+          <label className={styles.productDeliveredQuantityContainer}>
+            <span>Quantidade produzida:</span>
+            <input
+              type="number"
+              name="product-delivered-quantity"
+              required
+              min={0}
+              max={productionOrder?.product_quantity}
+              value={producedQuantity}
+              onChange={(e) => setProducedQuantity(Number(e.target.value))}
+            />
+          </label>
+        )}
         <h4>Observação de entrega:</h4>
         {productionOrder?.production_order_status === "Entregue" ? (
           <p className={styles.observationField}>
-            {productionOrder?.deliver_observation}
+            {productionOrder?.delivery_observation}
           </p>
         ) : productionOrder?.production_order_status === "Não entregue" ? (
           "Registro não entregue"
@@ -171,7 +187,7 @@ const ProductionOrderInfos = ({
           <textarea
             name="observation"
             id="observation"
-            onChange={(e) => setDeliverObservation(e.target.value)}
+            onChange={(e) => setDeliveryObservation(e.target.value)}
           />
         )}
       </div>

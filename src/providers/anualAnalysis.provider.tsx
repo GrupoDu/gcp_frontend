@@ -8,9 +8,7 @@ export function AnualAnalysisProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { data, err, status } = useFetch<AnualAnalysis[]>(
-    "anualAnalysis",
-  );
+  const { data, err, status } = useFetch<AnualAnalysis[]>("anualAnalysis");
 
   const anualAnalysisData = useMemo(
     () => ({

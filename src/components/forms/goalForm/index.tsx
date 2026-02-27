@@ -58,15 +58,7 @@ const GoalForm = ({
   return (
     <form
       onSubmit={(e) =>
-        handleFormSubmit(
-          e,
-          method,
-          goalField,
-          endpoint,
-          "/metas",
-          router,
-          canEdit,
-        )
+        handleFormSubmit(e, method, goalField, endpoint, router, canEdit)
       }
       className={styles.registerGoalFormContainer}
     >

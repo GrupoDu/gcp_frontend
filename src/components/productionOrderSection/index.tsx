@@ -3,26 +3,28 @@
 import styles from "./styles.module.scss";
 import LinkButton from "../linkButton";
 import { FaExternalLinkAlt } from "react-icons/fa";
-import CardRegister from "../ui/cardRegister";
+import CardProductionOrder from "../ui/cardProductionOrder";
 import { useFetch } from "@/hooks/useFetch";
 import { ProductionOrder } from "@/types/productionOrder.type";
 import { dataFormater } from "@/utils/dataFormater";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 const ProductionOrderSection = () => {
-  const { data } = useFetch<ProductionOrder[]>(
-    "productionOrder",
+  const { data, refetch } = useFetch<ProductionOrder[]>("productionOrder");
+
+  const pendingProductionOrders = useMemo(
+    () =>
+      data?.filter((order) => order.production_order_status === "Pendente") ||
+      [],
+    [data],
   );
-  const [registers, setRegisters] = useState<ProductionOrder[]>([]);
-  const isPendingProductionOrderPopulated = registers.length > 0;
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setRegisters(
-      data?.filter((order) => order.production_order_status === "Pendente") ||
-        [],
-    );
-  }, [data]);
+    refetch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingProductionOrders]);
+
+  const isPendingProductionOrderPopulated = pendingProductionOrders.length > 0;
 
   return (
     <div className={styles.productionOrderSectionContainer}>
@@ -31,9 +33,9 @@ const ProductionOrderSection = () => {
       </LinkButton>
       <ul>
         {isPendingProductionOrderPopulated ? (
-          registers?.map((order) => (
+          pendingProductionOrders?.map((order) => (
             <li key={order.production_order_id}>
-              <CardRegister
+              <CardProductionOrder
                 register_id={order.production_order_id || ""}
                 status={order.production_order_status}
                 title={order.production_order_title}

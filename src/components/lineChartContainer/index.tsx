@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import styles from "./styles.module.scss";
 import { useAnualAnalysis } from "@/hooks/useAnualAnalysis";
 import { FaChartLine } from "react-icons/fa";
@@ -89,7 +88,7 @@ const LineChartContainer = () => {
             className={styles.linearChart}
             slotProps={{
               legend: {
-                position: { vertical: "top", horizontal: "middle" },
+                position: { vertical: "top" },
               },
             }}
           />

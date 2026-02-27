@@ -12,7 +12,7 @@ type CardRegisterProps = {
   refetch?: () => void;
 };
 
-const CardRegister = (props: CardRegisterProps) => {
+const CardProductionOrder = (props: CardRegisterProps) => {
   const statusColor =
     props.status === "Pendente"
       ? "#FFD079"
@@ -46,11 +46,16 @@ const CardRegister = (props: CardRegisterProps) => {
       ) : (
         <p className={styles.noObservation}>Registro sem observação</p>
       )}
-      <LinkButton color="black" href={`/producao/${props.register_id}`}>
-        Visualizar registro
+      <LinkButton
+        color="black"
+        fullWidth={true}
+        textAlign="center"
+        href={`/producao/${props.register_id}`}
+      >
+        Visualizar ordem de produção
       </LinkButton>
     </div>
   );
 };
 
-export default CardRegister;
+export default CardProductionOrder;

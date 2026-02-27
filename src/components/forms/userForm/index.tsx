@@ -59,7 +59,6 @@ const UserForm = ({
           method,
           userInfosFields,
           endpoint,
-          "/usuarios",
           router,
           canEdit,
         )

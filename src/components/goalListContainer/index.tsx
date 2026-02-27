@@ -26,7 +26,7 @@ const GoalListContainer = () => {
     router.push(
       `/metas?search=${searchValue}&status=${statusValue}&deadline=${deadlineFilterValue}`,
     );
-  }, [searchValue, statusValue, deadlineFilterValue]);
+  }, [searchValue, statusValue, deadlineFilterValue, router]);
 
   const filteredGoals = useMemo(
     () =>

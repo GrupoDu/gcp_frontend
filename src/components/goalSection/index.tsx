@@ -9,16 +9,10 @@ import { useGoal } from "@/hooks/useGoal";
 
 const GoalSection = () => {
   const { goalsData, refetch } = useGoal();
-  let isGoalsEmpty: boolean;
+  const isGoalsEmpty: boolean | undefined = goalsData && goalsData.length > 0;
   const pendingGoals = goalsData?.filter(
     (goal) => goal.goal_status === "Pendente",
   );
-
-  if (goalsData && goalsData.length > 0) {
-    isGoalsEmpty = false;
-  } else {
-    isGoalsEmpty = true;
-  }
 
   return (
     <div className={styles.goalSectionContainer}>

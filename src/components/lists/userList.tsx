@@ -80,10 +80,7 @@ const UserListContainer = () => {
             <ListItem
               deleteButtonEndpoint="users"
               refetch={refetch}
-              user_name={user.name}
-              user_id={user.user_id}
-              user_email={user.email}
-              user_type={user.user_type}
+              userInfos={user}
             />
           </li>
         ))}

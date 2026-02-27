@@ -1,23 +1,22 @@
 import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
+import { debugLogger } from "./logger";
 
 export async function handleFormSubmit(
   e: React.FormEvent<HTMLFormElement>,
   method: string,
   bodyValues: Record<string, unknown>,
   endpoint: string,
-  redirectHref: string,
   router?: AppRouterInstance,
   canEdit?: boolean,
 ) {
   e.preventDefault();
 
-  console.log("Método: ", method);
-  console.log("Pode editar: ", canEdit);
+  const isEditPage = method === "PUT" && !canEdit;
 
-  if (method === "PUT" && !canEdit) {
-    router?.push(redirectHref);
+  if (isEditPage) {
+    router?.back();
     return toast.error("Informações não podem ser alteradas.");
   }
 
@@ -45,16 +44,21 @@ export async function handleFormSubmit(
       await api.put(`/${endpoint}`, bodyValues);
     }
 
-    console.log("=== START DEBUG handleFormSubmit ===");
-    console.log("Body values: ", bodyValues);
-    console.log("method: ", method);
-    console.log("redirectHref: ", redirectHref);
-    console.log("endpoint: ", endpoint);
-    console.log("=== END DEBUG handleFormSubmit ===");
+    debugLogger(`
+    ||> handleFormSubmit <||
+    body values: ${bodyValues} 
+    -----------------------------------
+    method: ${method}
+    -----------------------------------
+    endpoint: ${endpoint}
+    -----------------------------------
+    `);
 
-    router?.push(redirectHref);
+    router?.back();
     return toast.success("Operação realizada com sucesso!");
   } catch (err) {
-    return toast.error((err as Error).message);
+    const error = err as Error;
+
+    return toast.error(error.message);
   }
 }

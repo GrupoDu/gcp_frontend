@@ -5,12 +5,12 @@ import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const LoginCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginTries] = useState(0);
-  const [error, setError] = useState("");
+  const [loginTries, setLoginTries] = useState(0);
   const [user_type, setUserType] = useState("");
   const router = useRouter();
 
@@ -26,22 +26,10 @@ const LoginCredentials = () => {
 
       const user = response.data.user;
 
-      const isAdmin = user.user_type === "admin";
-      const isSupervisor = user.user_type === "supervisor";
-
-      if (isAdmin) {
-        setUserType(user.user_type);
-        return router.push("/dashboard");
-      } else if (isSupervisor) {
-        setUserType(user.user_type);
-        return router.push("/producao");
-      } else {
-        throw new Error("Usuário não encontrado.");
-      }
+      redirectByUserType(user.user_type, router, setUserType);
     } catch (err) {
       const error = err as Error;
-      console.log(error.message);
-      setError(error.message);
+      setLoginTries((prevTries) => prevTries + 1);
       toast.error(error.message);
     }
   }
@@ -84,10 +72,33 @@ const LoginCredentials = () => {
           required
         />
       </label>
-      {loginTries > 0 && <p className={styles.loginError}>{error}</p>}
+      {loginTries > 0 && (
+        <p className={styles.loginError}>
+          Credenciais inválidas. Verifique a senha, email e tipo de usuário
+        </p>
+      )}
       <button type="submit">Entrar</button>
     </form>
   );
 };
+
+function redirectByUserType(
+  user_type: string,
+  router: AppRouterInstance,
+  setUserType: (value: string) => void,
+) {
+  const isAdmin = user_type === "admin";
+  const isSupervisor = user_type === "supervisor";
+
+  if (isAdmin) {
+    setUserType(user_type);
+    return router.push("/dashboard");
+  } else if (isSupervisor) {
+    setUserType(user_type);
+    return router.push("/producao");
+  } else {
+    throw new Error("Usuário não encontrado.");
+  }
+}
 
 export default LoginCredentials;

@@ -1,8 +1,9 @@
 import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
+import { debugLogger } from "./logger";
 
-export async function handleDeliver(
+export async function handleDelivery(
   e: React.FormEvent<HTMLFormElement>,
   endpoint: string,
   productionOrderBody: Record<string, unknown>,
@@ -16,19 +17,25 @@ export async function handleDeliver(
   e.preventDefault();
   isProcessing(true);
 
-  // console.log("=== START DEBUG handleDeliver ===");
-  // console.log("body values: ", productionOrderBody);
-  // console.log("produced quantity: ", incrementEmployeeUpdateBody);
-  // console.log("employee uuid: ", employeeUuid);
-  // console.log("=== END DEBUG handleDeliver ===");
+  debugLogger(`
+    body values: ${productionOrderBody} 
+    -----------------------------------
+    produced quantity: ${incrementEmployeeUpdateBody}
+    -----------------------------------
+    employee uuid: ${employeeUuid}
+    `);
 
   try {
-    const responseUpdateRegister = await api.put(`/${endpoint}`, {
+    const responseUpdateRegister = await api.put(
+      `/${endpoint}`,
       productionOrderBody,
-    });
+    );
 
-    const data = await responseUpdateRegister.data();
-    console.log(data);
+    const data = await responseUpdateRegister.data;
+    console.log("=== handleDeliveryProduction ===");
+    console.log("\n=== START DEBUG ===");
+    console.log("data: ", data);
+    console.log("=== END DEBUG ===");
 
     await employeeUpdateActivityQuantity(employeeUuid);
     await incrementEmployeeProducedQuantity(

@@ -11,19 +11,20 @@ import { IoMdClipboard } from "react-icons/io";
 import { LuGoal } from "react-icons/lu";
 import { FaUserCog } from "react-icons/fa";
 import { GrAnalytics } from "react-icons/gr";
-import { useMenuOption } from "@/hooks/useMenuOption";
 import { GrUserWorker } from "react-icons/gr";
 import { BiLogOutCircle } from "react-icons/bi";
 import Image from "next/image";
 import GrupoduImage from "../../assets/grupodu_new_logo.png";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
+import { debugLogger } from "@/utils/logger";
 
 const SidebarMenu = () => {
-  const [actualPage] = useMenuOption();
+  const [actualPage, setActualPage] = useState("");
+  const pathname = usePathname();
   const [user_type, setUserType] = useState("");
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,8 +37,11 @@ const SidebarMenu = () => {
 
         if (response) {
           const data = await response.data;
-          console.log(data);
-          setUserType(data);
+          debugLogger(`
+            ||> SidebarMenu <||
+            Tipo de usuário: ${data.user_type}
+            `);
+          setUserType(data.user_type);
         } else {
           router.push("/login");
         }
@@ -48,8 +52,9 @@ const SidebarMenu = () => {
 
     tokenValidator();
     // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActualPage(pathname.split("/")[1]);
     setIsLoading(false);
-  }, [router]);
+  }, [router, pathname]);
 
   const supervisorPages = [
     {

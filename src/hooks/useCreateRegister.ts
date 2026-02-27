@@ -7,7 +7,7 @@ export function useCreateRegister() {
   const productsContext = useProducts();
   const employeeContext = useEmployees();
 
-  if (!usersContext || !productsContext) throw new Error("Contexto faltando.");
+  if (!usersContext || !productsContext) throw new Error("Contextos faltando.");
 
   return {
     usersContext,

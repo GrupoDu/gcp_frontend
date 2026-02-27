@@ -7,7 +7,7 @@ export type ProductionOrder = {
   delivered_at?: string | null;
   employee_uuid?: string | null;
   product_uuid: string;
-  deliver_observation: string;
+  delivery_observation: string;
   client_uuid: string;
   product_quantity: number;
   cut_assistant?: string | null;

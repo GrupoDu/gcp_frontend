@@ -3,21 +3,16 @@ import styles from "./styles.module.scss";
 import DeleteButton from "../deleteButton";
 import EditButton from "../editButton";
 import { usePathname } from "next/navigation";
+import { UserPublic } from "@/types/user.type";
 
 type ListItemProps = {
-  user_id: string;
-  user_name: string;
-  user_email?: string;
-  user_type: string;
+  userInfos: UserPublic;
   refetch: () => void;
   deleteButtonEndpoint: string;
 };
 
 const ListItem = ({
-  user_id,
-  user_name,
-  user_email,
-  user_type,
+  userInfos,
   refetch,
   deleteButtonEndpoint,
 }: ListItemProps) => {
@@ -25,17 +20,17 @@ const ListItem = ({
 
   return (
     <div className={styles.userListItem}>
-      <span>{user_id}</span>
-      <span>{user_name}</span>
-      {user_email && <span>{user_email}</span>}
-      <span>{user_type}</span>
+      <span>{userInfos.user_id}</span>
+      <span>{userInfos.name}</span>
+      {userInfos.email && <span>{userInfos.email}</span>}
+      <span>{userInfos.user_type}</span>
       <div className={styles.buttons}>
         <DeleteButton
           endpoint={deleteButtonEndpoint}
           refetch={refetch}
-          uuid={user_id}
+          uuid={userInfos.user_id}
         />
-        <EditButton href={`${pathname}/edit/${user_id}`} />
+        <EditButton href={`${pathname}/edit/${userInfos.user_id}`} />
       </div>
     </div>
   );
