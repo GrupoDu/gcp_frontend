@@ -8,11 +8,9 @@ import FeedbackForm from "@/components/forms/feedbackForm";
 
 const FeedbackPage = () => {
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader headerTitle="Feedback" HeaderIcon={MdOutlineFeedback} />
-      <div className="mainContainer">
-        <FeedbackForm />
-      </div>
+      <FeedbackForm />
     </div>
   );
 };

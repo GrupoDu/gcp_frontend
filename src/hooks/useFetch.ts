@@ -5,6 +5,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
+import { useLoading } from "./useLoading";
 
 type FetchResponse<T> = {
   status: string;
@@ -14,6 +15,7 @@ type FetchResponse<T> = {
 
 export function useFetch<T>(endpoint: string, params?: string) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
+  const { setIsLoading } = useLoading();
   const [trigger, setTrigger] = useState(0);
   const router = useRouter();
 
@@ -37,6 +39,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
           err: "Dados não encontrados.",
         });
 
+        logout(router);
         return;
       }
 
@@ -53,10 +56,13 @@ export function useFetch<T>(endpoint: string, params?: string) {
 
       logout(router);
       return toast.warning("Sessão expirada ou credenciais inválidas.");
+    } finally {
+      setIsLoading(false);
     }
   }, [endpoint, params, router]);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
@@ -75,5 +81,5 @@ export function useFetch<T>(endpoint: string, params?: string) {
 
 async function logout(router: AppRouterInstance) {
   await api.post("/login/logout");
-  router.push("/login");
+  return router.push("/login");
 }

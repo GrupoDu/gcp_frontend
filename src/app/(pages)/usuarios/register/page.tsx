@@ -8,7 +8,7 @@ import { UserProvider } from "@/providers/users.provider";
 
 const RegisterUserPage = () => {
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader headerTitle="Usuários" HeaderIcon={FaUserCog} />
       <main className="mainContainer">
         <h3>Registrar novo usuário</h3>

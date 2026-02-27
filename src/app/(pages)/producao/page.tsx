@@ -7,12 +7,9 @@ import ProductionOrderListContainer from "@/components/productionOrderListContai
 
 const ProductionPage = () => {
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Produção" />
-      <main className="mainContainer">
-        <h2>Ordens de produção</h2>
-        <ProductionOrderListContainer />
-      </main>
+      <ProductionOrderListContainer />
     </div>
   );
 };

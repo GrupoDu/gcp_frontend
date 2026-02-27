@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import "../globals.scss";
 import SidebarMenu from "@/components/sidebarMenu";
 import { ToastContainer } from "react-toastify";
+import { LoadingProvider } from "@/providers/loading.provider";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -23,14 +24,16 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={`${roboto.variable}`}>
-        <SidebarMenu />
-        <ToastContainer
-          stacked
-          position="top-center"
-          autoClose={3000}
-          theme="light"
-        />
-        {children}
+        <LoadingProvider>
+          <SidebarMenu />
+          <ToastContainer
+            stacked
+            position="top-center"
+            autoClose={3000}
+            theme="light"
+          />
+          {children}
+        </LoadingProvider>
       </body>
     </html>
   );

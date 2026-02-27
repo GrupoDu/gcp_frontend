@@ -95,6 +95,9 @@
     position: absolute;
     z-index: 11;
     width: 18rem;
+    backdrop-filter: blur(6px);
+    background-color: colors.$backgroundGrayTrasparent;
+    box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.2);
 
     .sidebarHeader {
       height: 5rem;

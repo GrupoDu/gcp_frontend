@@ -9,14 +9,11 @@ import { GrUserWorker } from "react-icons/gr";
 
 const EmployeePage = () => {
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader headerTitle="Funcionários" HeaderIcon={GrUserWorker} />
-      <main className="mainContainer">
-        <h2>Lista de Funcionários</h2>
-        <EmployeeProvider>
-          <EmployeeListContainer />
-        </EmployeeProvider>
-      </main>
+      <EmployeeProvider>
+        <EmployeeListContainer />
+      </EmployeeProvider>
     </div>
   );
 };

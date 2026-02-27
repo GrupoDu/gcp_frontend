@@ -7,10 +7,11 @@ import CardProductionOrder from "../ui/cardProductionOrder";
 import { useFetch } from "@/hooks/useFetch";
 import { ProductionOrder } from "@/types/productionOrder.type";
 import { dataFormater } from "@/utils/dataFormater";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 const ProductionOrderSection = () => {
   const { data, refetch } = useFetch<ProductionOrder[]>("productionOrder");
+  const initialFetchDone = useRef(false);
 
   const pendingProductionOrders = useMemo(
     () =>
@@ -20,9 +21,11 @@ const ProductionOrderSection = () => {
   );
 
   useEffect(() => {
-    refetch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingProductionOrders]);
+    if (!initialFetchDone.current) {
+      initialFetchDone.current = true;
+      refetch();
+    }
+  }, [refetch]);
 
   const isPendingProductionOrderPopulated = pendingProductionOrders.length > 0;
 

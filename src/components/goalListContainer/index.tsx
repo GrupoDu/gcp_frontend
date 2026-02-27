@@ -13,6 +13,9 @@ import GoalList from "../cardLists/goalList";
 import ListFooter from "../listFooter";
 import { useRouter } from "next/navigation";
 import FilterMobileContainer from "../filterMobileContainer";
+import { useLoading } from "@/hooks/useLoading";
+import { debugLogger } from "@/utils/logger";
+import Loading from "../ui/loading";
 
 const GoalListContainer = () => {
   const { goalsData, refetch } = useGoal();
@@ -20,6 +23,7 @@ const GoalListContainer = () => {
   const [statusValue, setStatusValue] = useState("");
   const [deadlineFilterValue, setDeadlineFilterValue] = useState("");
   const [openFilterContainer, setOpenFilterContainer] = useState(false);
+  const { isLoading } = useLoading();
   const router = useRouter();
 
   useEffect(() => {
@@ -42,51 +46,67 @@ const GoalListContainer = () => {
       ),
     [goalsData, searchValue, statusValue, deadlineFilterValue],
   );
+  debugLogger(`
+    ||> GoalListContainer <||
+    isLoading: ${isLoading}
+    `);
 
   return (
-    <div className={styles.goalListContainer}>
-      <FiltersList
-        openFilterContainer={openFilterContainer}
-        openMobileFilters={setOpenFilterContainer}
-        buttonLabel="Adicionar meta"
-        hrefButton="/metas/register"
+    <>
+      {isLoading && <Loading />}
+      <main
+        className={`${styles.goalListContainer} mainContainer ${isLoading && "loading"}`}
       >
-        <DeadlineInput
-          deadlineValue={deadlineFilterValue}
-          setDeadlineValue={setDeadlineFilterValue}
-        />
-        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
-        <EmployeeProvider>
-          <EmployeeDropdown
-            setEmployeeValue={setStatusValue}
-            employeeValue={statusValue}
+        <h2>Lista da Metas</h2>
+        <FiltersList
+          openFilterContainer={openFilterContainer}
+          openMobileFilters={setOpenFilterContainer}
+          buttonLabel="Adicionar meta"
+          hrefButton="/metas/register"
+        >
+          <DeadlineInput
+            deadlineValue={deadlineFilterValue}
+            setDeadlineValue={setDeadlineFilterValue}
           />
-        </EmployeeProvider>
-        <StatusDropdown
-          setStatusValue={setStatusValue}
-          statusValue={statusValue}
-        ></StatusDropdown>
-      </FiltersList>
-      <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-        <DeadlineInput
-          deadlineValue={deadlineFilterValue}
-          setDeadlineValue={setDeadlineFilterValue}
-        />
-        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
-        <EmployeeProvider>
-          <EmployeeDropdown
-            setEmployeeValue={setStatusValue}
-            employeeValue={statusValue}
+          <SearchBar
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
           />
-        </EmployeeProvider>
-        <StatusDropdown
-          setStatusValue={setStatusValue}
-          statusValue={statusValue}
-        ></StatusDropdown>
-      </FilterMobileContainer>
-      <GoalList refetch={refetch} goalData={filteredGoals} />
-      <ListFooter status={["Batida", "Pendente", "Não batida"]} />
-    </div>
+          <EmployeeProvider>
+            <EmployeeDropdown
+              setEmployeeValue={setStatusValue}
+              employeeValue={statusValue}
+            />
+          </EmployeeProvider>
+          <StatusDropdown
+            setStatusValue={setStatusValue}
+            statusValue={statusValue}
+          ></StatusDropdown>
+        </FiltersList>
+        <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+          <DeadlineInput
+            deadlineValue={deadlineFilterValue}
+            setDeadlineValue={setDeadlineFilterValue}
+          />
+          <SearchBar
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+          <EmployeeProvider>
+            <EmployeeDropdown
+              setEmployeeValue={setStatusValue}
+              employeeValue={statusValue}
+            />
+          </EmployeeProvider>
+          <StatusDropdown
+            setStatusValue={setStatusValue}
+            statusValue={statusValue}
+          ></StatusDropdown>
+        </FilterMobileContainer>
+        <GoalList refetch={refetch} goalData={filteredGoals} />
+        <ListFooter status={["Batida", "Pendente", "Não batida"]} />
+      </main>
+    </>
   );
 };
 

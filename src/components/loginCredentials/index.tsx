@@ -6,16 +6,19 @@ import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { ClipLoader } from "react-spinners";
 
 const LoginCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginTries, setLoginTries] = useState(0);
   const [user_type, setUserType] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await api.post("/login", {
@@ -77,7 +80,9 @@ const LoginCredentials = () => {
           Credenciais inválidas. Verifique a senha, email e tipo de usuário
         </p>
       )}
-      <button type="submit">Entrar</button>
+      <button type="submit">
+        {isLoading && <ClipLoader color="#fff" size={15} />}Entrar
+      </button>
     </form>
   );
 };

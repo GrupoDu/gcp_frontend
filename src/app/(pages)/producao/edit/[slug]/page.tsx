@@ -18,7 +18,7 @@ const EditRegisterPage = async ({
   const { slug } = await params;
 
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Editar registro" />
       <main className="mainContainer">
         <h2>Editar registro de produção</h2>

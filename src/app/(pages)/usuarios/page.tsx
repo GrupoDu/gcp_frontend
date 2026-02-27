@@ -1,7 +1,6 @@
 import React from "react";
 // @ts-expect-error tipagem chata do ts
 import "../../globals.scss";
-import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { FaUserCog } from "react-icons/fa";
 import { UserProvider } from "@/providers/users.provider";
@@ -9,14 +8,11 @@ import UserListContainer from "@/components/lists/userList";
 
 const UsersPage = () => {
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader headerTitle="Usuários" HeaderIcon={FaUserCog} />
-      <main className="mainContainer">
-        <h2>Lista de usuários</h2>
-        <UserProvider>
-          <UserListContainer />
-        </UserProvider>
-      </main>
+      <UserProvider>
+        <UserListContainer />
+      </UserProvider>
     </div>
   );
 };

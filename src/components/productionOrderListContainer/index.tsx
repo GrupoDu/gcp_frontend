@@ -14,7 +14,10 @@ import { EmployeeProvider } from "@/providers/employee.provider";
 import ProductionOrderList from "../cardLists/productionOrderList";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import { IoFilter } from "react-icons/io5";
+import { ClipLoader } from "react-spinners";
 import FilterMobileContainer from "../filterMobileContainer";
+import { useLoading } from "@/hooks/useLoading";
+import Loading from "../ui/loading";
 
 const RegisterListContainer = () => {
   const [productValue, setProductValue] = useState("");
@@ -22,6 +25,7 @@ const RegisterListContainer = () => {
   const [employeeValue, setEmployeeValue] = useState("");
   const [deadlineValue, setDeadlineValue] = useState("");
   const [openFilterContainer, setOpenFilterContainer] = useState(false);
+  const { isLoading } = useLoading();
 
   const router = useRouter();
 
@@ -32,61 +36,66 @@ const RegisterListContainer = () => {
   }, [productValue, statusValue, employeeValue, deadlineValue, router]);
 
   return (
-    <ProductionOrderProvider>
-      <div className={styles.listContainer}>
-        <FiltersList
-          openFilterContainer={openFilterContainer}
-          openMobileFilters={setOpenFilterContainer}
-          buttonLabel="Nova ordem de produção"
-          hrefButton="/producao/register"
+    <>
+      {isLoading && <Loading />}
+      <ProductionOrderProvider>
+        <main
+          className={`${styles.listContainer} mainContainer ${isLoading && "loading"}`}
         >
-          <DeadlineInput
-            deadlineValue={deadlineValue}
-            setDeadlineValue={setDeadlineValue}
-          />
-          <ProductProvider>
-            <ProductsDropdown
-              productValue={productValue}
-              setProductValue={setProductValue}
+          <FiltersList
+            openFilterContainer={openFilterContainer}
+            openMobileFilters={setOpenFilterContainer}
+            buttonLabel="Nova ordem de produção"
+            hrefButton="/producao/register"
+          >
+            <DeadlineInput
+              deadlineValue={deadlineValue}
+              setDeadlineValue={setDeadlineValue}
             />
-          </ProductProvider>
-          <EmployeeProvider>
-            <EmployeeDropdown
-              employeeValue={employeeValue}
-              setEmployeeValue={setEmployeeValue}
+            <ProductProvider>
+              <ProductsDropdown
+                productValue={productValue}
+                setProductValue={setProductValue}
+              />
+            </ProductProvider>
+            <EmployeeProvider>
+              <EmployeeDropdown
+                employeeValue={employeeValue}
+                setEmployeeValue={setEmployeeValue}
+              />
+            </EmployeeProvider>
+            <StatusDropdown
+              statusValue={statusValue}
+              setStatusValue={setStatusValue}
             />
-          </EmployeeProvider>
-          <StatusDropdown
-            statusValue={statusValue}
-            setStatusValue={setStatusValue}
-          />
-        </FiltersList>
-        <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-          <DeadlineInput
-            deadlineValue={deadlineValue}
-            setDeadlineValue={setDeadlineValue}
-          />
-          <ProductProvider>
-            <ProductsDropdown
-              productValue={productValue}
-              setProductValue={setProductValue}
+          </FiltersList>
+          <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+            <DeadlineInput
+              deadlineValue={deadlineValue}
+              setDeadlineValue={setDeadlineValue}
             />
-          </ProductProvider>
-          <EmployeeProvider>
-            <EmployeeDropdown
-              employeeValue={employeeValue}
-              setEmployeeValue={setEmployeeValue}
+            <ProductProvider>
+              <ProductsDropdown
+                productValue={productValue}
+                setProductValue={setProductValue}
+              />
+            </ProductProvider>
+            <EmployeeProvider>
+              <EmployeeDropdown
+                employeeValue={employeeValue}
+                setEmployeeValue={setEmployeeValue}
+              />
+            </EmployeeProvider>
+            <StatusDropdown
+              statusValue={statusValue}
+              setStatusValue={setStatusValue}
             />
-          </EmployeeProvider>
-          <StatusDropdown
-            statusValue={statusValue}
-            setStatusValue={setStatusValue}
-          />
-        </FilterMobileContainer>
-        <ProductionOrderList />
-        <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
-      </div>
-    </ProductionOrderProvider>
+          </FilterMobileContainer>
+          <ProductionOrderList />
+          <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
+        </main>
+      </ProductionOrderProvider>
+    </>
   );
 };
 

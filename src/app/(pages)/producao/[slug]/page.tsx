@@ -15,7 +15,7 @@ async function ViewProductionOrderPage({
   const { slug } = await params;
 
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Registro" />
       <main className="mainContainer">
         <ProductionOrderInfos production_order_id={slug} />

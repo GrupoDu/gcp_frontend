@@ -9,7 +9,7 @@ import { SupervisorProvider } from "@/providers/supervisor.provider";
 
 const RegisterPage = () => {
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Novo registro" />
       <main className="mainContainer">
         <h2>Criar nova ordem de produção</h2>

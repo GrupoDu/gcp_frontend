@@ -1,31 +1,17 @@
 import PageHeader from "@/components/ui/pageHeader";
-import styles from "./page.module.scss";
 import { MdDashboard } from "react-icons/md";
-import { IoMdClipboard } from "react-icons/io";
-import ChartSection from "@/components/chartSection";
-import ProductionRegisterSection from "@/components/productionOrderSection";
-import { LuGoal } from "react-icons/lu";
-import GoalSection from "@/components/goalSection";
-import { GoalProvider } from "@/providers/goal.provider";
+// @ts-expect-error tipagem chata do ts
+import "../../globals.scss";
+import DashboardContainer from "@/components/dashboardContainer";
+import { LoadingProvider } from "@/providers/loading.provider";
 
 export default function DashboardPage() {
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer">
       <PageHeader HeaderIcon={MdDashboard} headerTitle="Dashboard" />
-      <main className={styles.mainContainer}>
-        <h2>Análises</h2>
-        <ChartSection />
-        <h2>
-          <IoMdClipboard /> Ordens de produção pendentes
-        </h2>
-        <ProductionRegisterSection />
-        <h2>
-          <LuGoal /> Metas
-        </h2>
-        <GoalProvider>
-          <GoalSection />
-        </GoalProvider>
-      </main>
+      <LoadingProvider>
+        <DashboardContainer />
+      </LoadingProvider>
     </div>
   );
 }
