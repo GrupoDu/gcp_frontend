@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Cria uma instancia do axios já com uma configuração padrão
 export const api = axios.create({
-  baseURL: "https://192.168.1.2:8001",
+  baseURL: "https://192.168.1.7:8001",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
