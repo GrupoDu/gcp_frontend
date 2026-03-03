@@ -26,16 +26,7 @@ export async function handleDelivery(
     `);
 
   try {
-    const responseUpdateRegister = await api.put(
-      `/${endpoint}`,
-      productionOrderBody,
-    );
-
-    const data = await responseUpdateRegister.data;
-    console.log("=== handleDeliveryProduction ===");
-    console.log("\n=== START DEBUG ===");
-    console.log("data: ", data);
-    console.log("=== END DEBUG ===");
+    await api.put(`/${endpoint}`, productionOrderBody);
 
     await employeeUpdateActivityQuantity(employeeUuid);
     await incrementEmployeeProducedQuantity(
