@@ -2,6 +2,7 @@ import { IconType } from "react-icons";
 import styles from "./styles.module.scss";
 import Link from "next/link";
 import React from "react";
+import { useLoading } from "@/hooks/useLoading";
 
 type LinkButtonProps = {
   Icon?: IconType;
@@ -20,9 +21,12 @@ const LinkButton = ({
   fullWidth,
   textAlign,
 }: LinkButtonProps) => {
+  const { setIsLoading } = useLoading();
+
   return (
     <Link
       href={href}
+      onClick={() => setIsLoading(true)}
       style={{
         backgroundColor: color,
         color: color === "black" ? "white" : "black",
