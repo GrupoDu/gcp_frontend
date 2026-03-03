@@ -2,8 +2,8 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:8002",
-  withCredentials: true, // ✅ ESSENCIAL - envia cookies em TODAS requisições
+  baseURL: "http://192.168.1.7:8001",
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
