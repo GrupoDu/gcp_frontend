@@ -57,7 +57,7 @@ const UserForm = ({
         await handleFormSubmit(
           e,
           method,
-          userInfosFields,
+          userInfosFields as unknown as Record<string, unknown>,
           endpoint,
           router,
           canEdit,

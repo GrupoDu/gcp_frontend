@@ -9,7 +9,7 @@ import { useProductionOrders } from "@/hooks/useProductionOrder";
 import { socket } from "@/socket";
 import { ProductionOrder } from "@/types/productionOrder.type";
 
-const RegisterList = () => {
+const ProductionOrderList = () => {
   const { allProductionOrders, refetch } = useProductionOrders();
   const searchParams = useSearchParams();
   const productFilter = searchParams.get("product");
@@ -71,4 +71,4 @@ const RegisterList = () => {
   );
 };
 
-export default RegisterList;
+export default ProductionOrderList;

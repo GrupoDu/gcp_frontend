@@ -10,9 +10,11 @@ import ListItem from "../userListItem";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/user.type";
+import FilterMobileContainer from "../filterMobileContainer";
 
 const UserListContainer = () => {
   const { usersData, refetch } = useUsers();
+  const [openFilterContainer, setOpenFilterContainer] = useState(false);
   const [userTypeFilter, setUserTypeFilter] = useState("");
   const [userListFiltered, setUserListFiltered] = useState<User[] | undefined>(
     [],
@@ -42,7 +44,12 @@ const UserListContainer = () => {
   return (
     <UserProvider>
       <div className={styles.userListContainer}>
-        <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register">
+        <FiltersList
+          openFilterContainer={openFilterContainer}
+          openMobileFilters={setOpenFilterContainer}
+          buttonLabel="Adicionar usuário"
+          hrefButton="/usuarios/register"
+        >
           <SearchBar
             searchValue={searchFilter}
             setSearchValue={setSearchFilter}
@@ -52,6 +59,16 @@ const UserListContainer = () => {
             userFilter={userTypeFilter}
           />
         </FiltersList>
+        <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+          <SearchBar
+            searchValue={searchFilter}
+            setSearchValue={setSearchFilter}
+          />
+          <UserTypeFilter
+            setUserFilter={setUserTypeFilter}
+            userFilter={userTypeFilter}
+          />
+        </FilterMobileContainer>
       </div>
       <ul className={styles.listContainer}>
         <div className={styles.listHeader}>
@@ -66,10 +83,7 @@ const UserListContainer = () => {
             <ListItem
               deleteButtonEndpoint={`/usuarios/${user.user_id}`}
               refetch={refetch}
-              user_name={user.name}
-              user_id={user.user_id}
-              user_email={user.email}
-              user_type={user.user_type}
+              userInfos={user}
             />
           </li>
         ))}

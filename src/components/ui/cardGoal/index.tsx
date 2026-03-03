@@ -6,6 +6,7 @@ import { dataFormater } from "@/utils/dataFormater";
 import DeleteButton from "@/components/deleteButton";
 import EditButton from "@/components/editButton";
 import DeliverButton from "../deliverButton";
+import { useState } from "react";
 
 type CardGoalProps = {
   title: string;
@@ -24,6 +25,7 @@ const CardGoal = ({
   goal_id,
   refetch,
 }: CardGoalProps) => {
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const statusIcon =
     status === "Batida" ? (
       <FaCheckCircle color="green" className={styles.iconStatus} />
@@ -50,11 +52,7 @@ const CardGoal = ({
       <p>{description ? description : "Sem descrição"}</p>
       {status === "Pendente" && (
         <div className={styles.deliverButtonContainer}>
-          <DeliverButton
-            bodyValues={{ goal_status: "Batido" }}
-            endpoint={`goals/${goal_id}`}
-            refetch={refetch}
-          >
+          <DeliverButton isProcessing={isProcessing}>
             Marcar como batida
           </DeliverButton>
         </div>

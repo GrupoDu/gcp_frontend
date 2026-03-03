@@ -8,7 +8,7 @@ import { ProductProvider } from "@/providers/products.provider";
 import EmployeeDropdown from "../employeeDropdown";
 import StatusDropdown from "../ui/statusDropdown";
 import ListFooter from "../listFooter";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import ProductionOrderList from "../cardLists/productionOrderList";
@@ -30,8 +30,6 @@ const RegisterListContainer = () => {
   const router = useRouter();
 
   useEffect(() => {
-    
-
     router.push(
       `/producao?product=${productValue}&status=${statusValue}&employee=${employeeValue}&deadline=${deadlineValue}`,
     );
@@ -93,7 +91,9 @@ const RegisterListContainer = () => {
               setStatusValue={setStatusValue}
             />
           </FilterMobileContainer>
-          <ProductionOrderList />
+          <Suspense fallback={<Loading />}>
+            <ProductionOrderList />
+          </Suspense>
           <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
         </main>
       </ProductionOrderProvider>
