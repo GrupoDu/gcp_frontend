@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-<<<<<<< HEAD
-// @ts-expect-error aaaaa
-=======
->>>>>>> 738bf1c (AAAAAAAAAAAA:)
 import "../globals.scss";
 import SidebarMenu from "@/components/sidebarMenu";
 import { ToastContainer } from "react-toastify";

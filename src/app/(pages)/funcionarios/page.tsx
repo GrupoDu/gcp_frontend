@@ -1,9 +1,5 @@
 import React from "react";
 import styles from "./page.module.scss";
-<<<<<<< HEAD
-// @ts-expect-error tipagem chata do ts
-=======
->>>>>>> 738bf1c (AAAAAAAAAAAA:)
 import "../../globals.scss";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import EmployeeListContainer from "@/components/lists/employeeList";
