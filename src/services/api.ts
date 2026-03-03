@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
-// Cria uma instancia do axios já com uma configuração padrão
 export const api = axios.create({
-  baseURL: "https://192.168.1.7:8001",
-  withCredentials: true,
+  baseURL: "http://localhost:8002",
+  withCredentials: true, // ✅ ESSENCIAL - envia cookies em TODAS requisições
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000,
+  timeout: 20000,
 });
 
 type FailedQueue = {
@@ -19,7 +18,7 @@ type FailedQueue = {
 let isRefreshing = false;
 let failedQueue: FailedQueue[] = [];
 
-const processQueue = (error = null) => {
+const processQueue = (error: Error | null = null) => {
   failedQueue.forEach((promise) => {
     if (error) {
       promise.reject(error);
@@ -27,63 +26,96 @@ const processQueue = (error = null) => {
       promise.resolve();
     }
   });
-
   failedQueue = [];
 };
 
-// interceptor de response
+// Interceptor de request - adiciona logs para debug (opcional)
+// api.interceptors.request.use(
+//   (config) => {
+//     console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`);
+//     return config;
+//   },
+//   (error) => Promise.reject(error),
+// );
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    const isUnauthorizedError = error.response?.status === 401;
-    const isExpiredToken = error.response?.data?.code === "TOKEN_EXPIRED";
-    const isTryingRefreshAgain = originalRequest._retry === true;
+    // Se não for erro 401, rejeita direto
+    if (error.response?.status !== 401) {
+      return Promise.reject(error);
+    }
 
-    if (!isUnauthorizedError) return Promise.reject(error);
-
-    if (!isExpiredToken) return Promise.reject(error);
-
-    if (isTryingRefreshAgain) {
+    // Se já tentou refresh e falhou, vai pro login
+    if (originalRequest._retry) {
       window.location.href = "/login";
       return Promise.reject(error);
     }
 
-    console.log("Token expirado. Tentando fazer refresh...");
+    // Verifica se é erro de token expirado (pode ter outras causas de 401)
+    const isExpiredToken = error.response?.data?.code === "TOKEN_EXPIRED";
 
-    if (isRefreshing) {
-      return new Promise((resolve, reject) =>
-        failedQueue.push({ resolve, reject }),
-      )
-        .then(() => api(originalRequest))
-        .catch((err) => Promise.reject(err));
+    // Se não for token expirado (ex: usuário não autenticado), vai pro login
+    if (!isExpiredToken) {
+      window.location.href = "/login";
+      return Promise.reject(error);
     }
 
+    // Se já está fazendo refresh, coloca na fila
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      })
+        .then(() => {
+          console.log("✅ Requisição da fila processada");
+          return api(originalRequest);
+        })
+        .catch((err) => {
+          console.log("❌ Requisição da fila falhou");
+          return Promise.reject(err);
+        });
+    }
+
+    // Marca que vai tentar refresh
     originalRequest._retry = true;
     isRefreshing = true;
 
     try {
-      console.log("\n=== DEBUG ===");
-      console.log("Chamando refresh...");
-      await api.post("/login/refresh");
+      // ✅ IMPORTANTE: Usar uma NOVA instância ou garantir comCredentials
+      const refreshResponse = await axios.post(
+        "http://localhost:8002/login/refresh",
+        {},
+        {
+          withCredentials: true, // ✅ ESSENCIAL
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
-      console.log("\n=== DEBUG ===");
-      console.log("Token renovado com sucesso.");
+      // Se o servidor retornou um novo token no body (opcional)
+      if (refreshResponse.data?.token) {
+        // Se você usa token no header além do cookie, atualiza aqui
+        // api.defaults.headers.common['Authorization'] = `Bearer ${refreshResponse.data.token}`;
+      }
 
+      // Processa a fila com sucesso
       processQueue();
 
+      // Tenta a requisição original novamente
       return api(originalRequest);
-    } catch (err) {
-      console.log("\n=== DEBUG ===");
-      console.log("Falha no refresh: ", err);
+    } catch (refreshError: any) {
+      // Processa a fila com erro
+      processQueue(refreshError as Error);
 
-      processQueue(err as null);
-
+      // Se o refresh falhou (ex: refresh token expirado), vai pro login
       window.location.href = "/login";
 
-      return Promise.reject(err);
+      return Promise.reject(refreshError);
     } finally {
+      console.log("🏁 Refresh finalizado");
       isRefreshing = false;
     }
   },

@@ -13,11 +13,11 @@ import { useRouter } from "next/navigation";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import ProductionOrderList from "../cardLists/productionOrderList";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
-import { IoFilter } from "react-icons/io5";
-import { ClipLoader } from "react-spinners";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
+import { socket } from "@/socket";
+import { toast } from "react-toastify";
 
 const RegisterListContainer = () => {
   const [productValue, setProductValue] = useState("");
@@ -30,6 +30,8 @@ const RegisterListContainer = () => {
   const router = useRouter();
 
   useEffect(() => {
+    
+
     router.push(
       `/producao?product=${productValue}&status=${statusValue}&employee=${employeeValue}&deadline=${deadlineValue}`,
     );

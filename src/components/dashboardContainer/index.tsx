@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ChartSection from "../chartSection";
 import { IoMdClipboard } from "react-icons/io";
 import { GoalProvider } from "@/providers/goal.provider";
