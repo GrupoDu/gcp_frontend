@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://192.168.1.2:8003",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://192.168.1.2:8003",
   withCredentials: true, // ✅ ESSENCIAL - envia cookies em TODAS requisições
   headers: {
     "Content-Type": "application/json",
