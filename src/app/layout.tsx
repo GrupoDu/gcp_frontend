@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-// @ts-expect-error aviso chato de tipagem do ts
 import "./globals.scss";
 
 const roboto = Roboto({

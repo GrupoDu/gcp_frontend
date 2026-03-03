@@ -2,7 +2,10 @@ import React from "react";
 import styles from "../../register/page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
+<<<<<<< HEAD
 // @ts-expect-error tipagem chata do ts
+=======
+>>>>>>> 738bf1c (AAAAAAAAAAAA:)
 import "../../../../globals.scss";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import ProductionOrderForm from "@/components/forms/productionOrderForm";
