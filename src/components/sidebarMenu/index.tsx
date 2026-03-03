@@ -21,7 +21,6 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import { debugLogger } from "@/utils/logger";
-import { useLoading } from "@/hooks/useLoading";
 import { ClipLoader } from "react-spinners";
 
 const SidebarMenu = () => {
@@ -30,7 +29,7 @@ const SidebarMenu = () => {
   const [user_type, setUserType] = useState("");
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [isSidebarLoading, setIsSidebarLoading] = useState(true);
-  const { isLoading, setIsLoading } = useLoading();
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -123,6 +122,7 @@ const SidebarMenu = () => {
       await api.post("/login/logout");
 
       window.location.href = "/login";
+      setIsLoading(false);
     } catch (err) {
       const error = err as Error;
       console.log(error.message);

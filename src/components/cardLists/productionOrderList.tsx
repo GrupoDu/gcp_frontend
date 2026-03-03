@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./styles.module.scss";
 import CardProductionOrder from "../ui/cardProductionOrder";
 import { dataFormater } from "@/utils/dataFormater";
 import { useSearchParams } from "next/navigation";
 import { useProductionOrders } from "@/hooks/useProductionOrder";
+import { socket } from "@/socket";
+import { ProductionOrder } from "@/types/productionOrder.type";
 
 const RegisterList = () => {
   const { allProductionOrders, refetch } = useProductionOrders();
@@ -13,27 +15,43 @@ const RegisterList = () => {
   const productFilter = searchParams.get("product");
   const statusFilter = searchParams.get("status");
   const deadlineFilter = searchParams.get("deadline");
+  const [filteredList, setFilteredList] = useState<
+    ProductionOrder[] | undefined
+  >([]);
   const employeeFilter = searchParams.get("employee");
 
-  const filteredList = useMemo(() => {
-    return allProductionOrders?.filter(
-      (order) =>
-        (productFilter ? order.product_uuid === productFilter : true) &&
-        (statusFilter
-          ? order.production_order_status === statusFilter
-          : true) &&
-        (deadlineFilter
-          ? order.production_order_deadline === deadlineFilter
-          : true) &&
-        (employeeFilter ? order.employee_uuid === employeeFilter : true),
+  useEffect(() => {
+    socket.on("productionOrder", (data) => {
+      console.log(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFilteredList(
+      allProductionOrders?.filter(
+        (order) =>
+          (productFilter ? order.product_uuid === productFilter : true) &&
+          (statusFilter
+            ? order.production_order_status === statusFilter
+            : true) &&
+          (deadlineFilter
+            ? order.production_order_deadline === deadlineFilter
+            : true) &&
+          (employeeFilter ? order.employee_uuid === employeeFilter : true),
+      ),
     );
-  }, [
-    allProductionOrders,
-    productFilter,
-    statusFilter,
-    deadlineFilter,
-    employeeFilter,
-  ]);
+  }, [allProductionOrders, productFilter, statusFilter, deadlineFilter]);
+
+  useEffect(() => {
+    socket.on("productionOrderNotify", (data) => {
+      setFilteredList((prev) => [...(prev || []), data]);
+    });
+
+    return () => {
+      socket.off("productionOrderNotify");
+    };
+  }, [filteredList]);
 
   return (
     <ul className={styles.cardListContainer}>

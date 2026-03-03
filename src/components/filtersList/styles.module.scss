@@ -1,5 +1,7 @@
 @use "@/styles/_colors.scss";
 
+
+
 .filtersListContainer {
   background-color: #ffffff;
   border: colors.$borderDefault;
@@ -46,6 +48,35 @@
       border-radius: 0.4rem;
       color: white;
       cursor: pointer;
+    }
+  }
+
+  .reloadButton {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    box-sizing: border-box;
+    height: 100%;
+    width: 8%;
+    gap: 0.4rem;
+
+    button {
+      padding: 0.4rem;
+      box-sizing: border-box;
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      border: colors.$borderDefault;
+      border-radius: 0.4rem;
+      cursor: pointer;
+
+      .reloadIcon {
+        object-fit: contain;
+        width: 1.2rem;
+        height: fit-content;
+      }
     }
   }
 
