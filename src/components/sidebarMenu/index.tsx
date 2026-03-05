@@ -117,11 +117,13 @@ const SidebarMenu = () => {
       await api.post("/login/logout");
 
       window.location.href = "/login";
-      setIsLoading(false);
     } catch (err) {
       const error = err as Error;
       console.log(error.message);
-      toast.error("Não foi possível finalizar sessão.");
+      toast.error("Houve um problema ao finalizar sessão.");
+    } finally {
+      window.location.href = "/login";
+      setIsLoading(false);
     }
   }
 
