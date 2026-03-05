@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:8002", {
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const socket = io(API_URL, {
   transports: ["websocket", "polling"],
   withCredentials: true,
   timeout: 20000,
