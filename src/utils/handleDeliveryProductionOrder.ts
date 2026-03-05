@@ -24,7 +24,9 @@ export async function handleDelivery(
       employeeUuid,
       incrementEmployeeUpdateBody,
     );
-    await incrementDeliveredProductionOrderAnalysis();
+    await incrementDeliveredProductionOrderAnalysis(
+      productionOrderBody.product_quantity as number,
+    );
 
     if (redirectHref && router) {
       router.push(redirectHref);
@@ -61,9 +63,13 @@ async function incrementEmployeeProducedQuantity(
   }
 }
 
-async function incrementDeliveredProductionOrderAnalysis() {
+async function incrementDeliveredProductionOrderAnalysis(
+  deliveredQuantity: number,
+) {
   try {
-    await api.put(`/anualAnalysis/updateAnalysis`);
+    await api.put(`/anualAnalysis/updateAnalysis`, {
+      deliveredQuantity,
+    });
   } catch (err) {
     return toast.error((err as Error).message);
   }
