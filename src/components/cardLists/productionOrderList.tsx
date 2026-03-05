@@ -21,12 +21,6 @@ const ProductionOrderList = () => {
   const employeeFilter = searchParams.get("employee");
 
   useEffect(() => {
-    socket.on("productionOrder", (data) => {
-      console.log(data);
-    });
-  }, []);
-
-  useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilteredList(
       allProductionOrders?.filter(
