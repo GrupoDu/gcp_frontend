@@ -29,15 +29,6 @@ const processQueue = (error: Error | null = null) => {
   failedQueue = [];
 };
 
-// Interceptor de request - adiciona logs para debug (opcional)
-// api.interceptors.request.use(
-//   (config) => {
-//     console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`);
-//     return config;
-//   },
-//   (error) => Promise.reject(error),
-// );
-
 api.interceptors.response.use(
   (response) => response,
   async (error) => {

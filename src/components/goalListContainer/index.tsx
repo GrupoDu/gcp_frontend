@@ -14,7 +14,6 @@ import ListFooter from "../listFooter";
 import { useRouter } from "next/navigation";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
-import { debugLogger } from "@/utils/logger";
 import Loading from "../ui/loading";
 
 const GoalListContainer = () => {
@@ -46,10 +45,6 @@ const GoalListContainer = () => {
       ),
     [goalsData, searchValue, statusValue, deadlineFilterValue],
   );
-  debugLogger(`
-    ||> GoalListContainer <||
-    isLoading: ${isLoading}
-    `);
 
   return (
     <>

@@ -12,7 +12,6 @@ import { Product } from "@/types/product.type";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
 import { useSupervisor } from "@/hooks/useSupervisors";
-import { debugLogger } from "@/utils/logger";
 
 const ProductionOrderForm = ({
   isEdit,
@@ -145,13 +144,6 @@ const ProductionOrderForm = ({
     delivered_at: null,
     product_uuid: fetchedRegisterProduct?.uuid || "",
   };
-
-  debugLogger(`
-    ||> productionOrderForm <||
-    formatedUpdatedTitle: ${formattedUpdatedTitle}
-    ----------------------------------------------
-    productionOrderBodyValues: ${productionOrderBodyValues} 
-    `);
 
   return (
     <form

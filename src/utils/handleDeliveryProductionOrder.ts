@@ -1,7 +1,6 @@
 import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
-import { debugLogger } from "./logger";
 
 export async function handleDelivery(
   e: React.FormEvent<HTMLFormElement>,
@@ -16,14 +15,6 @@ export async function handleDelivery(
 ) {
   e.preventDefault();
   isProcessing(true);
-
-  debugLogger(`
-    body values: ${productionOrderBody} 
-    -----------------------------------
-    produced quantity: ${incrementEmployeeUpdateBody}
-    -----------------------------------
-    employee uuid: ${employeeUuid}
-    `);
 
   try {
     await api.put(`/${endpoint}`, productionOrderBody);

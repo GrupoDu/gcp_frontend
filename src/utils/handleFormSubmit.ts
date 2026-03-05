@@ -1,7 +1,6 @@
 import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
-import { debugLogger } from "./logger";
 
 export async function handleFormSubmit(
   e: React.FormEvent<HTMLFormElement>,
@@ -43,16 +42,6 @@ export async function handleFormSubmit(
     if (method === "PUT") {
       await api.put(`/${endpoint}`, bodyValues);
     }
-
-    debugLogger(`
-    ||> handleFormSubmit <||
-    body values: ${bodyValues} 
-    -----------------------------------
-    method: ${method}
-    -----------------------------------
-    endpoint: ${endpoint}
-    -----------------------------------
-    `);
 
     router?.back();
     return toast.success("Operação realizada com sucesso!");

@@ -20,7 +20,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
-import { debugLogger } from "@/utils/logger";
 import { ClipLoader } from "react-spinners";
 
 const SidebarMenu = () => {
@@ -39,10 +38,6 @@ const SidebarMenu = () => {
 
         if (response) {
           const data = await response.data;
-          debugLogger(`
-            ||> SidebarMenu <||
-            Tipo de usuário: ${data.user_type}
-            `);
           setUserType(data.user_type);
         } else {
           router.push("/login");
