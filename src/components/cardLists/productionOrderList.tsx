@@ -45,7 +45,7 @@ const ProductionOrderList = () => {
     return () => {
       socket.off("productionOrderNotify");
     };
-  }, [filteredList]);
+  });
 
   return (
     <ul className={styles.cardListContainer}>
