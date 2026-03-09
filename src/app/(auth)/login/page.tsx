@@ -1,6 +1,6 @@
 import styles from "./page.module.scss";
 import Image from "next/image";
-import GrupoduImage from "../../assets/grupodu_new_logo.png";
+import GrupoduImage from "../../../assets/grupodu_new_logo.png";
 import LoginCredentials from "@/components/loginCredentials";
 
 const LoginPage = () => {
