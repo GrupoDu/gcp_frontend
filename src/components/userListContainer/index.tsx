@@ -16,9 +16,7 @@ const UserListContainer = () => {
   const { usersData, refetch } = useUsers();
   const [openFilterContainer, setOpenFilterContainer] = useState(false);
   const [userTypeFilter, setUserTypeFilter] = useState("");
-  const [userListFiltered, setUserListFiltered] = useState<User[] | undefined>(
-    [],
-  );
+  const [userListFiltered, setUserListFiltered] = useState<User[] | undefined>([]);
   const [searchFilter, setSearchFilter] = useState("");
   const router = useRouter();
 
@@ -33,10 +31,7 @@ const UserListContainer = () => {
       usersData?.filter(
         (user) =>
           (userTypeFilter ? user.user_type === userTypeFilter : true) &&
-          (searchFilter
-            ? user.email.includes(searchFilter) ||
-              user.name.includes(searchFilter)
-            : true),
+          (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
       ),
     );
   }, [router, userTypeFilter, searchFilter, usersData]);
@@ -50,24 +45,12 @@ const UserListContainer = () => {
           buttonLabel="Adicionar usuário"
           hrefButton="/usuarios/register"
         >
-          <SearchBar
-            searchValue={searchFilter}
-            setSearchValue={setSearchFilter}
-          />
-          <UserTypeFilter
-            setUserFilter={setUserTypeFilter}
-            userFilter={userTypeFilter}
-          />
+          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
+          <UserTypeFilter setUserFilter={setUserTypeFilter} userFilter={userTypeFilter} />
         </FiltersList>
         <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-          <SearchBar
-            searchValue={searchFilter}
-            setSearchValue={setSearchFilter}
-          />
-          <UserTypeFilter
-            setUserFilter={setUserTypeFilter}
-            userFilter={userTypeFilter}
-          />
+          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
+          <UserTypeFilter setUserFilter={setUserTypeFilter} userFilter={userTypeFilter} />
         </FilterMobileContainer>
       </div>
       <ul className={styles.listContainer}>
@@ -80,11 +63,7 @@ const UserListContainer = () => {
         </div>
         {userListFiltered?.map((user) => (
           <li key={user.user_id}>
-            <ListItem
-              deleteButtonEndpoint={`/usuarios/${user.user_id}`}
-              refetch={refetch}
-              userInfos={user}
-            />
+            <ListItem deleteButtonEndpoint={`/usuarios/${user.user_id}`} refetch={refetch} userInfos={user} />
           </li>
         ))}
       </ul>

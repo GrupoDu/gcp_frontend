@@ -26,22 +26,16 @@ const GoalListContainer = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push(
-      `/metas?search=${searchValue}&status=${statusValue}&deadline=${deadlineFilterValue}`,
-    );
+    router.push(`/metas?search=${searchValue}&status=${statusValue}&deadline=${deadlineFilterValue}`);
   }, [searchValue, statusValue, deadlineFilterValue, router]);
 
   const filteredGoals = useMemo(
     () =>
       goalsData?.filter(
         (goal) =>
-          (searchValue
-            ? goal.goal_title.toLowerCase().includes(searchValue.toLowerCase())
-            : true) &&
+          (searchValue ? goal.goal_title.toLowerCase().includes(searchValue.toLowerCase()) : true) &&
           (statusValue ? goal.goal_status === statusValue : true) &&
-          (deadlineFilterValue
-            ? goal.goal_deadline.toString().includes(deadlineFilterValue)
-            : true),
+          (deadlineFilterValue ? goal.goal_deadline.toString().includes(deadlineFilterValue) : true),
       ),
     [goalsData, searchValue, statusValue, deadlineFilterValue],
   );
@@ -49,9 +43,7 @@ const GoalListContainer = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <main
-        className={`${styles.goalListContainer} mainContainer ${isLoading && "loading"}`}
-      >
+      <main className={`${styles.goalListContainer} mainContainer ${isLoading && "loading"}`}>
         <h2>Lista da Metas</h2>
         <FiltersList
           openFilterContainer={openFilterContainer}
@@ -59,44 +51,20 @@ const GoalListContainer = () => {
           buttonLabel="Adicionar meta"
           hrefButton="/metas/register"
         >
-          <DeadlineInput
-            deadlineValue={deadlineFilterValue}
-            setDeadlineValue={setDeadlineFilterValue}
-          />
-          <SearchBar
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
+          <DeadlineInput deadlineValue={deadlineFilterValue} setDeadlineValue={setDeadlineFilterValue} />
+          <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
           <EmployeeProvider>
-            <EmployeeDropdown
-              setEmployeeValue={setStatusValue}
-              employeeValue={statusValue}
-            />
+            <EmployeeDropdown setEmployeeValue={setStatusValue} employeeValue={statusValue} />
           </EmployeeProvider>
-          <StatusDropdown
-            setStatusValue={setStatusValue}
-            statusValue={statusValue}
-          ></StatusDropdown>
+          <StatusDropdown setStatusValue={setStatusValue} statusValue={statusValue}></StatusDropdown>
         </FiltersList>
         <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-          <DeadlineInput
-            deadlineValue={deadlineFilterValue}
-            setDeadlineValue={setDeadlineFilterValue}
-          />
-          <SearchBar
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
+          <DeadlineInput deadlineValue={deadlineFilterValue} setDeadlineValue={setDeadlineFilterValue} />
+          <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
           <EmployeeProvider>
-            <EmployeeDropdown
-              setEmployeeValue={setStatusValue}
-              employeeValue={statusValue}
-            />
+            <EmployeeDropdown setEmployeeValue={setStatusValue} employeeValue={statusValue} />
           </EmployeeProvider>
-          <StatusDropdown
-            setStatusValue={setStatusValue}
-            statusValue={statusValue}
-          ></StatusDropdown>
+          <StatusDropdown setStatusValue={setStatusValue} statusValue={statusValue}></StatusDropdown>
         </FilterMobileContainer>
         <GoalList refetch={refetch} goalData={filteredGoals} />
         <ListFooter status={["Batida", "Pendente", "Não batida"]} />

@@ -6,15 +6,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
 
-const DeleteButton = ({
-  uuid,
-  refetch,
-  endpoint,
-}: {
-  uuid: string;
-  refetch?: () => void;
-  endpoint: string;
-}) => {
+const DeleteButton = ({ uuid, refetch, endpoint }: { uuid: string; refetch?: () => void; endpoint: string }) => {
   async function handleDelete(uuid: string) {
     try {
       await api.delete(`${endpoint}/${uuid}`);
@@ -30,11 +22,7 @@ const DeleteButton = ({
   }
 
   return (
-    <button
-      onClick={() => handleDelete(uuid)}
-      type="button"
-      className={styles.deleteButton}
-    >
+    <button onClick={() => handleDelete(uuid)} type="button" className={styles.deleteButton}>
       <MdOutlineDelete className={styles.buttonIcon} />
     </button>
   );

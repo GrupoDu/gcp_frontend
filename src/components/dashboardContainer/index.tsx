@@ -16,10 +16,7 @@ const DashboardContainer = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <main
-        style={{ gap: "1rem" }}
-        className={`mainContainer ${isLoading && "loading"}`}
-      >
+      <main style={{ gap: "1rem" }} className={`mainContainer ${isLoading && "loading"}`}>
         <h2>Análises</h2>
         <ChartSection />
         <h2>

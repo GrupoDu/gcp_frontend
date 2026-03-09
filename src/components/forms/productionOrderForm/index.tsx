@@ -13,64 +13,42 @@ import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
 import { useSupervisor } from "@/hooks/useSupervisors";
 
-const ProductionOrderForm = ({
-  isEdit,
-  productionOrderId,
-}: {
-  isEdit: boolean;
-  productionOrderId?: string;
-}) => {
+const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; productionOrderId?: string }) => {
   const { allProductionOrders } = useProductionOrders();
   const { supervisorsData } = useSupervisor();
   const [canEdit, setCanEdit] = useState(false);
-  const [fetchedProductionOrder, setFetchedProductionOrder] = useState<
-    ProductionOrder | undefined
-  >();
+  const [fetchedProductionOrder, setFetchedProductionOrder] = useState<ProductionOrder | undefined>();
   const { productsData } = useProducts();
   const router = useRouter();
   const { welders, assistants } = useEmployeeType();
-  const [fetchedRegisterProduct, setFetchedRegisterProduct] = useState<
-    Product | undefined
-  >();
-  const [productionOrderValues, setProductionOrderValues] =
-    useState<ProductionOrder>({
-      client_uuid: "",
-      product_uuid: "",
-      employee_uuid: null,
-      cut_assistant: null,
-      fold_assistant: null,
-      finishing_assistant: null,
-      paint_assistant: null,
-      product_quantity: 0,
-      production_order_deadline: "",
-      production_order_title: "",
-      production_order_description: "",
-      production_order_status: "Pendente",
-      delivered_at: null,
-      delivery_observation: "",
-    });
+  const [fetchedRegisterProduct, setFetchedRegisterProduct] = useState<Product | undefined>();
+  const [productionOrderValues, setProductionOrderValues] = useState<ProductionOrder>({
+    client_uuid: "",
+    product_uuid: "",
+    employee_uuid: null,
+    cut_assistant: null,
+    fold_assistant: null,
+    finishing_assistant: null,
+    paint_assistant: null,
+    product_quantity: 0,
+    production_order_deadline: "",
+    production_order_title: "",
+    production_order_description: "",
+    production_order_status: "Pendente",
+    delivered_at: null,
+    delivery_observation: "",
+  });
 
   useEffect(() => {
     if (isEdit) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFetchedProductionOrder(
-        allProductionOrders?.find(
-          (order) => order.production_order_id === productionOrderId,
-        ),
-      );
+      setFetchedProductionOrder(allProductionOrders?.find((order) => order.production_order_id === productionOrderId));
 
-      const formattedDeadline =
-        fetchedProductionOrder?.production_order_deadline
-          ? new Date(
-              fetchedProductionOrder.production_order_deadline,
-            ).toISOString()
-          : "";
+      const formattedDeadline = fetchedProductionOrder?.production_order_deadline
+        ? new Date(fetchedProductionOrder.production_order_deadline).toISOString()
+        : "";
 
-      setFetchedRegisterProduct(
-        productsData?.find(
-          (product) => product.uuid === fetchedProductionOrder?.product_uuid,
-        ),
-      );
+      setFetchedRegisterProduct(productsData?.find((product) => product.uuid === fetchedProductionOrder?.product_uuid));
 
       setProductionOrderValues({
         client_uuid: fetchedProductionOrder?.client_uuid || "",
@@ -78,37 +56,24 @@ const ProductionOrderForm = ({
         employee_uuid: fetchedProductionOrder?.employee_uuid || null,
         cut_assistant: fetchedProductionOrder?.cut_assistant || null,
         fold_assistant: fetchedProductionOrder?.fold_assistant || null,
-        finishing_assistant:
-          fetchedProductionOrder?.finishing_assistant || null,
+        finishing_assistant: fetchedProductionOrder?.finishing_assistant || null,
         paint_assistant: fetchedProductionOrder?.paint_assistant || null,
         product_quantity: fetchedProductionOrder?.product_quantity || 0,
         production_order_deadline: formattedDeadline,
-        production_order_title:
-          fetchedProductionOrder?.production_order_title || "",
-        production_order_description:
-          fetchedProductionOrder?.production_order_description || "",
-        production_order_status:
-          fetchedProductionOrder?.production_order_status || "",
+        production_order_title: fetchedProductionOrder?.production_order_title || "",
+        production_order_description: fetchedProductionOrder?.production_order_description || "",
+        production_order_status: fetchedProductionOrder?.production_order_status || "",
         delivered_at: fetchedProductionOrder?.delivered_at || null,
-        delivery_observation:
-          fetchedProductionOrder?.delivery_observation || "",
+        delivery_observation: fetchedProductionOrder?.delivery_observation || "",
         production_order_id: fetchedProductionOrder?.production_order_id || "",
       });
-      setCanEdit(
-        fetchedProductionOrder?.production_order_status === "Pendente",
-      );
+      setCanEdit(fetchedProductionOrder?.production_order_status === "Pendente");
 
       console.log(isEdit);
     } else {
       setCanEdit(true);
     }
-  }, [
-    isEdit,
-    productionOrderId,
-    allProductionOrders,
-    productsData,
-    fetchedProductionOrder,
-  ]);
+  }, [isEdit, productionOrderId, allProductionOrders, productsData, fetchedProductionOrder]);
 
   const handleFormattedTitle = useMemo(() => {
     const isFieldsFilled =
@@ -123,9 +88,7 @@ const ProductionOrderForm = ({
   }, [productionOrderValues.product_quantity, fetchedRegisterProduct]);
 
   async function handleProductChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    setFetchedRegisterProduct(
-      productsData?.find((product) => product.uuid === e.target.value),
-    );
+    setFetchedRegisterProduct(productsData?.find((product) => product.uuid === e.target.value));
 
     setProductionOrderValues({
       ...productionOrderValues,
@@ -133,9 +96,7 @@ const ProductionOrderForm = ({
     });
   }
 
-  const endpoint = isEdit
-    ? `productionOrder/${productionOrderId}`
-    : "productionOrder";
+  const endpoint = isEdit ? `productionOrder/${productionOrderId}` : "productionOrder";
   const method = isEdit ? "PUT" : "POST";
   const formattedUpdatedTitle = handleFormattedTitle;
   const productionOrderBodyValues = {
@@ -147,16 +108,7 @@ const ProductionOrderForm = ({
 
   return (
     <form
-      onSubmit={(e) =>
-        handleFormSubmit(
-          e,
-          method,
-          productionOrderBodyValues,
-          endpoint,
-          router,
-          canEdit,
-        )
-      }
+      onSubmit={(e) => handleFormSubmit(e, method, productionOrderBodyValues, endpoint, router, canEdit)}
       className={styles.registerForm}
     >
       <div className={styles.registerContent}>
@@ -166,14 +118,10 @@ const ProductionOrderForm = ({
             onChange={(e) =>
               setProductionOrderValues({
                 ...productionOrderValues,
-                production_order_deadline: new Date(
-                  e.target.value,
-                ).toISOString(),
+                production_order_deadline: new Date(e.target.value).toISOString(),
               })
             }
-            value={
-              productionOrderValues.production_order_deadline.split("T")[0]
-            }
+            value={productionOrderValues.production_order_deadline.split("T")[0]}
             type="date"
             required
             name="deliver-date"
@@ -377,9 +325,7 @@ const ProductionOrderForm = ({
         <LinkButton color="black" href="/producao">
           Cancelar
         </LinkButton>
-        <SubmitButton canEdit={canEdit}>
-          {isEdit ? "Salvar" : "Criar"}
-        </SubmitButton>
+        <SubmitButton canEdit={canEdit}>{isEdit ? "Salvar" : "Criar"}</SubmitButton>
       </div>
     </form>
   );

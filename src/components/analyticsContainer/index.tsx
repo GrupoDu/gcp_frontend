@@ -21,9 +21,7 @@ const AnalysticsContainer = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <main
-        className={`${styles.analyticsContainer} mainContainer ${isLoading && "loading"} `}
-      >
+      <main className={`${styles.analyticsContainer} mainContainer ${isLoading && "loading"} `}>
         <div className={styles.lineChart}>
           <AnualAnalysisProvider>
             <LineChartContainer />

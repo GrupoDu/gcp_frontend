@@ -9,11 +9,7 @@ import { ProductProvider } from "@/providers/products.provider";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import { SupervisorProvider } from "@/providers/supervisor.provider";
 
-const EditRegisterPage = async ({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) => {
+const EditRegisterPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
 
   return (

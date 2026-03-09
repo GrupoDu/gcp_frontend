@@ -43,11 +43,7 @@ const LoginCredentials = () => {
     <form onSubmit={(e) => handleLogin(e)} className={styles.loginCredentials}>
       <label>
         <span>Tipo de usuário</span>
-        <select
-          value={user_type}
-          onChange={(e) => setUserType(e.target.value)}
-          name="user-type-input"
-        >
+        <select value={user_type} onChange={(e) => setUserType(e.target.value)} name="user-type-input">
           <option value="">Selecionar tipo</option>
           <option value="admin">Admin</option>
           <option value="supervisor">Supervisor</option>
@@ -78,22 +74,14 @@ const LoginCredentials = () => {
         />
       </label>
       {loginTries > 0 && (
-        <p className={styles.loginError}>
-          Credenciais inválidas. Verifique a senha, email e tipo de usuário
-        </p>
+        <p className={styles.loginError}>Credenciais inválidas. Verifique a senha, email e tipo de usuário</p>
       )}
-      <button type="submit">
-        {isLoading && <ClipLoader color="#fff" size={15} />}Entrar
-      </button>
+      <button type="submit">{isLoading && <ClipLoader color="#fff" size={15} />}Entrar</button>
     </form>
   );
 };
 
-function redirectByUserType(
-  user_type: string,
-  router: AppRouterInstance,
-  setUserType: (value: string) => void,
-) {
+function redirectByUserType(user_type: string, router: AppRouterInstance, setUserType: (value: string) => void) {
   const isAdmin = user_type === "admin";
   const isSupervisor = user_type === "supervisor";
 

@@ -9,6 +9,4 @@ type ProductContextValues = {
   status: string | undefined;
 };
 
-export const ProductContext = createContext<ProductContextValues | undefined>(
-  undefined,
-);
+export const ProductContext = createContext<ProductContextValues | undefined>(undefined);

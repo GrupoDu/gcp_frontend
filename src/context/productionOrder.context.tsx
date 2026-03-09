@@ -10,6 +10,4 @@ type ProductionOrderContextValues = {
   refetch: () => void;
 };
 
-export const ProductionOrderContext = createContext<
-  ProductionOrderContextValues | undefined
->(undefined);
+export const ProductionOrderContext = createContext<ProductionOrderContextValues | undefined>(undefined);

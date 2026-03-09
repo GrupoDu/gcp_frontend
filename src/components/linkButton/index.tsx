@@ -13,14 +13,7 @@ type LinkButtonProps = {
   textAlign?: "center" | "flex-start";
 };
 
-const LinkButton = ({
-  href,
-  children,
-  Icon,
-  color,
-  fullWidth,
-  textAlign,
-}: LinkButtonProps) => {
+const LinkButton = ({ href, children, Icon, color, fullWidth, textAlign }: LinkButtonProps) => {
   const { setIsLoading } = useLoading();
 
   return (

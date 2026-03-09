@@ -13,12 +13,7 @@ const EmployeeDropdown = ({
   const { welders } = useEmployeeType();
 
   return (
-    <FilterDropdownBase
-      value={employeeValue}
-      setValue={setEmployeeValue}
-      label="aaaaa"
-      placeholder="Soldador"
-    >
+    <FilterDropdownBase value={employeeValue} setValue={setEmployeeValue} label="aaaaa" placeholder="Soldador">
       <option value="">Todos</option>
       {welders?.map((welder) => (
         <option key={welder.employee_id} value={welder.employee_id}>

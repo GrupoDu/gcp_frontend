@@ -9,13 +9,7 @@ import { useEmployees } from "@/hooks/useEmployees";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
 
-const EmployeeForm = ({
-  isEdit,
-  employee_id,
-}: {
-  isEdit: boolean;
-  employee_id?: string;
-}) => {
+const EmployeeForm = ({ isEdit, employee_id }: { isEdit: boolean; employee_id?: string }) => {
   const { employeesData } = useEmployees();
   const router = useRouter();
   const [canEdit, setCanEdit] = useState(false);
@@ -26,9 +20,7 @@ const EmployeeForm = ({
 
   useEffect(() => {
     if (isEdit) {
-      const fetchedEmployee = employeesData?.find(
-        (employee) => employee.employee_id === employee_id,
-      );
+      const fetchedEmployee = employeesData?.find((employee) => employee.employee_id === employee_id);
 
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEmployeeValues({
@@ -45,9 +37,7 @@ const EmployeeForm = ({
 
   return (
     <form
-      onSubmit={(e) =>
-        handleFormSubmit(e, method, employeeValues, endpoint, router, canEdit)
-      }
+      onSubmit={(e) => handleFormSubmit(e, method, employeeValues, endpoint, router, canEdit)}
       className={styles.registerEmployeeForm}
     >
       <label>
@@ -55,9 +45,7 @@ const EmployeeForm = ({
         <input
           type="text"
           required
-          onChange={(e) =>
-            setEmployeeValues({ ...employeeValues, name: e.target.value })
-          }
+          onChange={(e) => setEmployeeValues({ ...employeeValues, name: e.target.value })}
           value={employeeValues.name}
           placeholder="Nome do funcionário"
         />
@@ -84,9 +72,7 @@ const EmployeeForm = ({
         <LinkButton color="black" href="/funcionarios">
           Cancelar
         </LinkButton>
-        <SubmitButton canEdit={canEdit}>
-          {isEdit ? "Salvar" : "Cadastrar"}
-        </SubmitButton>
+        <SubmitButton canEdit={canEdit}>{isEdit ? "Salvar" : "Cadastrar"}</SubmitButton>
       </div>
     </form>
   );

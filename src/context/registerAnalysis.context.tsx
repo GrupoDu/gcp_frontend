@@ -7,6 +7,6 @@ export type ProductionOrderAnalysisContextValues = {
   err: string | undefined;
 };
 
-export const ProductionOrderAnalysisContext = createContext<
-  ProductionOrderAnalysisContextValues | undefined
->(undefined);
+export const ProductionOrderAnalysisContext = createContext<ProductionOrderAnalysisContextValues | undefined>(
+  undefined,
+);

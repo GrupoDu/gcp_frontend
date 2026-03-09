@@ -3,11 +3,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { AnualAnalysis } from "@/types/anualAnalysis.type";
 import { useMemo } from "react";
 
-export function AnualAnalysisProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function AnualAnalysisProvider({ children }: { children: React.ReactNode }) {
   const { data, err, status } = useFetch<AnualAnalysis[]>("anualAnalysis");
 
   const anualAnalysisData = useMemo(
@@ -19,9 +15,5 @@ export function AnualAnalysisProvider({
     [data, err, status],
   );
 
-  return (
-    <AnualAnalysisContext.Provider value={anualAnalysisData}>
-      {children}
-    </AnualAnalysisContext.Provider>
-  );
+  return <AnualAnalysisContext.Provider value={anualAnalysisData}>{children}</AnualAnalysisContext.Provider>;
 }

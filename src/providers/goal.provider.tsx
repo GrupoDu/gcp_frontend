@@ -18,7 +18,5 @@ export function GoalProvider({ children }: { children: React.ReactNode }) {
     [data, err, status, refetch],
   );
 
-  return (
-    <GoalContext.Provider value={goalData}>{children}</GoalContext.Provider>
-  );
+  return <GoalContext.Provider value={goalData}>{children}</GoalContext.Provider>;
 }

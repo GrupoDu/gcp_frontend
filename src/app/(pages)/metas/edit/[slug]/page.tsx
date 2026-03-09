@@ -6,11 +6,7 @@ import { EmployeeProvider } from "@/providers/employee.provider";
 import GoalForm from "@/components/forms/goalForm";
 import { GoalProvider } from "@/providers/goal.provider";
 
-const GoalEditPage = async ({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) => {
+const GoalEditPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
 
   return (

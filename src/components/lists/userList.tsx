@@ -23,10 +23,7 @@ const UserListContainer = () => {
     return usersData?.filter(
       (user) =>
         (userTypeFilter ? user.user_type === userTypeFilter : true) &&
-        (searchFilter
-          ? user.email.includes(searchFilter) ||
-            user.name.includes(searchFilter)
-          : true),
+        (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
     );
   }, [userTypeFilter, searchFilter, usersData]);
 
@@ -47,24 +44,12 @@ const UserListContainer = () => {
           openMobileFilters={setOpenFilterContainer}
           openFilterContainer={openFilterContainer}
         >
-          <SearchBar
-            searchValue={searchFilter}
-            setSearchValue={setSearchFilter}
-          />
-          <UserTypeFilter
-            setUserFilter={setUserTypeFilter}
-            userFilter={userTypeFilter}
-          />
+          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
+          <UserTypeFilter setUserFilter={setUserTypeFilter} userFilter={userTypeFilter} />
         </FiltersList>
         <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-          <SearchBar
-            searchValue={searchFilter}
-            setSearchValue={setSearchFilter}
-          />
-          <UserTypeFilter
-            setUserFilter={setUserTypeFilter}
-            userFilter={userTypeFilter}
-          />
+          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
+          <UserTypeFilter setUserFilter={setUserTypeFilter} userFilter={userTypeFilter} />
         </FilterMobileContainer>
         <ul className={styles.listContainer}>
           <div className={styles.listHeader}>
@@ -76,11 +61,7 @@ const UserListContainer = () => {
           </div>
           {userListFiltered?.map((user) => (
             <li key={user.user_id}>
-              <ListItem
-                deleteButtonEndpoint="users"
-                refetch={refetch}
-                userInfos={user}
-              />
+              <ListItem deleteButtonEndpoint="users" refetch={refetch} userInfos={user} />
             </li>
           ))}
         </ul>

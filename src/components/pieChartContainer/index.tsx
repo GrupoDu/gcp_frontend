@@ -6,7 +6,6 @@ import { PieChart } from "@mui/x-charts";
 import { useProductionOrderAnalysis } from "@/hooks/useProductionOrderAnalysis";
 import { usePathname } from "next/navigation";
 
-
 const PieChartContainer = () => {
   const { registerAnalysis } = useProductionOrderAnalysis();
   const pathname = usePathname();
@@ -30,7 +29,9 @@ const PieChartContainer = () => {
   ];
 
   return (
-    <div className={`${styles.pieChartContainer} ${styles.chartContainer} ${isAnalysisPage && styles.pieChartContainerAnalysis}`}>
+    <div
+      className={`${styles.pieChartContainer} ${styles.chartContainer} ${isAnalysisPage && styles.pieChartContainerAnalysis}`}
+    >
       <div className={styles.chartTitle}>
         <GrAnalytics className={styles.chartIcon} />
         <h3>Gráfico de atividades</h3>

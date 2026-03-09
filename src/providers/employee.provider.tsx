@@ -6,9 +6,7 @@ import { Employee } from "@/types/employee.type";
 import { useMemo } from "react";
 
 export function EmployeeProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<Employee[]>(
-    "employees",
-  );
+  const { data, err, status, refetch } = useFetch<Employee[]>("employees");
 
   const employeesData = useMemo(
     () => ({
@@ -20,9 +18,5 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
     [data, status, err, refetch],
   );
 
-  return (
-    <EmployeeContext.Provider value={employeesData}>
-      {children}
-    </EmployeeContext.Provider>
-  );
+  return <EmployeeContext.Provider value={employeesData}>{children}</EmployeeContext.Provider>;
 }

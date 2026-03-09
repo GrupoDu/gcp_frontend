@@ -10,22 +10,10 @@ type MenuOptionsProps = {
   onClick?: () => void;
 };
 
-const MenuOption = ({
-  MenuIcon,
-  menuTitle,
-  isSelected,
-  href,
-  onClick,
-}: MenuOptionsProps) => {
+const MenuOption = ({ MenuIcon, menuTitle, isSelected, href, onClick }: MenuOptionsProps) => {
   return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className={`${styles.menuOptionContainer} ${isSelected && styles.selected}`}
-    >
-      <MenuIcon
-        className={`${styles.menuIcon} ${isSelected && styles.selected}`}
-      />
+    <Link href={href} onClick={onClick} className={`${styles.menuOptionContainer} ${isSelected && styles.selected}`}>
+      <MenuIcon className={`${styles.menuIcon} ${isSelected && styles.selected}`} />
       <h4 className={`${isSelected && styles.selected}`}>{menuTitle}</h4>
     </Link>
   );

@@ -8,6 +8,4 @@ type EmployeeContextValues = {
   refetch: () => void;
 };
 
-export const EmployeeContext = createContext<EmployeeContextValues | undefined>(
-  undefined,
-);
+export const EmployeeContext = createContext<EmployeeContextValues | undefined>(undefined);

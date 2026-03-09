@@ -10,6 +10,4 @@ type UserContextValues = {
   refetch: () => void;
 };
 
-export const UserContext = createContext<UserContextValues | undefined>(
-  undefined,
-);
+export const UserContext = createContext<UserContextValues | undefined>(undefined);

@@ -15,9 +15,7 @@ const ProductionOrderList = () => {
   const productFilter = searchParams.get("product");
   const statusFilter = searchParams.get("status");
   const deadlineFilter = searchParams.get("deadline");
-  const [filteredList, setFilteredList] = useState<
-    ProductionOrder[] | undefined
-  >([]);
+  const [filteredList, setFilteredList] = useState<ProductionOrder[] | undefined>([]);
   const employeeFilter = searchParams.get("employee");
 
   useEffect(() => {
@@ -26,12 +24,8 @@ const ProductionOrderList = () => {
       allProductionOrders?.filter(
         (order) =>
           (productFilter ? order.product_uuid === productFilter : true) &&
-          (statusFilter
-            ? order.production_order_status === statusFilter
-            : true) &&
-          (deadlineFilter
-            ? order.production_order_deadline === deadlineFilter
-            : true) &&
+          (statusFilter ? order.production_order_status === statusFilter : true) &&
+          (deadlineFilter ? order.production_order_deadline === deadlineFilter : true) &&
           (employeeFilter ? order.employee_uuid === employeeFilter : true),
       ),
     );

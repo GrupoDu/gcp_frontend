@@ -6,9 +6,7 @@ import { Product } from "@/types/product.type";
 import { useMemo } from "react";
 
 export function ProductProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<Product[]>(
-    "products",
-  );
+  const { data, err, status } = useFetch<Product[]>("products");
 
   const productData = useMemo(
     () => ({
@@ -19,9 +17,5 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
     [data, err, status],
   );
 
-  return (
-    <ProductContext.Provider value={productData}>
-      {children}
-    </ProductContext.Provider>
-  );
+  return <ProductContext.Provider value={productData}>{children}</ProductContext.Provider>;
 }

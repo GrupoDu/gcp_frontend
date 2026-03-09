@@ -10,13 +10,7 @@ import { useRouter } from "next/navigation";
 import generator from "generate-password-ts";
 import SubmitButton from "@/components/ui/submitButton";
 
-const UserForm = ({
-  isEdit,
-  user_id,
-}: {
-  isEdit?: boolean;
-  user_id?: string;
-}) => {
+const UserForm = ({ isEdit, user_id }: { isEdit?: boolean; user_id?: string }) => {
   const { usersData } = useUsers();
   const router = useRouter();
   const [canEdit, setCanEdit] = useState(false);
@@ -70,9 +64,7 @@ const UserForm = ({
         <input
           name="input-name"
           value={userInfosFields.name}
-          onChange={(e) =>
-            setUserInfosFields({ ...userInfosFields, name: e.target.value })
-          }
+          onChange={(e) => setUserInfosFields({ ...userInfosFields, name: e.target.value })}
           type="text"
           required
           placeholder="Nome do usuário completo"
@@ -103,28 +95,19 @@ const UserForm = ({
           name="input-email"
           value={userInfosFields.email}
           required
-          onChange={(e) =>
-            setUserInfosFields({ ...userInfosFields, email: e.target.value })
-          }
+          onChange={(e) => setUserInfosFields({ ...userInfosFields, email: e.target.value })}
           placeholder="email@grupodu.com.br"
         />
       </label>
       <label>
         <span>Senha</span>
-        <input
-          type="text"
-          name="input-password"
-          readOnly
-          value={userInfosFields.password}
-        />
+        <input type="text" name="input-password" readOnly value={userInfosFields.password} />
       </label>
       <div className={styles.buttons}>
         <LinkButton href="/usuarios" color="black">
           Cancelar
         </LinkButton>
-        <SubmitButton canEdit={canEdit}>
-          {isEdit ? "Salvar" : "Registrar"}
-        </SubmitButton>
+        <SubmitButton canEdit={canEdit}>{isEdit ? "Salvar" : "Registrar"}</SubmitButton>
       </div>
     </form>
   );

@@ -10,13 +10,7 @@ import { Goal } from "@/types/goal.type";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import SubmitButton from "@/components/ui/submitButton";
 
-const GoalForm = ({
-  isEdit,
-  goal_id,
-}: {
-  isEdit: boolean;
-  goal_id?: string;
-}) => {
+const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) => {
   const { welders } = useEmployeeType();
   const { goalsData } = useGoal();
   const [canEdit, setCanEdit] = useState(false);
@@ -34,8 +28,7 @@ const GoalForm = ({
       const fetchedGoal = goalsData?.find((goal) => goal.goal_id === goal_id);
 
       if (fetchedGoal) {
-        const formattedDeadline =
-          fetchedGoal && new Date(fetchedGoal.goal_deadline).toISOString();
+        const formattedDeadline = fetchedGoal && new Date(fetchedGoal.goal_deadline).toISOString();
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setGoalField({
@@ -57,9 +50,7 @@ const GoalForm = ({
 
   return (
     <form
-      onSubmit={(e) =>
-        handleFormSubmit(e, method, goalField, endpoint, router, canEdit)
-      }
+      onSubmit={(e) => handleFormSubmit(e, method, goalField, endpoint, router, canEdit)}
       className={styles.registerGoalFormContainer}
     >
       <label className={styles.deadlineInput}>
@@ -79,9 +70,7 @@ const GoalForm = ({
         <span>Título</span>
         <input
           value={goalField.goal_title}
-          onChange={(e) =>
-            setGoalField({ ...goalField, goal_title: e.target.value })
-          }
+          onChange={(e) => setGoalField({ ...goalField, goal_title: e.target.value })}
           type="text"
           placeholder="Título da nova meta"
         />
@@ -90,9 +79,7 @@ const GoalForm = ({
         <span>Descrição</span>
         <textarea
           value={goalField.goal_description}
-          onChange={(e) =>
-            setGoalField({ ...goalField, goal_description: e.target.value })
-          }
+          onChange={(e) => setGoalField({ ...goalField, goal_description: e.target.value })}
         />
       </label>
       <label className={`${styles.goalType}`}>
@@ -100,9 +87,7 @@ const GoalForm = ({
         <select
           name="goal-type"
           value={goalField.goal_type}
-          onChange={(e) =>
-            setGoalField({ ...goalField, goal_type: e.target.value })
-          }
+          onChange={(e) => setGoalField({ ...goalField, goal_type: e.target.value })}
         >
           <option value="geral">Geral</option>
           <option value="funcionario">Funcionário</option>
@@ -132,9 +117,7 @@ const GoalForm = ({
         <LinkButton color="black" href="/metas">
           Cancelar
         </LinkButton>
-        <SubmitButton canEdit={canEdit}>
-          {isEdit ? "Editar" : "Salvar"}
-        </SubmitButton>
+        <SubmitButton canEdit={canEdit}>{isEdit ? "Editar" : "Salvar"}</SubmitButton>
       </div>
     </form>
   );

@@ -16,12 +16,7 @@ const ProductsDropdown = ({
   const { productsData, err, status } = useProducts();
 
   return (
-    <FilterDropdownBase
-      label="produto"
-      placeholder="Produto"
-      setValue={setProductValue}
-      value={productValue}
-    >
+    <FilterDropdownBase label="produto" placeholder="Produto" setValue={setProductValue} value={productValue}>
       <option value="">Todos</option>
       {productsData?.map((product) => (
         <option key={product.uuid} value={product.uuid}>

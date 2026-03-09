@@ -10,6 +10,4 @@ export type GoalContextValues = {
   refetch?: () => void;
 };
 
-export const GoalContext = createContext<GoalContextValues | undefined>(
-  undefined,
-);
+export const GoalContext = createContext<GoalContextValues | undefined>(undefined);

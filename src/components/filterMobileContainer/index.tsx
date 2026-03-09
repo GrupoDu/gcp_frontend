@@ -8,13 +8,7 @@ const FilterMobileContainer = ({
   children: React.ReactNode;
   isFilterContainerOpen: boolean;
 }) => {
-  return (
-    <div
-      className={`${styles.filterMobileContainer} ${isFilterContainerOpen && styles.open}`}
-    >
-      {children}
-    </div>
-  );
+  return <div className={`${styles.filterMobileContainer} ${isFilterContainerOpen && styles.open}`}>{children}</div>;
 };
 
 export default FilterMobileContainer;

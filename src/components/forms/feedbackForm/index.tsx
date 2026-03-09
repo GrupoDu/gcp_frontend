@@ -60,11 +60,7 @@ const FeedbackForm = () => {
               className={styles.textArea}
             ></textarea>
           </label>
-          <button
-            className={alreadySent ? styles.alreadySent : ""}
-            disabled={alreadySent}
-            type="submit"
-          >
+          <button className={alreadySent ? styles.alreadySent : ""} disabled={alreadySent} type="submit">
             Enviar
           </button>
         </form>

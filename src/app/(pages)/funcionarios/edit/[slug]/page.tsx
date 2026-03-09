@@ -5,11 +5,7 @@ import { GrUserWorker } from "react-icons/gr";
 import EmployeeForm from "@/components/forms/employeeForm";
 import { EmployeeProvider } from "@/providers/employee.provider";
 
-const EmployeeEditPage = async ({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) => {
+const EmployeeEditPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   return (
     <div className={styles.pageContainer}>

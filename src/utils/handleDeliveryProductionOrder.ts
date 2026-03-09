@@ -20,13 +20,8 @@ export async function handleDelivery(
     await api.put(`/${endpoint}`, productionOrderBody);
 
     await employeeUpdateActivityQuantity(employeeUuid);
-    await incrementEmployeeProducedQuantity(
-      employeeUuid,
-      incrementEmployeeUpdateBody,
-    );
-    await incrementDeliveredProductionOrderAnalysis(
-      productionOrderBody.product_quantity as number,
-    );
+    await incrementEmployeeProducedQuantity(employeeUuid, incrementEmployeeUpdateBody);
+    await incrementDeliveredProductionOrderAnalysis(productionOrderBody.product_quantity as number);
 
     if (redirectHref && router) {
       router.push(redirectHref);
@@ -50,10 +45,7 @@ async function employeeUpdateActivityQuantity(employeeUuid: string) {
   }
 }
 
-async function incrementEmployeeProducedQuantity(
-  employeeUuid: string,
-  productsQuantity: number,
-) {
+async function incrementEmployeeProducedQuantity(employeeUuid: string, productsQuantity: number) {
   try {
     await api.put(`/employees/producedQuantity/${employeeUuid}`, {
       productsQuantity,
@@ -63,9 +55,7 @@ async function incrementEmployeeProducedQuantity(
   }
 }
 
-async function incrementDeliveredProductionOrderAnalysis(
-  deliveredQuantity: number,
-) {
+async function incrementDeliveredProductionOrderAnalysis(deliveredQuantity: number) {
   try {
     await api.put(`/anualAnalysis/updateAnalysis`, {
       deliveredQuantity,

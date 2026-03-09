@@ -17,14 +17,7 @@ type CardGoalProps = {
   refetch?: () => void;
 };
 
-const CardGoal = ({
-  title,
-  description,
-  status,
-  deadline,
-  goal_id,
-  refetch,
-}: CardGoalProps) => {
+const CardGoal = ({ title, description, status, deadline, goal_id, refetch }: CardGoalProps) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const statusIcon =
     status === "Batida" ? (
@@ -42,9 +35,7 @@ const CardGoal = ({
         <h4>{title}</h4>
         <div className={styles.buttons}>
           <DeleteButton refetch={refetch} endpoint="goals" uuid={goal_id} />
-          {status === "Pendente" && (
-            <EditButton href={`/metas/edit/${goal_id}`} />
-          )}
+          {status === "Pendente" && <EditButton href={`/metas/edit/${goal_id}`} />}
         </div>
       </div>
       <hr />
@@ -52,9 +43,7 @@ const CardGoal = ({
       <p>{description ? description : "Sem descrição"}</p>
       {status === "Pendente" && (
         <div className={styles.deliverButtonContainer}>
-          <DeliverButton isProcessing={isProcessing}>
-            Marcar como batida
-          </DeliverButton>
+          <DeliverButton isProcessing={isProcessing}>Marcar como batida</DeliverButton>
         </div>
       )}
     </div>

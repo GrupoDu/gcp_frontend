@@ -14,12 +14,7 @@ const StatusDropdown = ({
   const pathname = usePathname();
 
   return (
-    <FilterDropdownBase
-      label="status"
-      placeholder="Status da ordem"
-      value={statusValue}
-      setValue={setStatusValue}
-    >
+    <FilterDropdownBase label="status" placeholder="Status da ordem" value={statusValue} setValue={setStatusValue}>
       <option value="">Todos</option>
       <option value={pathname.includes("producao") ? "Entregue" : "Batida"}>
         {pathname.includes("producao") ? "Entregue" : "Batida"}

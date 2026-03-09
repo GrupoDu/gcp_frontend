@@ -7,8 +7,6 @@ interface AnualAnalysisContextType {
   err: string | undefined;
 }
 
-const AnualAnalysisContext = createContext<
-  AnualAnalysisContextType | undefined
->(undefined);
+const AnualAnalysisContext = createContext<AnualAnalysisContextType | undefined>(undefined);
 
 export default AnualAnalysisContext;

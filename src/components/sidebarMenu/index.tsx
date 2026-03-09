@@ -2,11 +2,7 @@
 
 import styles from "./styles.module.scss";
 import MenuOption from "../menuOption";
-import {
-  MdDashboard,
-  MdKeyboardArrowRight,
-  MdOutlineFeedback,
-} from "react-icons/md";
+import { MdDashboard, MdKeyboardArrowRight, MdOutlineFeedback } from "react-icons/md";
 import { IoMdClipboard } from "react-icons/io";
 import { LuGoal } from "react-icons/lu";
 import { FaUserCog } from "react-icons/fa";
@@ -132,9 +128,7 @@ const SidebarMenu = () => {
   }
 
   return (
-    <aside
-      className={`${styles.sidebarMenuContainer} ${isSidebarClosed ? styles.closed : ""}`}
-    >
+    <aside className={`${styles.sidebarMenuContainer} ${isSidebarClosed ? styles.closed : ""}`}>
       <div className={styles.sidebarHeader}>
         <Image src={GrupoduImage} alt="Login" className={styles.grupoduLogo} />
         <h1>GCP</h1>
@@ -183,20 +177,12 @@ const SidebarMenu = () => {
         <MdKeyboardArrowRight />
       </button>
       <div className={styles.logoutButtonContainer}>
-        <button
-          onClick={toggleSidebar}
-          className={styles.closeSidebarButtonContainer}
-        >
+        <button onClick={toggleSidebar} className={styles.closeSidebarButtonContainer}>
           <MdKeyboardArrowLeft className={styles.closeSidebarButton} />
         </button>
         <button className={styles.logoutButton} onClick={handleLogout}>
           {isLoading ? (
-            <ClipLoader
-              color="#FFFFFF"
-              size={15}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
+            <ClipLoader color="#FFFFFF" size={15} aria-label="Loading Spinner" data-testid="loader" />
           ) : (
             <BiLogOutCircle className={styles.logoutIcon} />
           )}

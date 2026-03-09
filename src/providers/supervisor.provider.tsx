@@ -5,14 +5,8 @@ import { useFetch } from "@/hooks/useFetch";
 import { User } from "@/types/user.type";
 import { useMemo } from "react";
 
-export function SupervisorProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { data, err, status } = useFetch<User[]>(
-    `users/supervisors/`,
-  );
+export function SupervisorProvider({ children }: { children: React.ReactNode }) {
+  const { data, err, status } = useFetch<User[]>(`users/supervisors/`);
 
   const supervisorsData = useMemo(
     () => ({
@@ -23,9 +17,5 @@ export function SupervisorProvider({
     [data, err, status],
   );
 
-  return (
-    <SupervisorContext.Provider value={supervisorsData}>
-      {children}
-    </SupervisorContext.Provider>
-  );
+  return <SupervisorContext.Provider value={supervisorsData}>{children}</SupervisorContext.Provider>;
 }

@@ -50,10 +50,7 @@ const FiltersList = (props: FiltersListProps) => {
       </label>
       <div className={styles.mobileFilters}>
         <span>Filtros</span>
-        <button
-          onClick={() => props.openMobileFilters(!props.openFilterContainer)}
-          type="button"
-        >
+        <button onClick={() => props.openMobileFilters(!props.openFilterContainer)} type="button">
           <IoFilter />
         </button>
       </div>
@@ -66,11 +63,7 @@ const FiltersList = (props: FiltersListProps) => {
             window.location.reload();
           }}
         >
-          {isLoading ? (
-            <ClipLoader color="#000000" size={10} />
-          ) : (
-            <IoReload className={styles.reloadIcon} />
-          )}
+          {isLoading ? <ClipLoader color="#000000" size={10} /> : <IoReload className={styles.reloadIcon} />}
         </button>
       </label>
     </div>

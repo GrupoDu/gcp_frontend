@@ -3,13 +3,7 @@ import styles from "./styles.module.scss";
 import CardGoal from "../ui/cardGoal";
 import { Goal } from "@/types/goal.type";
 
-const GoalList = ({
-  goalData,
-  refetch,
-}: {
-  goalData: Goal[] | undefined;
-  refetch?: () => void;
-}) => {
+const GoalList = ({ goalData, refetch }: { goalData: Goal[] | undefined; refetch?: () => void }) => {
   return (
     <ul className={styles.cardListContainer}>
       {goalData?.map((goal) => (

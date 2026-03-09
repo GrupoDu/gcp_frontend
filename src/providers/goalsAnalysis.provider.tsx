@@ -5,11 +5,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { GoalsAnalysis } from "@/types/goalsAnalysis.type";
 import { useMemo } from "react";
 
-export function GoalsAnalysisProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function GoalsAnalysisProvider({ children }: { children: React.ReactNode }) {
   const { data, err, status } = useFetch<GoalsAnalysis>("goalsAnalysis");
 
   const goalsAnalysisData = useMemo(
@@ -21,9 +17,5 @@ export function GoalsAnalysisProvider({
     [data, err, status],
   );
 
-  return (
-    <GoalsAnalysisContext.Provider value={goalsAnalysisData}>
-      {children}
-    </GoalsAnalysisContext.Provider>
-  );
+  return <GoalsAnalysisContext.Provider value={goalsAnalysisData}>{children}</GoalsAnalysisContext.Provider>;
 }

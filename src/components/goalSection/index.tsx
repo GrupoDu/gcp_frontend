@@ -10,20 +10,13 @@ import { useGoal } from "@/hooks/useGoal";
 const GoalSection = () => {
   const { goalsData, refetch } = useGoal();
   const isGoalsEmpty: boolean | undefined = goalsData && goalsData.length > 0;
-  const pendingGoals = goalsData?.filter(
-    (goal) => goal.goal_status === "Pendente",
-  );
+  const pendingGoals = goalsData?.filter((goal) => goal.goal_status === "Pendente");
 
   return (
     <div className={styles.goalSectionContainer}>
       <h3>Metas pendentes</h3>
       <div className={styles.goalButtons}>
-        <LinkButton
-          color="black"
-          href="/metas/register"
-          fullWidth={false}
-          Icon={FaPlus}
-        >
+        <LinkButton color="black" href="/metas/register" fullWidth={false} Icon={FaPlus}>
           Criar nova meta
         </LinkButton>
         <LinkButton color="black" href="/metas" Icon={FaExternalLinkAlt}>

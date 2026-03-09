@@ -14,9 +14,7 @@ const ProductionOrderSection = () => {
   const initialFetchDone = useRef(false);
 
   const pendingProductionOrders = useMemo(
-    () =>
-      data?.filter((order) => order.production_order_status === "Pendente") ||
-      [],
+    () => data?.filter((order) => order.production_order_status === "Pendente") || [],
     [data],
   );
 

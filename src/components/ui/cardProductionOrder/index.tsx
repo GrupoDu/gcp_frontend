@@ -13,30 +13,16 @@ type CardRegisterProps = {
 };
 
 const CardProductionOrder = (props: CardRegisterProps) => {
-  const statusColor =
-    props.status === "Pendente"
-      ? "#FFD079"
-      : props.status === "Entregue"
-        ? "green"
-        : "red";
+  const statusColor = props.status === "Pendente" ? "#FFD079" : props.status === "Entregue" ? "green" : "red";
 
   return (
     <div className={styles.cardRegisterContainer}>
       <div className={styles.cardHeader}>
-        <div
-          className={styles.status}
-          style={{ backgroundColor: statusColor }}
-        ></div>
+        <div className={styles.status} style={{ backgroundColor: statusColor }}></div>
         <h3>{props.title}</h3>
         <div className={styles.buttons}>
-          {props.status === "Pendente" && (
-            <EditButton href={`/producao/edit/${props.register_id}`} />
-          )}
-          <DeleteButton
-            endpoint="productionOrder"
-            uuid={props.register_id}
-            refetch={props.refetch}
-          />
+          {props.status === "Pendente" && <EditButton href={`/producao/edit/${props.register_id}`} />}
+          <DeleteButton endpoint="productionOrder" uuid={props.register_id} refetch={props.refetch} />
         </div>
       </div>
       <span>{props.date}</span>
@@ -46,12 +32,7 @@ const CardProductionOrder = (props: CardRegisterProps) => {
       ) : (
         <p className={styles.noObservation}>Registro sem observação</p>
       )}
-      <LinkButton
-        color="black"
-        fullWidth={true}
-        textAlign="center"
-        href={`/producao/${props.register_id}`}
-      >
+      <LinkButton color="black" fullWidth={true} textAlign="center" href={`/producao/${props.register_id}`}>
         Visualizar ordem de produção
       </LinkButton>
     </div>

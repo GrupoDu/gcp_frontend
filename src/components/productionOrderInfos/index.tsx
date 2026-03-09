@@ -15,19 +15,12 @@ import { useRegisterEmployees } from "@/hooks/useProductionOrderEmployees";
 import { handleDelivery } from "@/utils/handleDeliveryProductionOrder";
 import { useRouter } from "next/navigation";
 
-const ProductionOrderInfos = ({
-  production_order_id,
-}: {
-  production_order_id: string;
-}) => {
+const ProductionOrderInfos = ({ production_order_id }: { production_order_id: string }) => {
   const [deliveryObservation, setDeliveryObservation] = useState<string>("");
   const [producedQuantity, setProducedQuantity] = useState<number>(1);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
-  const { data: productionOrder } = useFetch<ProductionOrder>(
-    "productionOrder/",
-    production_order_id,
-  );
+  const { data: productionOrder } = useFetch<ProductionOrder>("productionOrder/", production_order_id);
   const employees = useRegisterEmployees();
 
   const statusIcon =
@@ -59,11 +52,7 @@ const ProductionOrderInfos = ({
       production_order_status: "Entregue",
       delivered_at: new Date().toISOString(),
     };
-  }, [
-    deliveryObservation,
-    producedQuantity,
-    productionOrder?.product_quantity,
-  ]);
+  }, [deliveryObservation, producedQuantity, productionOrder?.product_quantity]);
 
   return (
     <form
@@ -99,18 +88,11 @@ const ProductionOrderInfos = ({
         </div>
         <hr />
         <span className={styles.dates}>
-          prazo de entrega:{" "}
-          {dataFormater(
-            productionOrder?.production_order_deadline.toString() || "",
-          )}
+          prazo de entrega: {dataFormater(productionOrder?.production_order_deadline.toString() || "")}
         </span>
-        <span className={styles.dates}>
-          status: {productionOrder?.production_order_status}
-        </span>
+        <span className={styles.dates}>status: {productionOrder?.production_order_status}</span>
         {productionOrder?.production_order_status === "Entregue" && (
-          <span className={styles.dates}>
-            Entregue: {dataFormater(productionOrder?.delivered_at || "")}
-          </span>
+          <span className={styles.dates}>Entregue: {dataFormater(productionOrder?.delivered_at || "")}</span>
         )}
         <p className={styles.descriptionField}>
           {productionOrder?.production_order_description
@@ -118,47 +100,23 @@ const ProductionOrderInfos = ({
             : "Registro sem descrição"}
         </p>
         <hr />
-        <h4>
-          Soldador:{" "}
-          {productionOrder?.employee_uuid
-            ? employees.welder?.name
-            : "Ainda sem soldador."}
-        </h4>
+        <h4>Soldador: {productionOrder?.employee_uuid ? employees.welder?.name : "Ainda sem soldador."}</h4>
         <ul>
           <div className={styles.assistantList}>
             <h4>Ajudantes</h4>
             <hr />
-            <li
-              className={`${styles.assistant} ${!productionOrder?.cut_assistant && styles.undefinedAssistant}`}
-            >
-              <b>Corte:</b>{" "}
-              {productionOrder?.cut_assistant
-                ? employees.cutAssistant?.name
-                : "Não definido."}
+            <li className={`${styles.assistant} ${!productionOrder?.cut_assistant && styles.undefinedAssistant}`}>
+              <b>Corte:</b> {productionOrder?.cut_assistant ? employees.cutAssistant?.name : "Não definido."}
             </li>
-            <li
-              className={`${styles.assistant} ${!productionOrder?.fold_assistant && styles.undefinedAssistant}`}
-            >
-              <b>Dobra:</b>{" "}
-              {productionOrder?.fold_assistant
-                ? employees.foldAssistant?.name
-                : "Não definido."}
+            <li className={`${styles.assistant} ${!productionOrder?.fold_assistant && styles.undefinedAssistant}`}>
+              <b>Dobra:</b> {productionOrder?.fold_assistant ? employees.foldAssistant?.name : "Não definido."}
             </li>
-            <li
-              className={`${styles.assistant} ${!productionOrder?.finishing_assistant && styles.undefinedAssistant}`}
-            >
+            <li className={`${styles.assistant} ${!productionOrder?.finishing_assistant && styles.undefinedAssistant}`}>
               <b>Finalização:</b>{" "}
-              {productionOrder?.finishing_assistant
-                ? employees.finishingAssistant?.name
-                : "Não definido."}
+              {productionOrder?.finishing_assistant ? employees.finishingAssistant?.name : "Não definido."}
             </li>
-            <li
-              className={`${styles.assistant} ${!productionOrder?.paint_assistant && styles.undefinedAssistant}`}
-            >
-              <b>Pintura:</b>{" "}
-              {productionOrder?.paint_assistant
-                ? employees.paintAssistant?.name
-                : "Não definido."}
+            <li className={`${styles.assistant} ${!productionOrder?.paint_assistant && styles.undefinedAssistant}`}>
+              <b>Pintura:</b> {productionOrder?.paint_assistant ? employees.paintAssistant?.name : "Não definido."}
             </li>
           </div>
         </ul>
@@ -178,17 +136,11 @@ const ProductionOrderInfos = ({
         )}
         <h4>Observação de entrega:</h4>
         {productionOrder?.production_order_status === "Entregue" ? (
-          <p className={styles.observationField}>
-            {productionOrder?.delivery_observation}
-          </p>
+          <p className={styles.observationField}>{productionOrder?.delivery_observation}</p>
         ) : productionOrder?.production_order_status === "Não entregue" ? (
           "Registro não entregue"
         ) : (
-          <textarea
-            name="observation"
-            id="observation"
-            onChange={(e) => setDeliveryObservation(e.target.value)}
-          />
+          <textarea name="observation" id="observation" onChange={(e) => setDeliveryObservation(e.target.value)} />
         )}
       </div>
     </form>

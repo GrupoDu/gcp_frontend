@@ -6,11 +6,7 @@ import ProductionOrderInfos from "@/components/productionOrderInfos";
 import ProductionOrderSection from "@/components/productionOrderSection";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 
-async function ViewProductionOrderPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+async function ViewProductionOrderPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   return (

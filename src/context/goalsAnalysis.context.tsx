@@ -9,6 +9,4 @@ interface GoalsAnalysisContextValues {
   err: string | undefined;
 }
 
-export const GoalsAnalysisContext = createContext<
-  GoalsAnalysisContextValues | undefined
->(undefined);
+export const GoalsAnalysisContext = createContext<GoalsAnalysisContextValues | undefined>(undefined);

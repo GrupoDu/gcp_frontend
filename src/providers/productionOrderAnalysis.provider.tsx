@@ -5,14 +5,8 @@ import { useFetch } from "@/hooks/useFetch";
 import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.type";
 import { useMemo } from "react";
 
-export function ProductionOrderAnalysisProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { data, err, status } = useFetch<ProductionOrderAnalysis>(
-    "productionOrderAnalysis",
-  );
+export function ProductionOrderAnalysisProvider({ children }: { children: React.ReactNode }) {
+  const { data, err, status } = useFetch<ProductionOrderAnalysis>("productionOrderAnalysis");
 
   const registerAnalysisData = useMemo(
     () => ({

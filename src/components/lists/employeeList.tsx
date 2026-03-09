@@ -21,9 +21,7 @@ const EmployeeListContainer = () => {
   const filteredEmployees = useMemo(() => {
     return employeesData?.filter(
       (employee) =>
-        (employeeTypeFilter
-          ? employee.employee_type === employeeTypeFilter
-          : true) &&
+        (employeeTypeFilter ? employee.employee_type === employeeTypeFilter : true) &&
         (searchFilter ? employee.name.includes(searchFilter) : true),
     );
   }, [employeeTypeFilter, searchFilter, employeesData]);
@@ -31,34 +29,19 @@ const EmployeeListContainer = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <main
-        style={{ gap: "1rem" }}
-        className={`mainContainer ${isLoading && "loading"}`}
-      >
+      <main style={{ gap: "1rem" }} className={`mainContainer ${isLoading && "loading"}`}>
         <FiltersList
           buttonLabel="Registrar funcionário"
           hrefButton="/funcionarios/register"
           openMobileFilters={setOpenFilterContainer}
           openFilterContainer={openFilterContainer}
         >
-          <SearchBar
-            searchValue={searchFilter}
-            setSearchValue={setSearchFilter}
-          />
-          <EmployeeTypeFilter
-            employeeValue={employeeTypeFilter}
-            setEmployeeValue={setEmployeeTypeFilter}
-          />
+          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
+          <EmployeeTypeFilter employeeValue={employeeTypeFilter} setEmployeeValue={setEmployeeTypeFilter} />
         </FiltersList>
         <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-          <SearchBar
-            searchValue={searchFilter}
-            setSearchValue={setSearchFilter}
-          />
-          <EmployeeTypeFilter
-            employeeValue={employeeTypeFilter}
-            setEmployeeValue={setEmployeeTypeFilter}
-          />
+          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
+          <EmployeeTypeFilter employeeValue={employeeTypeFilter} setEmployeeValue={setEmployeeTypeFilter} />
         </FilterMobileContainer>
         <ul className={styles.listContainer}>
           <div className={styles.listHeader}>

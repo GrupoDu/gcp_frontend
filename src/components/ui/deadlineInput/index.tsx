@@ -15,11 +15,7 @@ const DeadlineInput = ({
       <span>
         <MdOutlineDateRange /> Prazo
       </span>
-      <input
-        type="date"
-        value={deadlineValue}
-        onChange={(e) => setDeadlineValue(e.target.value)}
-      />
+      <input type="date" value={deadlineValue} onChange={(e) => setDeadlineValue(e.target.value)} />
     </label>
   );
 };

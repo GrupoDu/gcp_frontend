@@ -26,9 +26,7 @@ const LineChartContainer = () => {
 
   if (!anualAnalysis || anualAnalysis === undefined) {
     return (
-      <div
-        className={`${styles.linearChartContainer} ${styles.chartContainer}`}
-      >
+      <div className={`${styles.linearChartContainer} ${styles.chartContainer}`}>
         <div className={styles.chartTitle}>
           <FaChartLine className={styles.chartIcon} />
           <h3>Gráfico de atividades</h3>
@@ -50,25 +48,19 @@ const LineChartContainer = () => {
           <LineChart
             series={[
               {
-                data: anualAnalysis?.map(
-                  (item: AnualAnalysis) => item.delivered || 0,
-                ) as number[],
+                data: anualAnalysis?.map((item: AnualAnalysis) => item.delivered || 0) as number[],
                 label: "Concluído",
                 color: "#4caf50",
               },
               {
-                data: anualAnalysis?.map(
-                  (item: AnualAnalysis) => item.not_delivered || 0,
-                ) as number[],
+                data: anualAnalysis?.map((item: AnualAnalysis) => item.not_delivered || 0) as number[],
                 label: "Não finalizado",
                 color: "#f44336",
               },
             ]}
             xAxis={[
               {
-                data: anualAnalysis?.map(
-                  (item: AnualAnalysis) => months[item.month - 1] || "",
-                ),
+                data: anualAnalysis?.map((item: AnualAnalysis) => months[item.month - 1] || ""),
                 scaleType: "band",
                 tickLabelStyle: {
                   angle: 0,
