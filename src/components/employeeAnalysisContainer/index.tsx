@@ -24,7 +24,7 @@ const EmployeeAnalysisContainer = () => {
         name: employee.name || "Sem nome",
         delivered: employee.delivered_activities_quantity || 0,
         notDelivered: employee.not_delivered_activities_quantity || 0,
-        produced: employee.products_produced_quantity || 0,
+        produced: employee.produced_quantity || 0,
       })) || [];
 
   // Prepara os dados para o gráfico apenas com soldadores
@@ -48,7 +48,7 @@ const EmployeeAnalysisContainer = () => {
 
   const employeesNames = weldersData.map((w) => w.name);
 
-  // Se não houver soldadores, mostra uma mensagem
+  // Se não houver soldadores, mostra aviso
   if (weldersData.length === 0) {
     return (
       <div className={styles.chartContainer}>
