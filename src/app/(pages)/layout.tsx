@@ -21,19 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
-      <body className={`${roboto.variable}`}>
-        <LoadingProvider>
-          <SidebarMenu />
-          <ToastContainer
-            stacked
-            position="top-center"
-            autoClose={3000}
-            theme="light"
-          />
-          {children}
-        </LoadingProvider>
-      </body>
-    </html>
+    <LoadingProvider>
+      <SidebarMenu />
+      <ToastContainer stacked position="top-center" autoClose={3000} theme="light" />
+      {children}
+    </LoadingProvider>
   );
 }
