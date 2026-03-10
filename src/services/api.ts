@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const DEV_API_URL = process.env.NEXT_PUBLIC_DEV_API_URL;
+
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
+  baseURL: API_URL || DEV_API_URL,
   withCredentials: true, // ✅ ESSENCIAL - envia cookies em TODAS requisições
   headers: {
     "Content-Type": "application/json",
