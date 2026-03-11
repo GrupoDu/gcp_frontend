@@ -5,6 +5,7 @@ import "../../../globals.scss";
 import ProductionOrderInfos from "@/components/productionOrderInfos";
 import ProductionOrderSection from "@/components/productionOrderSection";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
+import AssistantsPORegisterProvider from "@/providers/assistantsPORegister.provider";
 
 async function ViewProductionOrderPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -13,7 +14,9 @@ async function ViewProductionOrderPage({ params }: { params: Promise<{ slug: str
     <div className="pageContainer">
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Registro" />
       <main className="mainContainer">
-        <ProductionOrderInfos production_order_id={slug} />
+        <AssistantsPORegisterProvider>
+          <ProductionOrderInfos production_order_id={slug} />
+        </AssistantsPORegisterProvider>
         <h3>
           <IoMdClipboard /> Ordens de produção pendentes
         </h3>
