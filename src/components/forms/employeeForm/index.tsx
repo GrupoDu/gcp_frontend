@@ -37,7 +37,7 @@ const EmployeeForm = ({ isEdit, employee_id }: { isEdit: boolean; employee_id?: 
 
   return (
     <form
-      onSubmit={(e) => handleFormSubmit(e, method, employeeValues, endpoint, router, canEdit)}
+      onSubmit={(e) => handleFormSubmit(e, { method, endpoint, bodyValues: employeeValues }, { router, canEdit })}
       className={styles.registerEmployeeForm}
     >
       <label>

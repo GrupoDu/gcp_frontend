@@ -50,7 +50,7 @@ const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) =>
 
   return (
     <form
-      onSubmit={(e) => handleFormSubmit(e, method, goalField, endpoint, router, canEdit)}
+      onSubmit={(e) => handleFormSubmit(e, { method, endpoint, bodyValues: goalField }, { router, canEdit })}
       className={styles.registerGoalFormContainer}
     >
       <label className={styles.deadlineInput}>
