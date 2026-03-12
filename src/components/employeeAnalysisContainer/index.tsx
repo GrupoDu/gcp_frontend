@@ -1,10 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { BarChart } from "@mui/x-charts";
 import { useEmployees } from "@/hooks/useEmployees";
 import { FaChartBar } from "react-icons/fa";
+import useAssistantsPORegister from "@/hooks/useAssistantsPORegister";
+import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
+import { api } from "@/services/api";
 
 interface EmployeeData {
   name: string;
@@ -13,7 +16,7 @@ interface EmployeeData {
   produced: number;
 }
 
-const EmployeeAnalysisContainer = () => {
+const EmployeeAnalysisContainer = ({ employeeType }: { employeeType: string }) => {
   const { employeesData } = useEmployees();
 
   // Filtra apenas os soldadores e mapeia os dados necessários
@@ -27,29 +30,41 @@ const EmployeeAnalysisContainer = () => {
         produced: employee.produced_quantity || 0,
       })) || [];
 
+  const assistantsData: EmployeeData[] =
+    employeesData
+      ?.filter((employee) => employee.employee_type === "assistente")
+      .map((employee) => ({
+        name: employee.name || "Sem nome",
+        delivered: employee.delivered_activities_quantity || 0,
+        notDelivered: employee.not_delivered_activities_quantity || 0,
+        produced: employee.produced_quantity || 0,
+      })) || [];
+
+  const targetEmployees = employeeType === "soldadores" ? weldersData : assistantsData;
+
   // Prepara os dados para o gráfico apenas com soldadores
   const employeesAnalysis = [
     {
-      data: weldersData.map((w) => w.delivered),
+      data: targetEmployees.map((w) => w.delivered),
       label: "Entregue",
       color: "#4caf50",
     },
     {
-      data: weldersData.map((w) => w.notDelivered),
+      data: targetEmployees.map((w) => w.notDelivered),
       label: "Não entregue",
       color: "#f44336",
     },
     {
-      data: weldersData.map((w) => w.produced),
+      data: targetEmployees.map((w) => w.produced),
       label: "Produzido",
       color: "#2196f3",
     },
   ];
 
-  const employeesNames = weldersData.map((w) => w.name);
+  const employeesNames = targetEmployees.map((w) => w.name);
 
   // Se não houver soldadores, mostra aviso
-  if (weldersData.length === 0) {
+  if (targetEmployees.length === 0) {
     return (
       <div className={styles.chartContainer}>
         <div className={styles.chartTitle}>
@@ -65,7 +80,9 @@ const EmployeeAnalysisContainer = () => {
     <div className={styles.chartContainer}>
       <div className={styles.chartTitle}>
         <FaChartBar className={styles.chartIcon} />
-        <h3>Gráfico de soldadores ({weldersData.length})</h3>
+        <h3>
+          Gráfico de {employeeType} ({weldersData.length})
+        </h3>
       </div>
 
       <div className={styles.chartWrapper}>
@@ -83,7 +100,7 @@ const EmployeeAnalysisContainer = () => {
               },
             ]}
             series={employeesAnalysis}
-            width={weldersData.length * 150} // 80px por soldador
+            width={targetEmployees.length * 150}
             height={190}
             slotProps={{
               legend: {
