@@ -5,10 +5,10 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  padding-bottom: 0;
   border-radius: 0.4rem;
   border: colors.$borderDefault;
   width: 100%;
+  box-sizing: border-box;
 
   .chartTitle {
     display: flex;
@@ -25,9 +25,11 @@
 .pieChartContainer {
   background-color: colors.$backgroundGray;
   width: 45%;
+  box-sizing: border-box;
 
   .pieChart {
     width: 100%;
+    box-sizing: border-box;
     // padding: 10px;
     height: fit-content;
     object-fit: contain;
@@ -36,7 +38,8 @@
 }
 
 .pieChartContainerAnalysis {
-  width: 90%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
