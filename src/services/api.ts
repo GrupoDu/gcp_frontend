@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const DEV_API_URL = process.env.NEXT_PUBLIC_DEV_API_URL;
 
 export const api = axios.create({
-  baseURL: API_URL || DEV_API_URL,
+  baseURL: API_URL ? API_URL : DEV_API_URL,
   withCredentials: true, // ✅ ESSENCIAL - envia cookies em TODAS requisições
   headers: {
     "Content-Type": "application/json",
@@ -52,7 +52,7 @@ api.interceptors.response.use(
 
     // Se não for token expirado (ex: usuário não autenticado), vai pro login (mas não se já estiver na página de login)
     if (!isExpiredToken) {
-      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+      if (typeof window !== "undefined" && !window.location.pathname.includes("/login")) {
         window.location.href = "/login";
       }
       return Promise.reject(error);
@@ -106,7 +106,7 @@ api.interceptors.response.use(
       processQueue(refreshError as Error);
 
       // Se o refresh falhou (ex: refresh token expirado), vai pro login (mas não se já estiver na página de login)
-      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+      if (typeof window !== "undefined" && !window.location.pathname.includes("/login")) {
         window.location.href = "/login";
       }
 
