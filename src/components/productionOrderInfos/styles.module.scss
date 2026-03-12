@@ -170,15 +170,8 @@
 
         .checkMarkIcon {
           color: #868686;
-        }
-      }
-
-      .checked {
-        border: 1px solid #1B9620;
-        cursor: not-allowed;
-
-        .checkMarkIcon {
-          color: #1B9620;
+          width: 2rem;
+          height: 2rem;
         }
       }
     }
