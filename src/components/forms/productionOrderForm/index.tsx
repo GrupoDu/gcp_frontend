@@ -20,12 +20,11 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
   const { supervisorsData } = useSupervisor();
   const [canEdit, setCanEdit] = useState(false);
   const [fetchedProductionOrder, setFetchedProductionOrder] = useState<ProductionOrder | undefined>();
-  const pathname = usePathname();
   const { productsData } = useProducts();
   const router = useRouter();
   const { welders, assistants } = useEmployeeType();
   const [fetchedRegisterProduct, setFetchedRegisterProduct] = useState<Product | undefined>();
-  const [assistantsRegisters, setAssitentsRegisters] = useState<AssistantsPORegisters[]>([]);
+  const [assistantsRegisters, setAssistantsRegisters] = useState<AssistantsPORegisters[]>([]);
   const [productionOrderValues, setProductionOrderValues] = useState<ProductionOrder>({
     client_uuid: "",
     product_uuid: "",
@@ -75,10 +74,11 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
     } else {
       setCanEdit(true);
     }
-  }, [isEdit, productionOrderId, allProductionOrders, productsData, fetchedProductionOrder, assistantsRegisters]);
+  }, [isEdit, productionOrderId, allProductionOrders, productsData, fetchedProductionOrder]);
 
   function getAssistentValues(e: React.ChangeEvent<HTMLSelectElement>, assistant_as: string) {
-    setAssitentsRegisters((prev) => [...prev, { assistant_uuid: e.target.value, assistant_as }]);
+    if (!e.target.value || e.target.value === "") return;
+    setAssistantsRegisters((prev) => [...prev, { assistant_uuid: e.target.value, assistant_as }]);
   }
 
   const handleFormattedTitle = useMemo(() => {
