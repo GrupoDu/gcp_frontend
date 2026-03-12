@@ -10,18 +10,27 @@ import LinkButton from "../linkButton";
 import { IoIosArrowBack } from "react-icons/io";
 import DeliverButton from "../ui/deliverButton";
 import { CiSquareCheck } from "react-icons/ci";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRegisterEmployees } from "@/hooks/useProductionOrderEmployees";
 import { handleDelivery } from "@/utils/handleDeliveryProductionOrder";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import useAssistantsPORegister from "@/hooks/useAssistantsPORegister";
+import { debugLogger } from "@/utils/logger";
+import { IoCheckmarkDone } from "react-icons/io5";
+import handleAssistantDelivery from "@/utils/handleAssistantDelivery";
 
 const ProductionOrderInfos = ({ production_order_id }: { production_order_id: string }) => {
   const [deliveryObservation, setDeliveryObservation] = useState<string>("");
+  const { assistantsPORegisters, status, err, refetch } = useAssistantsPORegister();
   const [producedQuantity, setProducedQuantity] = useState<number>(1);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
   const { data: productionOrder } = useFetch<ProductionOrder>("productionOrder/", production_order_id);
   const employees = useRegisterEmployees();
+  const cut_assistant = assistantsPORegisters?.find((assistant) => assistant.assistant_as === "Corte");
+  const fold_assistant = assistantsPORegisters?.find((assistant) => assistant.assistant_as === "Dobra");
+  const paint_assistant = assistantsPORegisters?.find((assitant) => assitant.assistant_as === "Pintura");
+  const finishing_assistant = assistantsPORegisters?.find((assitant) => assitant.assistant_as === "Acabamento");
 
   const statusIcon =
     productionOrder?.production_order_status === "Entregue" ? (
@@ -31,6 +40,18 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
     ) : (
       <LuClipboardX color="red" className={styles.clipboardIcon} />
     );
+
+  useEffect(() => {
+    debugLogger(`
+      ||> FROM ProductionOrderInfos <|| 
+      -------------------------------------
+      assistantsPORegister status: ${status}
+      --------------------------------------
+      error: ${err ? err : "sem erros"}
+      --------------------------------------
+      assistantsPORegister data: ${JSON.stringify(assistantsPORegisters)};
+    `);
+  }, [status, err, assistantsPORegisters]);
 
   const productionOrderId = productionOrder?.production_order_id || "";
   const endpoint = `productionOrder/deliver/${productionOrderId}`;
@@ -106,17 +127,105 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
             <h4>Ajudantes</h4>
             <hr />
             <li className={`${styles.assistant} ${!productionOrder?.cut_assistant && styles.undefinedAssistant}`}>
-              <b>Corte:</b> {productionOrder?.cut_assistant ? employees.cutAssistant?.name : "Não definido."}
+              <button
+                onClick={() =>
+                  handleAssistantDelivery(
+                    {
+                      production_order_uuid: productionOrder?.production_order_id || "",
+                      assistant_uuid: productionOrder?.cut_assistant || "",
+                      assistant_as: "Corte",
+                    },
+                    refetch,
+                  )
+                }
+                className={cut_assistant?.delivered ? styles.checked : ""}
+                disabled={cut_assistant?.delivered}
+                type="button"
+              >
+                <IoCheckmarkDone className={styles.checkMarkIcon} />
+              </button>
+              <b>Corte:</b> {productionOrder?.cut_assistant ? `${employees.cutAssistant?.name}` : "Não definido."} |
+              <span>
+                {finishing_assistant?.delivered_at
+                  ? `${dataFormater(finishing_assistant?.delivered_at as unknown as string)}`
+                  : ""}
+              </span>
             </li>
             <li className={`${styles.assistant} ${!productionOrder?.fold_assistant && styles.undefinedAssistant}`}>
-              <b>Dobra:</b> {productionOrder?.fold_assistant ? employees.foldAssistant?.name : "Não definido."}
+              <button
+                onClick={() =>
+                  handleAssistantDelivery(
+                    {
+                      production_order_uuid: productionOrder?.production_order_id || "",
+                      assistant_uuid: productionOrder?.fold_assistant || "",
+                      assistant_as: "Dobra",
+                    },
+                    refetch,
+                  )
+                }
+                className={fold_assistant?.delivered ? styles.checked : ""}
+                disabled={fold_assistant?.delivered}
+                type="button"
+              >
+                <IoCheckmarkDone className={styles.checkMarkIcon} />
+              </button>
+              <b>Dobra:</b> {productionOrder?.fold_assistant ? employees.foldAssistant?.name : "Não definido."} |
+              <span>
+                {finishing_assistant?.delivered_at
+                  ? `${dataFormater(finishing_assistant?.delivered_at as unknown as string)}`
+                  : ""}
+              </span>
             </li>
             <li className={`${styles.assistant} ${!productionOrder?.finishing_assistant && styles.undefinedAssistant}`}>
-              <b>Finalização:</b>{" "}
-              {productionOrder?.finishing_assistant ? employees.finishingAssistant?.name : "Não definido."}
+              <button
+                onClick={() =>
+                  handleAssistantDelivery(
+                    {
+                      production_order_uuid: productionOrder?.production_order_id || "",
+                      assistant_uuid: productionOrder?.finishing_assistant || "",
+                      assistant_as: "Acabamento",
+                    },
+                    refetch,
+                  )
+                }
+                className={finishing_assistant?.delivered ? styles.checked : ""}
+                disabled={finishing_assistant?.delivered}
+                type="button"
+              >
+                <IoCheckmarkDone className={styles.checkMarkIcon} />
+              </button>
+              <b>Acabamento:</b>
+              {productionOrder?.finishing_assistant ? employees.finishingAssistant?.name : "Não definido."} |
+              <span>
+                {finishing_assistant?.delivered_at
+                  ? `${dataFormater(finishing_assistant?.delivered_at as unknown as string)}`
+                  : ""}
+              </span>
             </li>
             <li className={`${styles.assistant} ${!productionOrder?.paint_assistant && styles.undefinedAssistant}`}>
-              <b>Pintura:</b> {productionOrder?.paint_assistant ? employees.paintAssistant?.name : "Não definido."}
+              <button
+                onClick={() =>
+                  handleAssistantDelivery(
+                    {
+                      production_order_uuid: productionOrder?.production_order_id || "",
+                      assistant_uuid: productionOrder?.paint_assistant || "",
+                      assistant_as: "Pintura",
+                    },
+                    refetch,
+                  )
+                }
+                className={paint_assistant?.delivered ? styles.checked : ""}
+                disabled={paint_assistant?.delivered}
+                type="button"
+              >
+                <IoCheckmarkDone className={styles.checkMarkIcon} />
+              </button>
+              <b>Pintura:</b> {productionOrder?.paint_assistant ? employees.paintAssistant?.name : "Não definido."} |
+              <span>
+                {finishing_assistant?.delivered_at
+                  ? `${dataFormater(finishing_assistant?.delivered_at as unknown as string)}`
+                  : ""}
+              </span>
             </li>
           </div>
         </ul>

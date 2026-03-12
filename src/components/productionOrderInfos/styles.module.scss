@@ -77,6 +77,37 @@
 
         li {
           padding: 0 0.8rem;
+          display: flex;
+          align-items: center;
+          gap: .4rem;
+
+          span {
+            font-style: italic;
+            opacity: 0.5;
+          }
+
+          button {
+            display: flex;
+            border: 1px solid #E4E4E4;
+            background-color: white;
+            align-items: center;
+            justify-content: center;
+            padding: .2rem;
+            cursor: pointer;
+
+            .checkMarkIcon {
+              color: #868686;
+            }
+          }
+
+          .checked {
+            border: 1px solid #1B9620;
+            cursor: not-allowed;
+
+            .checkMarkIcon {
+              color: #1B9620;
+            }
+          }
         }
 
         hr {
@@ -128,6 +159,28 @@
   .productionOrderInfosContainer {
     .clipboardIcon {
       display: none;
+    }
+
+    ul {
+      button {
+        padding: .2rem;
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+
+        .checkMarkIcon {
+          color: #868686;
+        }
+      }
+
+      .checked {
+        border: 1px solid #1B9620;
+        cursor: not-allowed;
+
+        .checkMarkIcon {
+          color: #1B9620;
+        }
+      }
     }
   }
 }
