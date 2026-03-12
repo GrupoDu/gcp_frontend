@@ -14,6 +14,7 @@ import SubmitButton from "@/components/ui/submitButton";
 import { useSupervisor } from "@/hooks/useSupervisors";
 import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
 import { debugLogger } from "@/utils/logger";
+import { useLoading } from "@/hooks/useLoading";
 
 const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; productionOrderId?: string }) => {
   const { allProductionOrders } = useProductionOrders();
@@ -74,11 +75,39 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
     } else {
       setCanEdit(true);
     }
-  }, [isEdit, productionOrderId, allProductionOrders, productsData, fetchedProductionOrder]);
+  }, [isEdit, productionOrderId, allProductionOrders, productsData, fetchedProductionOrder, assistantsRegisters]);
+
+  function isAssistantRoleAlreadySet(assistants: AssistantsPORegisters[], assistant_as: string): boolean {
+    return assistants.some((assistant) => assistant.assistant_as === assistant_as);
+  }
 
   function getAssistentValues(e: React.ChangeEvent<HTMLSelectElement>, assistant_as: string) {
     if (!e.target.value || e.target.value === "") return;
-    setAssistantsRegisters((prev) => [...prev, { assistant_uuid: e.target.value, assistant_as }]);
+
+    setAssistantsRegisters((previousAssistants) => {
+      const isRoleAlreadyRegistered = isAssistantRoleAlreadySet(previousAssistants, assistant_as);
+
+      let updatedAssistants;
+
+      if (isRoleAlreadyRegistered) {
+        // Update existing assistant
+        updatedAssistants = previousAssistants.map((registeredAssistant) =>
+          registeredAssistant.assistant_as === assistant_as
+            ? { ...registeredAssistant, assistant_uuid: e.target.value }
+            : registeredAssistant,
+        );
+      } else {
+        // Add new assistant
+        updatedAssistants = [...previousAssistants, { assistant_uuid: e.target.value, assistant_as }];
+      }
+
+      debugLogger(`
+      ||> Atualizando setAssistantsRegister <|| 
+      ${JSON.stringify(updatedAssistants)} 
+      `);
+
+      return updatedAssistants;
+    });
   }
 
   const handleFormattedTitle = useMemo(() => {
