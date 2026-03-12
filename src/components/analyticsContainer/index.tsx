@@ -14,6 +14,7 @@ import { GoalsAnalysisProvider } from "@/providers/goalsAnalysis.provider";
 import { GoalsPieChart } from "../goalsPieChart";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
+import AssistantsPORegisterProvider from "@/providers/assistantsPORegister.provider";
 
 const AnalysticsContainer = () => {
   const { isLoading } = useLoading();
@@ -27,22 +28,18 @@ const AnalysticsContainer = () => {
             <LineChartContainer />
           </AnualAnalysisProvider>
         </div>
-        <div className={styles.pieChart}>
+        <div className={styles.goalsAndPieAnalysis}>
           <ProductionOrderAnalysisProvider>
             <PieChartContainer />
           </ProductionOrderAnalysisProvider>
-          <GoalsAnalysisProvider>
-            <GoalsPieChart />
-          </GoalsAnalysisProvider>
-        </div>
-        <div className={styles.pendingGoal}>
           <GoalProvider>
             <GoalSection />
           </GoalProvider>
         </div>
         <div className={styles.employeesAnalysis}>
           <EmployeeProvider>
-            <EmployeeAnalysisContainer />
+            <EmployeeAnalysisContainer employeeType={"soldadores"} />
+            <EmployeeAnalysisContainer employeeType={"assistentes"} />
           </EmployeeProvider>
         </div>
       </main>

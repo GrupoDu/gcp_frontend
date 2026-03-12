@@ -5,8 +5,8 @@
   display: grid;
   grid-template-areas:
     "anualAnalysis anualAnalysis anualAnalysis"
-    "productionOrderChart goalChart goalSection"
-    "employeeAnalysis employeeAnalysis goalSection";
+    "productionOrderChart goalChart goalsAndPieAnalysisSection"
+    "employeeAnalysis employeeAnalysis goalsAndPieAnalysisSection";
   gap: 0.6rem;
   box-sizing: border-box;
 
@@ -14,30 +14,20 @@
     grid-area: anualAnalysis;
   }
 
-  .pieChart {
-    grid-area: productionOrderChart;
+  .goalsAndPieAnalysis {
+    grid-area: goalsAndPieAnalysisSection;
     display: flex;
-    gap: 0.6rem;
-    flex: 1;
-    width: 100%;
-
-    .pieChartGoal {
-      grid-area: goalChart;
-      background-color: colors.$backgroundGray;
-      border: colors.$borderDefault;
-      border-radius: 0.4rem;
-      width: 60%;
-      padding: 1rem;
-    }
-  }
-
-  .pendingGoal {
-    grid-area: goalSection;
+    flex-direction: column;
+    height: 100%;
+    gap: 0.8rem;
   }
 
   .employeesAnalysis {
     grid-area: employeeAnalysis;
     height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
   }
 }
 
