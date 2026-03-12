@@ -7,6 +7,7 @@ export type assistantsPORegisterContextValues = {
   assistantsPORegisters: AssistantsPORegisters[] | undefined;
   status: string | undefined;
   err: string | undefined;
+  refetch: () => void;
 };
 
 export const AssistantsPORegisterContext = createContext<assistantsPORegisterContextValues | undefined>(undefined);
