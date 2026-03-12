@@ -5,9 +5,13 @@ import styles from "./styles.module.scss";
 import { MdOutlineDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
+import { useLoading } from "@/hooks/useLoading";
 
 const DeleteButton = ({ uuid, refetch, endpoint }: { uuid: string; refetch?: () => void; endpoint: string }) => {
+  const { setIsLoading } = useLoading();
+
   async function handleDelete(uuid: string) {
+    setIsLoading(true);
     try {
       await api.delete(`${endpoint}/${uuid}`);
 
@@ -18,6 +22,8 @@ const DeleteButton = ({ uuid, refetch, endpoint }: { uuid: string; refetch?: () 
       }
     } catch (err) {
       toast.error((err as Error).message);
+    } finally {
+      setIsLoading(false);
     }
   }
 

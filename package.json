@@ -8,7 +8,8 @@
     "build": "next build",
     "build:start": "npm run build && npm run start",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "docker:compose": "docker compose watch"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

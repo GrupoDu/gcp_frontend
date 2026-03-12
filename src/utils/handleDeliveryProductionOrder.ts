@@ -30,8 +30,9 @@ export async function handleDelivery(
       refetch();
     }
   } catch (err) {
+    const error = err as Error;
     isProcessing(false);
-    return toast.error((err as Error).message);
+    return toast.error(error.message);
   }
 }
 

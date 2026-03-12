@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const DEV_API_URL = process.env.NEXT_PUBLIC_DEV_API_URL;
 
 export const api = axios.create({
-  baseURL: API_URL || DEV_API_URL,
+  baseURL: API_URL ? API_URL : DEV_API_URL,
   withCredentials: true, // ✅ ESSENCIAL - envia cookies em TODAS requisições
   headers: {
     "Content-Type": "application/json",
@@ -42,18 +42,19 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Se já tentou refresh e falhou, vai pro login
+    // Se já tentou refresh e falhou, vai pro login (mas não se já estiver na página de login)
     if (originalRequest._retry) {
-      window.location.href = "/login";
       return Promise.reject(error);
     }
 
     // Verifica se é erro de token expirado (pode ter outras causas de 401)
     const isExpiredToken = error.response?.data?.code === "TOKEN_EXPIRED";
 
-    // Se não for token expirado (ex: usuário não autenticado), vai pro login
+    // Se não for token expirado (ex: usuário não autenticado), vai pro login (mas não se já estiver na página de login)
     if (!isExpiredToken) {
-      window.location.href = "/login";
+      if (typeof window !== "undefined" && !window.location.pathname.includes("/login")) {
+        window.location.href = "/login";
+      }
       return Promise.reject(error);
     }
 
@@ -79,7 +80,7 @@ api.interceptors.response.use(
     try {
       // ✅ IMPORTANTE: Usar uma NOVA instância ou garantir comCredentials
       const refreshResponse = await axios.post(
-        "http://localhost:8002/login/refresh",
+        `${API_URL ? API_URL : DEV_API_URL}/login/refresh`,
         {},
         {
           withCredentials: true, // ✅ ESSENCIAL
@@ -104,8 +105,10 @@ api.interceptors.response.use(
       // Processa a fila com erro
       processQueue(refreshError as Error);
 
-      // Se o refresh falhou (ex: refresh token expirado), vai pro login
-      window.location.href = "/login";
+      // Se o refresh falhou (ex: refresh token expirado), vai pro login (mas não se já estiver na página de login)
+      if (typeof window !== "undefined" && !window.location.pathname.includes("/login")) {
+        window.location.href = "/login";
+      }
 
       return Promise.reject(refreshError);
     } finally {

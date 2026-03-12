@@ -1,4 +1,3 @@
-import RegisterForm from "@/components/forms/productionOrderForm";
 import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
@@ -6,6 +5,7 @@ import { ProductProvider } from "@/providers/products.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import { SupervisorProvider } from "@/providers/supervisor.provider";
+import ProductionOrderForm from "@/components/forms/productionOrderForm";
 
 const RegisterPage = () => {
   return (
@@ -17,7 +17,7 @@ const RegisterPage = () => {
           <EmployeeProvider>
             <ProductionOrderProvider>
               <SupervisorProvider>
-                <RegisterForm isEdit={false} />
+                <ProductionOrderForm isEdit={false} />
               </SupervisorProvider>
             </ProductionOrderProvider>
           </EmployeeProvider>

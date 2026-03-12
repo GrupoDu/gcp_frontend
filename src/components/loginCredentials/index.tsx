@@ -33,9 +33,8 @@ const LoginCredentials = () => {
     } catch (err) {
       const error = err as Error;
       setLoginTries((prevTries) => prevTries + 1);
-      toast.error(error.message);
-    } finally {
       setIsLoading(false);
+      toast.error(error.message);
     }
   }
 

@@ -50,11 +50,8 @@ const UserForm = ({ isEdit, user_id }: { isEdit?: boolean; user_id?: string }) =
       onSubmit={async (e) =>
         await handleFormSubmit(
           e,
-          method,
-          userInfosFields as unknown as Record<string, unknown>,
-          endpoint,
-          router,
-          canEdit,
+          { method, bodyValues: userInfosFields as unknown as Record<string, unknown>, endpoint },
+          { router, canEdit },
         )
       }
       className={styles.registerUserContainer}

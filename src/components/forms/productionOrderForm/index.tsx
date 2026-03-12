@@ -9,9 +9,12 @@ import { useProductionOrders } from "@/hooks/useProductionOrder";
 import { useEmployeeType } from "@/hooks/useEmployeeType";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { Product } from "@/types/product.type";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
 import { useSupervisor } from "@/hooks/useSupervisors";
+import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
+import { debugLogger } from "@/utils/logger";
+import { useLoading } from "@/hooks/useLoading";
 
 const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; productionOrderId?: string }) => {
   const { allProductionOrders } = useProductionOrders();
@@ -22,6 +25,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
   const router = useRouter();
   const { welders, assistants } = useEmployeeType();
   const [fetchedRegisterProduct, setFetchedRegisterProduct] = useState<Product | undefined>();
+  const [assistantsRegisters, setAssistantsRegisters] = useState<AssistantsPORegisters[]>([]);
   const [productionOrderValues, setProductionOrderValues] = useState<ProductionOrder>({
     client_uuid: "",
     product_uuid: "",
@@ -68,12 +72,43 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
         production_order_id: fetchedProductionOrder?.production_order_id || "",
       });
       setCanEdit(fetchedProductionOrder?.production_order_status === "Pendente");
-
-      console.log(isEdit);
     } else {
       setCanEdit(true);
     }
-  }, [isEdit, productionOrderId, allProductionOrders, productsData, fetchedProductionOrder]);
+  }, [isEdit, productionOrderId, allProductionOrders, productsData, fetchedProductionOrder, assistantsRegisters]);
+
+  function isAssistantRoleAlreadySet(assistants: AssistantsPORegisters[], assistant_as: string): boolean {
+    return assistants.some((assistant) => assistant.assistant_as === assistant_as);
+  }
+
+  function getAssistentValues(e: React.ChangeEvent<HTMLSelectElement>, assistant_as: string) {
+    if (!e.target.value || e.target.value === "") return;
+
+    setAssistantsRegisters((previousAssistants) => {
+      const isRoleAlreadyRegistered = isAssistantRoleAlreadySet(previousAssistants, assistant_as);
+
+      let updatedAssistants;
+
+      if (isRoleAlreadyRegistered) {
+        // Update existing assistant
+        updatedAssistants = previousAssistants.map((registeredAssistant) =>
+          registeredAssistant.assistant_as === assistant_as
+            ? { ...registeredAssistant, assistant_uuid: e.target.value }
+            : registeredAssistant,
+        );
+      } else {
+        // Add new assistant
+        updatedAssistants = [...previousAssistants, { assistant_uuid: e.target.value, assistant_as }];
+      }
+
+      debugLogger(`
+      ||> Atualizando setAssistantsRegister <|| 
+      ${JSON.stringify(updatedAssistants)} 
+      `);
+
+      return updatedAssistants;
+    });
+  }
 
   const handleFormattedTitle = useMemo(() => {
     const isFieldsFilled =
@@ -108,7 +143,13 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
 
   return (
     <form
-      onSubmit={(e) => handleFormSubmit(e, method, productionOrderBodyValues, endpoint, router, canEdit)}
+      onSubmit={(e) =>
+        handleFormSubmit(
+          e,
+          { endpoint, method, bodyValues: productionOrderBodyValues, assistantsRegister: assistantsRegisters },
+          { canEdit, router },
+        )
+      }
       className={styles.registerForm}
     >
       <div className={styles.registerContent}>
@@ -236,12 +277,10 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <span>Corte</span>
           <select
             value={productionOrderValues?.cut_assistant as string}
-            onChange={(e) =>
-              setProductionOrderValues({
-                ...productionOrderValues,
-                cut_assistant: e.target.value,
-              })
-            }
+            onChange={(e) => {
+              getAssistentValues(e, "Corte");
+              setProductionOrderValues({ ...productionOrderValues, cut_assistant: e.target.value });
+            }}
             name="employee-select"
           >
             <option value="" defaultValue={""}>
@@ -258,12 +297,10 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <span>Pintura</span>
           <select
             value={productionOrderValues?.paint_assistant as string}
-            onChange={(e) =>
-              setProductionOrderValues({
-                ...productionOrderValues,
-                paint_assistant: e.target.value,
-              })
-            }
+            onChange={(e) => {
+              getAssistentValues(e, "Pintura");
+              setProductionOrderValues({ ...productionOrderValues, paint_assistant: e.target.value });
+            }}
             name="employee-select"
           >
             <option value="" defaultValue={""}>
@@ -280,12 +317,10 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <span>Dobra</span>
           <select
             value={productionOrderValues?.fold_assistant as string}
-            onChange={(e) =>
-              setProductionOrderValues({
-                ...productionOrderValues,
-                fold_assistant: e.target.value,
-              })
-            }
+            onChange={(e) => {
+              getAssistentValues(e, "Dobra");
+              setProductionOrderValues({ ...productionOrderValues, fold_assistant: e.target.value });
+            }}
             name="employee-select"
           >
             <option value="" defaultValue={""}>
@@ -302,12 +337,10 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <span>Acabamento</span>
           <select
             value={productionOrderValues?.finishing_assistant as string}
-            onChange={(e) =>
-              setProductionOrderValues({
-                ...productionOrderValues,
-                finishing_assistant: e.target.value,
-              })
-            }
+            onChange={(e) => {
+              getAssistentValues(e, "Acabamento");
+              setProductionOrderValues({ ...productionOrderValues, finishing_assistant: e.target.value });
+            }}
             name="employee-select"
           >
             <option value="" defaultValue={""}>
