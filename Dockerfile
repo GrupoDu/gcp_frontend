@@ -1,17 +1,16 @@
-FROM node:latest as base
+FROM node:latest AS base
 
 WORKDIR /app
 
 COPY . .
 
-FROM base as dev
+FROM base AS dev
 RUN echo "==> Iniciando dev..."
 RUN npm i
 CMD ["npm", "run", "dev"]
 
-FROM base as prod
+FROM base AS prod
 RUN echo "==> Iniciando prod..."
-RUN npm i
 RUN npm install
 CMD ["npm", "run", "build:start"]
 
