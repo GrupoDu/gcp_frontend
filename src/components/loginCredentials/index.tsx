@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
@@ -15,6 +15,26 @@ const LoginCredentials = () => {
   const [user_type, setUserType] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  async function tryAutoLogin() {
+		setIsLoading(true);
+    try {
+      const autoLoginResponse = await api.get("/login/verify");
+
+      const autoLoginPayload = await autoLoginResponse.data.payload;
+      const isAdmin = autoLoginPayload.user_type === "admin";
+      const isSupervisor = autoLoginPayload.user_type === "supervisor";
+
+      if (isAdmin) return router.push("/dashboard");
+
+      if (isSupervisor) return router.push("/producao");
+    } catch (err) {
+			setIsLoading(false);
+      const error = err as Error;
+
+      console.log(error.message);
+    }
+  }
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,6 +57,10 @@ const LoginCredentials = () => {
       toast.error(error.message);
     }
   }
+
+  useEffect(() => {
+    tryAutoLogin();
+  }, []);
 
   return (
     <form onSubmit={(e) => handleLogin(e)} className={styles.loginCredentials}>
