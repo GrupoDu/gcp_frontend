@@ -38,11 +38,10 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     // Se não for erro 401, rejeita direto
-    if (error.response?.status !== 401) {
-      return Promise.reject(error);
-    }
+    // if (error.response?.status !== 401) {
+    //  return Promise.reject(error);
+    // }
 
-    // Se já tentou refresh e falhou, vai pro login (mas não se já estiver na página de login)
     if (originalRequest._retry) {
       return Promise.reject(error);
     }
