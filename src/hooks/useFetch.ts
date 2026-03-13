@@ -23,13 +23,6 @@ export function useFetch<T>(endpoint: string, params?: string) {
     try {
       const apiResponse = await api.get(`/${endpoint}${params ? params : ""}`);
 
-      const isResponseUnauthorized: boolean = apiResponse.status === 403 || apiResponse.status === 401;
-
-      if (isResponseUnauthorized) {
-        logout(router);
-        return toast.warning("Sessão expirada ou credenciais inválidas.");
-      }
-
       const responseData = await apiResponse.data;
 
       if (!responseData) {
