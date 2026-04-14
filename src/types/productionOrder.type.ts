@@ -1,6 +1,6 @@
 export type ProductionOrder = {
   production_order_id?: string;
-  production_order_deadline: string;
+  production_order_deadline: Date;
   production_order_title: string;
   production_order_description: string;
   production_order_status: string;
