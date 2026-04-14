@@ -1,12 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
+
+interface CustomAxiosConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const DEV_API_URL = process.env.NEXT_PUBLIC_DEV_API_URL;
 
 export const api = axios.create({
   baseURL: API_URL ? API_URL : DEV_API_URL,
-  withCredentials: true, // ✅ ESSENCIAL - envia cookies em TODAS requisições
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -14,8 +17,8 @@ export const api = axios.create({
 });
 
 type FailedQueue = {
-  resolve: (value?: any) => void;
-  reject: (reason?: any) => void;
+  resolve: (value?: unknown) => void;
+  reject: (reason?: unknown) => void;
 };
 
 let isRefreshing = false;
@@ -35,27 +38,11 @@ const processQueue = (error: Error | null = null) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    const originalRequest: CustomAxiosConfig = error.config;
 
-    // Se não for erro 401, rejeita direto
-    // if (error.response?.status !== 401) {
-    //  return Promise.reject(error);
-    // }
+    if (originalRequest._retry) return Promise.reject(error);
 
-    if (originalRequest._retry) {
-      return Promise.reject(error);
-    }
-
-    // Verifica se é erro de token expirado (pode ter outras causas de 401)
-    const isExpiredToken = error.response?.data?.code === "TOKEN_EXPIRED";
-
-    // Se não for token expirado (ex: usuário não autenticado), vai pro login (mas não se já estiver na página de login)
-    if (!isExpiredToken) {
-      if (typeof window !== "undefined" && !window.location.pathname.includes("/login")) {
-        window.location.href = "/login";
-      }
-      return Promise.reject(error);
-    }
+    const isNotLoginPage = typeof window !== "undefined" && !window.location.pathname.includes("/login");
 
     // Se já está fazendo refresh, coloca na fila
     if (isRefreshing) {
@@ -63,11 +50,10 @@ api.interceptors.response.use(
         failedQueue.push({ resolve, reject });
       })
         .then(() => {
-          console.log("✅ Requisição da fila processada");
           return api(originalRequest);
         })
         .catch((err) => {
-          console.log("❌ Requisição da fila falhou");
+          console.log("Mensagem de erro: ", err.message);
           return Promise.reject(err);
         });
     }
@@ -77,41 +63,33 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      // ✅ IMPORTANTE: Usar uma NOVA instância ou garantir comCredentials
-      const refreshResponse = await axios.post(
+      await axios.post(
         `${API_URL ? API_URL : DEV_API_URL}/login/refresh`,
         {},
         {
-          withCredentials: true, // ✅ ESSENCIAL
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
         },
       );
 
-      // Se o servidor retornou um novo token no body (opcional)
-      if (refreshResponse.data?.token) {
-        // Se você usa token no header além do cookie, atualiza aqui
-        // api.defaults.headers.common['Authorization'] = `Bearer ${refreshResponse.data.token}`;
-      }
-
       // Processa a fila com sucesso
       processQueue();
 
       // Tenta a requisição original novamente
       return api(originalRequest);
-    } catch (refreshError: any) {
+    } catch (err) {
+      const refreshError = err as Error;
+      console.log("Não foi possível fazer o refresh");
       // Processa a fila com erro
-      processQueue(refreshError as Error);
+      processQueue(refreshError);
 
       // Se o refresh falhou (ex: refresh token expirado), vai pro login (mas não se já estiver na página de login)
-      if (typeof window !== "undefined" && !window.location.pathname.includes("/login")) {
-        window.location.href = "/login";
-      }
+      if (isNotLoginPage) window.location.href = "/login";
 
       return Promise.reject(refreshError);
     } finally {
-      console.log("🏁 Refresh finalizado");
       isRefreshing = false;
     }
   },
