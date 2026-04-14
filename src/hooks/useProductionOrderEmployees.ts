@@ -8,7 +8,7 @@ export function useRegisterEmployees() {
   const pathname = usePathname();
   const registerId = pathname.split("/")[2];
   const { data: employeesData } = useFetch<Employee[]>("employees");
-  const { data: allProductionOrders } = useFetch<ProductionOrder>("productionOrder/", registerId);
+  const { data: allProductionOrders } = useFetch<ProductionOrder>("production-orders/", registerId);
   const [welder, setWelder] = useState<Employee>();
   const [cutAssistant, setCutAssistant] = useState<Employee>();
   const [foldAssistant, setFoldAssistant] = useState<Employee>();

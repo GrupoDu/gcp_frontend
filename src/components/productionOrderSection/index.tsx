@@ -10,7 +10,7 @@ import { dataFormater } from "@/utils/dataFormater";
 import { useEffect, useMemo, useRef } from "react";
 
 const ProductionOrderSection = () => {
-  const { data, refetch } = useFetch<ProductionOrder[]>("productionOrder");
+  const { data, refetch } = useFetch<ProductionOrder[]>("production-orders");
   const initialFetchDone = useRef(false);
 
   const pendingProductionOrders = useMemo(

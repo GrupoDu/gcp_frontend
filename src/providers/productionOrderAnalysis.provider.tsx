@@ -3,14 +3,14 @@
 import { ProductionOrderAnalysisContext } from "@/context/registerAnalysis.context";
 import { useFetch } from "@/hooks/useFetch";
 import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.type";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 export function ProductionOrderAnalysisProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<ProductionOrderAnalysis>("productionOrderAnalysis");
+  const { data, err, status } = useFetch<ProductionOrderAnalysis>("production-order-analysis");
 
-  const registerAnalysisData = useMemo(
+  const productionOrderAnalysis = useMemo(
     () => ({
-      registerAnalysis: data || undefined,
+      productionOrderAnalysis: data || undefined,
       status,
       err,
     }),
@@ -18,7 +18,7 @@ export function ProductionOrderAnalysisProvider({ children }: { children: React.
   );
 
   return (
-    <ProductionOrderAnalysisContext.Provider value={registerAnalysisData}>
+    <ProductionOrderAnalysisContext.Provider value={productionOrderAnalysis}>
       {children}
     </ProductionOrderAnalysisContext.Provider>
   );

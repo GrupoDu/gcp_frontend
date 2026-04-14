@@ -6,7 +6,7 @@ import { GoalsAnalysis } from "@/types/goalsAnalysis.type";
 import { useMemo } from "react";
 
 export function GoalsAnalysisProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<GoalsAnalysis>("goalsAnalysis");
+  const { data, err, status } = useFetch<GoalsAnalysis>("goals-analysis");
 
   const goalsAnalysisData = useMemo(
     () => ({

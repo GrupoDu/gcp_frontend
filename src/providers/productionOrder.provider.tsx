@@ -6,7 +6,7 @@ import { ProductionOrder } from "@/types/productionOrder.type";
 import { useMemo } from "react";
 
 export function ProductionOrderProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<ProductionOrder[]>("productionOrder");
+  const { data, err, status, refetch } = useFetch<ProductionOrder[]>("production-orders");
 
   const productionOrders = useMemo(
     () => ({

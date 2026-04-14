@@ -10,7 +10,7 @@ export default function AssistantsPORegisterProvider({ children }: { children: R
   const pathname = usePathname();
   const productionOrderId = pathname.split("/")[2];
   const { data, status, err, refetch } = useFetch<AssistantsPORegisters[]>(
-    `assistantsPORegisters/${productionOrderId}`,
+    `assistants-po-registers/${productionOrderId}`,
   );
 
   const assistantsPORegistersData: assistantsPORegisterContextValues = useMemo(
