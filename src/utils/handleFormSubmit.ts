@@ -1,16 +1,22 @@
 import { api } from "@/services/api";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
 import { ApiConfig } from "@/types/apiConfig.type";
-import { router } from "next/client";
 import { PageConfig } from "@/types/pageConfig.type";
-import { usePathname } from "next/navigation";
 import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
-import { debugLogger } from "@/utils/logger";
-import { throws } from "node:assert";
+import React from "react";
+import { ErrorResponse } from "@/types/errorResponse.type";
 
+/**
+ * Função para lidar com o envio de formulários
+ *
+ * @param e - event
+ * @param apiConfig - Configurações da API
+ * @param pageConfig - Configurações da página
+ * @see ApiConfig
+ * @see PageConfig
+ */
 export async function handleFormSubmit(
-  e: React.FormEvent<HTMLFormElement>,
+  e: React.SubmitEvent<HTMLFormElement>,
   apiConfig: ApiConfig,
   pageConfig: PageConfig,
 ) {
@@ -39,31 +45,33 @@ export async function handleFormSubmit(
   }
 
   try {
-    if (method === "POST") {
-      const postResponse = await api.post(`/${endpoint}`, bodyValues);
-      if (assistantsRegister) {
-        console.log(postResponse.data.register.production_order_id);
-        createAssistantPORegister(assistantsRegister, postResponse.data.register.production_order_id);
-      }
-    }
+    const postResponse = await handlePostRequest(method, endpoint, bodyValues);
+    const putResponse = await handlePutRequest(method, endpoint, bodyValues);
+    const response = postResponse || putResponse;
 
-    if (method === "PUT") {
-      await api.put(`/${endpoint}`, bodyValues);
-    }
+    createAssistantPORegister(response?.data.data.production_order_id, assistantsRegister);
 
     router?.back();
     return toast.success("Operação realizada com sucesso!");
   } catch (err) {
-    const error = err as Error;
+    const error = err as ErrorResponse;
 
-    return toast.error(error.message);
+    return toast.error(error.response?.data.message);
   }
 }
 
-function createAssistantPORegister(assistantsRegisters: AssistantsPORegisters[], productionOrderId: string) {
+/**
+ * Método para criar registros de atividades de assistentes
+ *
+ * @param assistantsRegisters - Informações da atividade do assistente
+ * @param productionOrderId - UUID da produção
+ */
+function createAssistantPORegister(productionOrderId: string, assistantsRegisters?: AssistantsPORegisters[]) {
+  if (!assistantsRegisters) return;
+
   try {
     assistantsRegisters.forEach(async (assistant) => {
-      await api.post("/assistantsPORegisters", {
+      await api.post("/assistants-po-registers", {
         production_order_uuid: productionOrderId,
         assistant_uuid: assistant.assistant_uuid,
         assistant_as: assistant.assistant_as,
@@ -71,6 +79,44 @@ function createAssistantPORegister(assistantsRegisters: AssistantsPORegisters[],
     });
   } catch (err) {
     const error = err as Error;
-    throw new Error("Houve um erro: ", error);
+    console.log("Houve um erro: ", error);
+  }
+}
+
+/**
+ * Função para lidar com requisições POST
+ *
+ * @param method - Método da requisição
+ * @param endpoint - Endpoint da API
+ * @param bodyValues - Valores da requisição
+ */
+async function handlePostRequest(method: string, endpoint: string, bodyValues: unknown) {
+  if (method !== "POST") return;
+
+  try {
+    return await api.post(`/${endpoint}`, bodyValues);
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+    return undefined;
+  }
+}
+
+/**
+ * Função para lidar com requisições PUT
+ *
+ * @param method - Método da requisição
+ * @param endpoint - Endpoint da API
+ * @param bodyValues - Valores da requisição
+ */
+async function handlePutRequest(method: string, endpoint: string, bodyValues: unknown) {
+  if (method !== "PUT") return;
+
+  try {
+    return await api.put(`/${endpoint}`, bodyValues);
+  } catch (err) {
+    const error = err as Error;
+    console.log(error.message);
+    return undefined;
   }
 }

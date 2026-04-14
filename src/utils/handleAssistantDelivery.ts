@@ -2,12 +2,16 @@ import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
 import { api } from "@/services/api";
 import { debugLogger } from "@/utils/logger";
 import { toast } from "react-toastify";
+import { ErrorResponse } from "@/types/errorResponse.type";
 
 export default async function handleAssistantDelivery(assistantValues: AssistantsPORegisters, refetch: () => void) {
   const { production_order_uuid, assistant_uuid, assistant_as } = assistantValues;
 
   try {
-    const deliveryResponse = await api.put("/assistantsPORegisters/deliver", {
+    if (!assistant_uuid) {
+      return toast.error("Verifique se o assistente já foi selecionado para essa tarefa.");
+    }
+    const deliveryResponse = await api.put("/assistants-po-registers/deliver", {
       production_order_uuid,
       assistant_uuid,
       assistant_as,
@@ -30,7 +34,7 @@ export default async function handleAssistantDelivery(assistantValues: Assistant
     refetch();
     return toast.success(deliveryData.message);
   } catch (err) {
-    const error = err as Error;
-    return toast.error(`Houve um erro na requisição: ${error.message}`);
+    const error = err as ErrorResponse;
+    return toast.error(`Houve um erro na requisição: ${error.response?.data.message}`);
   }
 }
