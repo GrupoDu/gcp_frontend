@@ -3,14 +3,19 @@ services:
     build:
       context: .
       target: dev
-    develop:
-      watch:
-        - action: sync
-          path: .
-          target: /src/
-          ignore:
-            - node_modules
-        - action: rebuild
-          path: package.json
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
     ports:
       - "${DEV_PORT}:3000"
+    expose:
+      - "3000"
+    networks:
+      - front-network
+
+networks:
+  front-network:
+    name: erp-network
+    external: true
