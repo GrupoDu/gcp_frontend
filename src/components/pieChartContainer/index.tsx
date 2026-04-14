@@ -7,23 +7,23 @@ import { useProductionOrderAnalysis } from "@/hooks/useProductionOrderAnalysis";
 import { usePathname } from "next/navigation";
 
 const PieChartContainer = () => {
-  const { registerAnalysis } = useProductionOrderAnalysis();
+  const { productionOrderAnalysis } = useProductionOrderAnalysis();
   const pathname = usePathname();
 
   const isAnalysisPage = pathname.includes("analises");
 
   const analysisData = [
     {
-      value: registerAnalysis?.deliveredRegisterQuantity || 0,
+      value: productionOrderAnalysis?.deliveredRegisterQuantity || 0,
       label: "Concluido",
     },
     {
-      value: registerAnalysis?.pendingRegisterQuantity || 0,
+      value: productionOrderAnalysis?.pendingRegisterQuantity || 0,
       label: "Pendente",
     },
 
     {
-      value: registerAnalysis?.notDeliveredRegisterQuantity || 0,
+      value: productionOrderAnalysis?.notDeliveredRegisterQuantity || 0,
       label: "Não finalizado",
     },
   ];

@@ -2,7 +2,7 @@ import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.type";
 import { createContext } from "react";
 
 export type ProductionOrderAnalysisContextValues = {
-  registerAnalysis: ProductionOrderAnalysis | undefined;
+  productionOrderAnalysis: ProductionOrderAnalysis | undefined;
   status: string | undefined;
   err: string | undefined;
 };
