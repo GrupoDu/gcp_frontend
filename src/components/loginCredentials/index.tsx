@@ -17,7 +17,7 @@ const LoginCredentials = () => {
   const router = useRouter();
 
   async function tryAutoLogin() {
-		setIsLoading(true);
+    setIsLoading(true);
     try {
       const autoLoginResponse = await api.get("/login/verify");
 
@@ -29,7 +29,7 @@ const LoginCredentials = () => {
 
       if (isSupervisor) return router.push("/producao");
     } catch (err) {
-			setIsLoading(false);
+      setIsLoading(false);
       const error = err as Error;
 
       console.log(error.message);
@@ -47,7 +47,7 @@ const LoginCredentials = () => {
         user_type: user_type,
       });
 
-      const user = response.data.user;
+      const user = response.data.data.user;
 
       redirectByUserType(user.user_type, router, setUserType);
     } catch (err) {

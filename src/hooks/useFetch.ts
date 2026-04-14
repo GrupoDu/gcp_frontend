@@ -4,7 +4,6 @@ import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
-import { toast } from "react-toastify";
 import { useLoading } from "./useLoading";
 
 type FetchResponse<T> = {
@@ -23,7 +22,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
     try {
       const apiResponse = await api.get(`/${endpoint}${params ? params : ""}`);
 
-      const responseData = await apiResponse.data;
+      const responseData = await apiResponse.data.data;
 
       if (!responseData) {
         setFetchedData({
@@ -31,7 +30,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
           err: "Dados não encontrados.",
         });
 
-        logout(router);
+        // logout(router);
         return;
       }
 
@@ -45,9 +44,6 @@ export function useFetch<T>(endpoint: string, params?: string) {
         status: "failed",
         err: error.message,
       });
-
-      logout(router);
-      return toast.warning("Sessão expirada ou credenciais inválidas.");
     } finally {
       setIsLoading(false);
     }

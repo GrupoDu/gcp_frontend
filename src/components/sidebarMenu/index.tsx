@@ -33,7 +33,7 @@ const SidebarMenu = () => {
         const response = await api.get(`/users/validator`);
 
         if (response) {
-          const data = await response.data;
+          const data = await response.data.data;
           setUserType(data.user_type);
         } else {
           router.push("/login");
@@ -44,7 +44,6 @@ const SidebarMenu = () => {
     }
 
     tokenValidator();
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActualPage(pathname.split("/")[1]);
     setIsSidebarLoading(false);
   }, [router, pathname]);
