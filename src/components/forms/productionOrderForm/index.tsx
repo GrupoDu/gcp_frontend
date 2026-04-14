@@ -2,25 +2,29 @@
 
 import styles from "./styles.module.scss";
 import LinkButton from "@/components/linkButton";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductionOrder } from "@/types/productionOrder.type";
 import { useProductionOrders } from "@/hooks/useProductionOrder";
 import { useEmployeeType } from "@/hooks/useEmployeeType";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { Product } from "@/types/product.type";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
 import { useSupervisor } from "@/hooks/useSupervisors";
 import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
-import { debugLogger } from "@/utils/logger";
-import { useLoading } from "@/hooks/useLoading";
+import { getAssistentValues } from "@/utils/assistantsUtil";
 
+/**
+ * Componente de formulário de produção
+ *
+ * @param isEdit - Indica se o formulário está em modo de edição
+ * @param productionOrderId - ID da produção
+ */
 const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; productionOrderId?: string }) => {
   const { allProductionOrders } = useProductionOrders();
   const { supervisorsData } = useSupervisor();
   const [canEdit, setCanEdit] = useState(false);
-  const [fetchedProductionOrder, setFetchedProductionOrder] = useState<ProductionOrder | undefined>();
   const { productsData } = useProducts();
   const router = useRouter();
   const { welders, assistants } = useEmployeeType();
@@ -35,7 +39,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
     finishing_assistant: null,
     paint_assistant: null,
     product_quantity: 0,
-    production_order_deadline: "",
+    production_order_deadline: new Date(),
     production_order_title: "",
     production_order_description: "",
     production_order_status: "Pendente",
@@ -45,83 +49,41 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
 
   useEffect(() => {
     if (isEdit) {
+      const foundOrder = allProductionOrders?.find((order) => order.production_order_id === productionOrderId);
+
+      const formattedDeadline = foundOrder?.production_order_deadline
+        ? new Date(foundOrder.production_order_deadline)
+        : new Date();
+
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFetchedProductionOrder(allProductionOrders?.find((order) => order.production_order_id === productionOrderId));
-
-      const formattedDeadline = fetchedProductionOrder?.production_order_deadline
-        ? new Date(fetchedProductionOrder.production_order_deadline).toISOString()
-        : "";
-
-      setFetchedRegisterProduct(productsData?.find((product) => product.uuid === fetchedProductionOrder?.product_uuid));
+      setFetchedRegisterProduct(productsData?.find((product) => product.uuid === foundOrder?.product_uuid));
 
       setProductionOrderValues({
-        client_uuid: fetchedProductionOrder?.client_uuid || "",
-        product_uuid: fetchedProductionOrder?.product_uuid || "",
-        employee_uuid: fetchedProductionOrder?.employee_uuid || null,
-        cut_assistant: fetchedProductionOrder?.cut_assistant || null,
-        fold_assistant: fetchedProductionOrder?.fold_assistant || null,
-        finishing_assistant: fetchedProductionOrder?.finishing_assistant || null,
-        paint_assistant: fetchedProductionOrder?.paint_assistant || null,
-        product_quantity: fetchedProductionOrder?.product_quantity || 0,
+        client_uuid: foundOrder?.client_uuid || "",
+        product_uuid: foundOrder?.product_uuid || "",
+        employee_uuid: foundOrder?.employee_uuid || null,
+        cut_assistant: foundOrder?.cut_assistant || null,
+        fold_assistant: foundOrder?.fold_assistant || null,
+        finishing_assistant: foundOrder?.finishing_assistant || null,
+        paint_assistant: foundOrder?.paint_assistant || null,
+        product_quantity: foundOrder?.product_quantity || 0,
         production_order_deadline: formattedDeadline,
-        production_order_title: fetchedProductionOrder?.production_order_title || "",
-        production_order_description: fetchedProductionOrder?.production_order_description || "",
-        production_order_status: fetchedProductionOrder?.production_order_status || "",
-        delivered_at: fetchedProductionOrder?.delivered_at || null,
-        delivery_observation: fetchedProductionOrder?.delivery_observation || "",
-        production_order_id: fetchedProductionOrder?.production_order_id || "",
+        production_order_title: foundOrder?.production_order_title || "",
+        production_order_description: foundOrder?.production_order_description || "",
+        production_order_status: foundOrder?.production_order_status || "",
+        delivered_at: foundOrder?.delivered_at || null,
+        delivery_observation: foundOrder?.delivery_observation || "",
+        production_order_id: foundOrder?.production_order_id || "",
       });
-      setCanEdit(fetchedProductionOrder?.production_order_status === "Pendente");
+      setCanEdit(foundOrder?.production_order_status === "Pendente");
     } else {
       setCanEdit(true);
     }
-  }, [isEdit, productionOrderId, allProductionOrders, productsData, fetchedProductionOrder, assistantsRegisters]);
+  }, [isEdit, productionOrderId, allProductionOrders, productsData]);
 
-  function isAssistantRoleAlreadySet(assistants: AssistantsPORegisters[], assistant_as: string): boolean {
-    return assistants.some((assistant) => assistant.assistant_as === assistant_as);
-  }
-
-  function getAssistentValues(e: React.ChangeEvent<HTMLSelectElement>, assistant_as: string) {
-    if (!e.target.value || e.target.value === "") return;
-
-    setAssistantsRegisters((previousAssistants) => {
-      const isRoleAlreadyRegistered = isAssistantRoleAlreadySet(previousAssistants, assistant_as);
-
-      let updatedAssistants;
-
-      if (isRoleAlreadyRegistered) {
-        // Update existing assistant
-        updatedAssistants = previousAssistants.map((registeredAssistant) =>
-          registeredAssistant.assistant_as === assistant_as
-            ? { ...registeredAssistant, assistant_uuid: e.target.value }
-            : registeredAssistant,
-        );
-      } else {
-        // Add new assistant
-        updatedAssistants = [...previousAssistants, { assistant_uuid: e.target.value, assistant_as }];
-      }
-
-      debugLogger(`
-      ||> Atualizando setAssistantsRegister <|| 
-      ${JSON.stringify(updatedAssistants)} 
-      `);
-
-      return updatedAssistants;
-    });
-  }
-
-  const handleFormattedTitle = useMemo(() => {
-    const isFieldsFilled =
-      productionOrderValues.product_quantity !== 0 &&
-      fetchedRegisterProduct?.name !== "" &&
-      !Number.isNaN(productionOrderValues.product_quantity) &&
-      fetchedRegisterProduct !== undefined;
-
-    return isFieldsFilled
-      ? `${productionOrderValues.product_quantity} ${fetchedRegisterProduct?.name}`
-      : "Preencha a quantidade e o produto";
-  }, [productionOrderValues.product_quantity, fetchedRegisterProduct]);
-
+  /** Lida com a mudança do produto
+   * @param e - Evento de mudança do select
+   */
   async function handleProductChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setFetchedRegisterProduct(productsData?.find((product) => product.uuid === e.target.value));
 
@@ -131,12 +93,10 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
     });
   }
 
-  const endpoint = isEdit ? `productionOrder/${productionOrderId}` : "productionOrder";
+  const endpoint = isEdit ? `production-orders/${productionOrderId}` : "production-orders";
   const method = isEdit ? "PUT" : "POST";
-  const formattedUpdatedTitle = handleFormattedTitle;
   const productionOrderBodyValues = {
     ...productionOrderValues,
-    production_order_title: formattedUpdatedTitle,
     delivered_at: null,
     product_uuid: fetchedRegisterProduct?.uuid || "",
   };
@@ -159,10 +119,10 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
             onChange={(e) =>
               setProductionOrderValues({
                 ...productionOrderValues,
-                production_order_deadline: new Date(e.target.value).toISOString(),
+                production_order_deadline: new Date(e.target.value),
               })
             }
-            value={productionOrderValues.production_order_deadline.split("T")[0]}
+            value={productionOrderValues.production_order_deadline.toISOString().split("T")[0]}
             type="date"
             required
             name="deliver-date"
@@ -174,9 +134,11 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
             type="text"
             name="title-input"
             required
-            readOnly
             placeholder="Digite um título"
-            value={handleFormattedTitle}
+            value={productionOrderValues.production_order_title}
+            onChange={(e) =>
+              setProductionOrderValues({ ...productionOrderValues, production_order_title: e.target.value })
+            }
           />
         </label>
         <label className={styles.descriptionInput}>
@@ -278,7 +240,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <select
             value={productionOrderValues?.cut_assistant as string}
             onChange={(e) => {
-              getAssistentValues(e, "Corte");
+              getAssistentValues(e, "Corte", setAssistantsRegisters);
               setProductionOrderValues({ ...productionOrderValues, cut_assistant: e.target.value });
             }}
             name="employee-select"
@@ -298,7 +260,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <select
             value={productionOrderValues?.paint_assistant as string}
             onChange={(e) => {
-              getAssistentValues(e, "Pintura");
+              getAssistentValues(e, "Pintura", setAssistantsRegisters);
               setProductionOrderValues({ ...productionOrderValues, paint_assistant: e.target.value });
             }}
             name="employee-select"
@@ -318,7 +280,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <select
             value={productionOrderValues?.fold_assistant as string}
             onChange={(e) => {
-              getAssistentValues(e, "Dobra");
+              getAssistentValues(e, "Dobra", setAssistantsRegisters);
               setProductionOrderValues({ ...productionOrderValues, fold_assistant: e.target.value });
             }}
             name="employee-select"
@@ -338,7 +300,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <select
             value={productionOrderValues?.finishing_assistant as string}
             onChange={(e) => {
-              getAssistentValues(e, "Acabamento");
+              getAssistentValues(e, "Acabamento", setAssistantsRegisters);
               setProductionOrderValues({ ...productionOrderValues, finishing_assistant: e.target.value });
             }}
             name="employee-select"

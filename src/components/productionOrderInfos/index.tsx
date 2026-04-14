@@ -10,17 +10,24 @@ import LinkButton from "../linkButton";
 import { IoIosArrowBack } from "react-icons/io";
 import DeliverButton from "../ui/deliverButton";
 import { CiSquareCheck } from "react-icons/ci";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRegisterEmployees } from "@/hooks/useProductionOrderEmployees";
 import { handleDelivery } from "@/utils/handleDeliveryProductionOrder";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useAssistantsPORegister from "@/hooks/useAssistantsPORegister";
 import { debugLogger } from "@/utils/logger";
 import { IoCheckmarkDone } from "react-icons/io5";
 import handleAssistantDelivery from "@/utils/handleAssistantDelivery";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "@/components/ui/loading";
+import useAssistants from "@/hooks/useAssistants";
 
+/**
+ * Componente que exibe as informações de um registro de produção
+ *
+ * @param {production_order_id} production_order_id - ID do registro de produção
+ * @constructor
+ */
 const ProductionOrderInfos = ({ production_order_id }: { production_order_id: string }) => {
   const [deliveryObservation, setDeliveryObservation] = useState<string>("");
   const { assistantsPORegisters, status, err, refetch } = useAssistantsPORegister();
@@ -28,25 +35,9 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
   const { isLoading, setIsLoading } = useLoading();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
-  const { data: productionOrder } = useFetch<ProductionOrder>("productionOrder/", production_order_id);
+  const { data: productionOrder } = useFetch<ProductionOrder>("production-orders/", production_order_id);
   const employees = useRegisterEmployees();
-  const cut_assistant = assistantsPORegisters?.find(
-    (assistant) =>
-      assistant.assistant_as === "Corte" && assistant.production_order_uuid === productionOrder?.production_order_id,
-  );
-  const fold_assistant = assistantsPORegisters?.find(
-    (assistant) =>
-      assistant.assistant_as === "Dobra" && assistant.production_order_uuid === productionOrder?.production_order_id,
-  );
-  const paint_assistant = assistantsPORegisters?.find(
-    (assistant) =>
-      assistant.assistant_as === "Pintura" && assistant.production_order_uuid === productionOrder?.production_order_id,
-  );
-  const finishing_assistant = assistantsPORegisters?.find(
-    (assistant) =>
-      assistant.assistant_as === "Acabamento" &&
-      assistant.production_order_uuid === productionOrder?.production_order_id,
-  );
+  const { finishing_assistant, paint_assistant, fold_assistant, cut_assistant } = useAssistants(production_order_id);
 
   const statusIcon =
     productionOrder?.production_order_status === "Entregue" ? (
@@ -76,34 +67,25 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
   }, [status, err, assistantsPORegisters]);
 
   const productionOrderId = productionOrder?.production_order_id || "";
-  const endpoint = `deliverProductionOrder/${productionOrderId}`;
+  const endpoint = `deliver-production-order/${productionOrderId}`;
   const redirectHref = "/producao";
   const employeeUuid = productionOrder?.employee_uuid || "";
-  // const productionOrderBody = {
-  //   delivery_observation: deliveryObservation,
-  //   delivered_product_quantity: producedQuantity,
-  //   requested_product_quantity: productionOrder?.product_quantity || 0,
-  //   production_order_status: "Entregue",
-  //   delivered_at: new Date().toISOString(),
-  // };
 
-  const productionOrderBody = useMemo(() => {
-    return {
-      delivery_observation: deliveryObservation,
-      delivered_product_quantity: producedQuantity,
-      requested_product_quantity: productionOrder?.product_quantity || 0,
-      production_order_status: "Entregue",
-      delivered_at: new Date().toISOString(),
-    };
-  }, [deliveryObservation, producedQuantity, productionOrder?.product_quantity]);
+  const productionOrderBody = {
+    delivery_observation: deliveryObservation,
+    delivered_product_quantity: producedQuantity,
+    requested_product_quantity: productionOrder?.product_quantity || 0,
+    production_order_status: "Entregue",
+    delivered_at: new Date().toISOString(),
+  };
 
   return (
     <>
       {isLoading && <Loading />}
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           setIsLoading(true);
-          handleDelivery(
+          await handleDelivery(
             e,
             endpoint,
             productionOrderBody,
@@ -111,7 +93,6 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
             employeeUuid,
             setIsProcessing,
             redirectHref,
-            undefined,
             router,
           );
           setIsLoading(false);
