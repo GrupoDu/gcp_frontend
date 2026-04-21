@@ -42,7 +42,7 @@ api.interceptors.response.use(
 
     if (originalRequest._retry) return Promise.reject(error);
 
-    const isNotLoginPage = typeof window !== "undefined" && !window.location.pathname.includes("/login");
+    const isNotLoginPage = typeof window !== "undefined" && !window.location.pathname.includes("login");
 
     // Se já está fazendo refresh, coloca na fila
     if (isRefreshing) {

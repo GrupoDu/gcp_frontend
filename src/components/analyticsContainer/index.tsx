@@ -10,11 +10,8 @@ import GoalSection from "../goalSection";
 import { GoalProvider } from "@/providers/goal.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import EmployeeAnalysisContainer from "../employeeAnalysisContainer";
-import { GoalsAnalysisProvider } from "@/providers/goalsAnalysis.provider";
-import { GoalsPieChart } from "../goalsPieChart";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
-import AssistantsPORegisterProvider from "@/providers/assistantsPORegister.provider";
 
 const AnalysticsContainer = () => {
   const { isLoading } = useLoading();

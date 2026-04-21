@@ -19,15 +19,14 @@ const LoginCredentials = () => {
   async function tryAutoLogin() {
     setIsLoading(true);
     try {
-      const autoLoginResponse = await api.get("/login/verify");
+      const response = await api.get("/login/verify");
 
-      const autoLoginPayload = await autoLoginResponse.data.payload;
-      const isAdmin = autoLoginPayload.user_type === "admin";
-      const isSupervisor = autoLoginPayload.user_type === "supervisor";
+      const autoLoginPayload = response.data;
+      const isAdmin = autoLoginPayload.user_type === "Admin";
 
       if (isAdmin) return router.push("/dashboard");
 
-      if (isSupervisor) return router.push("/producao");
+      return router.push("/producao");
     } catch (err) {
       setIsLoading(false);
       const error = err as Error;
