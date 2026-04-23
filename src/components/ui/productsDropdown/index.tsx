@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import styles from "./styles.module.scss";
+import React from "react";
 import FilterDropdownBase from "../filterDropdown";
 import { useProducts } from "@/hooks/useProducts";
-import { useRouter, useSearchParams } from "next/navigation";
 
 const ProductsDropdown = ({
   setProductValue,
@@ -13,13 +11,13 @@ const ProductsDropdown = ({
   setProductValue: (value: string) => void;
   productValue: string;
 }) => {
-  const { productsData, err, status } = useProducts();
+  const { productsData } = useProducts();
 
   return (
     <FilterDropdownBase label="produto" placeholder="Produto" setValue={setProductValue} value={productValue}>
       <option value="">Todos</option>
       {productsData?.map((product) => (
-        <option key={product.uuid} value={product.uuid}>
+        <option key={product.product_uuid} value={product.product_uuid}>
           {product.name}
         </option>
       ))}

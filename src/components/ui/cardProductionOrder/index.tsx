@@ -22,7 +22,7 @@ const CardProductionOrder = (props: CardRegisterProps) => {
         <h3>{props.title}</h3>
         <div className={styles.buttons}>
           {props.status === "Pendente" && <EditButton href={`/producao/edit/${props.register_id}`} />}
-          <DeleteButton endpoint="productionOrder" uuid={props.register_id} refetch={props.refetch} />
+          <DeleteButton endpoint="production-orders" uuid={props.register_id} refetch={props.refetch} />
         </div>
       </div>
       <span>{props.date}</span>

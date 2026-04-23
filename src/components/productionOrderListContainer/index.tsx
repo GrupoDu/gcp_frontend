@@ -16,8 +16,6 @@ import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
-import { socket } from "@/socket";
-import { toast } from "react-toastify";
 
 const RegisterListContainer = () => {
   const [productValue, setProductValue] = useState("");

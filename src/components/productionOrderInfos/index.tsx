@@ -25,19 +25,20 @@ import useAssistants from "@/hooks/useAssistants";
 /**
  * Componente que exibe as informações de um registro de produção
  *
- * @param {production_order_id} production_order_id - ID do registro de produção
+ * @param {production_order_uuid} production_order_id - ID do registro de produção
  * @constructor
  */
-const ProductionOrderInfos = ({ production_order_id }: { production_order_id: string }) => {
+const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid: string }) => {
   const [deliveryObservation, setDeliveryObservation] = useState<string>("");
   const { assistantsPORegisters, status, err, refetch } = useAssistantsPORegister();
   const [producedQuantity, setProducedQuantity] = useState<number>(1);
   const { isLoading, setIsLoading } = useLoading();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
-  const { data: productionOrder } = useFetch<ProductionOrder>("production-orders/", production_order_id);
+  const { data: productionOrder } = useFetch<ProductionOrder>("production-orders/", production_order_uuid);
   const employees = useRegisterEmployees();
-  const { finishing_assistant, paint_assistant, fold_assistant, cut_assistant } = useAssistants(production_order_id);
+  const { finishing_assistant, paint_assistant, fold_assistant, cut_assistant } = useAssistants(production_order_uuid);
+  const assistantDeliveryDate = (assistant_uuid?: Date | null) => (assistant_uuid ? dataFormater(assistant_uuid) : "");
 
   const statusIcon =
     productionOrder?.production_order_status === "Entregue" ? (
@@ -66,7 +67,7 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
     `);
   }, [status, err, assistantsPORegisters]);
 
-  const productionOrderId = productionOrder?.production_order_id || "";
+  const productionOrderId = productionOrder?.production_order_uuid || "";
   const endpoint = `deliver-production-order/${productionOrderId}`;
   const redirectHref = "/producao";
   const employeeUuid = productionOrder?.employee_uuid || "";
@@ -138,7 +139,7 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
                   onClick={() =>
                     handleAssistantDelivery(
                       {
-                        production_order_uuid: productionOrder?.production_order_id || "",
+                        production_order_uuid: productionOrder?.production_order_uuid || "",
                         assistant_uuid: productionOrder?.cut_assistant || "",
                         assistant_as: "Corte",
                       },
@@ -152,18 +153,14 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
                   <IoCheckmarkDone className={styles.checkMarkIcon} />
                 </button>
                 <b>Corte:</b> {productionOrder?.cut_assistant ? `${employees.cutAssistant?.name}` : "Não definido."} |
-                <span>
-                  {cut_assistant?.delivered_at
-                    ? `${dataFormater(cut_assistant?.delivered_at as unknown as string)}`
-                    : ""}
-                </span>
+                <span>{assistantDeliveryDate(cut_assistant?.delivered_at)}</span>
               </li>
               <li className={`${styles.assistant} ${!productionOrder?.fold_assistant && styles.undefinedAssistant}`}>
                 <button
                   onClick={() =>
                     handleAssistantDelivery(
                       {
-                        production_order_uuid: productionOrder?.production_order_id || "",
+                        production_order_uuid: productionOrder?.production_order_uuid || "",
                         assistant_uuid: productionOrder?.fold_assistant || "",
                         assistant_as: "Dobra",
                       },
@@ -177,11 +174,7 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
                   <IoCheckmarkDone className={styles.checkMarkIcon} />
                 </button>
                 <b>Dobra:</b> {productionOrder?.fold_assistant ? employees.foldAssistant?.name : "Não definido."} |
-                <span>
-                  {finishing_assistant?.delivered_at
-                    ? `${dataFormater(finishing_assistant?.delivered_at as unknown as string)}`
-                    : ""}
-                </span>
+                <span>{assistantDeliveryDate(fold_assistant?.delivered_at)}</span>
               </li>
               <li
                 className={`${styles.assistant} ${!productionOrder?.finishing_assistant && styles.undefinedAssistant}`}
@@ -190,7 +183,7 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
                   onClick={() =>
                     handleAssistantDelivery(
                       {
-                        production_order_uuid: productionOrder?.production_order_id || "",
+                        production_order_uuid: productionOrder?.production_order_uuid || "",
                         assistant_uuid: productionOrder?.finishing_assistant || "",
                         assistant_as: "Acabamento",
                       },
@@ -205,18 +198,14 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
                 </button>
                 <b>Acabamento:</b>
                 {productionOrder?.finishing_assistant ? employees.finishingAssistant?.name : "Não definido."} |
-                <span>
-                  {finishing_assistant?.delivered_at
-                    ? `${dataFormater(finishing_assistant?.delivered_at as unknown as string)}`
-                    : ""}
-                </span>
+                <span>{assistantDeliveryDate(finishing_assistant?.delivered_at)}</span>
               </li>
               <li className={`${styles.assistant} ${!productionOrder?.paint_assistant && styles.undefinedAssistant}`}>
                 <button
                   onClick={() =>
                     handleAssistantDelivery(
                       {
-                        production_order_uuid: productionOrder?.production_order_id || "",
+                        production_order_uuid: productionOrder?.production_order_uuid || "",
                         assistant_uuid: productionOrder?.paint_assistant || "",
                         assistant_as: "Pintura",
                       },
@@ -230,11 +219,7 @@ const ProductionOrderInfos = ({ production_order_id }: { production_order_id: st
                   <IoCheckmarkDone className={styles.checkMarkIcon} />
                 </button>
                 <b>Pintura:</b> {productionOrder?.paint_assistant ? employees.paintAssistant?.name : "Não definido."} |
-                <span>
-                  {finishing_assistant?.delivered_at
-                    ? `${dataFormater(finishing_assistant?.delivered_at as unknown as string)}`
-                    : ""}
-                </span>
+                <span>{assistantDeliveryDate(paint_assistant?.delivered_at)}</span>
               </li>
             </div>
           </ul>

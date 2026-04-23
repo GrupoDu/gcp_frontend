@@ -16,13 +16,13 @@ interface EmployeeData {
   produced: number;
 }
 
-const EmployeeAnalysisContainer = ({ employeeType }: { employeeType: string }) => {
+const EmployeeAnalysisContainer = ({ employeeRole }: { employeeRole: string }) => {
   const { employeesData } = useEmployees();
 
   // Filtra apenas os soldadores e mapeia os dados necessários
   const weldersData: EmployeeData[] =
     employeesData
-      ?.filter((employee) => employee.employee_type === "soldador")
+      ?.filter((employee) => employee.employee_role === "soldador")
       .map((employee) => ({
         name: employee.name || "Sem nome",
         delivered: employee.delivered_activities_quantity || 0,
@@ -32,7 +32,7 @@ const EmployeeAnalysisContainer = ({ employeeType }: { employeeType: string }) =
 
   const assistantsData: EmployeeData[] =
     employeesData
-      ?.filter((employee) => employee.employee_type === "assistente")
+      ?.filter((employee) => employee.employee_role === "assistente")
       .map((employee) => ({
         name: employee.name || "Sem nome",
         delivered: employee.delivered_activities_quantity || 0,
@@ -40,7 +40,7 @@ const EmployeeAnalysisContainer = ({ employeeType }: { employeeType: string }) =
         produced: employee.produced_quantity || 0,
       })) || [];
 
-  const targetEmployees = employeeType === "soldadores" ? weldersData : assistantsData;
+  const targetEmployees = employeeRole === "soldadores" ? weldersData : assistantsData;
 
   // Prepara os dados para o gráfico apenas com soldadores
   const employeesAnalysis = [
@@ -81,7 +81,7 @@ const EmployeeAnalysisContainer = ({ employeeType }: { employeeType: string }) =
       <div className={styles.chartTitle}>
         <FaChartBar className={styles.chartIcon} />
         <h3>
-          Gráfico de {employeeType} ({weldersData.length})
+          Gráfico de {employeeRole} ({weldersData.length})
         </h3>
       </div>
 

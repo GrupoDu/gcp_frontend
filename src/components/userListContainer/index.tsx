@@ -3,7 +3,7 @@
 import styles from "./styles.module.scss";
 import FiltersList from "../filtersList";
 import SearchBar from "../searchBar";
-import UserTypeFilter from "../userTypeFilter";
+import UserRoleFilter from "../userRoleFilter";
 import { UserProvider } from "@/providers/users.provider";
 import { useUsers } from "@/hooks/useUsers";
 import ListItem from "../userListItem";
@@ -15,7 +15,7 @@ import FilterMobileContainer from "../filterMobileContainer";
 const UserListContainer = () => {
   const { usersData, refetch } = useUsers();
   const [openFilterContainer, setOpenFilterContainer] = useState(false);
-  const [userTypeFilter, setUserTypeFilter] = useState("");
+  const [userRoleFilter, setUserRoleFilter] = useState("");
   const [userListFiltered, setUserListFiltered] = useState<User[] | undefined>([]);
   const [searchFilter, setSearchFilter] = useState("");
   const router = useRouter();
@@ -23,18 +23,18 @@ const UserListContainer = () => {
   useEffect(() => {
     const filterParams = new URLSearchParams();
 
-    filterParams.set("tipo_usuario", userTypeFilter);
+    filterParams.set("tipo_usuario", userRoleFilter);
     filterParams.set("pesquisa", searchFilter);
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setUserListFiltered(
       usersData?.filter(
         (user) =>
-          (userTypeFilter ? user.user_type === userTypeFilter : true) &&
+          (userRoleFilter ? user.user_role === userRoleFilter : true) &&
           (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
       ),
     );
-  }, [router, userTypeFilter, searchFilter, usersData]);
+  }, [router, userRoleFilter, searchFilter, usersData]);
 
   return (
     <UserProvider>
@@ -46,11 +46,11 @@ const UserListContainer = () => {
           hrefButton="/usuarios/register"
         >
           <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <UserTypeFilter setUserFilter={setUserTypeFilter} userFilter={userTypeFilter} />
+          <UserRoleFilter setUserFilter={setUserRoleFilter} userFilter={userRoleFilter} />
         </FiltersList>
         <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
           <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <UserTypeFilter setUserFilter={setUserTypeFilter} userFilter={userTypeFilter} />
+          <UserRoleFilter setUserFilter={setUserRoleFilter} userFilter={userRoleFilter} />
         </FilterMobileContainer>
       </div>
       <ul className={styles.listContainer}>
@@ -62,8 +62,8 @@ const UserListContainer = () => {
           <span className={styles.actionsSpan}>Ações</span>
         </div>
         {userListFiltered?.map((user) => (
-          <li key={user.user_id}>
-            <ListItem deleteButtonEndpoint={`/usuarios/${user.user_id}`} refetch={refetch} userInfos={user} />
+          <li key={user.user_uuid}>
+            <ListItem deleteButtonEndpoint={`/usuarios/${user.user_uuid}`} refetch={refetch} userInfos={user} />
           </li>
         ))}
       </ul>

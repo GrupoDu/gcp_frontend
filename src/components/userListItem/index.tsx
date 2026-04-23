@@ -13,16 +13,17 @@ type ListItemProps = {
 
 const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) => {
   const pathname = usePathname();
+  const { user_uuid, user_role, name, email } = userInfos;
 
   return (
     <div className={styles.userListItem}>
-      <span>{userInfos.user_id}</span>
-      <span>{userInfos.name}</span>
-      {userInfos.email && <span>{userInfos.email}</span>}
-      <span>{userInfos.user_type}</span>
+      <span>{user_uuid}</span>
+      <span>{name}</span>
+      {email && <span>{email}</span>}
+      <span>{user_role}</span>
       <div className={styles.buttons}>
-        <DeleteButton endpoint={deleteButtonEndpoint} refetch={refetch} uuid={userInfos.user_id} />
-        <EditButton href={`${pathname}/edit/${userInfos.user_id}`} />
+        <DeleteButton endpoint={deleteButtonEndpoint} refetch={refetch} uuid={user_uuid} />
+        <EditButton href={`${pathname}/edit/${userInfos.user_uuid}`} />
       </div>
     </div>
   );

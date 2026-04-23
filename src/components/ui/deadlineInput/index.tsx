@@ -3,6 +3,13 @@
 import styles from "./styles.module.scss";
 import { MdOutlineDateRange } from "react-icons/md";
 
+/**
+ * Componente de entrada de prazo
+ *
+ * @param props
+ * @param props.setDeadlineValue - setState function
+ * @param props.deadlineValue - prazo value de state
+ */
 const DeadlineInput = ({
   setDeadlineValue,
   deadlineValue,

@@ -35,8 +35,8 @@ const AnalysticsContainer = () => {
         </div>
         <div className={styles.employeesAnalysis}>
           <EmployeeProvider>
-            <EmployeeAnalysisContainer employeeType={"soldadores"} />
-            <EmployeeAnalysisContainer employeeType={"assistentes"} />
+            <EmployeeAnalysisContainer employeeRole={"soldadores"} />
+            <EmployeeAnalysisContainer employeeRole={"assistentes"} />
           </EmployeeProvider>
         </div>
       </main>

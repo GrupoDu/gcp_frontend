@@ -7,9 +7,9 @@ const GoalList = ({ goalData, refetch }: { goalData: Goal[] | undefined; refetch
   return (
     <ul className={styles.cardListContainer}>
       {goalData?.map((goal) => (
-        <li key={goal.goal_id}>
+        <li key={goal.goal_uuid}>
           <CardGoal
-            goal_id={goal.goal_id || ""}
+            goal_id={goal.goal_uuid || ""}
             status={goal.goal_status || ""}
             refetch={refetch}
             description={goal.goal_description}

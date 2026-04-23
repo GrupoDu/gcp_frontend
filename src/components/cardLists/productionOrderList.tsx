@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import CardProductionOrder from "../ui/cardProductionOrder";
 import { dataFormater } from "@/utils/dataFormater";
@@ -25,16 +25,14 @@ const ProductionOrderList = () => {
         (order) =>
           (productFilter ? order.product_uuid === productFilter : true) &&
           (statusFilter ? order.production_order_status === statusFilter : true) &&
-          (deadlineFilter ? order.production_order_deadline === deadlineFilter : true) &&
+          (deadlineFilter ? order.production_order_deadline.toISOString() === deadlineFilter : true) &&
           (employeeFilter ? order.employee_uuid === employeeFilter : true),
       ),
     );
   }, [allProductionOrders, productFilter, statusFilter, deadlineFilter]);
 
   useEffect(() => {
-    socket.on("productionOrderNotify", (data) => {
-      setFilteredList((prev) => [...(prev || []), data]);
-    });
+    socket.on("productionOrderNotify", (data) => setFilteredList((prev) => [...(prev || []), data]));
 
     return () => {
       socket.off("productionOrderNotify");
@@ -44,13 +42,13 @@ const ProductionOrderList = () => {
   return (
     <ul className={styles.cardListContainer}>
       {filteredList?.map((order) => (
-        <li key={order.production_order_id}>
+        <li key={order.production_order_uuid}>
           <CardProductionOrder
             date={dataFormater(order.production_order_deadline)}
             description={order.production_order_description}
             title={order.production_order_title}
             status={order.production_order_status}
-            register_id={order?.production_order_id || ""}
+            register_id={order?.production_order_uuid || ""}
             refetch={refetch}
           />
         </li>

@@ -28,10 +28,10 @@ const GoalSection = () => {
           <h4 className={styles.noGoalsText}>Nenhuma meta cadastrada</h4>
         ) : (
           pendingGoals?.map((meta) => (
-            <li key={meta.goal_id}>
+            <li key={meta.goal_uuid}>
               <CardGoal
                 refetch={refetch}
-                goal_id={meta.goal_id || ""}
+                goal_id={meta.goal_uuid || ""}
                 title={meta.goal_title}
                 description={meta.goal_description}
                 deadline={meta.goal_deadline.toString()}

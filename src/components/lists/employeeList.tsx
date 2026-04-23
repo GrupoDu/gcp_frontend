@@ -7,24 +7,24 @@ import ListItem from "../userListItem";
 import { useMemo, useState } from "react";
 import { useEmployees } from "@/hooks/useEmployees";
 import { useRouter } from "next/navigation";
-import { EmployeeTypeFilter } from "../employeeTypeFilter";
+import { EmployeeRoleFilter } from "../employeeRoleFilter";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
 
 const EmployeeListContainer = () => {
   const { employeesData, refetch } = useEmployees();
-  const [employeeTypeFilter, setEmployeeTypeFilter] = useState("");
+  const [employeeRoleFilter, setEmployeeRoleFilter] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
   const [openFilterContainer, setOpenFilterContainer] = useState(false);
   const { isLoading } = useLoading();
   const filteredEmployees = useMemo(() => {
     return employeesData?.filter(
       (employee) =>
-        (employeeTypeFilter ? employee.employee_type === employeeTypeFilter : true) &&
+        (employeeRoleFilter ? employee.employee_role === employeeRoleFilter : true) &&
         (searchFilter ? employee.name.includes(searchFilter) : true),
     );
-  }, [employeeTypeFilter, searchFilter, employeesData]);
+  }, [employeeRoleFilter, searchFilter, employeesData]);
 
   return (
     <>
@@ -37,11 +37,11 @@ const EmployeeListContainer = () => {
           openFilterContainer={openFilterContainer}
         >
           <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <EmployeeTypeFilter employeeValue={employeeTypeFilter} setEmployeeValue={setEmployeeTypeFilter} />
+          <EmployeeRoleFilter employeeValue={employeeRoleFilter} setEmployeeValue={setEmployeeRoleFilter} />
         </FiltersList>
         <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
           <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <EmployeeTypeFilter employeeValue={employeeTypeFilter} setEmployeeValue={setEmployeeTypeFilter} />
+          <EmployeeRoleFilter employeeValue={employeeRoleFilter} setEmployeeValue={setEmployeeRoleFilter} />
         </FilterMobileContainer>
         <ul className={styles.listContainer}>
           <div className={styles.listHeader}>
@@ -51,14 +51,14 @@ const EmployeeListContainer = () => {
             <span className={styles.actionsSpan}>Ações</span>
           </div>
           {filteredEmployees?.map((employee) => (
-            <li key={employee.employee_id}>
+            <li key={employee.employee_uuid}>
               <ListItem
                 deleteButtonEndpoint="employees"
                 refetch={refetch}
                 userInfos={{
-                  user_id: employee.employee_id || "",
+                  user_uuid: employee.employee_uuid || "",
                   name: employee.name,
-                  user_type: employee.employee_type,
+                  user_role: employee.employee_role,
                 }}
               />
             </li>

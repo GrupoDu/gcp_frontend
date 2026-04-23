@@ -21,7 +21,7 @@ import { ClipLoader } from "react-spinners";
 const SidebarMenu = () => {
   const [actualPage, setActualPage] = useState("");
   const pathname = usePathname();
-  const [user_type, setUserType] = useState("");
+  const [user_role, setUserRole] = useState("");
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [isSidebarLoading, setIsSidebarLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +34,7 @@ const SidebarMenu = () => {
 
         if (response) {
           const data = await response.data.data;
-          setUserType(data.user_type);
+          setUserRole(data.user_role);
         } else {
           router.push("/login");
         }
@@ -138,7 +138,7 @@ const SidebarMenu = () => {
         </div>
       ) : (
         <div className={styles.menuOptionsContainer}>
-          {user_type === "admin"
+          {user_role === "admin"
             ? adminPages.map((option) => (
                 <MenuOption
                   onClick={handleClick}

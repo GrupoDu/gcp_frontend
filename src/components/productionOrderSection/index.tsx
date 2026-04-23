@@ -35,9 +35,9 @@ const ProductionOrderSection = () => {
       <ul>
         {isPendingProductionOrderPopulated ? (
           pendingProductionOrders?.map((order) => (
-            <li key={order.production_order_id}>
+            <li key={order.production_order_uuid}>
               <CardProductionOrder
-                register_id={order.production_order_id || ""}
+                register_id={order.production_order_uuid || ""}
                 status={order.production_order_status}
                 title={order.production_order_title}
                 date={dataFormater(order.production_order_deadline)}

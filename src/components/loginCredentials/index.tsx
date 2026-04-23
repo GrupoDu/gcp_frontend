@@ -12,7 +12,7 @@ const LoginCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginTries, setLoginTries] = useState(0);
-  const [user_type, setUserType] = useState("");
+  const [user_role, setUserRole] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -22,7 +22,7 @@ const LoginCredentials = () => {
       const response = await api.get("/login/verify");
 
       const autoLoginPayload = response.data;
-      const isAdmin = autoLoginPayload.user_type === "Admin";
+      const isAdmin = autoLoginPayload.user_role === "Admin";
 
       if (isAdmin) return router.push("/dashboard");
 
@@ -43,12 +43,12 @@ const LoginCredentials = () => {
       const response = await api.post("/login", {
         email,
         password,
-        user_type: user_type,
+        user_role: user_role,
       });
 
       const user = response.data.data.user;
 
-      redirectByUserType(user.user_type, router, setUserType);
+      redirectByUserRole(user.user_role, router, setUserRole);
     } catch (err) {
       const error = err as Error;
       setLoginTries((prevTries) => prevTries + 1);
@@ -65,7 +65,7 @@ const LoginCredentials = () => {
     <form onSubmit={(e) => handleLogin(e)} className={styles.loginCredentials}>
       <label>
         <span>Tipo de usuário</span>
-        <select value={user_type} onChange={(e) => setUserType(e.target.value)} name="user-type-input">
+        <select value={user_role} onChange={(e) => setUserRole(e.target.value)} name="user-type-input">
           <option value="">Selecionar tipo</option>
           <option value="admin">Admin</option>
           <option value="supervisor">Supervisor</option>
@@ -103,15 +103,15 @@ const LoginCredentials = () => {
   );
 };
 
-function redirectByUserType(user_type: string, router: AppRouterInstance, setUserType: (value: string) => void) {
-  const isAdmin = user_type === "admin";
-  const isSupervisor = user_type === "supervisor";
+function redirectByUserRole(user_role: string, router: AppRouterInstance, setUserRole: (value: string) => void) {
+  const isAdmin = user_role === "admin";
+  const isSupervisor = user_role === "supervisor";
 
   if (isAdmin) {
-    setUserType(user_type);
+    setUserRole(user_role);
     return router.push("/dashboard");
   } else if (isSupervisor) {
-    setUserType(user_type);
+    setUserRole(user_role);
     return router.push("/producao");
   } else {
     throw new Error("Usuário não encontrado.");

@@ -3,7 +3,7 @@
 import styles from "./styles.module.scss";
 import FiltersList from "../filtersList";
 import SearchBar from "../searchBar";
-import UserTypeFilter from "../userTypeFilter";
+import UserRoleFilter from "../userRoleFilter";
 import { useUsers } from "@/hooks/useUsers";
 import ListItem from "../userListItem";
 import { useEffect, useMemo, useState } from "react";
@@ -14,7 +14,7 @@ import Loading from "../ui/loading";
 
 const UserListContainer = () => {
   const { usersData, refetch } = useUsers();
-  const [userTypeFilter, setUserTypeFilter] = useState("");
+  const [userRoleFilter, setUserRoleFilter] = useState("");
   const { isLoading } = useLoading();
   const [searchFilter, setSearchFilter] = useState("");
   const [openFilterContainer, setOpenFilterContainer] = useState(false);
@@ -22,17 +22,17 @@ const UserListContainer = () => {
   const userListFiltered = useMemo(() => {
     return usersData?.filter(
       (user) =>
-        (userTypeFilter ? user.user_type === userTypeFilter : true) &&
+        (userRoleFilter ? user.user_role === userRoleFilter : true) &&
         (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
     );
-  }, [userTypeFilter, searchFilter, usersData]);
+  }, [userRoleFilter, searchFilter, usersData]);
 
   useEffect(() => {
     const filterParams = new URLSearchParams();
 
-    filterParams.set("tipo_usuario", userTypeFilter);
+    filterParams.set("tipo_usuario", userRoleFilter);
     filterParams.set("pesquisa", searchFilter);
-  }, [router, userTypeFilter, searchFilter, usersData]);
+  }, [router, userRoleFilter, searchFilter, usersData]);
 
   return (
     <>
@@ -45,11 +45,11 @@ const UserListContainer = () => {
           openFilterContainer={openFilterContainer}
         >
           <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <UserTypeFilter setUserFilter={setUserTypeFilter} userFilter={userTypeFilter} />
+          <UserRoleFilter setUserFilter={setUserRoleFilter} userFilter={userRoleFilter} />
         </FiltersList>
         <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
           <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <UserTypeFilter setUserFilter={setUserTypeFilter} userFilter={userTypeFilter} />
+          <UserRoleFilter setUserFilter={setUserRoleFilter} userFilter={userRoleFilter} />
         </FilterMobileContainer>
         <ul className={styles.listContainer}>
           <div className={styles.listHeader}>
@@ -60,7 +60,7 @@ const UserListContainer = () => {
             <span className={styles.actionsSpan}>Ações</span>
           </div>
           {userListFiltered?.map((user) => (
-            <li key={user.user_id}>
+            <li key={user.user_uuid}>
               <ListItem deleteButtonEndpoint="users" refetch={refetch} userInfos={user} />
             </li>
           ))}

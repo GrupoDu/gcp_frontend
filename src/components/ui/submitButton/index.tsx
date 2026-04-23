@@ -7,7 +7,7 @@ const SubmitButton = ({ canEdit, children }: { canEdit: boolean; children: React
       className={styles.submitButtonContainer}
       type="submit"
       style={{ cursor: canEdit ? "pointer" : "not-allowed" }}
-      disabled={!canEdit}
+      // disabled={!canEdit}
     >
       {children}
     </button>
