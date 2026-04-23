@@ -11,13 +11,13 @@ export default async function handleAssistantDelivery(assistantValues: Assistant
     if (!assistant_uuid) {
       return toast.error("Verifique se o assistente já foi selecionado para essa tarefa.");
     }
-    const deliveryResponse = await api.put("/assistants-po-registers/deliver", {
+    const deliveryResponse = await api.patch("/assistants-po-registers/deliver", {
       production_order_uuid,
       assistant_uuid,
       assistant_as,
     });
 
-    const employeeDeliveryIncrease = await api.put(`/employees/activity/${assistant_uuid}`);
+    const employeeDeliveryIncrease = await api.patch(`/employees/activity/${assistant_uuid}`);
 
     const deliveryData = await deliveryResponse.data;
     const employeeDeliveryData = await employeeDeliveryIncrease.data;

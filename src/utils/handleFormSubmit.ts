@@ -5,6 +5,7 @@ import { PageConfig } from "@/types/pageConfig.type";
 import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
 import React from "react";
 import { ErrorResponse } from "@/types/errorResponse.type";
+import { debugLogger } from "@/utils/logger";
 
 /**
  * Função para lidar com o envio de formulários
@@ -39,7 +40,9 @@ export async function handleFormSubmit(
     deadline = bodyValues.goal_deadline.toString();
   }
 
-  if (deadline && new Date(deadline) < new Date()) {
+  const isDeadlineOnPast = deadline && new Date(deadline) < new Date();
+
+  if (isDeadlineOnPast) {
     toast.error("Data de vencimento não pode ser no passado.");
     throw new Error("Data de vencimento não pode ser no passado.");
   }
@@ -48,14 +51,15 @@ export async function handleFormSubmit(
     const postResponse = await handlePostRequest(method, endpoint, bodyValues);
     const putResponse = await handlePutRequest(method, endpoint, bodyValues);
     const response = postResponse || putResponse;
+    const production_order_uuid = response?.data.data.production_order_uuid;
 
-    createAssistantPORegister(response?.data.data.production_order_id, assistantsRegister);
+    // Só cria o registro de atividade de assistente se assistantsRegister existir
+    createAssistantPORegister(production_order_uuid, assistantsRegister);
 
     router?.back();
     return toast.success("Operação realizada com sucesso!");
   } catch (err) {
     const error = err as ErrorResponse;
-
     return toast.error(error.response?.data.message);
   }
 }
@@ -71,6 +75,12 @@ function createAssistantPORegister(productionOrderId: string, assistantsRegister
 
   try {
     assistantsRegisters.forEach(async (assistant) => {
+      debugLogger(`
+      ===||> createAssistantPORegister <||===
+      - production_order_uuid: ${productionOrderId} 
+      - assistant_uuid: ${assistant.assistant_uuid}
+      - assistant_as: ${assistant.assistant_as}
+      `);
       await api.post("/assistants-po-registers", {
         production_order_uuid: productionOrderId,
         assistant_uuid: assistant.assistant_uuid,
@@ -113,7 +123,7 @@ async function handlePutRequest(method: string, endpoint: string, bodyValues: un
   if (method !== "PUT") return;
 
   try {
-    return await api.put(`/${endpoint}`, bodyValues);
+    return await api.patch(`/${endpoint}`, bodyValues);
   } catch (err) {
     const error = err as Error;
     console.log(error.message);

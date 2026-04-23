@@ -32,7 +32,7 @@ export async function handleDelivery(
   isProcessing(true);
 
   try {
-    await api.put(`/${endpoint}`, productionOrderBody);
+    await api.patch(`/${endpoint}`, productionOrderBody);
 
     await employeeUpdateActivityQuantity(employeeUuid);
     await incrementEmployeeProducedQuantity(employeeUuid, incrementEmployeeUpdateBody);
@@ -53,7 +53,7 @@ export async function handleDelivery(
 
 async function employeeUpdateActivityQuantity(employeeUuid: string) {
   try {
-    await api.put(`/employees/activity/${employeeUuid}`);
+    await api.patch(`/employees/activity/${employeeUuid}`);
 
     return toast.success("Quantidade de entregas atualizada com sucesso!");
   } catch (err) {
@@ -63,7 +63,7 @@ async function employeeUpdateActivityQuantity(employeeUuid: string) {
 
 async function incrementEmployeeProducedQuantity(employeeUuid: string, productsQuantity: number) {
   try {
-    await api.put(`/employees/produced-quantity/${employeeUuid}`, {
+    await api.patch(`/employees/produced-quantity/${employeeUuid}`, {
       products_quantity: productsQuantity,
     });
   } catch (err) {
@@ -73,7 +73,7 @@ async function incrementEmployeeProducedQuantity(employeeUuid: string, productsQ
 
 async function incrementDeliveredProductionOrderAnalysis(deliveredQuantity: number) {
   try {
-    await api.put(`/anual-analysis/update-analysis`, {
+    await api.patch(`/anual-analysis/update-analysis`, {
       deliveredQuantity,
     });
   } catch (err) {

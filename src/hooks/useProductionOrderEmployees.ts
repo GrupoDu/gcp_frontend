@@ -17,13 +17,15 @@ export function useRegisterEmployees() {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setWelder(employeesData?.find((employee) => employee.employee_id === allProductionOrders?.employee_uuid));
-    setCutAssistant(employeesData?.find((employee) => employee.employee_id === allProductionOrders?.cut_assistant));
-    setFoldAssistant(employeesData?.find((employee) => employee.employee_id === allProductionOrders?.fold_assistant));
+    setWelder(employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.employee_uuid));
+    setCutAssistant(employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.cut_assistant));
+    setFoldAssistant(employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.fold_assistant));
     setFinishingAssistant(
-      employeesData?.find((employee) => employee.employee_id === allProductionOrders?.finishing_assistant),
+      employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.finishing_assistant),
     );
-    setPaintAssistant(employeesData?.find((employee) => employee.employee_id === allProductionOrders?.paint_assistant));
+    setPaintAssistant(
+      employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.paint_assistant),
+    );
   }, [employeesData, allProductionOrders]);
 
   return {

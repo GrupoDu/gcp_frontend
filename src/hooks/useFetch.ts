@@ -5,6 +5,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { useLoading } from "./useLoading";
+import { toast } from "react-toastify";
 
 type FetchResponse<T> = {
   status: string;
@@ -23,14 +24,15 @@ export function useFetch<T>(endpoint: string, params?: string) {
       const apiResponse = await api.get(`/${endpoint}${params ? params : ""}`);
 
       const responseData = await apiResponse.data.data;
+      const responseError = !responseData || apiResponse.data.error;
 
-      if (!responseData) {
+      if (responseError) {
         setFetchedData({
           status: "failed",
           err: "Dados não encontrados.",
         });
 
-        // logout(router);
+        toast.error(apiResponse.data.error);
         return;
       }
 
@@ -51,7 +53,10 @@ export function useFetch<T>(endpoint: string, params?: string) {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchData();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchData()
+      .then(() => console.log("Dados carregados."))
+      .catch((err) => console.log((err as Error).message));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
 

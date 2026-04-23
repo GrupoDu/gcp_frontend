@@ -13,34 +13,36 @@ type AssistantsHook = {
 /**
  * Custom hook para buscar os ajudantes de um registro de produção
  *
- * @param {string} production_order_id - id do registro de produção
+ * @param {string} production_order_uuid - id do registro de produção
  * @returns {AssistantsHook} - Objeto com os ajudantes selecionados
  * @see {useAssistantsPORegister}
  * @see {useFetch}
  * @see {AssistantsHook}
  */
-export default function useAssistants(production_order_id: string): AssistantsHook {
+export default function useAssistants(production_order_uuid: string): AssistantsHook {
   const { assistantsPORegisters } = useAssistantsPORegister();
-  const { data: productionOrder } = useFetch<ProductionOrder>("production-orders/", production_order_id);
+  const { data: productionOrder } = useFetch<ProductionOrder>("production-orders/", production_order_uuid);
 
   return {
     cut_assistant: assistantsPORegisters?.find(
       (assistant) =>
-        assistant.assistant_as === "Corte" && assistant.production_order_uuid === productionOrder?.production_order_id,
+        assistant.assistant_as === "Corte" &&
+        assistant.production_order_uuid === productionOrder?.production_order_uuid,
     ),
     fold_assistant: assistantsPORegisters?.find(
       (assistant) =>
-        assistant.assistant_as === "Dobra" && assistant.production_order_uuid === productionOrder?.production_order_id,
+        assistant.assistant_as === "Dobra" &&
+        assistant.production_order_uuid === productionOrder?.production_order_uuid,
     ),
     paint_assistant: assistantsPORegisters?.find(
       (assistant) =>
         assistant.assistant_as === "Pintura" &&
-        assistant.production_order_uuid === productionOrder?.production_order_id,
+        assistant.production_order_uuid === productionOrder?.production_order_uuid,
     ),
     finishing_assistant: assistantsPORegisters?.find(
       (assistant) =>
         assistant.assistant_as === "Acabamento" &&
-        assistant.production_order_uuid === productionOrder?.production_order_id,
+        assistant.production_order_uuid === productionOrder?.production_order_uuid,
     ),
   };
 }
