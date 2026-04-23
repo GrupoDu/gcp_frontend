@@ -14,7 +14,7 @@ const EmployeeEditPage = async ({ params }: { params: Promise<{ slug: string }> 
       <main className="mainContainer">
         <h2>Editar dados de Funcionario</h2>
         <EmployeeProvider>
-          <EmployeeForm isEdit={true} employee_id={slug} />
+          <EmployeeForm isEdit={true} employee_uuid={slug} />
         </EmployeeProvider>
       </main>
     </div>

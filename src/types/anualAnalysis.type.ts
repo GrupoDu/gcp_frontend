@@ -1,5 +1,5 @@
 export type AnualAnalysis = {
-  id: string;
+  anual_analysis_uuid: string;
   month: number;
   year: number;
   delivered: number;

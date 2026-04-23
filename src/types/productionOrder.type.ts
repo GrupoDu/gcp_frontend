@@ -1,5 +1,5 @@
 export type ProductionOrder = {
-  production_order_id?: string;
+  production_order_uuid?: string;
   production_order_deadline: Date;
   production_order_title: string;
   production_order_description: string;
@@ -8,10 +8,11 @@ export type ProductionOrder = {
   employee_uuid?: string | null;
   product_uuid: string;
   delivery_observation: string;
-  client_uuid: string;
+  supervisor_uuid: string;
   product_quantity: number;
   cut_assistant?: string | null;
   fold_assistant?: string | null;
   finishing_assistant?: string | null;
   paint_assistant?: string | null;
+  stock_validation: boolean;
 };

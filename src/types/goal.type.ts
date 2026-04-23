@@ -1,5 +1,5 @@
 export type Goal = {
-  goal_id?: string;
+  goal_uuid?: string;
   goal_title: string;
   goal_description: string;
   goal_status?: string;
