@@ -2,7 +2,7 @@
 
 import FilterDropdownBase from "../ui/filterDropdown";
 
-const UserTypeFilter = ({
+const UserRoleFilter = ({
   setUserFilter,
   userFilter,
 }: {
@@ -23,4 +23,4 @@ const UserTypeFilter = ({
   );
 };
 
-export default UserTypeFilter;
+export default UserRoleFilter;

@@ -1,6 +1,6 @@
 import FilterDropdownBase from "../ui/filterDropdown";
 
-export function EmployeeTypeFilter({
+export function EmployeeRoleFilter({
   employeeValue,
   setEmployeeValue,
 }: {

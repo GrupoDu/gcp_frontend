@@ -1,7 +1,7 @@
 "use client";
 
 import FilterDropdownBase from "../ui/filterDropdown";
-import { useEmployeeType } from "@/hooks/useEmployeeType";
+import { useEmployeeRole } from "@/hooks/useEmployeeRole";
 
 const EmployeeDropdown = ({
   setEmployeeValue,
@@ -10,13 +10,13 @@ const EmployeeDropdown = ({
   setEmployeeValue: (value: string) => void;
   employeeValue: string;
 }) => {
-  const { welders } = useEmployeeType();
+  const { welders } = useEmployeeRole();
 
   return (
     <FilterDropdownBase value={employeeValue} setValue={setEmployeeValue} label="aaaaa" placeholder="Soldador">
       <option value="">Todos</option>
       {welders?.map((welder) => (
-        <option key={welder.employee_id} value={welder.employee_id}>
+        <option key={welder.employee_uuid} value={welder.employee_uuid}>
           {welder.name}
         </option>
       ))}
