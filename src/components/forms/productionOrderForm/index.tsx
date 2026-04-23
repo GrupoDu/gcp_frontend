@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import { ProductionOrder } from "@/types/productionOrder.type";
 import { useProductionOrders } from "@/hooks/useProductionOrder";
-import { useEmployeeType } from "@/hooks/useEmployeeType";
+import { useEmployeeRole } from "@/hooks/useEmployeeRole";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { Product } from "@/types/product.type";
 import { useRouter } from "next/navigation";
@@ -27,11 +27,11 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
   const [canEdit, setCanEdit] = useState(false);
   const { productsData } = useProducts();
   const router = useRouter();
-  const { welders, assistants } = useEmployeeType();
+  const { welders, assistants } = useEmployeeRole();
   const [fetchedRegisterProduct, setFetchedRegisterProduct] = useState<Product | undefined>();
   const [assistantsRegisters, setAssistantsRegisters] = useState<AssistantsPORegisters[]>([]);
   const [productionOrderValues, setProductionOrderValues] = useState<ProductionOrder>({
-    client_uuid: "",
+    supervisor_uuid: "",
     product_uuid: "",
     employee_uuid: null,
     cut_assistant: null,
@@ -45,21 +45,22 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
     production_order_status: "Pendente",
     delivered_at: null,
     delivery_observation: "",
+    stock_validation: false,
   });
 
   useEffect(() => {
     if (isEdit) {
-      const foundOrder = allProductionOrders?.find((order) => order.production_order_id === productionOrderId);
+      const foundOrder = allProductionOrders?.find((order) => order.production_order_uuid === productionOrderId);
 
       const formattedDeadline = foundOrder?.production_order_deadline
         ? new Date(foundOrder.production_order_deadline)
         : new Date();
 
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFetchedRegisterProduct(productsData?.find((product) => product.uuid === foundOrder?.product_uuid));
+      setFetchedRegisterProduct(productsData?.find((product) => product.product_uuid === foundOrder?.product_uuid));
 
       setProductionOrderValues({
-        client_uuid: foundOrder?.client_uuid || "",
+        supervisor_uuid: foundOrder?.supervisor_uuid || "",
         product_uuid: foundOrder?.product_uuid || "",
         employee_uuid: foundOrder?.employee_uuid || null,
         cut_assistant: foundOrder?.cut_assistant || null,
@@ -73,8 +74,10 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
         production_order_status: foundOrder?.production_order_status || "",
         delivered_at: foundOrder?.delivered_at || null,
         delivery_observation: foundOrder?.delivery_observation || "",
-        production_order_id: foundOrder?.production_order_id || "",
+        production_order_uuid: foundOrder?.production_order_uuid || "",
+        stock_validation: foundOrder?.stock_validation || false,
       });
+
       setCanEdit(foundOrder?.production_order_status === "Pendente");
     } else {
       setCanEdit(true);
@@ -85,11 +88,12 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
    * @param e - Evento de mudança do select
    */
   async function handleProductChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    setFetchedRegisterProduct(productsData?.find((product) => product.uuid === e.target.value));
+    const selectedProduct = productsData?.find((product) => product.product_uuid === e.target.value);
+    setFetchedRegisterProduct(selectedProduct);
 
     setProductionOrderValues({
       ...productionOrderValues,
-      product_uuid: fetchedRegisterProduct?.uuid || "",
+      product_uuid: e.target.value,
     });
   }
 
@@ -98,7 +102,11 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
   const productionOrderBodyValues = {
     ...productionOrderValues,
     delivered_at: null,
-    product_uuid: fetchedRegisterProduct?.uuid || "",
+    employee_uuid: productionOrderValues.employee_uuid || null,
+    cut_assistant: productionOrderValues.cut_assistant || null,
+    paint_assistant: productionOrderValues.paint_assistant || null,
+    finishing_assistant: productionOrderValues.finishing_assistant || null,
+    fold_assistant: productionOrderValues.fold_assistant || null,
   };
 
   return (
@@ -158,11 +166,11 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
         <label className={styles.clientSelect}>
           <span>Supervisor</span>
           <select
-            value={productionOrderValues.client_uuid}
+            value={productionOrderValues.supervisor_uuid}
             onChange={(e) =>
               setProductionOrderValues({
                 ...productionOrderValues,
-                client_uuid: e.target.value,
+                supervisor_uuid: e.target.value,
               })
             }
             name="client-select"
@@ -172,7 +180,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
               Nenhum
             </option>
             {supervisorsData?.map((user) => (
-              <option key={user.user_id} value={user.user_id}>
+              <option key={user.user_uuid} value={user.user_uuid}>
                 {user.name}
               </option>
             ))}
@@ -182,13 +190,13 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <span>Produto</span>
           <select
             name="product-select"
-            value={fetchedRegisterProduct?.uuid}
+            value={fetchedRegisterProduct?.product_uuid}
             onChange={(e) => handleProductChange(e)}
             required
           >
             <option value="">Nenhum</option>
             {productsData?.map((product) => (
-              <option key={product.uuid} value={product.uuid}>
+              <option key={product.product_uuid} value={product.product_uuid}>
                 {product.name}
               </option>
             ))}
@@ -229,7 +237,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
               Não definido
             </option>
             {welders?.map((welder) => (
-              <option key={welder.employee_id} value={welder.employee_id}>
+              <option key={welder.employee_uuid} value={welder.employee_uuid}>
                 {welder.name}
               </option>
             ))}
@@ -249,7 +257,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
               Não definido
             </option>
             {assistants?.map((assistant) => (
-              <option key={assistant.employee_id} value={assistant.employee_id}>
+              <option key={assistant.employee_uuid} value={assistant.employee_uuid}>
                 {assistant.name}
               </option>
             ))}
@@ -269,7 +277,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
               Não definido
             </option>
             {assistants?.map((assistant) => (
-              <option key={assistant.employee_id} value={assistant.employee_id}>
+              <option key={assistant.employee_uuid} value={assistant.employee_uuid}>
                 {assistant.name}
               </option>
             ))}
@@ -289,7 +297,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
               Não definido
             </option>
             {assistants?.map((assistant) => (
-              <option key={assistant.employee_id} value={assistant.employee_id}>
+              <option key={assistant.employee_uuid} value={assistant.employee_uuid}>
                 {assistant.name}
               </option>
             ))}
@@ -309,7 +317,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
               Não definido
             </option>
             {assistants?.map((assistant) => (
-              <option key={assistant.employee_id} value={assistant.employee_id}>
+              <option key={assistant.employee_uuid} value={assistant.employee_uuid}>
                 {assistant.name}
               </option>
             ))}

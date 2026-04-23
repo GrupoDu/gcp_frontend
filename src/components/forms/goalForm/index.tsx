@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import { useEmployeeType } from "@/hooks/useEmployeeType";
+import { useEmployeeRole } from "@/hooks/useEmployeeRole";
 import LinkButton from "@/components/linkButton";
 import { useRouter } from "next/navigation";
 import { useGoal } from "@/hooks/useGoal";
@@ -11,7 +11,7 @@ import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import SubmitButton from "@/components/ui/submitButton";
 
 const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) => {
-  const { welders } = useEmployeeType();
+  const { welders } = useEmployeeRole();
   const { goalsData } = useGoal();
   const [canEdit, setCanEdit] = useState(false);
   const router = useRouter();
@@ -25,7 +25,7 @@ const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) =>
 
   useEffect(() => {
     if (isEdit && goalsData) {
-      const fetchedGoal = goalsData?.find((goal) => goal.goal_id === goal_id);
+      const fetchedGoal = goalsData?.find((goal) => goal.goal_uuid === goal_id);
 
       if (fetchedGoal) {
         const formattedDeadline = fetchedGoal && new Date(fetchedGoal.goal_deadline).toISOString();
@@ -94,7 +94,7 @@ const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) =>
         </select>
       </label>
       <label
-        className={`${styles.employeeGoalInput} ${goalField.goal_type !== "funcionario" && styles.isNotEmployeeType}`}
+        className={`${styles.employeeGoalInput} ${goalField.goal_type !== "funcionario" && styles.isNotEmployeeRole}`}
       >
         <span>Funcionário</span>
         <select
@@ -107,7 +107,7 @@ const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) =>
         >
           <option value="">Selecionar funcionário</option>
           {welders?.map((welder) => (
-            <option key={welder.employee_id} value={welder.employee_id}>
+            <option key={welder.employee_uuid} value={welder.employee_uuid}>
               {welder.name}
             </option>
           ))}

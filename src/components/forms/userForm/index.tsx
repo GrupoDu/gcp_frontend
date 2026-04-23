@@ -16,23 +16,23 @@ const UserForm = ({ isEdit, user_id }: { isEdit?: boolean; user_id?: string }) =
   const [canEdit, setCanEdit] = useState(false);
   const password = generator.generate({ length: 20, numbers: true });
   const [userInfosFields, setUserInfosFields] = useState<User>({
-    user_id: "",
+    user_uuid: "",
     name: "",
-    user_type: "",
+    user_role: "",
     email: "",
     password: password,
   });
 
   useEffect(() => {
     if (isEdit && user_id) {
-      const fetchedUser = usersData?.find((user) => user.user_id === user_id);
+      const fetchedUser = usersData?.find((user) => user.user_uuid === user_id);
 
       if (fetchedUser) {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setUserInfosFields({
-          user_id: fetchedUser.user_id,
+          user_uuid: fetchedUser.user_uuid,
           name: fetchedUser.name,
-          user_type: fetchedUser.user_type,
+          user_role: fetchedUser.user_role,
           email: fetchedUser.email,
         });
       }
@@ -70,11 +70,11 @@ const UserForm = ({ isEdit, user_id }: { isEdit?: boolean; user_id?: string }) =
       <label>
         <span>Tipo de usuário</span>
         <select
-          value={userInfosFields.user_type}
+          value={userInfosFields.user_role}
           onChange={(e) =>
             setUserInfosFields({
               ...userInfosFields,
-              user_type: e.target.value,
+              user_role: e.target.value,
             })
           }
           name="input-function"
