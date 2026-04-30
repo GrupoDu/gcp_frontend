@@ -53,6 +53,8 @@ export async function handleFormSubmit(
     const response = postResponse || putResponse;
     const production_order_uuid = response?.data.data.production_order_uuid;
 
+    console.log(postResponse);
+
     // Só cria o registro de atividade de assistente se assistantsRegister existir
     createAssistantPORegister(production_order_uuid, assistantsRegister);
 
@@ -60,6 +62,7 @@ export async function handleFormSubmit(
     return toast.success("Operação realizada com sucesso!");
   } catch (err) {
     const error = err as ErrorResponse;
+    console.log(error);
     return toast.error(error.response?.data.message);
   }
 }

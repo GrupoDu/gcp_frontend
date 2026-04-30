@@ -220,7 +220,7 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           />
         </label>
       </div>
-      <div className={styles.employeesSection}>
+      <div style={{}} className={styles.employeesSection}>
         <label className={styles.employee}>
           <span>Soldador</span>
           <select
