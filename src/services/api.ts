@@ -4,11 +4,13 @@ interface CustomAxiosConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const isProd = process.env.NODE_ENV === "production";
+const PROD_API_URL = process.env.NEXT_PUBLIC_API_URL;
 const DEV_API_URL = process.env.NEXT_PUBLIC_DEV_API_URL;
+const API_URL = isProd ? PROD_API_URL : DEV_API_URL;
 
 export const api = axios.create({
-  baseURL: API_URL ? API_URL : DEV_API_URL,
+  baseURL: API_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -64,7 +66,7 @@ api.interceptors.response.use(
 
     try {
       await axios.post(
-        `${API_URL ? API_URL : DEV_API_URL}/login/refresh`,
+        `${API_URL}/login/refresh`,
         {},
         {
           withCredentials: true,

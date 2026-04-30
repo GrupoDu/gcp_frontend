@@ -3,17 +3,27 @@ services:
     build:
       context: .
       target: dev
-    volumes:
-      - .:/app
-      - /app/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /app
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: package.json
+        - action: rebuild
+          path: next.config.ts
+        - action: rebuild
+          path: tsconfig.json
     environment:
-      - PORT=3001
+      - WATCHPACK_POLLING=true
     env_file:
       - .env
     ports:
-      - "${DEV_PORT}:3001"
+      - "${DEV_PORT}:3000"
     expose:
-      - "3001"
+      - "3000"
     networks:
       - front-network
 
