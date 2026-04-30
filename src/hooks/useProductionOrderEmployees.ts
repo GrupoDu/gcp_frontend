@@ -3,8 +3,10 @@ import { useFetch } from "./useFetch";
 import { ProductionOrder } from "@/types/productionOrder.type";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { EmployeesInfos } from "@/types/employeesInfos";
+import { getAssistantsNames } from "@/utils/getAssistantsNames";
 
-export function useRegisterEmployees() {
+export function useRegisterEmployees(): EmployeesInfos {
   const pathname = usePathname();
   const registerId = pathname.split("/")[2];
   const { data: employeesData } = useFetch<Employee[]>("employees");
