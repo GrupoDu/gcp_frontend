@@ -21,6 +21,7 @@ import handleAssistantDelivery from "@/utils/handleAssistantDelivery";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "@/components/ui/loading";
 import useAssistants from "@/hooks/useAssistants";
+import { getAssistantsNames } from "@/utils/getAssistantsNames";
 
 /**
  * Componente que exibe as informações de um registro de produção
@@ -39,6 +40,16 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
   const employees = useRegisterEmployees();
   const { finishing_assistant, paint_assistant, fold_assistant, cut_assistant } = useAssistants(production_order_uuid);
   const assistantDeliveryDate = (assistant_uuid?: Date | null) => (assistant_uuid ? dataFormater(assistant_uuid) : "");
+  const [assistantsDoneCount, setAssistantsDoneCount] = useState<number>(0);
+  const { cutAssistant, foldAssistant, finishingAssistant, paintAssistant } = getAssistantsNames(
+    employees,
+    productionOrder,
+  );
+  const description = productionOrder?.production_order_description
+    ? productionOrder?.production_order_description
+    : "Registro sem descrição";
+  const welderName = productionOrder?.employee_uuid ? employees.welder?.name : "Ainda sem soldador.";
+  const isAllAssistantsDone = assistantsDoneCount === 4;
 
   const statusIcon =
     productionOrder?.production_order_status === "Entregue" ? (
@@ -123,73 +134,70 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
           {productionOrder?.production_order_status === "Entregue" && (
             <span className={styles.dates}>Entregue: {dataFormater(productionOrder?.delivered_at || "")}</span>
           )}
-          <p className={styles.descriptionField}>
-            {productionOrder?.production_order_description
-              ? productionOrder?.production_order_description
-              : "Registro sem descrição"}
-          </p>
+          <p className={styles.descriptionField}>{description}</p>
           <hr />
-          <h4>Soldador: {productionOrder?.employee_uuid ? employees.welder?.name : "Ainda sem soldador."}</h4>
-          <ul>
+          <h4>Soldador: {welderName}</h4>
+          <ul className={`${isAllAssistantsDone ? styles.doneList : ""}`}>
             <div className={styles.assistantList}>
               <h4>Ajudantes</h4>
               <hr />
               <li className={`${styles.assistant} ${!productionOrder?.cut_assistant && styles.undefinedAssistant}`}>
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     handleAssistantDelivery(
                       {
-                        production_order_uuid: productionOrder?.production_order_uuid || "",
+                        production_order_uuid,
                         assistant_uuid: productionOrder?.cut_assistant || "",
                         assistant_as: "Corte",
                       },
                       refetch,
-                    )
-                  }
+                    );
+                    setAssistantsDoneCount((prev) => prev + 1);
+                  }}
                   className={cut_assistant?.delivered ? styles.checked : ""}
                   disabled={cut_assistant?.delivered || isLoading}
                   type="button"
                 >
                   <IoCheckmarkDone className={styles.checkMarkIcon} />
                 </button>
-                <b>Corte:</b> {productionOrder?.cut_assistant ? `${employees.cutAssistant?.name}` : "Não definido."} |
-                <span>{assistantDeliveryDate(cut_assistant?.delivered_at)}</span>
+                <b>Corte:</b> {cutAssistant} |<span>{assistantDeliveryDate(cut_assistant?.delivered_at)}</span>
               </li>
               <li className={`${styles.assistant} ${!productionOrder?.fold_assistant && styles.undefinedAssistant}`}>
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     handleAssistantDelivery(
                       {
-                        production_order_uuid: productionOrder?.production_order_uuid || "",
+                        production_order_uuid,
                         assistant_uuid: productionOrder?.fold_assistant || "",
                         assistant_as: "Dobra",
                       },
                       refetch,
-                    )
-                  }
+                    );
+                    setAssistantsDoneCount((prev) => prev + 1);
+                  }}
                   className={fold_assistant?.delivered ? styles.checked : ""}
                   disabled={fold_assistant?.delivered || isLoading}
                   type="button"
                 >
                   <IoCheckmarkDone className={styles.checkMarkIcon} />
                 </button>
-                <b>Dobra:</b> {productionOrder?.fold_assistant ? employees.foldAssistant?.name : "Não definido."} |
-                <span>{assistantDeliveryDate(fold_assistant?.delivered_at)}</span>
+                <b>Dobra:</b> {foldAssistant} |<span>{assistantDeliveryDate(fold_assistant?.delivered_at)}</span>
               </li>
               <li
                 className={`${styles.assistant} ${!productionOrder?.finishing_assistant && styles.undefinedAssistant}`}
               >
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     handleAssistantDelivery(
                       {
-                        production_order_uuid: productionOrder?.production_order_uuid || "",
+                        production_order_uuid,
                         assistant_uuid: productionOrder?.finishing_assistant || "",
                         assistant_as: "Acabamento",
                       },
                       refetch,
-                    )
-                  }
+                    );
+                    setAssistantsDoneCount((prev) => prev + 1);
+                  }}
                   className={finishing_assistant?.delivered ? styles.checked : ""}
                   disabled={finishing_assistant?.delivered || isLoading}
                   type="button"
@@ -197,29 +205,28 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
                   <IoCheckmarkDone className={styles.checkMarkIcon} />
                 </button>
                 <b>Acabamento:</b>
-                {productionOrder?.finishing_assistant ? employees.finishingAssistant?.name : "Não definido."} |
-                <span>{assistantDeliveryDate(finishing_assistant?.delivered_at)}</span>
+                {finishingAssistant} |<span>{assistantDeliveryDate(finishing_assistant?.delivered_at)}</span>
               </li>
               <li className={`${styles.assistant} ${!productionOrder?.paint_assistant && styles.undefinedAssistant}`}>
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     handleAssistantDelivery(
                       {
-                        production_order_uuid: productionOrder?.production_order_uuid || "",
+                        production_order_uuid,
                         assistant_uuid: productionOrder?.paint_assistant || "",
                         assistant_as: "Pintura",
                       },
                       refetch,
-                    )
-                  }
+                    );
+                    setAssistantsDoneCount((prev) => prev + 1);
+                  }}
                   className={paint_assistant?.delivered ? styles.checked : ""}
                   disabled={paint_assistant?.delivered || isLoading}
                   type="button"
                 >
                   <IoCheckmarkDone className={styles.checkMarkIcon} />
                 </button>
-                <b>Pintura:</b> {productionOrder?.paint_assistant ? employees.paintAssistant?.name : "Não definido."} |
-                <span>{assistantDeliveryDate(paint_assistant?.delivered_at)}</span>
+                <b>Pintura:</b> {paintAssistant}|<span>{assistantDeliveryDate(paint_assistant?.delivered_at)}</span>
               </li>
             </div>
           </ul>
