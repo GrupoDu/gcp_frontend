@@ -27,20 +27,15 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
   const [canEdit, setCanEdit] = useState(false);
   const { productsData } = useProducts();
   const router = useRouter();
-  const { welders, assistants } = useEmployeeRole();
+  const { welders } = useEmployeeRole();
   const [fetchedRegisterProduct, setFetchedRegisterProduct] = useState<Product | undefined>();
-  const [assistantsRegisters, setAssistantsRegisters] = useState<AssistantsPORegisters[]>([]);
   const [productionOrderValues, setProductionOrderValues] = useState<ProductionOrder>({
     supervisor_uuid: "",
     product_uuid: "",
-    employee_uuid: null,
-    cut_assistant: null,
-    fold_assistant: null,
-    finishing_assistant: null,
-    paint_assistant: null,
-    product_quantity: 0,
+    welder_uuid: null,
+    quantity_to_produce: 0,
+    produced_quantity: 0,
     production_order_deadline: new Date(),
-    production_order_title: "",
     production_order_description: "",
     production_order_status: "Pendente",
     delivered_at: null,
@@ -62,14 +57,10 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
       setProductionOrderValues({
         supervisor_uuid: foundOrder?.supervisor_uuid || "",
         product_uuid: foundOrder?.product_uuid || "",
-        employee_uuid: foundOrder?.employee_uuid || null,
-        cut_assistant: foundOrder?.cut_assistant || null,
-        fold_assistant: foundOrder?.fold_assistant || null,
-        finishing_assistant: foundOrder?.finishing_assistant || null,
-        paint_assistant: foundOrder?.paint_assistant || null,
-        product_quantity: foundOrder?.product_quantity || 0,
+        welder_uuid: foundOrder?.welder_uuid || null,
+        quantity_to_produce: foundOrder?.quantity_to_produce || 0,
+        produced_quantity: foundOrder?.produced_quantity || 0,
         production_order_deadline: formattedDeadline,
-        production_order_title: foundOrder?.production_order_title || "",
         production_order_description: foundOrder?.production_order_description || "",
         production_order_status: foundOrder?.production_order_status || "",
         delivered_at: foundOrder?.delivered_at || null,
@@ -102,21 +93,13 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
   const productionOrderBodyValues = {
     ...productionOrderValues,
     delivered_at: null,
-    employee_uuid: productionOrderValues.employee_uuid || null,
-    cut_assistant: productionOrderValues.cut_assistant || null,
-    paint_assistant: productionOrderValues.paint_assistant || null,
-    finishing_assistant: productionOrderValues.finishing_assistant || null,
-    fold_assistant: productionOrderValues.fold_assistant || null,
+    welder_uuid: productionOrderValues.welder_uuid || null,
   };
 
   return (
     <form
       onSubmit={(e) =>
-        handleFormSubmit(
-          e,
-          { endpoint, method, bodyValues: productionOrderBodyValues, assistantsRegister: assistantsRegisters },
-          { canEdit, router },
-        )
+        handleFormSubmit(e, { endpoint, method, bodyValues: productionOrderBodyValues }, { canEdit, router })
       }
       className={styles.registerForm}
     >
@@ -134,19 +117,6 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
             type="date"
             required
             name="deliver-date"
-          />
-        </label>
-        <label className={styles.titleInput}>
-          <span>Título</span>
-          <input
-            type="text"
-            name="title-input"
-            required
-            placeholder="Digite um título"
-            value={productionOrderValues.production_order_title}
-            onChange={(e) =>
-              setProductionOrderValues({ ...productionOrderValues, production_order_title: e.target.value })
-            }
           />
         </label>
         <label className={styles.descriptionInput}>
@@ -206,11 +176,11 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
           <span>Quantidade</span>
           <input
             type="number"
-            value={productionOrderValues.product_quantity}
+            value={productionOrderValues.quantity_to_produce}
             onChange={(e) => {
               setProductionOrderValues({
                 ...productionOrderValues,
-                product_quantity: parseInt(e.target.value),
+                quantity_to_produce: parseInt(e.target.value),
               });
             }}
             name="quantity-input"
@@ -224,11 +194,11 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
         <label className={styles.employee}>
           <span>Soldador</span>
           <select
-            value={productionOrderValues?.employee_uuid as string}
+            value={productionOrderValues?.welder_uuid as string}
             onChange={(e) =>
               setProductionOrderValues({
                 ...productionOrderValues,
-                employee_uuid: e.target.value,
+                welder_uuid: e.target.value,
               })
             }
             name="employee-select"
@@ -239,86 +209,6 @@ const ProductionOrderForm = ({ isEdit, productionOrderId }: { isEdit: boolean; p
             {welders?.map((welder) => (
               <option key={welder.employee_uuid} value={welder.employee_uuid}>
                 {welder.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={styles.cutAssitant}>
-          <span>Corte</span>
-          <select
-            value={productionOrderValues?.cut_assistant as string}
-            onChange={(e) => {
-              getAssistentValues(e, "Corte", setAssistantsRegisters);
-              setProductionOrderValues({ ...productionOrderValues, cut_assistant: e.target.value });
-            }}
-            name="employee-select"
-          >
-            <option value="" defaultValue={""}>
-              Não definido
-            </option>
-            {assistants?.map((assistant) => (
-              <option key={assistant.employee_uuid} value={assistant.employee_uuid}>
-                {assistant.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={styles.paintAssitant}>
-          <span>Pintura</span>
-          <select
-            value={productionOrderValues?.paint_assistant as string}
-            onChange={(e) => {
-              getAssistentValues(e, "Pintura", setAssistantsRegisters);
-              setProductionOrderValues({ ...productionOrderValues, paint_assistant: e.target.value });
-            }}
-            name="employee-select"
-          >
-            <option value="" defaultValue={""}>
-              Não definido
-            </option>
-            {assistants?.map((assistant) => (
-              <option key={assistant.employee_uuid} value={assistant.employee_uuid}>
-                {assistant.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={styles.foldAssitant}>
-          <span>Dobra</span>
-          <select
-            value={productionOrderValues?.fold_assistant as string}
-            onChange={(e) => {
-              getAssistentValues(e, "Dobra", setAssistantsRegisters);
-              setProductionOrderValues({ ...productionOrderValues, fold_assistant: e.target.value });
-            }}
-            name="employee-select"
-          >
-            <option value="" defaultValue={""}>
-              Não definido
-            </option>
-            {assistants?.map((assistant) => (
-              <option key={assistant.employee_uuid} value={assistant.employee_uuid}>
-                {assistant.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={styles.finishAssitant}>
-          <span>Acabamento</span>
-          <select
-            value={productionOrderValues?.finishing_assistant as string}
-            onChange={(e) => {
-              getAssistentValues(e, "Acabamento", setAssistantsRegisters);
-              setProductionOrderValues({ ...productionOrderValues, finishing_assistant: e.target.value });
-            }}
-            name="employee-select"
-          >
-            <option value="" defaultValue={""}>
-              Não definido
-            </option>
-            {assistants?.map((assistant) => (
-              <option key={assistant.employee_uuid} value={assistant.employee_uuid}>
-                {assistant.name}
               </option>
             ))}
           </select>

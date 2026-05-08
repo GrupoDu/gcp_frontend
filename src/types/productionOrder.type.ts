@@ -1,18 +1,14 @@
 export type ProductionOrder = {
   production_order_uuid?: string;
   production_order_deadline: Date;
-  production_order_title: string;
-  production_order_description: string;
+  production_order_description?: string;
   production_order_status: string;
   delivered_at?: string | null;
-  employee_uuid?: string | null;
+  welder_uuid?: string | null;
   product_uuid: string;
   delivery_observation: string;
   supervisor_uuid: string;
-  product_quantity: number;
-  cut_assistant?: string | null;
-  fold_assistant?: string | null;
-  finishing_assistant?: string | null;
-  paint_assistant?: string | null;
+  quantity_to_produce: number;
+  produced_quantity: number;
   stock_validation: boolean;
 };
