@@ -154,7 +154,7 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
                     );
                     setAssistantsDoneCount((prev) => prev + 1);
                   }}
-                  className={cut_assistant?.delivered ? styles.checked : ""}
+                  className={cut_assistant?.delivered ? styles.tchecked : ""}
                   disabled={cut_assistant?.delivered || isLoading}
                   type="button"
                 >
