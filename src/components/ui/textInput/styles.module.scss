@@ -1,0 +1,9 @@
+@use "@/styles/colors";
+
+.textInput {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  box-sizing: border-box;
+  flex: 1;
+}
