@@ -83,10 +83,17 @@ h4 {
   overflow-y: auto;
   box-sizing: border-box;
   transition: all 0.3s ease-in-out;
+  gap: .4rem;
 
   h2 {
     color: #383838;
   }
+}
+
+input {
+  padding: .4rem;
+  border-radius: .2rem;
+  border: colors.$borderDefault;
 }
 
 textarea {
@@ -97,8 +104,9 @@ textarea {
 select {
   background-color: white;
   border: colors.$borderDefault;
-  border-radius: 0.4rem;
+  border-radius: 0.2rem;
   flex: 1;
+  padding: .4rem;
 }
 
 @media screen and (min-width: 320px) and (max-width: 768px) {

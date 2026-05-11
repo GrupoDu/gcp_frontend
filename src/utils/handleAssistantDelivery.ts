@@ -1,4 +1,4 @@
-import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
+import { AssistantsPORegisters } from "../types/assistantsRegister.type";
 import { api } from "@/services/api";
 import { debugLogger } from "@/utils/logger";
 import { toast } from "react-toastify";

@@ -1,4 +1,4 @@
-import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
+import { AssistantsPORegisters } from "./assistantsRegister.type";
 
 export type ApiConfig = {
   endpoint: string;

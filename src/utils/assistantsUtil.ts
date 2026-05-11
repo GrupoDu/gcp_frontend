@@ -1,5 +1,5 @@
 import React from "react";
-import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
+import { AssistantsPORegisters } from "../types/assistantsRegister.type";
 import { debugLogger } from "@/utils/logger";
 
 /**

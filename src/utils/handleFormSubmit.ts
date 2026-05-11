@@ -2,7 +2,7 @@ import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import { ApiConfig } from "@/types/apiConfig.type";
 import { PageConfig } from "@/types/pageConfig.type";
-import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
+import { AssistantsPORegisters } from "../types/assistantsRegister.type";
 import React from "react";
 import { ErrorResponse } from "@/types/errorResponse.type";
 import { debugLogger } from "@/utils/logger";
