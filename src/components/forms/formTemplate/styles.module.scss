@@ -1,0 +1,11 @@
+@use "@/styles/_colors.scss";
+
+.formTemplateContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+  border: colors.$borderDefault;
+  padding: 1rem;
+  border-radius: 0.4rem;
+}
