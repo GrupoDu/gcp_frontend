@@ -5,8 +5,8 @@ import styles from "./styles.module.scss";
 import { BarChart } from "@mui/x-charts";
 import { useEmployees } from "@/hooks/useEmployees";
 import { FaChartBar } from "react-icons/fa";
-import useAssistantsPORegister from "@/hooks/useAssistantsPORegister";
-import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
+import useAssistantsPORegister from "../../hooks/useAssistantsRegister";
+import { AssistantsPORegisters } from "../../types/assistantsRegister.type";
 import { api } from "@/services/api";
 
 interface EmployeeData {

@@ -16,6 +16,8 @@ import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
+import { BiPlus } from "react-icons/bi";
+import Link from "next/link";
 
 const RegisterListContainer = () => {
   const [productValue, setProductValue] = useState("");
@@ -52,6 +54,13 @@ const RegisterListContainer = () => {
               <EmployeeDropdown employeeValue={employeeValue} setEmployeeValue={setEmployeeValue} />
             </EmployeeProvider>
             <StatusDropdown statusValue={statusValue} setStatusValue={setStatusValue} />
+            <div className={styles.registerButtonContainer}>
+              <span>Registro de produção</span>
+              <Link href={"/producao/activity"} className={styles.registerButton} type={"button"}>
+                <BiPlus />
+                <span>Registrar produção</span>
+              </Link>
+            </div>
           </FiltersList>
           <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
             <DeadlineInput deadlineValue={deadlineValue} setDeadlineValue={setDeadlineValue} />

@@ -12,8 +12,6 @@ import { Product } from "@/types/product.type";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
 import { useSupervisor } from "@/hooks/useSupervisors";
-import { AssistantsPORegisters } from "@/types/assistantsPORegister.type";
-import { getAssistentValues } from "@/utils/assistantsUtil";
 
 /**
  * Componente de formulário de produção
