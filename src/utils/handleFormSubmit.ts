@@ -2,7 +2,7 @@ import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import { ApiConfig } from "@/types/apiConfig.type";
 import { PageConfig } from "@/types/pageConfig.type";
-import { AssistantsPORegisters } from "../types/assistantsRegister.type";
+import { AssistantsRegisters } from "../types/assistantsRegister.type";
 import React from "react";
 import { ErrorResponse } from "@/types/errorResponse.type";
 import { debugLogger } from "@/utils/logger";
@@ -74,7 +74,7 @@ export async function handleFormSubmit(
  * @param assistantsRegisters - Informações da atividade do assistente
  * @param productionOrderId - UUID da produção
  */
-function createAssistantPORegister(productionOrderId: string, assistantsRegisters?: AssistantsPORegisters[]) {
+function createAssistantPORegister(productionOrderId: string, assistantsRegisters?: AssistantsRegisters[]) {
   if (!assistantsRegisters) return;
 
   try {

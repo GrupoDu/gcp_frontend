@@ -6,7 +6,6 @@ import SearchBar from "../searchBar";
 import ListItem from "../userListItem";
 import { useMemo, useState } from "react";
 import { useEmployees } from "@/hooks/useEmployees";
-import { useRouter } from "next/navigation";
 import { EmployeeRoleFilter } from "../employeeRoleFilter";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";

@@ -9,6 +9,7 @@
   .listHeader {
     display: flex;
     padding: 0.8rem;
+    border-bottom: 1px solid colors.$borderColor;
 
     span {
       flex: 1;
@@ -19,6 +20,18 @@
     .actionsSpan {
       flex: 0;
       width: fit-content;
+    }
+  }
+
+  .listItem {
+    display: flex;
+    padding: 0.8rem;
+    border-bottom: 1px solid colors.$borderColor;
+    justify-content: space-between;
+
+    span {
+      flex: 1;
+      padding: 0 1rem;
     }
   }
 

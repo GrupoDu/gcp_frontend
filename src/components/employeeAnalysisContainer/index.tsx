@@ -6,7 +6,7 @@ import { BarChart } from "@mui/x-charts";
 import { useEmployees } from "@/hooks/useEmployees";
 import { FaChartBar } from "react-icons/fa";
 import useAssistantsPORegister from "../../hooks/useAssistantsRegister";
-import { AssistantsPORegisters } from "../../types/assistantsRegister.type";
+import { AssistantsRegisters } from "../../types/assistantsRegister.type";
 import { api } from "@/services/api";
 
 interface EmployeeData {
@@ -84,7 +84,6 @@ const EmployeeAnalysisContainer = ({ employeeRole }: { employeeRole: string }) =
           Gráfico de {employeeRole} ({weldersData.length})
         </h3>
       </div>
-
       <div className={styles.chartWrapper}>
         <div className={styles.chartInnerWrapper}>
           <BarChart
@@ -111,7 +110,6 @@ const EmployeeAnalysisContainer = ({ employeeRole }: { employeeRole: string }) =
           />
         </div>
       </div>
-
       <div className={styles.scrollIndicator}>
         <span>← Arraste para ver todos os soldadores →</span>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { AssistantsPORegisters } from "../types/assistantsRegister.type";
+import { AssistantsRegisters } from "@/types/assistantsRegister.type";
 import { debugLogger } from "@/utils/logger";
 
 /**
@@ -12,7 +12,7 @@ import { debugLogger } from "@/utils/logger";
 export function getAssistentValues(
   e: React.ChangeEvent<HTMLSelectElement>,
   assistant_as: string,
-  setAssistantsRegisters: (value: React.SetStateAction<AssistantsPORegisters[]>) => void,
+  setAssistantsRegisters: (value: React.SetStateAction<AssistantsRegisters[]>) => void,
 ) {
   const isTargetValueEmpty = !e.target.value || e.target.value === "";
   if (isTargetValueEmpty) return;
@@ -27,7 +27,7 @@ export function getAssistentValues(
  * @param {AssistantsPORegisters[]} assistants - Lista de assistentes
  * @param {string} assistant_as - Função do assistente
  */
-function isAssistantRoleAlreadySet(assistants: AssistantsPORegisters[], assistant_as: string): boolean {
+function isAssistantRoleAlreadySet(assistants: AssistantsRegisters[], assistant_as: string): boolean {
   return assistants.some((assistant) => assistant.assistant_as === assistant_as);
 }
 
@@ -38,7 +38,7 @@ function isAssistantRoleAlreadySet(assistants: AssistantsPORegisters[], assistan
  * @param {string} assistant_as - Função do assistente
  * @param {string} value - UUID do assistente
  */
-function handleAssistantChange(previousAssistants: AssistantsPORegisters[], assistant_as: string, value: string) {
+function handleAssistantChange(previousAssistants: AssistantsRegisters[], assistant_as: string, value: string) {
   const isRoleAlreadyRegistered = isAssistantRoleAlreadySet(previousAssistants, assistant_as);
 
   let updatedAssistants;

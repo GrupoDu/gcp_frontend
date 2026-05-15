@@ -4,4 +4,5 @@ export type AnualAnalysis = {
   year: number;
   delivered: number;
   not_delivered: number;
+  total_production: number;
 };

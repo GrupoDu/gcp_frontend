@@ -1,10 +1,10 @@
-import { AssistantsPORegisters } from "../types/assistantsRegister.type";
+import { AssistantsRegisters } from "../types/assistantsRegister.type";
 import { api } from "@/services/api";
 import { debugLogger } from "@/utils/logger";
 import { toast } from "react-toastify";
 import { ErrorResponse } from "@/types/errorResponse.type";
 
-export default async function handleAssistantDelivery(assistantValues: AssistantsPORegisters, refetch: () => void) {
+export default async function handleAssistantDelivery(assistantValues: AssistantsRegisters, refetch: () => void) {
   const { production_order_uuid, assistant_uuid, assistant_as } = assistantValues;
 
   try {
