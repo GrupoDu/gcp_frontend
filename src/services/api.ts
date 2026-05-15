@@ -87,7 +87,6 @@ api.interceptors.response.use(
       // Processa a fila com erro
       processQueue(refreshError);
 
-      // Se o refresh falhou (ex: refresh token expirado), vai pro login (mas não se já estiver na página de login)
       // if (isNotLoginPage) window.location.href = "/login";
 
       return Promise.reject(refreshError);
