@@ -10,18 +10,11 @@ import LinkButton from "../linkButton";
 import { IoIosArrowBack } from "react-icons/io";
 import DeliverButton from "../ui/deliverButton";
 import { CiSquareCheck } from "react-icons/ci";
-import { useEffect, useState } from "react";
-import { useRegisterEmployees } from "@/hooks/useProductionOrderEmployees";
+import { useState } from "react";
 import { handleDelivery } from "@/utils/handleDeliveryProductionOrder";
 import { useRouter } from "next/navigation";
-import useAssistantsRegister from "../../hooks/useAssistantsRegister";
-import { debugLogger } from "@/utils/logger";
-import { IoCheckmarkDone } from "react-icons/io5";
-import handleAssistantDelivery from "@/utils/handleAssistantDelivery";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "@/components/ui/loading";
-import useAssistants from "@/hooks/useAssistants";
-import { getAssistantsNames } from "@/utils/getAssistantsNames";
 
 /**
  * Componente que exibe as informações de um registro de produção
@@ -35,12 +28,12 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
   const { isLoading, setIsLoading } = useLoading();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
-  const { data: productionOrder } = useFetch<ProductionOrder>("production-orders/", production_order_uuid);
-  const employees = useRegisterEmployees();
-  const description = productionOrder?.production_order_description
-    ? productionOrder?.production_order_description
-    : "Registro sem descrição";
-  const welderName = productionOrder?.welder_uuid ? employees.welder?.name : "Ainda sem soldador.";
+  const { data: productionOrder } = useFetch<ProductionOrder>(`production-orders/${production_order_uuid}`);
+  const description = productionOrder?.production_order_description || "Registro sem descrição";
+  const welderName = productionOrder?.welders?.name || "Ainda sem soldador.";
+  const title = `${productionOrder?.quantity_to_produce} ${productionOrder?.products?.acronym}` || "";
+
+  console.log(productionOrder?.welders?.employee_uuid);
 
   const statusIcon =
     productionOrder?.production_order_status === "Entregue" ? (
@@ -54,7 +47,7 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
   const productionOrderId = productionOrder?.production_order_uuid || "";
   const endpoint = `deliver-production-order/${productionOrderId}`;
   const redirectHref = "/producao";
-  const employeeUuid = productionOrder?.welder_uuid || "";
+  const employeeUuid = productionOrder?.welders?.employee_uuid || "";
 
   const productionOrderBody = {
     delivery_observation: deliveryObservation,
@@ -95,8 +88,9 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
           )}
         </div>
         <div className={styles.registerInfosContainer}>
+          <h2>{title}</h2>
           <span className={styles.dates}>
-            prazo de entrega: {dataFormater(productionOrder?.production_order_deadline.toString() || "")}
+            prazo de entrega: {dataFormater(productionOrder?.production_order_deadline || new Date())}
           </span>
           <span className={styles.dates}>status: {productionOrder?.production_order_status}</span>
           {productionOrder?.production_order_status === "Entregue" && (

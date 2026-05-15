@@ -8,7 +8,7 @@ import { ProductProvider } from "@/providers/products.provider";
 import EmployeeDropdown from "../employeeDropdown";
 import StatusDropdown from "../ui/statusDropdown";
 import ListFooter from "../listFooter";
-import { Suspense, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import ProductionOrderList from "../cardLists/productionOrderList";
@@ -16,16 +16,28 @@ import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
-import { BiPlus } from "react-icons/bi";
-import Link from "next/link";
+import WeldersActivitiesList from "@/components/lists/weldersActivitiesList";
+import { WeldersActivitiesProvider } from "@/providers/weldersActivities.provider";
+import { RiFileList3Line } from "react-icons/ri";
+import { RxActivityLog } from "react-icons/rx";
 
 const RegisterListContainer = () => {
   const [productValue, setProductValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
   const [employeeValue, setEmployeeValue] = useState("");
+  const [elementIndex, setElementIndex] = useState(false);
   const [deadlineValue, setDeadlineValue] = useState("");
   const [openFilterContainer, setOpenFilterContainer] = useState(false);
   const { isLoading } = useLoading();
+  const lists = [<ProductionOrderList key={0} />, <WeldersActivitiesList key={1} />];
+  const buttonRegister = elementIndex ? "Registrar Atividade" : "Nova Ordem de produção";
+  const registerLink = elementIndex ? "/producao/activity" : "#";
+  const displayStatusFilter = !elementIndex && (
+    <StatusDropdown statusValue={statusValue} setStatusValue={setStatusValue} />
+  );
+  const displayDeadline = !elementIndex && (
+    <DeadlineInput deadlineValue={deadlineValue} setDeadlineValue={setDeadlineValue} />
+  );
 
   const router = useRouter();
 
@@ -38,48 +50,78 @@ const RegisterListContainer = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <ProductionOrderProvider>
-        <main className={`${styles.listContainer} mainContainer ${isLoading && "loading"}`}>
-          <FiltersList
-            openFilterContainer={openFilterContainer}
-            openMobileFilters={setOpenFilterContainer}
-            buttonLabel="Nova ordem de produção"
-            hrefButton="/producao/register"
-          >
-            <DeadlineInput deadlineValue={deadlineValue} setDeadlineValue={setDeadlineValue} />
-            <ProductProvider>
-              <ProductsDropdown productValue={productValue} setProductValue={setProductValue} />
-            </ProductProvider>
-            <EmployeeProvider>
-              <EmployeeDropdown employeeValue={employeeValue} setEmployeeValue={setEmployeeValue} />
-            </EmployeeProvider>
-            <StatusDropdown statusValue={statusValue} setStatusValue={setStatusValue} />
-            <div className={styles.registerButtonContainer}>
-              <span>Registro de produção</span>
-              <Link href={"/producao/activity"} className={styles.registerButton} type={"button"}>
-                <BiPlus />
-                <span>Registrar produção</span>
-              </Link>
-            </div>
-          </FiltersList>
-          <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-            <DeadlineInput deadlineValue={deadlineValue} setDeadlineValue={setDeadlineValue} />
-            <ProductProvider>
-              <ProductsDropdown productValue={productValue} setProductValue={setProductValue} />
-            </ProductProvider>
-            <EmployeeProvider>
-              <EmployeeDropdown employeeValue={employeeValue} setEmployeeValue={setEmployeeValue} />
-            </EmployeeProvider>
-            <StatusDropdown statusValue={statusValue} setStatusValue={setStatusValue} />
-          </FilterMobileContainer>
-          <Suspense fallback={<Loading />}>
-            <ProductionOrderList />
-          </Suspense>
-          <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
-        </main>
-      </ProductionOrderProvider>
+      <WeldersActivitiesProvider>
+        <ProductProvider>
+          <ProductionOrderProvider>
+            <main style={{ gap: 0 }} className={`${styles.listContainer} mainContainer ${isLoading && "loading"}`}>
+              <Tabs elementIndex={elementIndex} setElementIndex={setElementIndex} />
+              <FiltersList
+                openFilterContainer={openFilterContainer}
+                openMobileFilters={setOpenFilterContainer}
+                buttonLabel={buttonRegister}
+                hrefButton={registerLink}
+                style={{ borderRadius: 0, borderBottom: 0 }}
+              >
+                {displayDeadline}
+                <ProductProvider>
+                  <ProductsDropdown productValue={productValue} setProductValue={setProductValue} />
+                </ProductProvider>
+                <EmployeeProvider>
+                  <EmployeeDropdown employeeValue={employeeValue} setEmployeeValue={setEmployeeValue} />
+                </EmployeeProvider>
+                {displayStatusFilter}
+              </FiltersList>
+              <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
+                {displayDeadline}
+                <ProductProvider>
+                  <ProductsDropdown productValue={productValue} setProductValue={setProductValue} />
+                </ProductProvider>
+                <EmployeeProvider>
+                  <EmployeeDropdown employeeValue={employeeValue} setEmployeeValue={setEmployeeValue} />
+                </EmployeeProvider>
+                {displayStatusFilter}
+              </FilterMobileContainer>
+              <Suspense fallback={<Loading />}>{lists[Number(elementIndex)]}</Suspense>
+              <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
+            </main>
+          </ProductionOrderProvider>
+        </ProductProvider>
+      </WeldersActivitiesProvider>
     </>
   );
 };
+
+interface TabsProps {
+  elementIndex: boolean;
+  setElementIndex: Dispatch<SetStateAction<boolean>>;
+}
+
+function Tabs(props: TabsProps) {
+  const { setElementIndex, elementIndex } = props;
+
+  const isActivityTabSelected = Number(elementIndex) === 0;
+  const changeTab = () => setElementIndex((prevState: boolean) => !prevState);
+
+  return (
+    <div className={styles.tabs}>
+      <button
+        className={`${isActivityTabSelected && styles.isSelected}`}
+        disabled={isActivityTabSelected}
+        onClick={changeTab}
+      >
+        <RiFileList3Line className={styles.icons} />
+        <span>Ordens de produção</span>
+      </button>
+      <button
+        className={`${!isActivityTabSelected && styles.isSelected}`}
+        disabled={!isActivityTabSelected}
+        onClick={changeTab}
+      >
+        <RxActivityLog className={styles.icons} />
+        <span>Atividade de soldadores</span>
+      </button>
+    </div>
+  );
+}
 
 export default RegisterListContainer;

@@ -17,16 +17,19 @@ const ProductionOrderList = () => {
   const deadlineFilter = searchParams.get("deadline");
   const [filteredList, setFilteredList] = useState<ProductionOrder[] | undefined>([]);
   const employeeFilter = searchParams.get("employee");
+  const title = (production_order: ProductionOrder) => {
+    return `${production_order.quantity_to_produce} ${production_order.products.acronym}`;
+  };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilteredList(
       allProductionOrders?.filter(
         (order) =>
-          (productFilter ? order.product_uuid === productFilter : true) &&
+          (productFilter ? order.products.product_uuid === productFilter : true) &&
           (statusFilter ? order.production_order_status === statusFilter : true) &&
           (deadlineFilter ? order.production_order_deadline.toISOString() === deadlineFilter : true) &&
-          (employeeFilter ? order.employee_uuid === employeeFilter : true),
+          (employeeFilter ? order.welders?.employee_uuid === employeeFilter : true),
       ),
     );
   }, [allProductionOrders, productFilter, statusFilter, deadlineFilter]);
@@ -45,8 +48,8 @@ const ProductionOrderList = () => {
         <li key={order.production_order_uuid}>
           <CardProductionOrder
             date={dataFormater(order.production_order_deadline)}
-            description={order.production_order_description}
-            title={order.production_order_title}
+            description={order.production_order_description || ""}
+            title={title(order)}
             status={order.production_order_status}
             register_id={order?.production_order_uuid || ""}
             refetch={refetch}

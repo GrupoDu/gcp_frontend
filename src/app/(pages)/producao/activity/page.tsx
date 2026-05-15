@@ -2,6 +2,8 @@ import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
 import ActivityForm from "@/components/forms/activityForm";
+import { ProductProvider } from "@/providers/products.provider";
+import { EmployeeProvider } from "@/providers/employee.provider";
 
 function ActivityPage() {
   return (
@@ -9,7 +11,11 @@ function ActivityPage() {
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Produção" />
       <main className={"mainContainer"}>
         <h2>Registrar atividade</h2>
-        <ActivityForm />
+        <EmployeeProvider>
+          <ProductProvider>
+            <ActivityForm />
+          </ProductProvider>
+        </EmployeeProvider>
       </main>
     </div>
   );

@@ -12,6 +12,9 @@ import { useEffect, useMemo, useRef } from "react";
 const ProductionOrderSection = () => {
   const { data, refetch } = useFetch<ProductionOrder[]>("production-orders");
   const initialFetchDone = useRef(false);
+  const title = (production_order: ProductionOrder) => {
+    return `${production_order?.quantity_to_produce} ${production_order?.products?.acronym}` || "";
+  };
 
   const pendingProductionOrders = useMemo(
     () => data?.filter((order) => order.production_order_status === "Pendente") || [],
@@ -39,9 +42,9 @@ const ProductionOrderSection = () => {
               <CardProductionOrder
                 register_id={order.production_order_uuid || ""}
                 status={order.production_order_status}
-                title={order.production_order_title}
+                title={title(order)}
                 date={dataFormater(order.production_order_deadline)}
-                description={order.production_order_description}
+                description={order.production_order_description || ""}
               />
             </li>
           ))

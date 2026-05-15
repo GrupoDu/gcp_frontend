@@ -6,9 +6,10 @@ export function dataFormater(date: unknown): string {
   if (typeof date === "string") {
     dataPart = date.split("T")[0];
   } else {
-    dataPart = (date as Date).toISOString().split("T")[0];
+    dataPart = new Date(date).toISOString().split("T")[0];
   }
 
   const [ano, mes, dia] = dataPart.split("-");
+
   return `${dia}/${mes}/${ano}`;
 }

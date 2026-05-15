@@ -3,38 +3,22 @@ import { useFetch } from "./useFetch";
 import { ProductionOrder } from "@/types/productionOrder.type";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { EmployeesInfos } from "@/types/employeesInfos";
-import { getAssistantsNames } from "@/utils/getAssistantsNames";
 
-export function useRegisterEmployees(): EmployeesInfos {
+export function useRegisterEmployees(): { welder: Employee | undefined } {
   const pathname = usePathname();
   const registerId = pathname.split("/")[2];
   const { data: employeesData } = useFetch<Employee[]>("employees");
   const { data: allProductionOrders } = useFetch<ProductionOrder>("production-orders/", registerId);
   const [welder, setWelder] = useState<Employee>();
-  const [cutAssistant, setCutAssistant] = useState<Employee>();
-  const [foldAssistant, setFoldAssistant] = useState<Employee>();
-  const [finishingAssistant, setFinishingAssistant] = useState<Employee>();
-  const [paintAssistant, setPaintAssistant] = useState<Employee>();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setWelder(employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.employee_uuid));
-    setCutAssistant(employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.cut_assistant));
-    setFoldAssistant(employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.fold_assistant));
-    setFinishingAssistant(
-      employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.finishing_assistant),
-    );
-    setPaintAssistant(
-      employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.paint_assistant),
+    setWelder(
+      employeesData?.find((employee) => employee.employee_uuid === allProductionOrders?.welders?.employee_uuid),
     );
   }, [employeesData, allProductionOrders]);
 
   return {
     welder,
-    cutAssistant,
-    foldAssistant,
-    finishingAssistant,
-    paintAssistant,
   };
 }
