@@ -57,6 +57,11 @@ const LineChartContainer = () => {
                 label: "Não finalizado",
                 color: "#f44336",
               },
+              {
+                data: anualAnalysis?.map((item: AnualAnalysis): number => item.total_production || 0),
+                label: "Produção total",
+                color: "#2196f3",
+              },
             ]}
             xAxis={[
               {

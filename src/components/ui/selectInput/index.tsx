@@ -25,7 +25,7 @@ interface SelectInputProps extends Omit<InputType, "onChange"> {
  * @param {string} props.label - Texto do label
  */
 const SelectInput = (props: SelectInputProps) => {
-  const { options, defaultValue, value, onChange, style, label } = props;
+  const { options, defaultValue, value, onChange, style, label, required } = props;
   let isDisabled = false;
 
   if (!options) isDisabled = true;
@@ -33,7 +33,7 @@ const SelectInput = (props: SelectInputProps) => {
   return (
     <div className={styles.selectInput}>
       <h4>{label}</h4>
-      <select disabled={isDisabled} value={value} onChange={onChange} style={style}>
+      <select required={required} disabled={isDisabled} value={value} onChange={onChange} style={style}>
         <option value="">{defaultValue}</option>
         {displayOptions(options)}
       </select>

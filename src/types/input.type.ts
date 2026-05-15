@@ -6,4 +6,5 @@ export interface InputType {
   label: string;
   placeholder?: string;
   style?: CSSProperties;
+  required?: boolean;
 }

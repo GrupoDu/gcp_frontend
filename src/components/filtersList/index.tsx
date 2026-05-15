@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { CSSProperties, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { FaPlus } from "react-icons/fa";
 import LinkButton from "../linkButton";
@@ -14,6 +14,7 @@ type FiltersListProps = {
   buttonLabel: string;
   openMobileFilters: (bool: boolean) => void;
   openFilterContainer: boolean;
+  style?: CSSProperties;
 };
 
 const FiltersList = (props: FiltersListProps) => {
@@ -30,7 +31,7 @@ const FiltersList = (props: FiltersListProps) => {
   });
 
   return (
-    <div className={styles.filtersListContainer}>
+    <div style={props.style} className={styles.filtersListContainer}>
       <div className={styles.desktopFilters}>
         {props.children}
         <label className={styles.addButton}>
