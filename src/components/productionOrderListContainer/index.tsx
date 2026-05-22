@@ -7,8 +7,7 @@ import ProductsDropdown from "../ui/productsDropdown";
 import EmployeeDropdown from "../employeeDropdown";
 import StatusDropdown from "../ui/statusDropdown";
 import ListFooter from "../listFooter";
-import { Suspense, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
 import ProductionOrderList from "../cardLists/productionOrderList";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import FilterMobileContainer from "../filterMobileContainer";
@@ -16,7 +15,6 @@ import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
 import WeldersActivitiesList from "@/components/lists/weldersActivitiesList";
 import { LuClipboardList } from "react-icons/lu";
-import { WeldersActivitiesProvider } from "@/providers/weldersActivities.provider";
 import { RiFileList3Line } from "react-icons/ri";
 import AssistantsActivitiesList from "@/components/lists/assistantsActivitiesList";
 import OpenMobileProvider from "@/providers/openMobile.provider";
@@ -34,41 +32,33 @@ const RegisterListContainer = () => {
   const displayStatusFilter = elementIndex === 0 && <StatusDropdown />;
   const displayDeadline = elementIndex === 0 && <DeadlineInput />;
 
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push(`/producao?product=""&status=""&employee=""&deadline=""`);
-  }, [router]);
-
   return (
     <>
-      {isLoading && <Loading />}
+      {/*{isLoading && <Loading />}*/}
       <OpenMobileProvider>
-        <WeldersActivitiesProvider>
-          <ProductionOrderProvider>
-            <main style={{ gap: 0 }} className={`${styles.listContainer} mainContainer ${isLoading && "loading"}`}>
-              <Tabs elementIndex={elementIndex} setElementIndex={setElementIndex} />
-              <FiltersList
-                buttonLabel={buttonRegister}
-                hrefButton={registerLink}
-                style={{ borderRadius: 0, borderBottom: 0 }}
-              >
-                {displayDeadline}
-                <ProductsDropdown />
-                <EmployeeDropdown />
-                {displayStatusFilter}
-              </FiltersList>
-              <FilterMobileContainer>
-                {displayDeadline}
-                <ProductsDropdown />
-                <EmployeeDropdown />
-                {displayStatusFilter}
-              </FilterMobileContainer>
-              <Suspense fallback={<Loading />}>{lists[Number(elementIndex)]}</Suspense>
-              <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
-            </main>
-          </ProductionOrderProvider>
-        </WeldersActivitiesProvider>
+        <ProductionOrderProvider>
+          <main style={{ gap: 0 }} className={`${styles.listContainer} mainContainer`}>
+            <Tabs elementIndex={elementIndex} setElementIndex={setElementIndex} />
+            <FiltersList
+              buttonLabel={buttonRegister}
+              hrefButton={registerLink}
+              style={{ borderRadius: 0, borderBottom: 0 }}
+            >
+              {displayDeadline}
+              <ProductsDropdown />
+              <EmployeeDropdown />
+              {displayStatusFilter}
+            </FiltersList>
+            <FilterMobileContainer>
+              {displayDeadline}
+              <ProductsDropdown />
+              <EmployeeDropdown />
+              {displayStatusFilter}
+            </FilterMobileContainer>
+            <Suspense fallback={<Loading />}>{lists[Number(elementIndex)]}</Suspense>
+            <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
+          </main>
+        </ProductionOrderProvider>
       </OpenMobileProvider>
     </>
   );

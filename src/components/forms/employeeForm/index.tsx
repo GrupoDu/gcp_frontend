@@ -5,9 +5,9 @@ import styles from "./styles.module.scss";
 import LinkButton from "@/components/linkButton";
 import { Employee } from "@/types/employee.type";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
-import { useEmployees } from "@/hooks/useEmployees";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
+import { useFetch } from "@/hooks/useFetch";
 
 /**
  * Componente que exibe o formulário de cadastro de funcionários
@@ -17,7 +17,7 @@ import SubmitButton from "@/components/ui/submitButton";
  * @param {string} props.employee_uuid - UUID do funcionário
  */
 const EmployeeForm = ({ isEdit, employee_uuid }: { isEdit: boolean; employee_uuid?: string }) => {
-  const { employeesData } = useEmployees();
+  const { data: employees } = useFetch<Employee[]>("employees");
   const router = useRouter();
   const [canEdit, setCanEdit] = useState(false);
   const [employeeValues, setEmployeeValues] = useState<Employee>({
@@ -27,7 +27,7 @@ const EmployeeForm = ({ isEdit, employee_uuid }: { isEdit: boolean; employee_uui
 
   useEffect(() => {
     if (isEdit) {
-      const fetchedEmployee = employeesData?.find((employee) => employee.employee_uuid === employee_uuid);
+      const fetchedEmployee = employees?.find((employee) => employee.employee_uuid === employee_uuid);
 
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEmployeeValues({
@@ -37,7 +37,7 @@ const EmployeeForm = ({ isEdit, employee_uuid }: { isEdit: boolean; employee_uui
 
       setCanEdit(!!fetchedEmployee);
     }
-  }, [isEdit, employee_uuid, employeesData]);
+  }, [isEdit, employee_uuid, employees]);
 
   const method = isEdit ? "PUT" : "POST";
   const endpoint = isEdit ? `employees/${employee_uuid}` : "employees";
@@ -52,10 +52,7 @@ const EmployeeForm = ({ isEdit, employee_uuid }: { isEdit: boolean; employee_uui
         <input
           type="text"
           required
-          onChange={(e) => {
-            setEmployeeValues({ ...employeeValues, name: e.target.value });
-            console.log(e.target.value);
-          }}
+          onChange={(e) => setEmployeeValues({ ...employeeValues, name: e.target.value })}
           value={employeeValues.name}
           placeholder="Nome do funcionário"
         />
@@ -64,13 +61,12 @@ const EmployeeForm = ({ isEdit, employee_uuid }: { isEdit: boolean; employee_uui
         <span>Cargo</span>
         <select
           required
-          onChange={(e) => {
-            console.log(e.target.value);
+          onChange={(e) =>
             setEmployeeValues({
               ...employeeValues,
               employee_role: e.target.value,
-            });
-          }}
+            })
+          }
           value={employeeValues.employee_role}
           name="employee-function"
         >
