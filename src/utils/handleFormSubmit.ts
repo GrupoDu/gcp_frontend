@@ -53,9 +53,6 @@ export async function handleFormSubmit(
     const response = postResponse || putResponse;
     const production_order_uuid = response?.data.data.production_order_uuid;
 
-    console.log(postResponse);
-    console.log("bodyValues: ", bodyValues);
-
     // Só cria o registro de atividade de assistente se assistantsRegister existir
     createAssistantPORegister(production_order_uuid, assistantsRegister);
 
