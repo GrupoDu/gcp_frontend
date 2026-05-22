@@ -1,14 +1,17 @@
-import styles from "./page.module.scss";
 import "../../globals.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
 import ProductionOrderListContainer from "@/components/productionOrderListContainer";
+import { Suspense } from "react";
+import Loading from "@/components/ui/loading";
 
 const ProductionPage = () => {
   return (
     <div className="pageContainer">
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Produção" />
-      <ProductionOrderListContainer />
+      <Suspense fallback={<Loading />}>
+        <ProductionOrderListContainer />
+      </Suspense>
     </div>
   );
 };

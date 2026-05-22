@@ -5,14 +5,15 @@ import { EmployeeProvider } from "@/providers/employee.provider";
 import EmployeeListContainer from "@/components/lists/employeeList";
 import PageHeader from "@/components/ui/pageHeader";
 import { GrUserWorker } from "react-icons/gr";
+import OpenMobileProvider from "@/providers/openMobile.provider";
 
 const EmployeePage = () => {
   return (
     <div className="pageContainer">
       <PageHeader headerTitle="Funcionários" HeaderIcon={GrUserWorker} />
-      <EmployeeProvider>
+      <OpenMobileProvider>
         <EmployeeListContainer />
-      </EmployeeProvider>
+      </OpenMobileProvider>
     </div>
   );
 };
