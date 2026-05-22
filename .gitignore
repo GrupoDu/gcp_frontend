@@ -49,3 +49,6 @@ pnpm-lock.yaml
 # IDE folder
 .idea
 .vscode
+
+# Agent
+.antigravitycli
