@@ -4,43 +4,37 @@ import styles from "./styles.module.scss";
 import FiltersList from "../filtersList";
 import SearchBar from "../searchBar";
 import ListItem from "../userListItem";
-import { useMemo, useState } from "react";
-import { useEmployees } from "@/hooks/useEmployees";
 import { EmployeeRoleFilter } from "../employeeRoleFilter";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
+import { useFetch } from "@/hooks/useFetch";
+import { Employee } from "@/types/employee.type";
+import { useSearchParams } from "next/navigation";
 
 const EmployeeListContainer = () => {
-  const { employeesData, refetch } = useEmployees();
-  const [employeeRoleFilter, setEmployeeRoleFilter] = useState("");
-  const [searchFilter, setSearchFilter] = useState("");
-  const [openFilterContainer, setOpenFilterContainer] = useState(false);
   const { isLoading } = useLoading();
-  const filteredEmployees = useMemo(() => {
-    return employeesData?.filter(
-      (employee) =>
-        (employeeRoleFilter ? employee.employee_role === employeeRoleFilter : true) &&
-        (searchFilter ? employee.name.includes(searchFilter) : true),
-    );
-  }, [employeeRoleFilter, searchFilter, employeesData]);
+  const { data: employees, refetch } = useFetch<Employee[]>("employees");
+  const searchParams = useSearchParams();
+  const searchFilter = searchParams.get("name");
+  const employeeRoleFilter = searchParams.get("employee");
+  const filteredEmployees = employees?.filter(
+    (employee) =>
+      (employeeRoleFilter ? employee.employee_role === employeeRoleFilter : true) &&
+      (searchFilter ? employee.name.includes(searchFilter) : true),
+  );
 
   return (
     <>
       {isLoading && <Loading />}
       <main style={{ gap: "1rem" }} className={`mainContainer ${isLoading && "loading"}`}>
-        <FiltersList
-          buttonLabel="Registrar funcionário"
-          hrefButton="/funcionarios/register"
-          openMobileFilters={setOpenFilterContainer}
-          openFilterContainer={openFilterContainer}
-        >
-          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <EmployeeRoleFilter employeeValue={employeeRoleFilter} setEmployeeValue={setEmployeeRoleFilter} />
+        <FiltersList buttonLabel="Registrar funcionário" hrefButton="/funcionarios/register">
+          <SearchBar targetFilter={"name"} />
+          <EmployeeRoleFilter />
         </FiltersList>
-        <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <EmployeeRoleFilter employeeValue={employeeRoleFilter} setEmployeeValue={setEmployeeRoleFilter} />
+        <FilterMobileContainer>
+          <SearchBar targetFilter={"name"} />
+          <EmployeeRoleFilter />
         </FilterMobileContainer>
         <ul className={styles.listContainer}>
           <div className={styles.listHeader}>

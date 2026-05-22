@@ -5,6 +5,7 @@
   background-color: white;
   border: colors.$borderDefault;
   border-radius: 0.4rem;
+  overflow: auto;
 
   .listHeader {
     display: flex;

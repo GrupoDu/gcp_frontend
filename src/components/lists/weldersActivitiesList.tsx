@@ -1,12 +1,13 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { useWeldersActivities } from "@/hooks/useWeldersActivities";
 import { WeldersActivities } from "@/types/weldersActivities.type";
 import { dataFormater } from "@/utils/dataFormater";
+import { useFetch } from "@/hooks/useFetch";
+import DataNotFound from "@/components/dataNotFound";
 
 const WeldersActivitiesList = () => {
-  const { weldersActivities } = useWeldersActivities();
+  const { data: weldersActivities } = useFetch<WeldersActivities[]>("welders-activities");
 
   return (
     <>
@@ -24,7 +25,7 @@ const WeldersActivitiesList = () => {
 };
 
 function renderActivities(activities?: WeldersActivities[]) {
-  if (!activities) return <h3>Não foi possível encontrar dados</h3>;
+  if (!activities || activities.length < 1) return <DataNotFound />;
 
   return activities.map((activity) => (
     <li className={styles.listItem} key={activity.welder_activity_uuid}>

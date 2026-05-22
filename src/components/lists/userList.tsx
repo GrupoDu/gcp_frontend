@@ -4,52 +4,37 @@ import styles from "./styles.module.scss";
 import FiltersList from "../filtersList";
 import SearchBar from "../searchBar";
 import UserRoleFilter from "../userRoleFilter";
-import { useUsers } from "@/hooks/useUsers";
 import ListItem from "../userListItem";
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
+import { useFetch } from "@/hooks/useFetch";
+import { User } from "@/types/user.type";
 
 const UserListContainer = () => {
-  const { usersData, refetch } = useUsers();
-  const [userRoleFilter, setUserRoleFilter] = useState("");
+  const { data: users, refetch } = useFetch<User[]>("users");
   const { isLoading } = useLoading();
-  const [searchFilter, setSearchFilter] = useState("");
-  const [openFilterContainer, setOpenFilterContainer] = useState(false);
-  const router = useRouter();
-  const userListFiltered = useMemo(() => {
-    return usersData?.filter(
-      (user) =>
-        (userRoleFilter ? user.user_role === userRoleFilter : true) &&
-        (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
-    );
-  }, [userRoleFilter, searchFilter, usersData]);
-
-  useEffect(() => {
-    const filterParams = new URLSearchParams();
-
-    filterParams.set("tipo_usuario", userRoleFilter);
-    filterParams.set("pesquisa", searchFilter);
-  }, [router, userRoleFilter, searchFilter, usersData]);
+  const searchParams = useSearchParams();
+  const userRoleFilter = searchParams.get("user_role");
+  const searchFilter = searchParams.get("name");
+  const userListFiltered = users?.filter(
+    (user) =>
+      (userRoleFilter ? user.user_role === userRoleFilter : true) &&
+      (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
+  );
 
   return (
     <>
       {isLoading && <Loading />}
       <main style={{ gap: "1rem" }} className={`mainContainer ${isLoading && "loading"}`}>
-        <FiltersList
-          buttonLabel="Adicionar usuário"
-          hrefButton="/usuarios/register"
-          openMobileFilters={setOpenFilterContainer}
-          openFilterContainer={openFilterContainer}
-        >
-          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <UserRoleFilter setUserFilter={setUserRoleFilter} userFilter={userRoleFilter} />
+        <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register">
+          <SearchBar targetFilter={"name"} />
+          <UserRoleFilter />
         </FiltersList>
-        <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <UserRoleFilter setUserFilter={setUserRoleFilter} userFilter={userRoleFilter} />
+        <FilterMobileContainer>
+          <SearchBar targetFilter={"name"} />
+          <UserRoleFilter />
         </FilterMobileContainer>
         <ul className={styles.listContainer}>
           <div className={styles.listHeader}>

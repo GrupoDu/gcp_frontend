@@ -1,13 +1,13 @@
+"use client";
+
 import styles from "./styles.module.scss";
 import { AssistantsActivities } from "@/types/assistantsActivities.types";
-import getAssistantsActivities from "@/utils/getAssistantsActivities";
 import { dataFormater } from "@/utils/dataFormater";
 import DataNotFound from "@/components/dataNotFound";
+import { useFetch } from "@/hooks/useFetch";
 
-const AssistantsActivitiesList = async () => {
-  const assistantsActivities = await getAssistantsActivities();
-
-  if (!assistantsActivities) return <DataNotFound />;
+const AssistantsActivitiesList = () => {
+  const { data: assistantsActivities } = useFetch<AssistantsActivities[]>("assistants-activities");
 
   return (
     <>
@@ -25,6 +25,10 @@ const AssistantsActivitiesList = async () => {
 };
 
 function renderActivities(activies?: AssistantsActivities[]) {
+  const isActivitiesEmpty = !activies || activies.length < 1;
+
+  if (isActivitiesEmpty) return <DataNotFound />;
+
   return activies?.map((activity) => (
     <li key={activity.assistants_activities_uuid}>
       <span>{activity.assistants.name}</span>
