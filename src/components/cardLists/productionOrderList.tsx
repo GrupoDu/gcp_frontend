@@ -1,46 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import CardProductionOrder from "../ui/cardProductionOrder";
 import { dataFormater } from "@/utils/dataFormater";
 import { useSearchParams } from "next/navigation";
-import { useProductionOrders } from "@/hooks/useProductionOrder";
-import { socket } from "@/socket";
 import { ProductionOrder } from "@/types/productionOrder.type";
+import { useFetch } from "@/hooks/useFetch";
 
 const ProductionOrderList = () => {
-  const { allProductionOrders, refetch } = useProductionOrders();
+  const { data: productionOrders, refetch } = useFetch<ProductionOrder[]>("production-orders");
   const searchParams = useSearchParams();
   const productFilter = searchParams.get("product");
   const statusFilter = searchParams.get("status");
   const deadlineFilter = searchParams.get("deadline");
-  const [filteredList, setFilteredList] = useState<ProductionOrder[] | undefined>([]);
   const employeeFilter = searchParams.get("employee");
-  const title = (production_order: ProductionOrder) => {
-    return `${production_order.quantity_to_produce} ${production_order.products.acronym}`;
-  };
+  // const [filteredList, setFilteredList] = useState<ProductionOrder[] | undefined>([]);
+  const filteredList = productionOrders?.filter(
+    (order) =>
+      order.products.name === productFilter &&
+      order.production_order_status === statusFilter &&
+      order.production_order_deadline.toISOString() === deadlineFilter &&
+      order.welders?.employee_uuid === employeeFilter,
+  );
+  const title = (production_order: ProductionOrder) =>
+    `${production_order.quantity_to_produce} ${production_order.products.acronym}`;
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFilteredList(
-      allProductionOrders?.filter(
-        (order) =>
-          (productFilter ? order.products.product_uuid === productFilter : true) &&
-          (statusFilter ? order.production_order_status === statusFilter : true) &&
-          (deadlineFilter ? order.production_order_deadline.toISOString() === deadlineFilter : true) &&
-          (employeeFilter ? order.welders?.employee_uuid === employeeFilter : true),
-      ),
-    );
-  }, [allProductionOrders, productFilter, statusFilter, deadlineFilter]);
-
-  useEffect(() => {
-    socket.on("productionOrderNotify", (data) => setFilteredList((prev) => [...(prev || []), data]));
-
-    return () => {
-      socket.off("productionOrderNotify");
-    };
-  });
+  // useEffect(() => {
+  //   setFilteredList(
+  //     productionOrders?.filter(
+  //       (order) =>
+  //         (productFilter ? order.products.product_uuid === productFilter : true) &&
+  //         (statusFilter ? order.production_order_status === statusFilter : true) &&
+  //         (deadlineFilter ? order.production_order_deadline.toISOString() === deadlineFilter : true) &&
+  //         (employeeFilter ? order.welders?.employee_uuid === employeeFilter : true),
+  //     ),
+  //   );
+  // }, [productionOrders, productFilter, statusFilter, deadlineFilter, employeeFilter]);
 
   return (
     <ul className={styles.cardListContainer}>

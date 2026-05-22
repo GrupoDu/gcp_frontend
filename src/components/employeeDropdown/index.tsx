@@ -1,19 +1,27 @@
 "use client";
 
 import FilterDropdownBase from "../ui/filterDropdown";
-import { useEmployeeRole } from "@/hooks/useEmployeeRole";
+import { useState } from "react";
+import { Employee } from "@/types/employee.type";
+import { useFetch } from "@/hooks/useFetch";
+import { useRouter, useSearchParams } from "next/navigation";
+import { handleFilterChange } from "@/utils/handleFilterChange";
 
-const EmployeeDropdown = ({
-  setEmployeeValue,
-  employeeValue,
-}: {
-  setEmployeeValue: (value: string) => void;
-  employeeValue: string;
-}) => {
-  const { welders } = useEmployeeRole();
+const EmployeeDropdown = () => {
+  const { data: welders } = useFetch<Employee[]>("/employees");
+  const [welderFilter, setWelderFilter] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   return (
-    <FilterDropdownBase value={employeeValue} setValue={setEmployeeValue} label="aaaaa" placeholder="Soldador">
+    <FilterDropdownBase
+      value={welderFilter}
+      setValue={(e) =>
+        handleFilterChange(router, setWelderFilter, searchParams, welderFilter, e.target.value, "employee")
+      }
+      label="Soldador"
+      placeholder="Soldador"
+    >
       <option value="">Todos</option>
       {welders?.map((welder) => (
         <option key={welder.employee_uuid} value={welder.employee_uuid}>

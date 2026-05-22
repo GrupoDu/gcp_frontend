@@ -7,18 +7,18 @@ import { useLoading } from "@/hooks/useLoading";
 import { ClipLoader } from "react-spinners";
 import { socket } from "@/socket";
 import { toast } from "react-toastify";
+import { useOpenMobile } from "@/hooks/useOpenMobile";
 
 type FiltersListProps = {
   children: React.ReactNode;
   hrefButton: string;
   buttonLabel: string;
-  openMobileFilters: (bool: boolean) => void;
-  openFilterContainer: boolean;
   style?: CSSProperties;
 };
 
 const FiltersList = (props: FiltersListProps) => {
   const { isLoading, setIsLoading } = useLoading();
+  const { setOpenMobile, openMobile } = useOpenMobile();
 
   useEffect(() => {
     socket.on("productionOrderNotify", () => {
@@ -51,7 +51,7 @@ const FiltersList = (props: FiltersListProps) => {
       </label>
       <div className={styles.mobileFilters}>
         <span>Filtros</span>
-        <button onClick={() => props.openMobileFilters(!props.openFilterContainer)} type="button">
+        <button onClick={() => setOpenMobile(!openMobile)} type="button">
           <IoFilter />
         </button>
       </div>
