@@ -1,9 +1,19 @@
 .dataNotFound {
   flex: 1;
-  background-color: gray;
+  height: 100%;
+  margin: .6rem;
+  box-sizing: border-box;
+  background-color: #d6d6d6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: .4rem;
+  border: 1px solid #878787;
 
   span {
-    color: #4c4c4c;
+    color: #878787;
     text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
   }
 }

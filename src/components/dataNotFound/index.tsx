@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 const DataNotFound = () => {
   return (
     <div className={styles.dataNotFound}>
-      <span>Não foi possível carregar os dados</span>
+      <span>Nenhum dado encontrado</span>
     </div>
   );
 };
