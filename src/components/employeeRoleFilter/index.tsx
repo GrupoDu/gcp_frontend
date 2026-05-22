@@ -1,16 +1,22 @@
-import FilterDropdownBase from "../ui/filterDropdown";
+"use client";
 
-export function EmployeeRoleFilter({
-  employeeValue,
-  setEmployeeValue,
-}: {
-  setEmployeeValue: (value: string) => void;
-  employeeValue: string;
-}) {
+import FilterDropdownBase from "../ui/filterDropdown";
+import { useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { handleFilterChange } from "@/utils/handleFilterChange";
+
+export function EmployeeRoleFilter() {
+  const [employeeRoleFilter, setEmployeeRoleFilter] = useState("");
+  const employeeParam = useRef("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   return (
     <FilterDropdownBase
-      value={employeeValue}
-      setValue={setEmployeeValue}
+      value={employeeRoleFilter}
+      setValue={(e) =>
+        handleFilterChange(router, setEmployeeRoleFilter, searchParams, employeeParam, e.target.value, "employee")
+      }
       label="Tipo de funcionário"
       placeholder="Tipo de funcionário"
     >

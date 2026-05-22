@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import FilterDropdownBase from "../filterDropdown";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { handleFilterChange } from "@/utils/handleFilterChange";
@@ -8,6 +8,7 @@ import { handleFilterChange } from "@/utils/handleFilterChange";
 const StatusDropdown = () => {
   const pathname = usePathname();
   const [status, setStatus] = useState("");
+  const statusFilterParam = useRef("");
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -16,7 +17,7 @@ const StatusDropdown = () => {
       label="status"
       placeholder="Status da ordem"
       value={status}
-      setValue={(e) => handleFilterChange(router, setStatus, searchParams, status, e.target.value, "status")}
+      setValue={(e) => handleFilterChange(router, setStatus, searchParams, statusFilterParam, e.target.value, "status")}
     >
       <option value="">Todos</option>
       <option value={pathname.includes("producao") ? "Entregue" : "Batida"}>

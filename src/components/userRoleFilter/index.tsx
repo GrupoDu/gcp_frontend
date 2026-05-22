@@ -1,18 +1,22 @@
 "use client";
 
 import FilterDropdownBase from "../ui/filterDropdown";
+import { useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { handleFilterChange } from "@/utils/handleFilterChange";
 
-const UserRoleFilter = ({
-  setUserFilter,
-  userFilter,
-}: {
-  setUserFilter: (value: string) => void;
-  userFilter: string;
-}) => {
+const UserRoleFilter = () => {
+  const [userFilter, setUserFilter] = useState("");
+  const userFilterParam = useRef("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   return (
     <FilterDropdownBase
       value={userFilter}
-      setValue={setUserFilter}
+      setValue={(e) =>
+        handleFilterChange(router, setUserFilter, searchParams, userFilterParam, e.target.value, "user_type")
+      }
       label="Tipo de usuário"
       placeholder="Tipo de usuário"
     >
