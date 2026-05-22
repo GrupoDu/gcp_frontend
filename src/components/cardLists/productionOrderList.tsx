@@ -6,6 +6,7 @@ import { dataFormater } from "@/utils/dataFormater";
 import { useSearchParams } from "next/navigation";
 import { ProductionOrder } from "@/types/productionOrder.type";
 import { useFetch } from "@/hooks/useFetch";
+import DataNotFound from "@/components/dataNotFound";
 
 const ProductionOrderList = () => {
   const { data: productionOrders, refetch } = useFetch<ProductionOrder[]>("production-orders");
@@ -14,7 +15,6 @@ const ProductionOrderList = () => {
   const statusFilter = searchParams.get("status");
   const deadlineFilter = searchParams.get("deadline");
   const employeeFilter = searchParams.get("employee");
-  // const [filteredList, setFilteredList] = useState<ProductionOrder[] | undefined>([]);
   const filteredList = productionOrders?.filter(
     (order) =>
       order.products.name === productFilter &&
@@ -22,37 +22,34 @@ const ProductionOrderList = () => {
       order.production_order_deadline.toISOString() === deadlineFilter &&
       order.welders?.employee_uuid === employeeFilter,
   );
-  const title = (production_order: ProductionOrder) =>
-    `${production_order.quantity_to_produce} ${production_order.products.acronym}`;
-
-  // useEffect(() => {
-  //   setFilteredList(
-  //     productionOrders?.filter(
-  //       (order) =>
-  //         (productFilter ? order.products.product_uuid === productFilter : true) &&
-  //         (statusFilter ? order.production_order_status === statusFilter : true) &&
-  //         (deadlineFilter ? order.production_order_deadline.toISOString() === deadlineFilter : true) &&
-  //         (employeeFilter ? order.welders?.employee_uuid === employeeFilter : true),
-  //     ),
-  //   );
-  // }, [productionOrders, productFilter, statusFilter, deadlineFilter, employeeFilter]);
+  const isListEmpty = !filteredList || filteredList.length < 1;
 
   return (
-    <ul className={styles.cardListContainer}>
-      {filteredList?.map((order) => (
-        <li key={order.production_order_uuid}>
-          <CardProductionOrder
-            date={dataFormater(order.production_order_deadline)}
-            description={order.production_order_description || ""}
-            title={title(order)}
-            status={order.production_order_status}
-            register_id={order?.production_order_uuid || ""}
-            refetch={refetch}
-          />
-        </li>
-      ))}
+    <ul className={`${styles.cardListContainer} ${isListEmpty && styles.emptyList}`}>
+      {displayProductionOrders(refetch, filteredList)}
     </ul>
   );
 };
+
+function displayProductionOrders(refetch: () => void, orders?: ProductionOrder[]) {
+  if (!orders || orders.length < 1) return <DataNotFound />;
+
+  orders?.map((order) => (
+    <li key={order.production_order_uuid}>
+      <CardProductionOrder
+        date={dataFormater(order.production_order_deadline)}
+        description={order.production_order_description || ""}
+        title={formatTitle(order)}
+        status={order.production_order_status}
+        register_id={order?.production_order_uuid || ""}
+        refetch={refetch}
+      />
+    </li>
+  ));
+}
+
+function formatTitle(production_order: ProductionOrder) {
+  return `${production_order.quantity_to_produce} ${production_order.products.acronym}`;
+}
 
 export default ProductionOrderList;
