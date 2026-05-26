@@ -5,9 +5,27 @@ import { WeldersActivities } from "@/types/weldersActivities.type";
 import { dataFormater } from "@/utils/dataFormater";
 import { useFetch } from "@/hooks/useFetch";
 import DataNotFound from "@/components/dataNotFound";
+import { useSearchParams } from "next/navigation";
 
 const WeldersActivitiesList = () => {
   const { data: weldersActivities } = useFetch<WeldersActivities[]>("welders-activities");
+  const searchParams = useSearchParams();
+  const employeeFilter = searchParams.get("employee");
+  const dateFilter = searchParams.get("deadline");
+  const productFilter = searchParams.get("product");
+  const isEmployeeFilterEmpty = employeeFilter === "" || !employeeFilter;
+  const isDateFilterEmpty = dateFilter === "" || !dateFilter;
+  const isProductFilterEmpty = productFilter === "" || !productFilter || productFilter.includes("todos");
+  const isFilterEmpty = isEmployeeFilterEmpty && isDateFilterEmpty && isProductFilterEmpty;
+  const filteredActivities = weldersActivities?.filter(
+    (activity) =>
+      (isEmployeeFilterEmpty
+        ? true
+        : activity.employees.name.toLowerCase().includes(employeeFilter?.toLowerCase() || "")) &&
+      (isDateFilterEmpty ? true : dataFormater(activity.registered_at) === dataFormater(dateFilter)) &&
+      (isProductFilterEmpty ? true : activity.products.acronym === productFilter),
+  );
+  const listItems = isFilterEmpty ? weldersActivities : filteredActivities;
 
   return (
     <>
@@ -18,7 +36,7 @@ const WeldersActivitiesList = () => {
           <span>Qtd.</span>
           <span>Data</span>
         </div>
-        {renderActivities(weldersActivities)}
+        {renderActivities(listItems)}
       </ul>
     </>
   );
@@ -27,7 +45,7 @@ const WeldersActivitiesList = () => {
 function renderActivities(activities?: WeldersActivities[]) {
   if (!activities || activities.length < 1) return <DataNotFound />;
 
-  return activities.map((activity) => (
+  return activities?.map((activity) => (
     <li className={styles.listItem} key={activity.welder_activity_uuid}>
       <span>{activity.employees.name}</span>
       <span>{activity.products.acronym}</span>
