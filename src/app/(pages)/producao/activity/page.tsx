@@ -4,6 +4,8 @@ import { IoMdClipboard } from "react-icons/io";
 import ActivityForm from "@/components/forms/activityForm";
 import { ProductProvider } from "@/providers/products.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
+import { Suspense } from "react";
+import Loading from "@/components/ui/loading";
 
 function ActivityPage() {
   return (
@@ -13,7 +15,9 @@ function ActivityPage() {
         <h2>Registrar atividade</h2>
         <EmployeeProvider>
           <ProductProvider>
-            <ActivityForm />
+            <Suspense fallback={<Loading />}>
+              <ActivityForm />
+            </Suspense>
           </ProductProvider>
         </EmployeeProvider>
       </main>

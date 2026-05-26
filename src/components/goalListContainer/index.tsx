@@ -5,7 +5,6 @@ import FiltersList from "../filtersList";
 import DeadlineInput from "../ui/deadlineInput";
 import SearchBar from "../searchBar";
 import EmployeeDropdown from "../employeeDropdown";
-import { EmployeeProvider } from "@/providers/employee.provider";
 import StatusDropdown from "../ui/statusDropdown";
 import GoalList from "../cardLists/goalList";
 import ListFooter from "../listFooter";
@@ -18,9 +17,9 @@ import { useSearchParams } from "next/navigation";
 import OpenMobileProvider from "@/providers/openMobile.provider";
 
 const GoalListContainer = () => {
-  const { data: goals, refetch } = useFetch<Goal[]>("/goals");
+  const { data: goals, refetch } = useFetch<Goal[]>("goals");
   const searchParams = useSearchParams();
-  const searchFilter = searchParams.get("tile");
+  const searchFilter = searchParams.get("title");
   const statusFilter = searchParams.get("status");
   const deadlineFilter = searchParams.get("deadline");
   const { isLoading } = useLoading();

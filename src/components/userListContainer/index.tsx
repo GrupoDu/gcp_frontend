@@ -5,52 +5,33 @@ import FiltersList from "../filtersList";
 import SearchBar from "../searchBar";
 import UserRoleFilter from "../userRoleFilter";
 import { UserProvider } from "@/providers/users.provider";
-import { useUsers } from "@/hooks/useUsers";
 import ListItem from "../userListItem";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { User } from "@/types/user.type";
 import FilterMobileContainer from "../filterMobileContainer";
+import { useFetch } from "@/hooks/useFetch";
 
 const UserListContainer = () => {
-  const { usersData, refetch } = useUsers();
-  const [openFilterContainer, setOpenFilterContainer] = useState(false);
-  const [userRoleFilter, setUserRoleFilter] = useState("");
-  const [userListFiltered, setUserListFiltered] = useState<User[] | undefined>([]);
-  const [searchFilter, setSearchFilter] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    const filterParams = new URLSearchParams();
-
-    filterParams.set("tipo_usuario", userRoleFilter);
-    filterParams.set("pesquisa", searchFilter);
-
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUserListFiltered(
-      usersData?.filter(
-        (user) =>
-          (userRoleFilter ? user.user_role === userRoleFilter : true) &&
-          (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
-      ),
-    );
-  }, [router, userRoleFilter, searchFilter, usersData]);
+  const { data: users, refetch } = useFetch<User[]>("users");
+  const searchParams = useSearchParams();
+  const searchFilterParam = searchParams.get("name");
+  const userRoleFilter = searchParams.get("user_role");
+  const userListFiltered = users?.filter(
+    (user) =>
+      (userRoleFilter ? user.user_role === userRoleFilter : true) &&
+      (searchFilterParam ? user.email.includes(searchFilterParam) || user.name.includes(searchFilterParam) : true),
+  );
 
   return (
     <UserProvider>
       <div className={styles.userListContainer}>
-        <FiltersList
-          openFilterContainer={openFilterContainer}
-          openMobileFilters={setOpenFilterContainer}
-          buttonLabel="Adicionar usuário"
-          hrefButton="/usuarios/register"
-        >
-          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <UserRoleFilter setUserFilter={setUserRoleFilter} userFilter={userRoleFilter} />
+        <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register">
+          <SearchBar targetFilter={"name"} />
+          <UserRoleFilter />
         </FiltersList>
-        <FilterMobileContainer isFilterContainerOpen={openFilterContainer}>
-          <SearchBar searchValue={searchFilter} setSearchValue={setSearchFilter} />
-          <UserRoleFilter setUserFilter={setUserRoleFilter} userFilter={userRoleFilter} />
+        <FilterMobileContainer>
+          <SearchBar targetFilter={"name"} />
+          <UserRoleFilter />
         </FilterMobileContainer>
       </div>
       <ul className={styles.listContainer}>
