@@ -5,7 +5,7 @@ export interface AssistantsActivities {
   registered_at: Date;
   produced_quantity: number;
   activity_type: string;
-  assistants: Employee;
+  employees: Employee;
   activity_description?: string;
 }
 

@@ -26,20 +26,6 @@ export const handleFilterChange = (
   ref.current = newValue;
   setValue(newValue);
   const params = new URLSearchParams(`${searchParams.toString()}`);
-  const isRefEmpty = ref.current === "";
-  console.log("||> handleFilterChange <||");
-  console.log(`isRefEmpty: ${isRefEmpty}`);
-  console.log(`current: ${ref.current}`);
-  debugLogger(`
-  ||> handleFilterChange <||
-  isRefEmpty: ${isRefEmpty} 
-  current: ${ref.current}
-  `);
-
-  if (isRefEmpty) {
-    params.delete(paramTarget);
-    return;
-  }
 
   params.set(paramTarget, ref.current);
   router.push(`${pathname}?${params.toString()}`);
