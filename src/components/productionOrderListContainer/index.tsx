@@ -7,7 +7,7 @@ import ProductsDropdown from "../ui/productsDropdown";
 import EmployeeDropdown from "../employeeDropdown";
 import StatusDropdown from "../ui/statusDropdown";
 import ListFooter from "../listFooter";
-import { Suspense, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import ProductionOrderList from "../cardLists/productionOrderList";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import FilterMobileContainer from "../filterMobileContainer";
@@ -18,6 +18,9 @@ import { LuClipboardList } from "react-icons/lu";
 import { RiFileList3Line } from "react-icons/ri";
 import AssistantsActivitiesList from "@/components/lists/assistantsActivitiesList";
 import OpenMobileProvider from "@/providers/openMobile.provider";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { handleFilterChange } from "@/utils/handleFilterChange";
+import SearchBar from "@/components/searchBar";
 
 const RegisterListContainer = () => {
   const [elementIndex, setElementIndex] = useState(0);
@@ -28,31 +31,45 @@ const RegisterListContainer = () => {
     <AssistantsActivitiesList key={2} />,
   ];
   const buttonRegister = elementIndex ? "Registrar Atividade" : "Nova Ordem de produção";
-  const registerLink = elementIndex ? "/producao/activity" : "#";
   const displayStatusFilter = elementIndex === 0 && <StatusDropdown />;
   const displayDeadline = elementIndex === 0 && <DeadlineInput />;
+  const displayProductDropdown = elementIndex !== 2 && <ProductsDropdown />;
+  const displayActivityDropdown = elementIndex === 2 && <ActivityDropdown />;
+  const isWelderList = elementIndex === 1;
+  const isAssistantsList = elementIndex === 2;
+  const buttonlink = (): string => {
+    if (!isWelderList && !isAssistantsList) {
+      return "#";
+    } else if (isWelderList) {
+      return "/producao/activity?employee=soldador";
+    } else {
+      return "/producao/activity?employee=assistente";
+    }
+  };
 
   return (
     <>
-      {/*{isLoading && <Loading />}*/}
+      {isLoading && <Loading />}
       <OpenMobileProvider>
         <ProductionOrderProvider>
           <main style={{ gap: 0 }} className={`${styles.listContainer} mainContainer`}>
             <Tabs elementIndex={elementIndex} setElementIndex={setElementIndex} />
             <FiltersList
               buttonLabel={buttonRegister}
-              hrefButton={registerLink}
+              hrefButton={buttonlink()}
               style={{ borderRadius: 0, borderBottom: 0 }}
             >
-              {displayDeadline}
-              <ProductsDropdown />
-              <EmployeeDropdown />
+              <DeadlineInput />
+              {displayProductDropdown}
+              {displayActivityDropdown}
+              <SearchBar targetFilter={"employee"} />
               {displayStatusFilter}
             </FiltersList>
             <FilterMobileContainer>
               {displayDeadline}
-              <ProductsDropdown />
-              <EmployeeDropdown />
+              {displayProductDropdown}
+              {displayActivityDropdown}
+              <SearchBar targetFilter={"employee"} />
               {displayStatusFilter}
             </FilterMobileContainer>
             <Suspense fallback={<Loading />}>{lists[Number(elementIndex)]}</Suspense>
@@ -72,13 +89,19 @@ interface TabsProps {
 function Tabs(props: TabsProps) {
   const { setElementIndex, elementIndex } = props;
   const isElementSelected = (index: number) => elementIndex === index;
+  const router = useRouter();
+
+  const handleClickTabChange = (index: number) => {
+    setElementIndex(index);
+    router.push("/producao");
+  };
 
   return (
     <div className={styles.tabs}>
       <button
         className={`${isElementSelected(0) && styles.isSelected}`}
         disabled={isElementSelected(0)}
-        onClick={() => setElementIndex(0)}
+        onClick={() => handleClickTabChange(0)}
       >
         <RiFileList3Line className={styles.icons} />
         <span>Ordens de produção</span>
@@ -86,7 +109,7 @@ function Tabs(props: TabsProps) {
       <button
         className={`${isElementSelected(1) && styles.isSelected}`}
         disabled={isElementSelected(1)}
-        onClick={() => setElementIndex(1)}
+        onClick={() => handleClickTabChange(1)}
       >
         <LuClipboardList className={styles.icons} />
         <span>Atividade de soldadores</span>
@@ -94,12 +117,47 @@ function Tabs(props: TabsProps) {
       <button
         className={`${isElementSelected(2) && styles.isSelected}`}
         disabled={isElementSelected(2)}
-        onClick={() => setElementIndex(2)}
+        onClick={() => handleClickTabChange(2)}
       >
         <LuClipboardList className={styles.icons} />
         <span>Atividade de Assistentes</span>
       </button>
     </div>
+  );
+}
+
+function ActivityDropdown() {
+  const activityRef = useRef("");
+  const [activity, setActivity] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activities = [
+    { value: "Corte", label: "Corte" },
+    { value: "Pintura", label: "Pintura" },
+    { value: "Dobra", label: "Dobra" },
+    { value: "Acabamento", label: "Acabamento" },
+  ];
+
+  return (
+    <>
+      <label className={styles.activityDropdown}>
+        <span>Atividade</span>
+        <select
+          name="activityDropdown"
+          value={activity}
+          onChange={(e) =>
+            handleFilterChange(router, setActivity, searchParams, activityRef, e.target.value, "activity")
+          }
+        >
+          <option value="">Tipo de atividade</option>
+          {activities.map((activity, index) => (
+            <option key={index} value={activity.value}>
+              {activity.label}
+            </option>
+          ))}
+        </select>
+      </label>
+    </>
   );
 }
 
