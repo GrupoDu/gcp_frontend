@@ -8,15 +8,8 @@
     "build:start": "npm run build && npm run start",
     "start": "npx next start . -p 3001 -H 0.0.0.0",
     "lint": "eslint",
-    "docker:compose": "docker compose -f docker-compose.dev.yaml watch",
-    "docker:build-prod": "docker compose -f docker-compose.prod.yaml build",
-    "docker:up-prod": "docker compose -f docker-compose.prod.yaml up -d",
-    "docker:down-prod": "docker compose -f docker-compose.prod.yaml down",
-    "docker:down-dev": "docker compose -f docker-compose.dev.yaml down",
-    "docker:build-dev": "docker compose -f docker-compose.dev.yaml build",
-    "docker:up-dev": "docker compose -f docker-compose.dev.yaml up -d",
-    "docker:build-up-dev": "pnpm docker:build-dev && pnpm docker:up-dev",
-    "docker:build-up-prod": "$npm_execpath docker:build-prod && $npm_execpath docker:up-prod"
+    "docker:dev": "docker compose -f docker-compose.dev.yaml watch",
+    "docker:prod": "docker compose -f docker-compose.prod.yaml -p gcp_prod up --build -d"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -26,7 +19,7 @@
     "@mui/x-charts": "^8.27.0",
     "axios": "^1.13.5",
     "generate-password-ts": "^1.6.5",
-    "next": "16.1.6",
+    "next": "16.2.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-icons": "^5.5.0",
