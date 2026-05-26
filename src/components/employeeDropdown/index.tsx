@@ -2,31 +2,32 @@
 
 import FilterDropdownBase from "../ui/filterDropdown";
 import { useRef, useState } from "react";
-import { Employee } from "@/types/employee.type";
-import { useFetch } from "@/hooks/useFetch";
 import { useRouter, useSearchParams } from "next/navigation";
 import { handleFilterChange } from "@/utils/handleFilterChange";
 
 const EmployeeDropdown = () => {
-  const { data: welders } = useFetch<Employee[]>("/employees");
-  const [welderFilter, setWelderFilter] = useState("");
-  const welderFilterParam = useRef("");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [employeeFilter, setEmployeeFilter] = useState("");
+  const employeeFiterParam = useRef("");
+  const employeeRoles = [
+    { value: "", label: "Todos" },
+    { value: "soldador", label: "Soldador" },
+    { value: "assistente", label: "Assistente" },
+  ];
 
   return (
     <FilterDropdownBase
-      value={welderFilter}
+      value={employeeFilter}
       setValue={(e) =>
-        handleFilterChange(router, setWelderFilter, searchParams, welderFilterParam, e.target.value, "employee")
+        handleFilterChange(router, setEmployeeFilter, searchParams, employeeFiterParam, e.target.value, "employee")
       }
-      label="Soldador"
-      placeholder="Soldador"
+      label={"Cargo"}
+      placeholder={"Cargo"}
     >
-      <option value="">Todos</option>
-      {welders?.map((welder) => (
-        <option key={welder.employee_uuid} value={welder.employee_uuid}>
-          {welder.name}
+      {employeeRoles.map((employee, index) => (
+        <option key={index} value={employee.value}>
+          {employee.label}
         </option>
       ))}
     </FilterDropdownBase>

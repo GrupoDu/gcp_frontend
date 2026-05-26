@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { handleFilterChange } from "@/utils/handleFilterChange";
 
 const ProductsDropdown = () => {
-  const { data: products } = useFetch<Product[]>("/products");
+  const { data: products } = useFetch<Product[]>("products");
   const [productFilter, setProductFilter] = useState("");
   const productFilterParam = useRef("");
   const router = useRouter();
@@ -19,14 +19,23 @@ const ProductsDropdown = () => {
       label="produto"
       placeholder="Produto"
       setValue={(e) =>
-        handleFilterChange(router, setProductFilter, searchParams, productFilterParam, e.target.value, "product")
+        handleFilterChange(
+          router,
+          setProductFilter,
+          searchParams,
+          productFilterParam,
+          e.target.options[e.target.selectedIndex].innerText,
+          "product",
+        )
       }
       value={productFilter}
     >
-      <option value="">Todos</option>
-      {products?.map((product) => (
-        <option key={product.product_uuid} value={product.product_uuid}>
-          {product.name}
+      <option value="" data-key={""}>
+        todos
+      </option>
+      {products?.map((product, index) => (
+        <option key={product.product_uuid} data-key={index}>
+          {product.acronym}
         </option>
       ))}
     </FilterDropdownBase>
