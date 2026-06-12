@@ -6,11 +6,13 @@ import { ProductProvider } from "@/providers/products.provider";
 import { EmployeeProvider } from "@/providers/employee.provider";
 import { Suspense } from "react";
 import Loading from "@/components/ui/loading";
+import { Breadcrumb } from "@/components/breadcrumb";
 
 function ActivityPage() {
   return (
     <div className="pageContainer">
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Produção" />
+      <Breadcrumb />
       <main className={"mainContainer"}>
         <h2>Registrar atividade</h2>
         <EmployeeProvider>
