@@ -1,0 +1,245 @@
+@use "@/styles/_colors.scss";
+
+.detailContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.headerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background-color: colors.$backgroundGray;
+  border: colors.$borderDefault;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.employeeCard {
+  @extend .card;
+  
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.5rem;
+    background-color: #E8F1FF; // bg requested by user
+    color: #2B79DE; // primary color requested by user
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: colors.$textPrimary;
+      margin: 0;
+    }
+
+    .role {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: colors.$textSecondary;
+      text-transform: capitalize;
+      background-color: rgba(0, 0, 0, 0.04);
+      padding: 0.15rem 0.5rem;
+      border-radius: 1rem;
+      width: fit-content;
+    }
+  }
+}
+
+.statCard {
+  @extend .card;
+
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    .label {
+      font-size: 0.85rem;
+      color: colors.$textSecondary;
+      font-weight: 500;
+    }
+
+    .value {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: colors.$textPrimary;
+    }
+
+    .subText {
+      font-size: 0.75rem;
+      color: colors.$textSecondary;
+    }
+  }
+
+  &.highest {
+    .iconWrapper {
+      background-color: #e8f5e9;
+      color: #4caf50;
+    }
+  }
+
+  &.lowest {
+    .iconWrapper {
+      background-color: #ffebee;
+      color: #f44336;
+    }
+  }
+}
+
+.chartCard {
+  background-color: colors.$backgroundGray;
+  border: colors.$borderDefault;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  .chartHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding-bottom: 0.75rem;
+
+    .chartIcon {
+      font-size: 1.25rem;
+      color: #2B79DE;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: colors.$textPrimary;
+      margin: 0;
+    }
+  }
+
+  .chartWrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: colors.$borderColor;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: colors.$textSecondary;
+      border-radius: 3px;
+
+      &:hover {
+        background: colors.$textPrimary;
+      }
+    }
+
+    .chartInnerWrapper {
+      width: 100%;
+      min-width: 600px;
+      height: 260px;
+    }
+  }
+}
+
+.scrollIndicator {
+  display: none;
+  text-align: center;
+  color: colors.$textSecondary;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+
+  span {
+    background-color: colors.$borderColor;
+    padding: 0.15rem 0.75rem;
+    border-radius: 1rem;
+    display: inline-block;
+  }
+
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
+}
+
+.loadingWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  gap: 1rem;
+  color: colors.$textSecondary;
+}
+
+.notFoundWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  gap: 1.5rem;
+  color: colors.$textSecondary;
+  text-align: center;
+
+  .backButton {
+    background-color: #2B79DE;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #1a5cbf;
+    }
+  }
+}

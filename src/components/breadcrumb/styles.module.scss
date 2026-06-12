@@ -1,0 +1,53 @@
+@use "@/styles/_colors.scss";
+
+.breadcrumb {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: .8rem;
+
+  span {
+    user-select: none;
+  }
+
+  button {
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .4rem;
+    border: none;
+
+    .icon {
+      object-fit: contain;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .paths {
+    display: flex;
+    gap: .8rem;
+    align-items: center;
+    border: none;
+
+    span:first-child {
+      cursor: pointer;
+    }
+
+    span:last-child {
+      border: 1px solid colors.$menuSelectedTextBlue;
+      padding: 4px 1rem;
+      border-radius: .8rem;
+      max-width: 6rem;
+      width: fit-content;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      color: colors.$menuSelectedTextBlue;
+      background-color: colors.$menuSelectedBlue;
+    }
+  }
+}
