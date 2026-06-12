@@ -11,9 +11,10 @@ type LinkButtonProps = {
   color: "black" | "white";
   fullWidth?: boolean;
   textAlign?: "center" | "flex-start";
+  style?: React.CSSProperties;
 };
 
-const LinkButton = ({ href, children, Icon, color, fullWidth, textAlign }: LinkButtonProps) => {
+const LinkButton = ({ href, children, Icon, color, fullWidth, textAlign, style }: LinkButtonProps) => {
   const { setIsLoading } = useLoading();
 
   return (
@@ -21,6 +22,7 @@ const LinkButton = ({ href, children, Icon, color, fullWidth, textAlign }: LinkB
       href={href}
       onClick={() => setIsLoading(true)}
       style={{
+        ...style,
         backgroundColor: color,
         color: color === "black" ? "white" : "black",
         border: color === "black" ? "none" : "1px solid #D4D4D4",

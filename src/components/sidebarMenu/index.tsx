@@ -159,13 +159,6 @@ const SidebarMenu = () => {
                   menuTitle={option.menuTitle}
                 />
               ))}
-          <MenuOption
-            onClick={handleClick}
-            MenuIcon={MdOutlineFeedback}
-            isSelected={actualPage === "feedback"}
-            href="/feedback"
-            menuTitle="Feedback"
-          />
         </div>
       )}
 

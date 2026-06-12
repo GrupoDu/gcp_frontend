@@ -1,4 +1,7 @@
 @use "@/styles/_colors.scss" as colors;
+:root {
+  --dark-blue: #043679;
+}
 
 * {
   padding: 0;
@@ -91,8 +94,8 @@ h4 {
 }
 
 input {
-  padding: .4rem;
-  border-radius: .2rem;
+  padding: .8rem;
+  border-radius: .4rem;
   border: colors.$borderDefault;
 }
 
@@ -104,9 +107,9 @@ textarea {
 select {
   background-color: white;
   border: colors.$borderDefault;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   flex: 1;
-  padding: .4rem;
+  padding: .8rem;
 }
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
@@ -115,7 +118,7 @@ select {
   }
 
   input {
-    padding-left: 3rem;
+    //padding: 2rem;
   }
 
   .loadingAnimation {

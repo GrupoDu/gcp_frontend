@@ -41,9 +41,9 @@ const RegisterListContainer = () => {
     if (!isWelderList && !isAssistantsList) {
       return "#";
     } else if (isWelderList) {
-      return "/producao/activity?employee=soldador";
+      return "/producao/atividade?employee=soldador";
     } else {
-      return "/producao/activity?employee=assistente";
+      return "/producao/atividade?employee=assistente";
     }
   };
 
