@@ -12,8 +12,8 @@ function ActivityPage() {
   return (
     <div className="pageContainer">
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Produção" />
-      <Breadcrumb />
       <main className={"mainContainer"}>
+        <Breadcrumb />
         <h2>Registrar atividade</h2>
         <EmployeeProvider>
           <ProductProvider>
