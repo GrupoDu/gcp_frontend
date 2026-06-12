@@ -6,6 +6,7 @@ import PageHeader from "@/components/ui/pageHeader";
 import { GrUserWorker } from "react-icons/gr";
 import OpenMobileProvider from "@/providers/openMobile.provider";
 import Loading from "@/components/ui/loading";
+import { Breadcrumb } from "@/components/breadcrumb";
 
 const EmployeePage = () => {
   return (

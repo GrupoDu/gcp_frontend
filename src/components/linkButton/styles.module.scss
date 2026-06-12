@@ -1,5 +1,5 @@
 .linkButtonContainer {
-  padding: 0.6rem 1rem;
+  padding: 0.8rem 2rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -16,7 +16,5 @@
 }
 
 @media screen and (max-width: 768px) {
-  .linkButtonContainer {
-    padding: 0.8rem 1rem;
-  }
+
 }

@@ -1,13 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./styles.module.scss";
 import { BarChart } from "@mui/x-charts";
 import { useEmployees } from "@/hooks/useEmployees";
 import { FaChartBar } from "react-icons/fa";
-import useAssistantsPORegister from "../../hooks/useAssistantsRegister";
-import { AssistantsRegisters } from "../../types/assistantsRegister.type";
-import { api } from "@/services/api";
 
 interface EmployeeData {
   name: string;

@@ -88,10 +88,6 @@ const ActivityForm = () => {
     e.preventDefault();
 
     try {
-      await api.patch(`/employees/produced-quantity/${employee}`, {
-        produced_quantity: producedQuantity,
-      });
-
       if (isWelder) return handleWelderSubmit(e);
       if (isAssistant) return handleAssistantSubmit(e);
 
@@ -146,7 +142,7 @@ const ActivityForm = () => {
       <TextInput
         label="Quantidade produzida"
         type="number"
-        min={1}
+        min={0}
         value={producedQuantity}
         onChange={(e) => setProducedQuantity(Number(e.target.value))}
         required={true}
