@@ -1,6 +1,7 @@
 @use "@/styles/_colors.scss" as colors;
 :root {
-  --dark-blue: #043679;
+  --dark-blue: #1a447e;
+  --default-border: #636c7c;
 }
 
 * {
@@ -84,7 +85,6 @@ h4 {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  box-sizing: border-box;
   transition: all 0.3s ease-in-out;
   gap: .4rem;
 
@@ -110,6 +110,67 @@ select {
   border-radius: 0.4rem;
   flex: 1;
   padding: .8rem;
+}
+
+.tableWrapper {
+  height: 100%;
+  width: 100%;
+  border: colors.$borderDefault;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.notFoundTable {
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.listContainer {
+  background-color: white;
+  border-collapse: collapse;
+  border-radius: 0.4rem;
+  overflow: auto;
+  width: 100%;
+
+  th, td {
+    text-align: left;
+    padding: .8rem;
+    border-bottom: 1px solid colors.$borderColor;
+  }
+
+  tr:last-child {
+    border-bottom: none;
+  }
+
+  .listHeader {
+    border: none;
+    background-color: var(--dark-blue);
+    color: white;
+
+    th {
+      font-weight: 600;
+    }
+  }
+
+  .listItem {
+    padding: 0.8rem;
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  }
+
+  li {
+    flex: 1;
+    list-style-type: none;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
 }
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
