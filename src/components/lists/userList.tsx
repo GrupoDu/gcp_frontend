@@ -36,20 +36,24 @@ const UserListContainer = () => {
           <SearchBar targetFilter={"name"} />
           <UserRoleFilter />
         </FilterMobileContainer>
-        <ul className={styles.listContainer}>
-          <div className={styles.listHeader}>
-            <span>ID</span>
-            <span>Nome</span>
-            <span>Email</span>
-            <span>Tipo de usuário</span>
-            <span className={styles.actionsSpan}>Ações</span>
-          </div>
-          {userListFiltered?.map((user) => (
-            <li key={user.user_uuid}>
-              <ListItem deleteButtonEndpoint="users" refetch={refetch} userInfos={user} />
-            </li>
-          ))}
-        </ul>
+        <div className="tableWrapper" style={{ borderRadius: ".4rem" }}>
+          <table className={"listContainer"}>
+            <thead className={"listHeader"}>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Tipo de usuário</th>
+                <th className={styles.actionsSpan}>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userListFiltered?.map((user) => (
+                <ListItem key={user.user_uuid} deleteButtonEndpoint="users" refetch={refetch} userInfos={user} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </main>
     </>
   );

@@ -1,57 +1,64 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { WeldersActivities } from "@/types/weldersActivities.type";
+import { WeldersActivities, WeldersActivitiesPagination } from "@/types/weldersActivities.type";
 import { dataFormater } from "@/utils/dataFormater";
 import { useFetch } from "@/hooks/useFetch";
 import DataNotFound from "@/components/dataNotFound";
 import { useSearchParams } from "next/navigation";
+import { Pagination } from "@/components/pagination";
+import { Ref, useEffect, useRef, useState } from "react";
 
 const WeldersActivitiesList = () => {
-  const { data: weldersActivities } = useFetch<WeldersActivities[]>("welders-activities");
   const searchParams = useSearchParams();
-  const employeeFilter = searchParams.get("employee");
-  const dateFilter = searchParams.get("deadline");
-  const productFilter = searchParams.get("product");
-  const isEmployeeFilterEmpty = employeeFilter === "" || !employeeFilter;
-  const isDateFilterEmpty = dateFilter === "" || !dateFilter;
-  const isProductFilterEmpty = productFilter === "" || !productFilter || productFilter.includes("todos");
-  const isFilterEmpty = isEmployeeFilterEmpty && isDateFilterEmpty && isProductFilterEmpty;
-  const filteredActivities = weldersActivities?.filter(
-    (activity) =>
-      (isEmployeeFilterEmpty
-        ? true
-        : activity.employees.name.toLowerCase().includes(employeeFilter?.toLowerCase() || "")) &&
-      (isDateFilterEmpty ? true : dataFormater(activity.registered_at) === dataFormater(dateFilter)) &&
-      (isProductFilterEmpty ? true : activity.products.acronym === productFilter),
-  );
-  const listItems = isFilterEmpty ? weldersActivities : filteredActivities;
+  const page = searchParams.get("page");
+  const perPage = searchParams.get("per_page");
+  const { data } = useFetch<WeldersActivitiesPagination>(`welders-activities?page=${page}&per_page=${perPage}`);
+  const itemRef = useRef<HTMLTableRowElement | null>(null);
+
+  useEffect(() => {}, [data]);
+
+  if (!page) return <h3>Página não encontrada</h3>;
+
+  if (!data?.weldersActivities || data.weldersActivities.length < 1) return <DataNotFound />;
 
   return (
     <>
-      <ul style={{ borderRadius: 0 }} className={styles.listContainer}>
-        <div className={styles.listHeader}>
-          <span>Soldador</span>
-          <span>Produto</span>
-          <span>Qtd.</span>
-          <span>Data</span>
-        </div>
-        {renderActivities(listItems)}
-      </ul>
+      <table style={{ borderRadius: 0 }} className={"listContainer"}>
+        <thead className={"listHeader"}>
+          <tr>
+            <th>Soldador</th>
+            <th>Produto</th>
+            <th>Qtd.</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        {data?.weldersActivities.map((activity) => (
+          <tbody className={"listItem"} key={activity.welder_activity_uuid}>
+            <tr ref={itemRef} className={"item"}>
+              <td>{activity.employees.name}</td>
+              <td>{activity.products.acronym}</td>
+              <td>{activity.produced_quantity}</td>
+              <td>{dataFormater(activity.registered_at)}</td>
+            </tr>
+          </tbody>
+        ))}
+      </table>
+      <Pagination max_pages={data.max_pages} />
     </>
   );
 };
 
-function renderActivities(activities?: WeldersActivities[]) {
-  if (!activities || activities.length < 1) return <DataNotFound />;
-
+function renderActivities(itemRef: Ref<HTMLTableRowElement>, activities?: WeldersActivities[]) {
   return activities?.map((activity) => (
-    <li className={styles.listItem} key={activity.welder_activity_uuid}>
-      <span>{activity.employees.name}</span>
-      <span>{activity.products.acronym}</span>
-      <span>{activity.produced_quantity}</span>
-      <span>{dataFormater(activity.registered_at)}</span>
-    </li>
+    <tbody className={"listItem"} key={activity.welder_activity_uuid}>
+      <tr ref={itemRef}>
+        <td>{activity.employees.name}</td>
+        <td>{activity.products.acronym}</td>
+        <td>{activity.produced_quantity}</td>
+        <td>{dataFormater(activity.registered_at)}</td>
+      </tr>
+    </tbody>
   ));
 }
 

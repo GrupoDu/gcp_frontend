@@ -1,56 +1,53 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { AssistantsActivities } from "@/types/assistantsActivities.types";
+import { AssistantsActivities, AssistantsActivitiesPagination } from "@/types/assistantsActivities.types";
 import { dataFormater } from "@/utils/dataFormater";
 import DataNotFound from "@/components/dataNotFound";
 import { useFetch } from "@/hooks/useFetch";
 import { useSearchParams } from "next/navigation";
 
 const AssistantsActivitiesList = () => {
-  const { data: assistantsActivities } = useFetch<AssistantsActivities[]>("assistants-activities");
   const searchParams = useSearchParams();
-  const activityParam = searchParams.get("activity");
-  const employeeNameParam = searchParams.get("employee");
-  const isParamActivityEmpty = !activityParam || activityParam === "";
-  const isParamNameEmpty = !employeeNameParam || employeeNameParam === "";
-  const isParamsEmpty = isParamActivityEmpty && isParamNameEmpty;
-  const filteredActivities = assistantsActivities?.filter(
-    (activity) =>
-      (isParamNameEmpty
-        ? true
-        : activity.employees.name.toLowerCase().includes(employeeNameParam?.toLowerCase() || "")) &&
-      (isParamActivityEmpty ? true : activity.activity_type === activityParam),
-  );
-  const displayList = isParamsEmpty ? assistantsActivities : filteredActivities;
+  const page = searchParams.get("page");
+  const { data } = useFetch<AssistantsActivitiesPagination>(`assistants-activities?page=${page}`);
+
+  if (!page) return <h1>Página não encontrada</h1>;
+
+  const isActivitiesEmpty = !data?.assistantsActivities || data.assistantsActivities.length < 1;
+
+  if (isActivitiesEmpty)
+    return (
+      <div className={"notFoundTable"}>
+        <DataNotFound />
+      </div>
+    );
 
   return (
-    <>
-      <ul style={{ borderRadius: 0 }} className={styles.listContainer}>
-        <div className={styles.listHeader}>
-          <span>Assistente</span>
-          <span>Atividade</span>
-          <span>Qtd.</span>
-          <span>Data</span>
-        </div>
-        {renderActivities(displayList)}
-      </ul>
-    </>
+    <table style={{ borderRadius: 0 }} className={"listContainer"}>
+      <thead className={"listHeader"}>
+        <tr>
+          <th>Assistente</th>
+          <th>Atividade</th>
+          <th>Qtd.</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      {renderActivities(data.assistantsActivities)}
+    </table>
   );
 };
 
-function renderActivities(activies?: AssistantsActivities[]) {
-  const isActivitiesEmpty = !activies || activies.length < 1;
-
-  if (isActivitiesEmpty) return <DataNotFound />;
-
+function renderActivities(activies: AssistantsActivities[]) {
   return activies?.map((activity, index) => (
-    <li className={styles.listItem} key={index}>
-      <span>{activity.employees.name}</span>
-      <span>{activity.activity_type}</span>
-      <span>{activity.produced_quantity}</span>
-      <span>{dataFormater(activity.registered_at)}</span>
-    </li>
+    <tbody className={"listItem"} key={index}>
+      <tr>
+        <td>{activity.employees.name}</td>
+        <td>{activity.activity_type}</td>
+        <td>{activity.produced_quantity}</td>
+        <td>{dataFormater(activity.registered_at)}</td>
+      </tr>
+    </tbody>
   ));
 }
 

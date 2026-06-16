@@ -36,27 +36,32 @@ const EmployeeListContainer = () => {
           <SearchBar targetFilter={"name"} />
           <EmployeeRoleFilter />
         </FilterMobileContainer>
-        <ul className={styles.listContainer}>
-          <div className={styles.listHeader}>
-            <span>ID</span>
-            <span>Nome</span>
-            <span>Função</span>
-            <span className={styles.actionsSpan}>Ações</span>
-          </div>
-          {filteredEmployees?.map((employee) => (
-            <li key={employee.employee_uuid}>
-              <ListItem
-                deleteButtonEndpoint="employees"
-                refetch={refetch}
-                userInfos={{
-                  user_uuid: employee.employee_uuid || "",
-                  name: employee.name,
-                  user_role: employee.employee_role,
-                }}
-              />
-            </li>
-          ))}
-        </ul>
+        <div style={{ borderRadius: ".4rem" }} className="tableWrapper">
+          <table className={"listContainer"}>
+            <thead className={"listHeader"}>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Função</th>
+                <th className={styles.actionsSpan}>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredEmployees?.map((employee) => (
+                <ListItem
+                  key={employee.employee_uuid}
+                  deleteButtonEndpoint="employees"
+                  refetch={refetch}
+                  userInfos={{
+                    user_uuid: employee.employee_uuid || "",
+                    name: employee.name,
+                    user_role: employee.employee_role,
+                  }}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </main>
     </>
   );
