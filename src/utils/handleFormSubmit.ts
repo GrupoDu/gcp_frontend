@@ -56,7 +56,7 @@ export async function handleFormSubmit(
     // Só cria o registro de atividade de assistente se assistantsRegister existir
     createAssistantPORegister(production_order_uuid, assistantsRegister);
 
-    // router?.back();
+    router?.back();
     return toast.success("Operação realizada com sucesso!");
   } catch (err) {
     const error = err as ErrorResponse;
