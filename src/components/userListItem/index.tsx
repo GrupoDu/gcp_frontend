@@ -18,17 +18,19 @@ const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) =
   const { user_uuid, user_role, name, email } = userInfos;
 
   return (
-    <div className={styles.userListItem}>
-      <span>{user_uuid}</span>
-      <span>{name}</span>
-      {email && <span>{email}</span>}
-      <span>{user_role}</span>
-      <div className={styles.buttons}>
-        <EditButton href={`${pathname}/edit/${userInfos.user_uuid}`} />
-        {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.user_uuid}`} />}
-        <DeleteButton endpoint={deleteButtonEndpoint} refetch={refetch} uuid={user_uuid} />
-      </div>
-    </div>
+    <tr>
+      <td>{user_uuid}</td>
+      <td>{name}</td>
+      {email && <td>{email}</td>}
+      <td>{user_role}</td>
+      <td>
+        <div className={styles.buttons}>
+          <EditButton href={`${pathname}/edit/${userInfos.user_uuid}`} />
+          {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.user_uuid}`} />}
+          <DeleteButton endpoint={deleteButtonEndpoint} refetch={refetch} uuid={user_uuid} />
+        </div>
+      </td>
+    </tr>
   );
 };
 
