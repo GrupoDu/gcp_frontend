@@ -52,13 +52,13 @@ const SidebarMenu = () => {
     {
       MenuIcon: IoMdClipboard,
       pageName: "producao",
-      href: "/producao",
+      href: "/producao?page=1",
       menuTitle: "Produção",
     },
     {
       MenuIcon: LuGoal,
       pageName: "metas",
-      href: "/metas",
+      href: "/metas?page=1",
       menuTitle: "Metas",
     },
   ];
@@ -73,25 +73,25 @@ const SidebarMenu = () => {
     {
       MenuIcon: IoMdClipboard,
       pageName: "producao",
-      href: "/producao",
+      href: "/producao?page=1",
       menuTitle: "Produção",
     },
     {
       MenuIcon: LuGoal,
       pageName: "metas",
-      href: "/metas",
+      href: "/metas?page=1",
       menuTitle: "Metas",
     },
     {
       MenuIcon: FaUserCog,
       pageName: "usuarios",
-      href: "/usuarios",
+      href: "/usuarios?page=1",
       menuTitle: "Usuários",
     },
     {
       MenuIcon: GrUserWorker,
       pageName: "funcionarios",
-      href: "/funcionarios",
+      href: "/funcionarios?page=1",
       menuTitle: "Funcionários",
     },
     {
