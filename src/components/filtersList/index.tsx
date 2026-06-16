@@ -31,7 +31,7 @@ const FiltersList = (props: FiltersListProps) => {
   });
 
   return (
-    <div style={props.style} className={styles.filtersListContainer}>
+    <div style={props.style} className={`${styles.filtersListContainer} filter`}>
       <div className={styles.desktopFilters}>
         {props.children}
         <label className={styles.addButton}>
