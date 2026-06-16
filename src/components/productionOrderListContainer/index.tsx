@@ -4,10 +4,9 @@ import styles from "./styles.module.scss";
 import FiltersList from "../filtersList";
 import DeadlineInput from "../ui/deadlineInput";
 import ProductsDropdown from "../ui/productsDropdown";
-import EmployeeDropdown from "../employeeDropdown";
 import StatusDropdown from "../ui/statusDropdown";
 import ListFooter from "../listFooter";
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import ProductionOrderList from "../cardLists/productionOrderList";
 import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import FilterMobileContainer from "../filterMobileContainer";
@@ -18,7 +17,7 @@ import { LuClipboardList } from "react-icons/lu";
 import { RiFileList3Line } from "react-icons/ri";
 import AssistantsActivitiesList from "@/components/lists/assistantsActivitiesList";
 import OpenMobileProvider from "@/providers/openMobile.provider";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { handleFilterChange } from "@/utils/handleFilterChange";
 import SearchBar from "@/components/searchBar";
 
@@ -72,7 +71,9 @@ const RegisterListContainer = () => {
               <SearchBar targetFilter={"employee"} />
               {displayStatusFilter}
             </FilterMobileContainer>
-            <Suspense fallback={<Loading />}>{lists[Number(elementIndex)]}</Suspense>
+            <Suspense fallback={<Loading />}>
+              <div className="tableWrapper">{lists[Number(elementIndex)]}</div>
+            </Suspense>
             <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
           </main>
         </ProductionOrderProvider>
@@ -90,10 +91,25 @@ function Tabs(props: TabsProps) {
   const { setElementIndex, elementIndex } = props;
   const isElementSelected = (index: number) => elementIndex === index;
   const router = useRouter();
+  const tableSize = useRef(700);
+  const [trigger, setTrigger] = useState(0);
+
+  useEffect(() => {
+    const tableWrapper = document.getElementsByClassName("tableWrapper")[0];
+
+    if (tableWrapper) {
+      // 220 porque sim
+      tableSize.current = tableWrapper.clientHeight - 220;
+      console.log("Tamanho da tabela: ", tableSize.current);
+    }
+  }, [trigger]);
 
   const handleClickTabChange = (index: number) => {
+    const calculatePerPage = Math.floor(tableSize.current / 30);
+    console.log(calculatePerPage);
     setElementIndex(index);
-    router.push("/producao");
+    setTrigger((prev) => prev + 1);
+    router.push(`/producao?page=1&per_page=${calculatePerPage}`);
   };
 
   return (
