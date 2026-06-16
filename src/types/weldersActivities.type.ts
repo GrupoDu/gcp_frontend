@@ -10,3 +10,8 @@ export interface WeldersActivities {
   employees: Employee;
   products: Product;
 }
+
+export interface WeldersActivitiesPagination {
+  weldersActivities: WeldersActivities[];
+  max_pages: number;
+}

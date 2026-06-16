@@ -9,6 +9,11 @@ export interface AssistantsActivities {
   activity_description?: string;
 }
 
+export interface AssistantsActivitiesPagination {
+  assistantsActivities: AssistantsActivities[];
+  max_pages: number;
+}
+
 export interface CreateAssistantsActivities extends Omit<
   AssistantsActivities,
   "assistants_activities_uuid" | "registered_at"
