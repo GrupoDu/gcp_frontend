@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:start": "npm run build && npm run start",
-    "start": "npx next start . -p 3001 -H 0.0.0.0",
+    "build:start": "bun run build && bun run start",
+    "start": "bunx next start . -p 3001 -H 0.0.0.0",
     "lint": "eslint",
     "docker:dev": "docker compose -f docker-compose.dev.yaml watch",
     "docker:prod": "docker compose -f docker-compose.prod.yaml -p gcp_prod up --build -d"
