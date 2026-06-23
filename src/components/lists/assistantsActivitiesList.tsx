@@ -6,35 +6,65 @@ import { dataFormater } from "@/utils/dataFormater";
 import DataNotFound from "@/components/dataNotFound";
 import { useFetch } from "@/hooks/useFetch";
 import { useSearchParams } from "next/navigation";
+import FiltersList from "@/components/filtersList";
+import TextInput from "@/components/ui/textInput";
+import { useState } from "react";
+import { Employee } from "@/types/employee.type";
+import SelectInput from "../ui/selectInput";
+import { Pagination } from "../pagination";
+import { DateInput } from "@/components/ui/dateInput";
 
 const AssistantsActivitiesList = () => {
+  const [assistantFilter, setAssistantFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
+
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
-  const { data } = useFetch<AssistantsActivitiesPagination>(`assistants-activities?page=${page}`);
+  const { data: activities } = useFetch<AssistantsActivitiesPagination>(`assistants-activities?page=${page}`);
+  const { data: assistants } = useFetch<Employee[]>("employees/assistants");
+
+  const assistantsOptions = assistants?.map((assistant) => ({
+    value: assistant.employee_uuid || "",
+    label: assistant.name,
+  }));
 
   if (!page) return <h1>Página não encontrada</h1>;
 
-  const isActivitiesEmpty = !data?.assistantsActivities || data.assistantsActivities.length < 1;
-
-  if (isActivitiesEmpty)
-    return (
-      <div className={"notFoundTable"}>
-        <DataNotFound />
-      </div>
-    );
+  const isActivitiesEmpty = !activities?.assistantsActivities || activities.assistantsActivities.length < 1;
 
   return (
-    <table style={{ borderRadius: 0 }} className={"listContainer"}>
-      <thead className={"listHeader"}>
-        <tr>
-          <th>Assistente</th>
-          <th>Atividade</th>
-          <th>Qtd.</th>
-          <th>Data</th>
-        </tr>
-      </thead>
-      {renderActivities(data.assistantsActivities)}
-    </table>
+    <div className={"mainContainer"}>
+      <FiltersList hrefButton={"assistentes/atividade"} buttonLabel={"Registrar"}>
+        <SelectInput
+          onChange={(e) => setAssistantFilter(e.target.value)}
+          value={assistantFilter}
+          defaultValue={"Filtra por assistente"}
+          label={"Assistente"}
+          options={assistantsOptions}
+        />
+        <DateInput label={"Data"} setValue={setDateFilter} value={dateFilter} isFilter={true} />
+      </FiltersList>
+      {isActivitiesEmpty ? (
+        <DataNotFound />
+      ) : (
+        <>
+          <div className="tableWrapper">
+            <table style={{ borderRadius: 0 }} className={"listContainer"}>
+              <thead className={"listHeader"}>
+                <tr>
+                  <th>Assistente</th>
+                  <th>Atividade</th>
+                  <th>Qtd.</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+              {renderActivities(activities.assistantsActivities)}
+            </table>
+          </div>
+          <Pagination max_pages={activities.max_pages} />
+        </>
+      )}
+    </div>
   );
 };
 
