@@ -61,7 +61,7 @@ const WeldersActivitiesList = () => {
               <thead className={"listHeader"}>
                 <tr>
                   <th>Soldador</th>
-                  <th>Produto</th>
+                  <th>Produto/Atividade</th>
                   <th>Qtd.</th>
                   <th>Data</th>
                 </tr>
@@ -70,7 +70,7 @@ const WeldersActivitiesList = () => {
                 <tbody className={"listItem"} key={activity.welder_activity_uuid}>
                   <tr ref={itemRef} className={"item"}>
                     <td>{activity.employees.name}</td>
-                    <td>{activity.products.acronym}</td>
+                    <td>{activity.products ? activity.products.acronym : activity.description_general_activity}</td>
                     <td>{activity.produced_quantity}</td>
                     <td>{dataFormater(activity.registered_at)}</td>
                   </tr>
