@@ -27,7 +27,7 @@ export const Pagination = ({ max_pages }: { max_pages?: number }) => {
     <div className={styles.paginationContainer}>
       {calculatePagination()?.map((p, index) => (
         <Link
-          href={`/${pathname}?page=${p}&per_page=${perPage}`}
+          href={`${pathname}?page=${p}&per_page=${perPage}`}
           key={index}
           className={`${styles.page} ${isPage(p) ? styles.isPage : ""}`}
         >
