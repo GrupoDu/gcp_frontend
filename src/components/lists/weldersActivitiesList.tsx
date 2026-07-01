@@ -68,7 +68,7 @@ const WeldersActivitiesList = () => {
               </thead>
               {data?.weldersActivities.map((activity) => (
                 <tbody key={activity.welder_activity_uuid}>
-                  <tr ref={itemRef} className={"item"}>
+                  <tr className={"listItem"}>
                     <td>{activity.employees.name}</td>
                     <td>{activity.products ? activity.products.acronym : activity.description_general_activity}</td>
                     <td>{activity.produced_quantity}</td>

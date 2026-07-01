@@ -1,0 +1,47 @@
+.buttons {
+  display: flex;
+  gap: .6rem;
+
+  .buttonWrapper {
+    display: flex;
+    width: 8rem;
+  }
+}
+
+.inputCheck {
+  display: flex;
+  gap: .2rem;
+  margin: .4rem 0;
+}
+
+.textareaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  opacity: .4;
+  user-select: none;
+  pointer-events: none;
+
+  span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #383838;
+  }
+
+  textarea {
+    padding: .6rem;
+    height: 4rem;
+  }
+
+  .textLimitCount {
+    font-size: .9rem;
+    font-weight: 500;
+    opacity: .6;
+  }
+}
+
+.isActive {
+  opacity: 1;
+  user-select: auto;
+  pointer-events: auto;
+}
