@@ -52,14 +52,20 @@ const SidebarMenu = () => {
     {
       MenuIcon: IoMdClipboard,
       pageName: "producao",
-      href: "/producao?page=1",
+      href: "/producao?page=1&per_page=13",
       menuTitle: "Produção",
     },
     {
       MenuIcon: LuGoal,
       pageName: "metas",
-      href: "/metas?page=1",
+      href: "/metas?page=1&per_page=13",
       menuTitle: "Metas",
+    },
+    {
+      MenuIcon: IoMdClipboard,
+      pageName: "soldadores",
+      href: "/soldadores?page=1&per_page=13",
+      menuTitle: "Soldadores",
     },
   ];
 
@@ -75,6 +81,18 @@ const SidebarMenu = () => {
       pageName: "producao",
       href: "/producao?page=1",
       menuTitle: "Produção",
+    },
+    {
+      MenuIcon: IoMdClipboard,
+      pageName: "soldadores",
+      href: "/soldadores?page=1&per_page=13",
+      menuTitle: "Soldadores",
+    },
+    {
+      MenuIcon: IoMdClipboard,
+      pageName: "assistentes",
+      href: "/assistentes?page=1&per_page=13",
+      menuTitle: "Assistentes",
     },
     {
       MenuIcon: LuGoal,

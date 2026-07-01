@@ -59,13 +59,7 @@ const FiltersList = (props: FiltersListProps) => {
       </div>
       <label className={styles.reloadButton}>
         <span>Atualizar</span>
-        <button
-          type="button"
-          onClick={() => {
-            setIsLoading(true);
-            window.location.reload();
-          }}
-        >
+        <button type="button">
           {isLoading ? <ClipLoader color="#000000" size={10} /> : <IoReload className={styles.reloadIcon} />}
         </button>
       </label>

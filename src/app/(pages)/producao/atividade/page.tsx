@@ -1,4 +1,3 @@
-import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
 import ActivityForm from "@/components/forms/activityForm";
