@@ -98,7 +98,7 @@ const LoginCredentials = () => {
       {loginTries > 0 && (
         <p className={styles.loginError}>Credenciais inválidas. Verifique a senha, email e tipo de usuário</p>
       )}
-      <button disabled={isLoading} className={`${isLoading && styles.loadingDisble}`} type="submit">
+      <button disabled={isLoading} className={`${isLoading && styles.loadingDisabled}`} type="submit">
         {isLoading && <ClipLoader color="#fff" size={15} />}Entrar
       </button>
     </form>
