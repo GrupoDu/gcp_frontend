@@ -8,7 +8,6 @@
   padding: 0;
   margin: 0;
   font-family: var(--font-roboto), sans-serif;
-  font-display: swap;
 }
 
 html,
@@ -102,6 +101,7 @@ input {
 textarea {
   border-radius: 0.3rem;
   border: colors.$borderDefault;
+  resize: none;
 }
 
 select {
