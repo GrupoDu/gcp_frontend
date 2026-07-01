@@ -1,7 +1,23 @@
 .selectInput {
   display: flex;
   flex-direction: column;
-  gap: .8rem;
+  gap: .6rem;
   box-sizing: border-box;
   flex: 1;
+
+  h4 {
+    font-size: 1rem;
+  }
+}
+
+.isRequired {
+  h4 {
+    display: flex;
+    gap: .2rem;
+
+    &:after {
+      content: "*";
+      color: #e34e4e;
+    }
+  }
 }

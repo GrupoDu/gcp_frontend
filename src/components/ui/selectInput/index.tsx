@@ -31,7 +31,7 @@ const SelectInput = (props: SelectInputProps) => {
   if (!options) isDisabled = true;
 
   return (
-    <div className={styles.selectInput}>
+    <div className={`${styles.selectInput} ${required && styles.isRequired}`}>
       <h4>{label}</h4>
       <select required={required} disabled={isDisabled} value={value} onChange={onChange} style={style}>
         <option value="">{defaultValue}</option>

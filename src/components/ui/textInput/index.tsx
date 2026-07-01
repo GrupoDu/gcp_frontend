@@ -12,7 +12,7 @@ const TextInput = (props: TextInputProps) => {
   const { placeholder, label, name, value, type, style, onChange, max, min, required } = props;
 
   return (
-    <div className={styles.textInput}>
+    <div className={`${styles.textInput} ${required && styles.isRequired}`}>
       <h4>{label}</h4>
       <input
         type={type}
