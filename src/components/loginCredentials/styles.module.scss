@@ -60,4 +60,9 @@
       background-color: colors.$menuSelectedTextBlue;
     }
   }
+
+  .loadingDisble {
+    opacity: .6;
+    cursor: not-allowed;
+  }
 }
