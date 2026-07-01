@@ -1,9 +1,10 @@
 import styles from "./styles.module.scss";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export const Pagination = ({ max_pages }: { max_pages?: number }) => {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const page = searchParams.get("page");
   const perPage = searchParams.get("per_page");
 
@@ -26,7 +27,7 @@ export const Pagination = ({ max_pages }: { max_pages?: number }) => {
     <div className={styles.paginationContainer}>
       {calculatePagination()?.map((p, index) => (
         <Link
-          href={`/producao?page=${p}&per_page=${perPage}`}
+          href={`/${pathname}?page=${p}&per_page=${perPage}`}
           key={index}
           className={`${styles.page} ${isPage(p) ? styles.isPage : ""}`}
         >
