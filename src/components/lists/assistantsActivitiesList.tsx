@@ -1,13 +1,11 @@
 "use client";
 
-import styles from "./styles.module.scss";
 import { AssistantsActivities, AssistantsActivitiesPagination } from "@/types/assistantsActivities.types";
 import { dataFormater } from "@/utils/dataFormater";
 import DataNotFound from "@/components/dataNotFound";
 import { useFetch } from "@/hooks/useFetch";
 import { useSearchParams } from "next/navigation";
 import FiltersList from "@/components/filtersList";
-import TextInput from "@/components/ui/textInput";
 import { useState } from "react";
 import { Employee } from "@/types/employee.type";
 import SelectInput from "../ui/selectInput";
@@ -20,7 +18,10 @@ const AssistantsActivitiesList = () => {
 
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
-  const { data: activities } = useFetch<AssistantsActivitiesPagination>(`assistants-activities?page=${page}`);
+  const per_page = searchParams.get("per_page");
+  const { data: activities } = useFetch<AssistantsActivitiesPagination>(
+    `assistants-activities?page=${page}&per_page=${per_page}`,
+  );
   const { data: assistants } = useFetch<Employee[]>("employees/assistants");
 
   const assistantsOptions = assistants?.map((assistant) => ({
