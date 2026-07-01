@@ -1,13 +1,13 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { WeldersActivities, WeldersActivitiesPagination } from "@/types/weldersActivities.type";
+import { WeldersActivitiesPagination } from "@/types/weldersActivities.type";
 import { dataFormater } from "@/utils/dataFormater";
 import { useFetch } from "@/hooks/useFetch";
 import DataNotFound from "@/components/dataNotFound";
 import { useSearchParams } from "next/navigation";
 import { Pagination } from "@/components/pagination";
-import { Ref, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FiltersList from "@/components/filtersList";
 import SelectInput from "@/components/ui/selectInput";
 import { DateInput } from "@/components/ui/dateInput";
@@ -84,18 +84,5 @@ const WeldersActivitiesList = () => {
     </div>
   );
 };
-
-function renderActivities(itemRef: Ref<HTMLTableRowElement>, activities?: WeldersActivities[]) {
-  return activities?.map((activity) => (
-    <tbody className={"listItem"} key={activity.welder_activity_uuid}>
-      <tr ref={itemRef}>
-        <td>{activity.employees.name}</td>
-        <td>{activity.products.acronym}</td>
-        <td>{activity.produced_quantity}</td>
-        <td>{dataFormater(activity.registered_at)}</td>
-      </tr>
-    </tbody>
-  ));
-}
 
 export default WeldersActivitiesList;
