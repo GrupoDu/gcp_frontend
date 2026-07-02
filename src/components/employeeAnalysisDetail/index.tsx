@@ -79,7 +79,7 @@ const EmployeeAnalysisDetail = ({ employeeUuid }: EmployeeAnalysisDetailProps) =
   const getProducts = isWelder && employeeAnalysis.full_products_analysis;
   const getActivities = isAssistant && employeeAnalysis.full_activity_analysis;
   const barChartDataName = () => {
-    if (getProducts) return getProducts?.map((product) => product.product.name);
+    if (getProducts) return getProducts?.map((product) => product.product?.name || "Solda Geral");
     if (getActivities) return getActivities.map((activity) => activity.activity_name);
     return [];
   };

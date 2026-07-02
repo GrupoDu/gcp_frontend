@@ -2,7 +2,7 @@ import { Employee } from "@/types/employee.type";
 import { Product } from "@/types/product.type";
 
 type FullProductsAnalysis = {
-  product: Product;
+  product: Product | null;
   total_quantity: number;
 };
 

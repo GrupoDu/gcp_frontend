@@ -21,9 +21,9 @@ export const AssistantActivityForm = () => {
   const router = useRouter();
   const { data: assistants } = useFetch<Employee[]>("employees/assistants");
 
-  const assistantsOptions = assistants?.map((welder) => ({
-    value: welder.employee_uuid || "",
-    label: welder.name,
+  const assistantsOptions = assistants?.map((assistants) => ({
+    value: assistants.employee_uuid || "",
+    label: assistants.name,
   }));
   const activityOptions = [
     {
@@ -48,7 +48,7 @@ export const AssistantActivityForm = () => {
     e.preventDefault();
 
     try {
-      await api.post("welders-activities/register", {
+      await api.post("assistants-activities", {
         assistant_uuid: assistant,
         activity_description: description || null,
         produced_quantity: producedQuantity,
