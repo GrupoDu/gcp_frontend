@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
 import { Employee } from "@/types/employee.type";
 import TextInput from "@/components/ui/textInput";
-import { Product } from "@/types/product.type";
 import { DefaultButton } from "@/components/ui/defaultButton";
 import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
@@ -56,7 +55,7 @@ export const AssistantActivityForm = () => {
       });
 
       toast.success("Atividade registrada com sucesso!");
-      router.push("/soldadores?page=1&per_page=13");
+      router.push("/assistentes?page=1&per_page=13");
     } catch (err) {
       const error = err as Error;
       console.log(error.message);
@@ -70,7 +69,7 @@ export const AssistantActivityForm = () => {
         value={assistant}
         label={"Assistente"}
         required={true}
-        defaultValue={"Selecione um soldador"}
+        defaultValue={"Selecione um assistente"}
         onChange={(e) => setAssistant(e.target.value)}
       />
       <TextInput
@@ -85,7 +84,7 @@ export const AssistantActivityForm = () => {
         onChange={(e) => setActivityType(e.target.value)}
         defaultValue={"Selecione o produto"}
         value={activityType}
-        label={"Produto produzido"}
+        label={"Atividade realizada"}
       />
       <label className={`${styles.textareaContainer}`}>
         <span>Descição de atividade geral</span>
