@@ -15,7 +15,7 @@ async function ViewProductionOrderPage({ params }: { params: Promise<{ slug: str
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle="Registro" />
       <main className="mainContainer">
         <AssistantsRegisterProvider>
-          <ProductionOrderInfos production_order_uuid={slug} />
+          <ProductionOrderInfos productionOrderUuid={slug} />
         </AssistantsRegisterProvider>
         <h3>
           <IoMdClipboard /> Ordens de produção pendentes

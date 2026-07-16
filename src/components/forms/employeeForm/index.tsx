@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import LinkButton from "@/components/linkButton";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/ui/submitButton";
@@ -14,33 +14,33 @@ import { useFetch } from "@/hooks/useFetch";
  *
  * @param props
  * @param {boolean} props.isEdit - Booleano que infos se é página de edição
- * @param {string} props.employee_uuid - UUID do funcionário
+ * @param {string} props.employeeUuid - UUID do funcionário
  */
-const EmployeeForm = ({ isEdit, employee_uuid }: { isEdit: boolean; employee_uuid?: string }) => {
-  const { data: employees } = useFetch<Employee[]>("employees");
+const EmployeeForm = ({ isEdit, employeeUuid }: { isEdit: boolean; employeeUuid?: string }) => {
+  const { data: employees } = useFetch<Employee[]>("employee");
   const router = useRouter();
   const [canEdit, setCanEdit] = useState(false);
-  const [employeeValues, setEmployeeValues] = useState<Employee>({
+  const [employeeValues, setEmployeeValues] = useState<Record<string, string>>({
     name: "",
-    employee_role: "",
+    employeeRole: "",
   });
 
   useEffect(() => {
     if (isEdit) {
-      const fetchedEmployee = employees?.find((employee) => employee.employee_uuid === employee_uuid);
+      const fetchedEmployee = employees?.find((employee) => employee.employeeUuid === employeeUuid);
 
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEmployeeValues({
         name: fetchedEmployee?.name || "",
-        employee_role: fetchedEmployee?.employee_role || "",
+        employeeRole: fetchedEmployee?.employeeRole || "",
       });
 
       setCanEdit(!!fetchedEmployee);
     }
-  }, [isEdit, employee_uuid, employees]);
+  }, [isEdit, employeeUuid, employees]);
 
   const method = isEdit ? "PUT" : "POST";
-  const endpoint = isEdit ? `employees/${employee_uuid}` : "employees";
+  const endpoint = isEdit ? `employees/${employeeUuid}` : "employees";
 
   return (
     <form
@@ -64,10 +64,10 @@ const EmployeeForm = ({ isEdit, employee_uuid }: { isEdit: boolean; employee_uui
           onChange={(e) =>
             setEmployeeValues({
               ...employeeValues,
-              employee_role: e.target.value,
+              employeeRole: e.target.value,
             })
           }
-          value={employeeValues.employee_role}
+          value={employeeValues.employeeRole}
           name="employee-function"
         >
           <option value="">Selecionar função</option>

@@ -1,6 +1,6 @@
 import AnualAnalysisContext from "@/context/anualAnalysis.context";
 import { useFetch } from "@/hooks/useFetch";
-import { AnualAnalysis } from "@/types/anualAnalysis.type";
+import { AnualAnalysis } from "@/types/anualAnalysis.interface";
 import { useMemo } from "react";
 
 export function AnualAnalysisProvider({ children }: { children: React.ReactNode }) {

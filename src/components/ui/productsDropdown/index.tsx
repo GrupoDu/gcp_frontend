@@ -3,12 +3,12 @@
 import React, { useRef, useState } from "react";
 import FilterDropdownBase from "../filterDropdown";
 import { useFetch } from "@/hooks/useFetch";
-import { Product } from "@/types/product.type";
+import { Product } from "@/types/product.interface";
 import { useRouter, useSearchParams } from "next/navigation";
 import { handleFilterChange } from "@/utils/handleFilterChange";
 
 const ProductsDropdown = () => {
-  const { data: products } = useFetch<Product[]>("products");
+  const { data: products } = useFetch<Product[]>("product");
   const [productFilter, setProductFilter] = useState("");
   const productFilterParam = useRef("");
   const router = useRouter();
@@ -34,7 +34,7 @@ const ProductsDropdown = () => {
         todos
       </option>
       {products?.map((product, index) => (
-        <option key={product.product_uuid} data-key={index}>
+        <option key={product.productUuid} data-key={index}>
           {product.acronym}
         </option>
       ))}

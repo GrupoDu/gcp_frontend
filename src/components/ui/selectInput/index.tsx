@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { InputType } from "@/types/input.type";
+import { InputType } from "@/types/input.interface";
 import { ChangeEvent } from "react";
 
 export type SelectOption = {

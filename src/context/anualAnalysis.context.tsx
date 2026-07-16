@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { AnualAnalysis } from "@/types/anualAnalysis.type";
+import { AnualAnalysis } from "@/types/anualAnalysis.interface";
 
 interface AnualAnalysisContextType {
   anualAnalysis: AnualAnalysis[] | undefined;

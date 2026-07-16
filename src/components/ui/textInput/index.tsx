@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { InputType } from "@/types/input.type";
+import { InputType } from "@/types/input.interface";
 
 interface TextInputProps extends InputType {
   type: "text" | "email" | "password" | "number";

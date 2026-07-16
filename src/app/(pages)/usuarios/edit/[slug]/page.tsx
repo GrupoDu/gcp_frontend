@@ -14,7 +14,7 @@ const UserEditPage = async ({ params }: { params: Promise<{ slug: string }> }) =
       <main className="mainContainer">
         <h3>Editar usuário</h3>
         <UserProvider>
-          <UserForm isEdit={true} user_id={slug} />
+          <UserForm isEdit={true} userId={slug} />
         </UserProvider>
       </main>
     </div>

@@ -5,7 +5,7 @@ import EditButton from "@/components/editButton";
 
 type CardRegisterProps = {
   status: string;
-  register_id: string;
+  registerId: string;
   title: string;
   date: string;
   description: string;
@@ -21,8 +21,8 @@ const CardProductionOrder = (props: CardRegisterProps) => {
         <div className={styles.status} style={{ backgroundColor: statusColor }}></div>
         <h3>{props.title}</h3>
         <div className={styles.buttons}>
-          {props.status === "Pendente" && <EditButton href={`/producao/edit/${props.register_id}`} />}
-          <DeleteButton endpoint="production-orders" uuid={props.register_id} refetch={props.refetch} />
+          {props.status === "Pendente" && <EditButton href={`/producao/edit/${props.registerId}`} />}
+          <DeleteButton endpoint="production-order" uuid={props.registerId} refetch={props.refetch} />
         </div>
       </div>
       <span>{props.date}</span>
@@ -32,7 +32,7 @@ const CardProductionOrder = (props: CardRegisterProps) => {
       ) : (
         <p className={styles.noObservation}>Registro sem observação</p>
       )}
-      <LinkButton color="black" fullWidth={true} textAlign="center" href={`/producao/${props.register_id}`}>
+      <LinkButton color="black" fullWidth={true} textAlign="center" href={`/producao/${props.registerId}`}>
         Visualizar ordem de produção
       </LinkButton>
     </div>

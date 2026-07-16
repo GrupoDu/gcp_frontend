@@ -7,7 +7,7 @@ import UserRoleFilter from "../userRoleFilter";
 import { UserProvider } from "@/providers/users.provider";
 import ListItem from "../userListItem";
 import { useSearchParams } from "next/navigation";
-import { User } from "@/types/user.type";
+import { User } from "@/types/user.interface";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useFetch } from "@/hooks/useFetch";
 
@@ -15,10 +15,10 @@ const UserListContainer = () => {
   const { data: users, refetch } = useFetch<User[]>("users");
   const searchParams = useSearchParams();
   const searchFilterParam = searchParams.get("name");
-  const userRoleFilter = searchParams.get("user_role");
+  const userRoleFilter = searchParams.get("userRole");
   const userListFiltered = users?.filter(
     (user) =>
-      (userRoleFilter ? user.user_role === userRoleFilter : true) &&
+      (userRoleFilter ? user.userRole === userRoleFilter : true) &&
       (searchFilterParam ? user.email.includes(searchFilterParam) || user.name.includes(searchFilterParam) : true),
   );
 
@@ -43,8 +43,8 @@ const UserListContainer = () => {
           <span className={styles.actionsSpan}>Ações</span>
         </div>
         {userListFiltered?.map((user) => (
-          <li key={user.user_uuid}>
-            <ListItem deleteButtonEndpoint={`/usuarios/${user.user_uuid}`} refetch={refetch} userInfos={user} />
+          <li key={user.userUuid}>
+            <ListItem deleteButtonEndpoint={`/usuarios/${user.userUuid}`} refetch={refetch} userInfos={user} />
           </li>
         ))}
       </ul>

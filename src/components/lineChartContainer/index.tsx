@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import { useAnualAnalysis } from "@/hooks/useAnualAnalysis";
 import { FaChartLine } from "react-icons/fa";
 import { LineChart } from "@mui/x-charts";
-import { AnualAnalysis } from "@/types/anualAnalysis.type";
+import { AnualAnalysis } from "@/types/anualAnalysis.interface";
 
 const LineChartContainer = () => {
   const { anualAnalysis } = useAnualAnalysis();
@@ -24,7 +24,7 @@ const LineChartContainer = () => {
     "Dezembro",
   ];
 
-  if (!anualAnalysis || anualAnalysis === undefined) {
+  if (!anualAnalysis) {
     return (
       <div className={`${styles.linearChartContainer} ${styles.chartContainer}`}>
         <div className={styles.chartTitle}>
@@ -53,12 +53,12 @@ const LineChartContainer = () => {
                 color: "#4caf50",
               },
               {
-                data: anualAnalysis?.map((item: AnualAnalysis) => item.not_delivered || 0) as number[],
+                data: anualAnalysis?.map((item: AnualAnalysis) => item.notDelivered || 0) as number[],
                 label: "Não finalizado",
                 color: "#f44336",
               },
               {
-                data: anualAnalysis?.map((item: AnualAnalysis): number => item.total_production || 0),
+                data: anualAnalysis?.map((item: AnualAnalysis): number => item.totalProduction || 0),
                 label: "Produção total",
                 color: "#2196f3",
               },

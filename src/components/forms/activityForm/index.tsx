@@ -11,8 +11,8 @@ import LinkButton from "@/components/linkButton";
 import SubmitButton from "@/components/ui/submitButton";
 import { api } from "@/services/api";
 import { useFetch } from "@/hooks/useFetch";
-import { Product } from "@/types/product.type";
-import { Employee } from "@/types/employee.type";
+import { Product } from "@/types/product.interface";
+import { Employee } from "@/types/employee.interface";
 
 const ActivityForm = () => {
   const [employee, setEmployee] = useState("");
@@ -26,7 +26,7 @@ const ActivityForm = () => {
   const searchParams = useSearchParams();
   const employeeRole = searchParams.get("employee");
   const productOptions = products?.map((product) => ({
-    value: product.product_uuid!,
+    value: product.productUuid!,
     label: product.name,
   }));
 
@@ -160,9 +160,9 @@ const ActivityForm = () => {
 
 function selectFormatter(list: Employee[] | undefined, employeeRole: string | null): SelectOption[] | undefined {
   return list?.map((employee) => {
-    if (employee.employee_role === employeeRole) {
+    if (employee.employeeRole === employeeRole) {
       return {
-        value: employee.employee_uuid!,
+        value: employee.employeeUuid!,
         label: employee.name,
       };
     }

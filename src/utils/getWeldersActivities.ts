@@ -1,4 +1,4 @@
-import { WeldersActivities } from "@/types/weldersActivities.type";
+import { WeldersActivities } from "@/types/weldersActivities.interface";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
 

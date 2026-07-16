@@ -1,11 +1,10 @@
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
-import { ApiConfig } from "@/types/apiConfig.type";
-import { PageConfig } from "@/types/pageConfig.type";
-import { AssistantsRegisters } from "../types/assistantsRegister.type";
+import { ApiConfig } from "@/types/apiConfig.interface";
+import { PageConfig } from "@/types/pageConfig.interface";
+import { AssistantsRegisters } from "@/types/assistantsRegister.interface";
 import React from "react";
-import { ErrorResponse } from "@/types/errorResponse.type";
-import { debugLogger } from "@/utils/logger";
+import { ErrorResponse } from "@/types/errorResponse.interface";
 
 /**
  * Função para lidar com o envio de formulários
@@ -18,7 +17,7 @@ import { debugLogger } from "@/utils/logger";
  */
 export async function handleFormSubmit(
   e: React.SubmitEvent<HTMLFormElement>,
-  apiConfig: ApiConfig,
+  apiConfig: ApiConfig<Record<string, unknown>>,
   pageConfig: PageConfig,
 ) {
   e.preventDefault();
@@ -34,10 +33,10 @@ export async function handleFormSubmit(
 
   let deadline: string | undefined;
 
-  if (bodyValues.production_order_deadline) {
-    deadline = bodyValues.production_order_deadline.toString();
-  } else if (bodyValues.goal_deadline) {
-    deadline = bodyValues.goal_deadline.toString();
+  if (bodyValues.productionOrderDeadline) {
+    deadline = bodyValues.productionOrderDeadline.toString();
+  } else if (bodyValues.goalDeadline) {
+    deadline = bodyValues.goalDeadline.toString();
   }
 
   const isDeadlineOnPast = deadline && new Date(deadline) < new Date();
@@ -51,10 +50,10 @@ export async function handleFormSubmit(
     const postResponse = await handlePostRequest(method, endpoint, bodyValues);
     const putResponse = await handlePutRequest(method, endpoint, bodyValues);
     const response = postResponse || putResponse;
-    const production_order_uuid = response?.data.data.production_order_uuid;
+    const productionOrderUuid = response?.data.data.productionOrderUuid;
 
     // Só cria o registro de atividade de assistente se assistantsRegister existir
-    createAssistantPORegister(production_order_uuid, assistantsRegister);
+    createAssistantPORegister(productionOrderUuid, assistantsRegister);
 
     router?.back();
     return toast.success("Operação realizada com sucesso!");
@@ -76,16 +75,10 @@ function createAssistantPORegister(productionOrderId: string, assistantsRegister
 
   try {
     assistantsRegisters.forEach(async (assistant) => {
-      debugLogger(`
-      ===||> createAssistantPORegister <||===
-      - production_order_uuid: ${productionOrderId} 
-      - assistant_uuid: ${assistant.assistant_uuid}
-      - assistant_as: ${assistant.assistant_as}
-      `);
-      await api.post("/assistants-po-registers", {
-        production_order_uuid: productionOrderId,
-        assistant_uuid: assistant.assistant_uuid,
-        assistant_as: assistant.assistant_as,
+      await api.post("/assistants-po-register", {
+        productionOrderUuid: productionOrderId,
+        assistantUuid: assistant.assistantUuid,
+        assistantAs: assistant.assistantAs,
       });
     });
   } catch (err) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { socket } from "@/socket";
-import { ProductionOrder } from "@/types/productionOrder.type";
+import { ProductionOrder } from "@/types/productionOrder.interface";
 import { useEffect, useState } from "react";
 
 export function useSocket() {

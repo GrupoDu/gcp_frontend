@@ -1,7 +1,7 @@
 import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
-import { ErrorResponse } from "@/types/errorResponse.type";
+import { ErrorResponse } from "@/types/errorResponse.interface";
 import React from "react";
 
 /**
@@ -36,7 +36,7 @@ export async function handleDelivery(
 
     await employeeUpdateActivityQuantity(employeeUuid);
     await incrementEmployeeProducedQuantity(employeeUuid, incrementEmployeeUpdateBody);
-    await incrementDeliveredProductionOrderAnalysis(productionOrderBody.product_quantity as number);
+    await incrementDeliveredProductionOrderAnalysis(productionOrderBody.productQuantity as number);
 
     if (redirectHref && router) {
       router.push(redirectHref);

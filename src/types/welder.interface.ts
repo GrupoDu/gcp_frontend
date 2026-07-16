@@ -1,4 +1,4 @@
 export interface Welder {
-  employee_uuid: string;
+  employeeUuid: string;
   name: string;
 }

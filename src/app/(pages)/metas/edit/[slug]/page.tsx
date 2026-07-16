@@ -16,7 +16,7 @@ const GoalEditPage = async ({ params }: { params: Promise<{ slug: string }> }) =
         <h3>Editar meta</h3>
         <GoalProvider>
           <EmployeeProvider>
-            <GoalForm isEdit={true} goal_id={slug} />
+            <GoalForm isEdit={true} goalId={slug} />
           </EmployeeProvider>
         </GoalProvider>
       </main>

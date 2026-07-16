@@ -2,7 +2,7 @@
 
 import { UserContext } from "@/context/user.context";
 import { useFetch } from "@/hooks/useFetch";
-import { User } from "@/types/user.type";
+import { User } from "@/types/user.interface";
 import { useMemo } from "react";
 
 export function UserProvider({ children }: { children: React.ReactNode }) {

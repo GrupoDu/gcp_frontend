@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import DeleteButton from "../deleteButton";
 import EditButton from "../editButton";
 import { usePathname } from "next/navigation";
-import { UserPublic } from "@/types/user.type";
+import { UserPublic } from "@/types/user.interface";
 import { AnalysisButton } from "@/components/analysisButton";
 
 type ListItemProps = {
@@ -15,19 +15,19 @@ type ListItemProps = {
 const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) => {
   const pathname = usePathname();
   const isEmployeePage = pathname.includes("funcionarios");
-  const { user_uuid, user_role, name, email } = userInfos;
+  const { userUuid, userRole, name, email } = userInfos;
 
   return (
     <tr>
-      <td>{user_uuid}</td>
+      <td>{userUuid}</td>
       <td>{name}</td>
       {email && <td>{email}</td>}
-      <td>{user_role}</td>
+      <td>{userRole}</td>
       <td>
         <div className={styles.buttons}>
-          <EditButton href={`${pathname}/edit/${userInfos.user_uuid}`} />
-          {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.user_uuid}`} />}
-          <DeleteButton endpoint={deleteButtonEndpoint} refetch={refetch} uuid={user_uuid} />
+          <EditButton href={`${pathname}/edit/${userInfos.userUuid}`} />
+          {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.userUuid}`} />}
+          <DeleteButton endpoint={deleteButtonEndpoint} refetch={refetch} uuid={userUuid} />
         </div>
       </td>
     </tr>

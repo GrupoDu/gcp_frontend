@@ -10,17 +10,17 @@ import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
 import { useFetch } from "@/hooks/useFetch";
-import { User } from "@/types/user.type";
+import { User } from "@/types/user.interface";
 
 const UserListContainer = () => {
   const { data: users, refetch } = useFetch<User[]>("users");
   const { isLoading } = useLoading();
   const searchParams = useSearchParams();
-  const userRoleFilter = searchParams.get("user_role");
+  const userRoleFilter = searchParams.get("userRole");
   const searchFilter = searchParams.get("name");
   const userListFiltered = users?.filter(
     (user) =>
-      (userRoleFilter ? user.user_role === userRoleFilter : true) &&
+      (userRoleFilter ? user.userRole === userRoleFilter : true) &&
       (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
   );
 
@@ -49,7 +49,7 @@ const UserListContainer = () => {
             </thead>
             <tbody>
               {userListFiltered?.map((user) => (
-                <ListItem key={user.user_uuid} deleteButtonEndpoint="users" refetch={refetch} userInfos={user} />
+                <ListItem key={user.userUuid} deleteButtonEndpoint="users" refetch={refetch} userInfos={user} />
               ))}
             </tbody>
           </table>

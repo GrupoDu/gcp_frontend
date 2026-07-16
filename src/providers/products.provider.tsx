@@ -2,7 +2,7 @@
 
 import { ProductContext } from "@/context/product.context";
 import { useFetch } from "@/hooks/useFetch";
-import { Product } from "@/types/product.type";
+import { Product } from "@/types/product.interface";
 import { useMemo } from "react";
 
 export function ProductProvider({ children }: { children: React.ReactNode }) {

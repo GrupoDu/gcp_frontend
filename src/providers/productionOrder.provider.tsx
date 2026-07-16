@@ -2,11 +2,11 @@
 
 import { ProductionOrderContext } from "@/context/productionOrder.context";
 import { useFetch } from "@/hooks/useFetch";
-import { ProductionOrder } from "@/types/productionOrder.type";
+import { ProductionOrder } from "@/types/productionOrder.interface";
 import { useMemo } from "react";
 
 export function ProductionOrderProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<ProductionOrder[]>("production-orders");
+  const { data, err, status, refetch } = useFetch<ProductionOrder[]>("production-order");
 
   const productionOrders = useMemo(
     () => ({

@@ -1,8 +1,8 @@
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 
 export function getEmployeeRoles(employees: Employee[] | undefined) {
-  const welders = employees?.filter((employee) => employee.employee_role === "soldador");
-  const assistants = employees?.filter((employee) => employee.employee_role === "assistentes");
+  const welders = employees?.filter((employee) => employee.employeeRole === "Soldador");
+  const assistants = employees?.filter((employee) => employee.employeeRole === "Assistente");
 
   return { welders, assistants };
 }

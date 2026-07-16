@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import SelectInput from "@/components/ui/selectInput";
 import { useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 import TextInput from "@/components/ui/textInput";
 import { DefaultButton } from "@/components/ui/defaultButton";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ export const AssistantActivityForm = () => {
   const { data: assistants } = useFetch<Employee[]>("employees/assistants");
 
   const assistantsOptions = assistants?.map((assistants) => ({
-    value: assistants.employee_uuid || "",
+    value: assistants.employeeUuid || "",
     label: assistants.name,
   }));
   const activityOptions = [

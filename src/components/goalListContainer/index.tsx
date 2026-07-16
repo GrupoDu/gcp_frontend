@@ -12,12 +12,12 @@ import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
 import { useFetch } from "@/hooks/useFetch";
-import { Goal } from "@/types/goal.type";
+import { Goal } from "@/types/goal.interface";
 import { useSearchParams } from "next/navigation";
 import OpenMobileProvider from "@/providers/openMobile.provider";
 
 const GoalListContainer = () => {
-  const { data: goals, refetch } = useFetch<Goal[]>("goals");
+  const { data: goals, refetch } = useFetch<Goal[]>("goal");
   const searchParams = useSearchParams();
   const searchFilter = searchParams.get("title");
   const statusFilter = searchParams.get("status");
@@ -25,9 +25,9 @@ const GoalListContainer = () => {
   const { isLoading } = useLoading();
   const filteredGoals = goals?.filter(
     (goal) =>
-      (searchFilter ? goal.goal_title.toLowerCase().includes(searchFilter.toLowerCase()) : true) &&
-      (statusFilter ? goal.goal_status === statusFilter : true) &&
-      (deadlineFilter ? goal.goal_deadline.toString().includes(deadlineFilter) : true),
+      (searchFilter ? goal.goalTitle.toLowerCase().includes(searchFilter.toLowerCase()) : true) &&
+      (statusFilter ? goal.goalStatus === statusFilter : true) &&
+      (deadlineFilter ? goal.goalDeadline.toString().includes(deadlineFilter) : true),
   );
 
   return (

@@ -12,17 +12,17 @@ const LoginCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginTries, setLoginTries] = useState(0);
-  const [user_role, setUserRole] = useState("");
+  const [userRole, setUserRole] = useState("Admin");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   async function tryAutoLogin() {
     setIsLoading(true);
     try {
-      const response = await api.get("/login/verify");
+      const response = await api.get("/auth/verify");
 
       const autoLoginPayload = response.data;
-      const isAdmin = autoLoginPayload.user_role === "Admin";
+      const isAdmin = autoLoginPayload.userRole === "Admin";
 
       if (isAdmin) return router.push("/dashboard");
 
@@ -40,15 +40,16 @@ const LoginCredentials = () => {
     setIsLoading(true);
 
     try {
-      const response = await api.post("/login", {
+      const response = await api.post("/auth/login", {
         email,
         password,
-        user_role: user_role,
+        userRole: userRole,
       });
 
       const user = response.data.data.user;
+      console.log(user);
 
-      redirectByUserRole(user.user_role, router, setUserRole);
+      redirectByUserRole(user.userRole, router, setUserRole);
     } catch (err) {
       const error = err as Error;
       setLoginTries((prevTries) => prevTries + 1);
@@ -58,17 +59,18 @@ const LoginCredentials = () => {
   }
 
   useEffect(() => {
-    tryAutoLogin();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // tryAutoLogin();
   }, []);
 
   return (
     <form onSubmit={(e) => handleLogin(e)} className={styles.loginCredentials}>
       <label>
         <span>Tipo de usuário</span>
-        <select value={user_role} onChange={(e) => setUserRole(e.target.value)} name="user-type-input">
+        <select value={userRole} onChange={(e) => setUserRole(e.target.value)} name="user-type-input">
           <option value="">Selecionar tipo</option>
-          <option value="admin">Admin</option>
-          <option value="supervisor">Supervisor</option>
+          <option value="Admin">Admin</option>
+          <option value="Supervisor">Supervisor</option>
         </select>
       </label>
       <label className={styles.loginLabel}>
@@ -105,15 +107,15 @@ const LoginCredentials = () => {
   );
 };
 
-function redirectByUserRole(user_role: string, router: AppRouterInstance, setUserRole: (value: string) => void) {
-  const isAdmin = user_role === "admin";
-  const isSupervisor = user_role === "supervisor";
+function redirectByUserRole(userRole: string, router: AppRouterInstance, setUserRole: (value: string) => void) {
+  const isAdmin = userRole === "Admin";
+  const isSupervisor = userRole === "Supervisor";
 
   if (isAdmin) {
-    setUserRole(user_role);
+    setUserRole(userRole);
     return router.push("/dashboard");
   } else if (isSupervisor) {
-    setUserRole(user_role);
+    setUserRole(userRole);
     return router.push("/producao");
   } else {
     throw new Error("Usuário não encontrado.");

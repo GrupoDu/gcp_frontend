@@ -19,22 +19,22 @@ const EmployeeAnalysisContainer = ({ employeeRole }: { employeeRole: string }) =
   // Filtra apenas os soldadores e mapeia os dados necessários
   const weldersData: EmployeeData[] =
     employeesData
-      ?.filter((employee) => employee.employee_role === "soldador")
+      ?.filter((employee) => employee.employeeRole === "soldador")
       .map((employee) => ({
         name: employee.name || "Sem nome",
-        delivered: employee.delivered_activities_quantity || 0,
-        notDelivered: employee.not_delivered_activities_quantity || 0,
-        produced: employee.produced_quantity || 0,
+        delivered: employee.deliveredActivitiesQuantity || 0,
+        notDelivered: employee.notDeliveredActivitiesQuantity || 0,
+        produced: employee.producedQuantity || 0,
       })) || [];
 
   const assistantsData: EmployeeData[] =
     employeesData
-      ?.filter((employee) => employee.employee_role === "assistente")
+      ?.filter((employee) => employee.employeeRole === "assistente")
       .map((employee) => ({
         name: employee.name || "Sem nome",
-        delivered: employee.delivered_activities_quantity || 0,
-        notDelivered: employee.not_delivered_activities_quantity || 0,
-        produced: employee.produced_quantity || 0,
+        delivered: employee.deliveredActivitiesQuantity || 0,
+        notDelivered: employee.notDeliveredActivitiesQuantity || 0,
+        produced: employee.producedQuantity || 0,
       })) || [];
 
   const targetEmployees = employeeRole === "soldadores" ? weldersData : assistantsData;

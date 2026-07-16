@@ -4,12 +4,12 @@ import styles from "./styles.module.scss";
 import CardProductionOrder from "../ui/cardProductionOrder";
 import { dataFormater } from "@/utils/dataFormater";
 import { useSearchParams } from "next/navigation";
-import { ProductionOrder } from "@/types/productionOrder.type";
+import { ProductionOrder } from "@/types/productionOrder.interface";
 import { useFetch } from "@/hooks/useFetch";
 import DataNotFound from "@/components/dataNotFound";
 
 const ProductionOrderList = () => {
-  const { data: productionOrders, refetch } = useFetch<ProductionOrder[]>("production-orders");
+  const { data: productionOrders, refetch } = useFetch<ProductionOrder[]>("production-order");
   const searchParams = useSearchParams();
   const productFilter = searchParams.get("product");
   const statusFilter = searchParams.get("status");
@@ -18,9 +18,9 @@ const ProductionOrderList = () => {
   const filteredList = productionOrders?.filter(
     (order) =>
       order.products.name === productFilter &&
-      order.production_order_status === statusFilter &&
-      order.production_order_deadline.toISOString() === deadlineFilter &&
-      order.welders?.employee_uuid === employeeFilter,
+      order.productionOrderStatus === statusFilter &&
+      order.productionOrderDeadline.toISOString() === deadlineFilter &&
+      order.welders?.employeeUuid === employeeFilter,
   );
   const isListEmpty = !filteredList || filteredList.length < 1;
 
@@ -35,13 +35,13 @@ function displayProductionOrders(refetch: () => void, orders?: ProductionOrder[]
   if (!orders || orders.length < 1) return <DataNotFound />;
 
   orders?.map((order) => (
-    <li key={order.production_order_uuid}>
+    <li key={order.productionOrderUuid}>
       <CardProductionOrder
-        date={dataFormater(order.production_order_deadline)}
-        description={order.production_order_description || ""}
+        date={dataFormater(order.productionOrderDeadline)}
+        description={order.productionOrderDescription || ""}
         title={formatTitle(order)}
-        status={order.production_order_status}
-        register_id={order?.production_order_uuid || ""}
+        status={order.productionOrderStatus}
+        registerId={order?.productionOrderUuid || ""}
         refetch={refetch}
       />
     </li>
@@ -49,7 +49,7 @@ function displayProductionOrders(refetch: () => void, orders?: ProductionOrder[]
 }
 
 function formatTitle(production_order: ProductionOrder) {
-  return `${production_order.quantity_to_produce} ${production_order.products.acronym}`;
+  return `${production_order.toBeProduced} ${production_order.products.acronym}`;
 }
 
 export default ProductionOrderList;

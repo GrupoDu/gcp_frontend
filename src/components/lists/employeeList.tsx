@@ -9,18 +9,18 @@ import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
 import { useFetch } from "@/hooks/useFetch";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 import { useSearchParams } from "next/navigation";
 
 const EmployeeListContainer = () => {
   const { isLoading } = useLoading();
-  const { data: employees, refetch } = useFetch<Employee[]>("employees");
+  const { data: employees, refetch } = useFetch<Employee[]>("employee");
   const searchParams = useSearchParams();
   const searchFilter = searchParams.get("name");
   const employeeRoleFilter = searchParams.get("employee");
   const filteredEmployees = employees?.filter(
     (employee) =>
-      (employeeRoleFilter ? employee.employee_role === employeeRoleFilter : true) &&
+      (employeeRoleFilter ? employee.employeeRole === employeeRoleFilter : true) &&
       (searchFilter ? employee.name.includes(searchFilter) : true),
   );
 
@@ -49,13 +49,13 @@ const EmployeeListContainer = () => {
             <tbody>
               {filteredEmployees?.map((employee) => (
                 <ListItem
-                  key={employee.employee_uuid}
+                  key={employee.employeeUuid}
                   deleteButtonEndpoint="employees"
                   refetch={refetch}
                   userInfos={{
-                    user_uuid: employee.employee_uuid || "",
+                    userUuid: employee.employeeUuid || "",
                     name: employee.name,
-                    user_role: employee.employee_role,
+                    userRole: employee.employeeRole,
                   }}
                 />
               ))}

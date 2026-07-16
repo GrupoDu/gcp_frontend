@@ -1,4 +1,4 @@
-export type ErrorResponse = {
+export interface ErrorResponse {
   response: {
     data: {
       message: string;
@@ -6,4 +6,4 @@ export type ErrorResponse = {
       status: number;
     };
   };
-};
+}

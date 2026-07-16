@@ -4,9 +4,9 @@ import styles from "./styles.module.scss";
 import SelectInput from "@/components/ui/selectInput";
 import { useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 import TextInput from "@/components/ui/textInput";
-import { Product } from "@/types/product.type";
+import { Product } from "@/types/product.interface";
 import { DefaultButton } from "@/components/ui/defaultButton";
 import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
@@ -25,12 +25,12 @@ export const WelderActivityForm = () => {
   const { data: products } = useFetch<Product[]>("products");
 
   const weldersOptions = welders?.map((welder) => ({
-    value: welder.employee_uuid || "",
+    value: welder.employeeUuid || "",
     label: welder.name,
   }));
   const productsOptions =
     products?.map((product) => ({
-      value: product.product_uuid || "",
+      value: product.productUuid || "",
       label: product.acronym,
     })) || [];
   const handleTextLimitChange = (value: string) => {
@@ -49,15 +49,15 @@ export const WelderActivityForm = () => {
 
     try {
       await api.post("welders-activities/register", {
-        welder_uuid: welder,
-        product_uuid: producedProduct || null,
-        produced_quantity: producedQuantity,
-        description_general_activity: description,
-        is_general_activity: isGeneralActivity,
+        welderUuid: welder,
+        productUuid: producedProduct || null,
+        producedQuantity: producedQuantity,
+        descriptionGeneralActivity: description,
+        isGeneralActivity: isGeneralActivity,
       });
 
       toast.success("Atividade registrada com sucesso!");
-      router.push("/soldadores?page=1&per_page=13");
+      router.push("/soldadores?page=1&pageSize=13");
     } catch (err) {
       const error = err as Error;
       console.log(error.message);

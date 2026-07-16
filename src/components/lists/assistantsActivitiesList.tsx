@@ -1,13 +1,13 @@
 "use client";
 
-import { AssistantsActivities, AssistantsActivitiesPagination } from "@/types/assistantsActivities.types";
+import { AssistantsActivities, AssistantsActivitiesPagination } from "@/types/assistantsActivities.interface";
 import { dataFormater } from "@/utils/dataFormater";
 import DataNotFound from "@/components/dataNotFound";
 import { useFetch } from "@/hooks/useFetch";
 import { useSearchParams } from "next/navigation";
 import FiltersList from "@/components/filtersList";
 import { useState } from "react";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 import SelectInput from "../ui/selectInput";
 import { Pagination } from "../pagination";
 import { DateInput } from "@/components/ui/dateInput";
@@ -18,14 +18,14 @@ const AssistantsActivitiesList = () => {
 
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
-  const per_page = searchParams.get("per_page");
+  const pageSize = searchParams.get("pageSize");
   const { data: activities } = useFetch<AssistantsActivitiesPagination>(
-    `assistants-activities?page=${page}&per_page=${per_page}`,
+    `assistants-activities?page=${page}&pageSize=${pageSize}`,
   );
-  const { data: assistants } = useFetch<Employee[]>("employees/assistants");
+  const { data: assistants } = useFetch<Employee[]>("employee/assistants");
 
   const assistantsOptions = assistants?.map((assistant) => ({
-    value: assistant.employee_uuid || "",
+    value: assistant.employeeUuid || "",
     label: assistant.name,
   }));
 
@@ -62,7 +62,7 @@ const AssistantsActivitiesList = () => {
               {renderActivities(activities.assistantsActivities)}
             </table>
           </div>
-          <Pagination max_pages={activities.max_pages} />
+          <Pagination max_pages={activities.maxPages} />
         </>
       )}
     </div>
@@ -74,9 +74,9 @@ function renderActivities(activies: AssistantsActivities[]) {
     <tbody className={"listItem"} key={index}>
       <tr>
         <td>{activity.employees.name}</td>
-        <td>{activity.activity_type}</td>
-        <td>{activity.produced_quantity}</td>
-        <td>{dataFormater(activity.registered_at)}</td>
+        <td>{activity.activityType}</td>
+        <td>{activity.producedQuantity}</td>
+        <td>{dataFormater(activity.registeredAt)}</td>
       </tr>
     </tbody>
   ));

@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { WeldersActivitiesPagination } from "@/types/weldersActivities.type";
+import { WeldersActivitiesPagination } from "@/types/weldersActivities.interface";
 import { dataFormater } from "@/utils/dataFormater";
 import { useFetch } from "@/hooks/useFetch";
 import DataNotFound from "@/components/dataNotFound";
@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import FiltersList from "@/components/filtersList";
 import SelectInput from "@/components/ui/selectInput";
 import { DateInput } from "@/components/ui/dateInput";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 
 const WeldersActivitiesList = () => {
   const [registeredAtFilter, setRegisteredAtFilter] = useState("");
@@ -19,14 +19,14 @@ const WeldersActivitiesList = () => {
 
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
-  const perPage = searchParams.get("per_page");
+  const pageSize = searchParams.get("pageSize");
   const itemRef = useRef<HTMLTableRowElement | null>(null);
 
   const { data: welders } = useFetch<Employee[]>("employees/welders");
-  const { data } = useFetch<WeldersActivitiesPagination>(`welders-activities?page=${page}&per_page=${perPage}`);
+  const { data } = useFetch<WeldersActivitiesPagination>(`welders-activities?page=${page}&pageSize=${pageSize}`);
   const isListPopulated = !!data?.weldersActivities && data.weldersActivities.length > 0;
   const weldersOptions = welders?.map((welder) => ({
-    value: welder.employee_uuid || "",
+    value: welder.employeeUuid || "",
     label: welder.name,
   }));
 
@@ -67,18 +67,18 @@ const WeldersActivitiesList = () => {
                 </tr>
               </thead>
               {data?.weldersActivities.map((activity) => (
-                <tbody key={activity.welder_activity_uuid}>
+                <tbody key={activity.welderActivityUuid}>
                   <tr className={"listItem"}>
                     <td>{activity.employees.name}</td>
-                    <td>{activity.products ? activity.products.acronym : activity.description_general_activity}</td>
-                    <td>{activity.produced_quantity}</td>
-                    <td>{dataFormater(activity.registered_at)}</td>
+                    <td>{activity.products ? activity.products.acronym : activity.descriptionGeneralActivity}</td>
+                    <td>{activity.producedQuantity}</td>
+                    <td>{dataFormater(activity.registeredAt)}</td>
                   </tr>
                 </tbody>
               ))}
             </table>
           </div>
-          <Pagination max_pages={data.max_pages} />{" "}
+          <Pagination max_pages={data.maxPages} />{" "}
         </>
       )}
     </div>

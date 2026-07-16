@@ -1,4 +1,4 @@
-import { AssistantsActivities } from "@/types/assistantsActivities.types";
+import { AssistantsActivities } from "@/types/assistantsActivities.interface";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
 

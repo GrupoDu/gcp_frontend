@@ -4,35 +4,35 @@ import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import LinkButton from "@/components/linkButton";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
-import { User } from "@/types/user.type";
+import { User } from "@/types/user.interface";
 import { useUsers } from "@/hooks/useUsers";
 import { useRouter } from "next/navigation";
 import generator from "generate-password-ts";
 import SubmitButton from "@/components/ui/submitButton";
 
-const UserForm = ({ isEdit, user_id }: { isEdit?: boolean; user_id?: string }) => {
+const UserForm = ({ isEdit, userId }: { isEdit?: boolean; userId?: string }) => {
   const { usersData } = useUsers();
   const router = useRouter();
   const [canEdit, setCanEdit] = useState(false);
   const password = generator.generate({ length: 20, numbers: true });
   const [userInfosFields, setUserInfosFields] = useState<User>({
-    user_uuid: "",
+    userUuid: "",
     name: "",
-    user_role: "",
+    userRole: "",
     email: "",
     password: password,
   });
 
   useEffect(() => {
-    if (isEdit && user_id) {
-      const fetchedUser = usersData?.find((user) => user.user_uuid === user_id);
+    if (isEdit && userId) {
+      const fetchedUser = usersData?.find((user) => user.userUuid === userId);
 
       if (fetchedUser) {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setUserInfosFields({
-          user_uuid: fetchedUser.user_uuid,
+          userUuid: fetchedUser.userUuid,
           name: fetchedUser.name,
-          user_role: fetchedUser.user_role,
+          userRole: fetchedUser.userRole,
           email: fetchedUser.email,
         });
       }
@@ -40,9 +40,9 @@ const UserForm = ({ isEdit, user_id }: { isEdit?: boolean; user_id?: string }) =
       setCanEdit(!!fetchedUser);
     }
     setCanEdit(true);
-  }, [isEdit, user_id, usersData]);
+  }, [isEdit, userId, usersData]);
 
-  const endpoint = isEdit ? `users/${user_id}` : "users";
+  const endpoint = isEdit ? `users/${userId}` : "users";
   const method = isEdit ? "PUT" : "POST";
 
   return (
@@ -70,11 +70,11 @@ const UserForm = ({ isEdit, user_id }: { isEdit?: boolean; user_id?: string }) =
       <label>
         <span>Tipo de usuário</span>
         <select
-          value={userInfosFields.user_role}
+          value={userInfosFields.userRole}
           onChange={(e) =>
             setUserInfosFields({
               ...userInfosFields,
-              user_role: e.target.value,
+              userRole: e.target.value,
             })
           }
           name="input-function"

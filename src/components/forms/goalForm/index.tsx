@@ -6,47 +6,47 @@ import { useEmployeeRole } from "@/hooks/useEmployeeRole";
 import LinkButton from "@/components/linkButton";
 import { useRouter } from "next/navigation";
 import { useGoal } from "@/hooks/useGoal";
-import { Goal } from "@/types/goal.type";
+import { Goal } from "@/types/goal.interface";
 import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import SubmitButton from "@/components/ui/submitButton";
 
-const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) => {
+const GoalForm = ({ isEdit, goalId }: { isEdit: boolean; goalId?: string }) => {
   const { welders } = useEmployeeRole();
   const { goalsData } = useGoal();
   const [canEdit, setCanEdit] = useState(false);
   const router = useRouter();
-  const [goalField, setGoalField] = useState<Goal>({
-    goal_title: "",
-    goal_description: "",
-    goal_type: "geral",
-    goal_deadline: "",
-    employee_goal: null,
+  const [goalField, setGoalField] = useState<Record<string, unknown>>({
+    goalTitle: "",
+    goalDescription: "",
+    goalType: "geral",
+    goalDeadline: "",
+    employeeGoal: null,
   });
 
   useEffect(() => {
     if (isEdit && goalsData) {
-      const fetchedGoal = goalsData?.find((goal) => goal.goal_uuid === goal_id);
+      const fetchedGoal = goalsData?.find((goal) => goal.goalUuid === goalId);
 
       if (fetchedGoal) {
-        const formattedDeadline = fetchedGoal && new Date(fetchedGoal.goal_deadline).toISOString();
+        const formattedDeadline = fetchedGoal && new Date(fetchedGoal.goalDeadline).toISOString();
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setGoalField({
-          goal_title: fetchedGoal?.goal_title || "",
-          goal_description: fetchedGoal?.goal_description || "",
-          goal_type: fetchedGoal?.goal_type || "geral",
-          goal_deadline: formattedDeadline || "",
-          employee_goal: fetchedGoal?.employee_goal || null,
+          goalTitle: fetchedGoal?.goalTitle || "",
+          goalDescription: fetchedGoal?.goalDescription || "",
+          goalType: fetchedGoal?.goalType || "geral",
+          goalDeadline: formattedDeadline || "",
+          employeeGoal: fetchedGoal?.employeeGoal || null,
         });
       }
-      setCanEdit(fetchedGoal?.goal_status === "Pendente");
+      setCanEdit(fetchedGoal?.goalStatus === "Pendente");
     } else {
       setCanEdit(true);
     }
-  }, [isEdit, goalsData, goal_id]);
+  }, [isEdit, goalsData, goalId]);
 
   const method = isEdit ? "PUT" : "POST";
-  const endpoint = isEdit ? `goals/${goal_id}` : "goals";
+  const endpoint = isEdit ? `goal/${goalId}` : "goal";
 
   return (
     <form
@@ -60,17 +60,17 @@ const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) =>
           onChange={(e) =>
             setGoalField({
               ...goalField,
-              goal_deadline: new Date(e.target.value).toISOString(),
+              goalDeadline: new Date(e.target.value).toISOString(),
             })
           }
-          value={goalField.goal_deadline.split("T")[0]}
+          value={String(goalField.goalDeadline).split("T")[0]}
         />
       </label>
       <label className={styles.titleInput}>
         <span>Título</span>
         <input
-          value={goalField.goal_title}
-          onChange={(e) => setGoalField({ ...goalField, goal_title: e.target.value })}
+          value={String(goalField.goalTitle)}
+          onChange={(e) => setGoalField({ ...goalField, goalTitle: e.target.value })}
           type="text"
           placeholder="Título da nova meta"
         />
@@ -78,36 +78,36 @@ const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) =>
       <label className={styles.descriptionInput}>
         <span>Descrição</span>
         <textarea
-          value={goalField.goal_description}
-          onChange={(e) => setGoalField({ ...goalField, goal_description: e.target.value })}
+          value={String(goalField.goalDescription)}
+          onChange={(e) => setGoalField({ ...goalField, goalDescription: e.target.value })}
         />
       </label>
       <label className={`${styles.goalType}`}>
         <span>Tipo de meta</span>
         <select
           name="goal-type"
-          value={goalField.goal_type}
-          onChange={(e) => setGoalField({ ...goalField, goal_type: e.target.value })}
+          value={String(goalField.goalType)}
+          onChange={(e) => setGoalField({ ...goalField, goalType: e.target.value })}
         >
           <option value="geral">Geral</option>
           <option value="funcionario">Funcionário</option>
         </select>
       </label>
       <label
-        className={`${styles.employeeGoalInput} ${goalField.goal_type !== "funcionario" && styles.isNotEmployeeRole}`}
+        className={`${styles.employeeGoalInput} ${goalField.goalType !== "funcionario" && styles.isNotEmployeeRole}`}
       >
         <span>Funcionário</span>
         <select
-          disabled={goalField.goal_type !== "funcionario"}
-          value={goalField.employee_goal || ""}
+          disabled={goalField.goalType !== "funcionario"}
+          value={String(goalField.employeeGoal) || ""}
           onChange={(e) => {
-            setGoalField({ ...goalField, employee_goal: e.target.value });
+            setGoalField({ ...goalField, employeeGoal: e.target.value });
           }}
           name="employee-goal"
         >
           <option value="">Selecionar funcionário</option>
           {welders?.map((welder) => (
-            <option key={welder.employee_uuid} value={welder.employee_uuid}>
+            <option key={welder.employeeUuid} value={welder.employeeUuid}>
               {welder.name}
             </option>
           ))}

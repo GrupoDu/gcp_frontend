@@ -7,9 +7,10 @@ import { LineChart, BarChart } from "@mui/x-charts";
 import Loading from "../ui/loading";
 import styles from "./styles.module.scss";
 import { useFetch } from "@/hooks/useFetch";
-import { EmployeeAnalysis } from "@/types/employeeAnalysis.type";
+import { EmployeeAnalysis } from "@/types/employeeAnalysis.interface";
 import { useLoading } from "@/hooks/useLoading";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { CiCalendar } from "react-icons/ci";
 
 interface EmployeeAnalysisDetailProps {
   employeeUuid: string;
@@ -38,8 +39,8 @@ const EmployeeAnalysisDetail = ({ employeeUuid }: EmployeeAnalysisDetailProps) =
     );
   }
 
-  const isWelder = employeeAnalysis.employees.employee_role === "soldador";
-  const isAssistant = employeeAnalysis.employees.employee_role === "assistente";
+  const isWelder = employeeAnalysis.employees.employeeRole === "soldador";
+  const isAssistant = employeeAnalysis.employees.employeeRole === "assistente";
   const actualMonth = new Date().getMonth();
   const lastProductionCount = employeeAnalysisFullYear.find((analysis) => analysis.month === actualMonth - 1);
 
@@ -60,7 +61,7 @@ const EmployeeAnalysisDetail = ({ employeeUuid }: EmployeeAnalysisDetailProps) =
 
   const lineChartSeries = [
     {
-      data: employeeAnalysisFullYear.map((analysis) => analysis.monthly_total_production) || [],
+      data: employeeAnalysisFullYear.map((analysis) => analysis.monthlyTotalProduction) || [],
       label: "Produção Total (un)",
       color: "#2B79DE",
     },
@@ -76,15 +77,15 @@ const EmployeeAnalysisDetail = ({ employeeUuid }: EmployeeAnalysisDetailProps) =
     },
   ];
 
-  const getProducts = isWelder && employeeAnalysis.full_products_analysis;
-  const getActivities = isAssistant && employeeAnalysis.full_activity_analysis;
+  const getProducts = isWelder && employeeAnalysis.fullProductsAnalysis;
+  const getActivities = isAssistant && employeeAnalysis.fullActivityAnalysis;
   const barChartDataName = () => {
     if (getProducts) return getProducts?.map((product) => product.product?.name || "Solda Geral");
-    if (getActivities) return getActivities.map((activity) => activity.activity_name);
+    if (getActivities) return getActivities.map((activity) => activity.activityName);
     return [];
   };
   const barChartDataCount = () => {
-    if (getProducts) return getProducts.map((product) => product.total_quantity);
+    if (getProducts) return getProducts.map((product) => product.totalQuantity);
     if (getActivities) return getActivities.map((activity) => activity.count);
     return [];
   };
@@ -119,7 +120,7 @@ const EmployeeAnalysisDetail = ({ employeeUuid }: EmployeeAnalysisDetailProps) =
           </div>
           <div className={styles.info}>
             <h2 className={styles.name}>{employeeAnalysis.employees.name}</h2>
-            <span className={styles.role}>{employeeAnalysis.employees.employee_role}</span>
+            <span className={styles.role}>{employeeAnalysis.employees.employeeRole}</span>
           </div>
         </div>
         <div className={`${styles.statCard} ${styles.highest}`}>
@@ -128,17 +129,17 @@ const EmployeeAnalysisDetail = ({ employeeUuid }: EmployeeAnalysisDetailProps) =
           </div>
           <div className={styles.info}>
             <span className={styles.label}>Produção passada</span>
-            <span className={styles.value}>{lastProductionCount?.monthly_total_production || 0} un</span>
+            <span className={styles.value}>{lastProductionCount?.monthlyTotalProduction || 0} un</span>
             <span className={styles.subText}>{monthNames[lastProductionCount?.month || 0 - 1 || 1]}</span>
           </div>
         </div>
         <div className={`${styles.statCard} ${styles.lowest}`}>
           <div className={styles.iconWrapper}>
-            <FaArrowDown />
+            <CiCalendar />
           </div>
           <div className={styles.info}>
             <span className={styles.label}>Produção atual</span>
-            <span className={styles.value}>{employeeAnalysis.monthly_total_production || 0} un</span>
+            <span className={styles.value}>{employeeAnalysis.monthlyTotalProduction || 0} un</span>
             <span className={styles.subText}>{monthNames[employeeAnalysis.month || 1]}</span>
           </div>
         </div>

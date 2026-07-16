@@ -2,7 +2,7 @@
 
 import { EmployeeContext } from "@/context/employee.context";
 import { useFetch } from "@/hooks/useFetch";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 import { useMemo } from "react";
 
 export function EmployeeProvider({ children }: { children: React.ReactNode }) {

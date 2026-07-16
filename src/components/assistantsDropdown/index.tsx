@@ -23,7 +23,7 @@ const AssistantsDropdown = (props: AssistantsDropdownProps) => {
         assistants.forEach((assistant) =>
           setAssistantsDropdown((prevState) => [
             ...prevState,
-            { value: assistant.employee_uuid || "", label: assistant.name || "" },
+            { value: assistant.employeeUuid || "", label: assistant.name || "" },
           ]),
         );
       } catch (err) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext } from "react";
-import { Goal } from "@/types/goal.type";
+import { Goal } from "@/types/goal.interface";
 
 export type GoalContextValues = {
   goalsData: Goal[] | undefined;

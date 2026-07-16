@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext } from "react";
-import { AssistantsRegisters } from "@/types/assistantsRegister.type";
+import { AssistantsRegisters } from "@/types/assistantsRegister.interface";
 
 export type assistantsRegisterContextValues = {
   assistantsRegisters: AssistantsRegisters[] | undefined;
