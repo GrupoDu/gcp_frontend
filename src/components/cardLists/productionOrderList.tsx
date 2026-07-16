@@ -15,11 +15,14 @@ const ProductionOrderList = () => {
   const statusFilter = searchParams.get("status");
   const deadlineFilter = searchParams.get("deadline");
   const employeeFilter = searchParams.get("employee");
+  const filteredList = productionOrders?.filter(
+    (order) =>
+      order.products.name === productFilter &&
+      order.productionOrderStatus === statusFilter &&
+      order.productionOrderDeadline.toISOString() === deadlineFilter &&
+      order.welders?.employeeUuid === employeeFilter,
+  );
   const isListEmpty = !productionOrders || productionOrders.length < 1;
-
-  useEffect(() => {
-    console.log(productionOrders);
-  }, [productionOrders]);
 
   return (
     <ul className={`${styles.cardListContainer} ${isListEmpty && styles.emptyList}`}>
@@ -31,8 +34,8 @@ const ProductionOrderList = () => {
 function displayProductionOrders(refetch: () => void, orders?: ProductionOrder[]) {
   if (!orders || orders.length < 1) return <DataNotFound />;
 
-  return orders?.map((order) => (
-    <li key={order.production_order_uuid}>
+  orders?.map((order) => (
+    <li key={order.productionOrderUuid}>
       <CardProductionOrder
         date={dataFormater(order.productionOrderDeadline)}
         description={order.productionOrderDescription || ""}
