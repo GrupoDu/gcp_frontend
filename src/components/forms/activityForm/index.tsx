@@ -11,6 +11,8 @@ import { useFetch } from "@/hooks/useFetch";
 import { DateInput } from "@/components/ui/dateInput";
 import { Product } from "@/types/product.interface";
 import { DefaultButton } from "@/components/ui/defaultButton";
+import { Product } from "@/types/product.interface";
+import { Employee } from "@/types/employee.interface";
 
 const ActivityForm = () => {
   const [deadline, setDeadline] = useState("");
