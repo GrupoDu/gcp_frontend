@@ -16,7 +16,7 @@ export default async function handleAssistantDelivery(assistantValues: Assistant
       assistantAs,
     });
 
-    const employeeDeliveryIncrease = await api.patch(`/employees/activity/${assistantUuid}`);
+    const employeeDeliveryIncrease = await api.patch(`/employee/activity/${assistantUuid}`);
 
     const deliveryData = await deliveryResponse.data;
     const employeeDeliveryData = await employeeDeliveryIncrease.data;

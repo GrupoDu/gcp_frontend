@@ -4,7 +4,7 @@ import { api } from "@/services/api";
 
 async function getAssistantsActivities(): Promise<AssistantsActivities[] | undefined> {
   try {
-    const response = await api.get("/assistants-activities");
+    const response = await api.get("/assistantActivity");
     return response.data.data as AssistantsActivities[];
   } catch (err) {
     const error = err as Error;

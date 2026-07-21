@@ -34,8 +34,6 @@ export async function handleDelivery(
   try {
     await api.patch(`/${endpoint}`, productionOrderBody);
 
-    await employeeUpdateActivityQuantity(employeeUuid);
-    await incrementEmployeeProducedQuantity(employeeUuid, incrementEmployeeUpdateBody);
     await incrementDeliveredProductionOrderAnalysis(productionOrderBody.product_quantity as number);
 
     if (redirectHref && router) {
@@ -53,7 +51,7 @@ export async function handleDelivery(
 
 async function employeeUpdateActivityQuantity(employeeUuid: string) {
   try {
-    await api.patch(`/employees/activity/${employeeUuid}`);
+    await api.patch(`/employee/activity/${employeeUuid}`);
 
     return toast.success("Quantidade de entregas atualizada com sucesso!");
   } catch (err) {
@@ -63,7 +61,7 @@ async function employeeUpdateActivityQuantity(employeeUuid: string) {
 
 async function incrementEmployeeProducedQuantity(employeeUuid: string, productsQuantity: number) {
   try {
-    await api.patch(`/employees/produced-quantity/${employeeUuid}`, {
+    await api.patch(`/employee/producedQuantity/${employeeUuid}`, {
       products_quantity: productsQuantity,
     });
   } catch (err) {
