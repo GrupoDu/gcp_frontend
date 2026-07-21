@@ -30,10 +30,7 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
   const router = useRouter();
   const { data: productionOrder } = useFetch<ProductionOrder>(`production-orders/${production_order_uuid}`);
   const description = productionOrder?.production_order_description || "Registro sem descrição";
-  const welderName = productionOrder?.welders?.name || "Ainda sem soldador.";
   const title = `${productionOrder?.quantity_to_produce} ${productionOrder?.products?.acronym}` || "";
-
-  console.log(productionOrder?.welders?.employee_uuid);
 
   const statusIcon =
     productionOrder?.production_order_status === "Entregue" ? (
@@ -52,7 +49,7 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
   const productionOrderBody = {
     delivery_observation: deliveryObservation,
     delivered_product_quantity: producedQuantity,
-    quantity_to_produce: productionOrder?.quantity_to_produce || 0,
+    requested_product_quantity: productionOrder?.quantity_to_produce || 0,
     production_order_status: "Entregue",
     delivered_at: new Date().toISOString(),
   };
@@ -98,7 +95,6 @@ const ProductionOrderInfos = ({ production_order_uuid }: { production_order_uuid
           )}
           <p className={styles.descriptionField}>{description}</p>
           <hr />
-          <h4>Soldador: {welderName}</h4>
           {productionOrder?.production_order_status !== "Entregue" && (
             <label className={styles.productDeliveredQuantityContainer}>
               <span>Quantidade produzida:</span>
