@@ -13,8 +13,6 @@ import { titleFormatter } from "@/utils/titleFormatter";
 const ProductionOrderSection = () => {
   const { data, refetch } = useFetch<ProductionOrder[]>("productionOrder/filters?status=Aguardando");
   const initialFetchDone = useRef(false);
-  const title = (productionOrder: ProductionOrder) =>
-    `${productionOrder?.toBeProduced} ${productionOrder?.product?.acronym}` || "";
 
   useEffect(() => {
     if (!initialFetchDone.current) {
