@@ -3,7 +3,7 @@ import { useFetch } from "./useFetch";
 import { useEffect, useState } from "react";
 
 export function useEmployeeRole() {
-  const { data: employeesData } = useFetch<Employee[]>("employees");
+  const { data: employeesData } = useFetch<Employee[]>("employee");
   const [welders, setWelder] = useState<Employee[]>();
   const [assistants, setAssistants] = useState<Employee[]>();
 

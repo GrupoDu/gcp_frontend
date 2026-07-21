@@ -6,7 +6,7 @@ import { Product } from "@/types/product.interface";
 import { useMemo } from "react";
 
 export function ProductProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<Product[]>("products");
+  const { data, err, status } = useFetch<Product[]>("product");
 
   const productData = useMemo(
     () => ({

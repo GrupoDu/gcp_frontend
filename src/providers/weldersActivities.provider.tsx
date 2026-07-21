@@ -6,7 +6,7 @@ import { WeldersActivities } from "@/types/weldersActivities.interface";
 import React, { useMemo } from "react";
 
 export const WeldersActivitiesProvider = ({ children }: { children: React.ReactNode }) => {
-  const { status, data, err } = useFetch<WeldersActivities[]>("welders-activitie");
+  const { status, data, err } = useFetch<WeldersActivities[]>("welderActivity");
 
   const weldersActivities = useMemo(() => {
     return {

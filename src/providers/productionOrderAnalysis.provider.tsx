@@ -6,7 +6,7 @@ import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.interfa
 import React, { useMemo } from "react";
 
 export function ProductionOrderAnalysisProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<ProductionOrderAnalysis>("production-order-analysis");
+  const { data, err, status } = useFetch<ProductionOrderAnalysis>("productionOrderAnalysis");
 
   const productionOrderAnalysis = useMemo(
     () => ({

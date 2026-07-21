@@ -8,7 +8,7 @@ export function useRegisterEmployees(): { welder: Employee | undefined } {
   const pathname = usePathname();
   const registerId = pathname.split("/")[2];
   const { data: employeesData } = useFetch<Employee[]>("employee");
-  const { data: allProductionOrders } = useFetch<ProductionOrder>("production-order/", registerId);
+  const { data: allProductionOrders } = useFetch<ProductionOrder>("productionOrder/", registerId);
   const [welder, setWelder] = useState<Employee>();
 
   useEffect(() => {

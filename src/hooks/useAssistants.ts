@@ -20,7 +20,7 @@ type AssistantsHook = {
  */
 export default function useAssistants(productionOrderUuid: string): AssistantsHook {
   const { assistantsRegisters } = useAssistantsRegister();
-  const { data: productionOrder } = useFetch<ProductionOrder>("production-order/", productionOrderUuid);
+  const { data: productionOrder } = useFetch<ProductionOrder>("productionOrder/", productionOrderUuid);
 
   return {
     cut_assistant: assistantsRegisters?.find(

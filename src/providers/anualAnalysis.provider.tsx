@@ -4,7 +4,7 @@ import { AnualAnalysis } from "@/types/anualAnalysis.interface";
 import { useMemo } from "react";
 
 export function AnualAnalysisProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<AnualAnalysis[]>("anual-analysis");
+  const { data, err, status } = useFetch<AnualAnalysis[]>("annualAnalysis");
 
   const anualAnalysisData = useMemo(
     () => ({

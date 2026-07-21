@@ -6,7 +6,7 @@ import { Employee } from "@/types/employee.interface";
 import { useMemo } from "react";
 
 export function EmployeeProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<Employee[]>("employees");
+  const { data, err, status, refetch } = useFetch<Employee[]>("employee");
 
   const employeesData = useMemo(
     () => ({

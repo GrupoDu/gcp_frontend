@@ -6,7 +6,7 @@ import { User } from "@/types/user.interface";
 import { useMemo } from "react";
 
 export function SupervisorProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<User[]>(`users/supervisor/`);
+  const { data, err, status } = useFetch<User[]>(`user/filtros?role=Supervisor`);
 
   const supervisorsData = useMemo(
     () => ({
