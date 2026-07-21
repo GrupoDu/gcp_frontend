@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export const Pagination = ({ max_pages }: { max_pages?: number }) => {
+export const Pagination = ({ maxPages }: { maxPages?: number }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const page = searchParams.get("page");
@@ -10,11 +10,11 @@ export const Pagination = ({ max_pages }: { max_pages?: number }) => {
 
   const isPage = (selectedPage: number) => parseInt(page as string, 10) === selectedPage;
 
-  if (!max_pages) return <h3>Página não encontrada</h3>;
+  if (!maxPages) return <h3>Página não encontrada</h3>;
 
   const calculatePagination = () => {
     const pages: number[] = [];
-    for (let i = 1; i <= max_pages; i++) {
+    for (let i = 1; i <= maxPages; i++) {
       pages.push(i);
 
       if (i > 5) return;
@@ -34,7 +34,7 @@ export const Pagination = ({ max_pages }: { max_pages?: number }) => {
           {p}
         </Link>
       ))}
-      {max_pages > 5 && <span>{max_pages}</span>}
+      {maxPages > 5 && <span>{maxPages}</span>}
     </div>
   );
 };

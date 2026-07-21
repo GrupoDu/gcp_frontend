@@ -13,22 +13,20 @@ import { useFetch } from "@/hooks/useFetch";
 import { User } from "@/types/user.interface";
 
 const UserListContainer = () => {
-  const { data: users, refetch } = useFetch<User[]>("users");
   const { isLoading } = useLoading();
   const searchParams = useSearchParams();
   const userRoleFilter = searchParams.get("userRole");
   const searchFilter = searchParams.get("name");
-  const userListFiltered = users?.filter(
-    (user) =>
-      (userRoleFilter ? user.userRole === userRoleFilter : true) &&
-      (searchFilter ? user.email.includes(searchFilter) || user.name.includes(searchFilter) : true),
-  );
+  const filtersString = `user/filter?userRole=${userRoleFilter || ""}&name=${searchFilter || ""}`;
+  const isFiltered = userRoleFilter || searchFilter;
+  const endpoint = isFiltered ? filtersString : "user";
+  const { data: users, refetch } = useFetch<User[]>(endpoint);
 
   return (
     <>
       {isLoading && <Loading />}
       <main style={{ gap: "1rem" }} className={`mainContainer ${isLoading && "loading"}`}>
-        <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register">
+        <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register" setFilters={filtersString}>
           <SearchBar targetFilter={"name"} />
           <UserRoleFilter />
         </FiltersList>
@@ -48,8 +46,8 @@ const UserListContainer = () => {
               </tr>
             </thead>
             <tbody>
-              {userListFiltered?.map((user) => (
-                <ListItem key={user.userUuid} deleteButtonEndpoint="users" refetch={refetch} userInfos={user} />
+              {users?.map((user) => (
+                <ListItem key={user.userUuid} deleteButtonEndpoint="user" refetch={refetch} userInfos={user} />
               ))}
             </tbody>
           </table>

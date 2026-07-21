@@ -21,8 +21,8 @@ export const WelderActivityForm = () => {
   const [producedProduct, setProducedProduct] = useState("");
 
   const router = useRouter();
-  const { data: welders } = useFetch<Employee[]>("employees/welders");
-  const { data: products } = useFetch<Product[]>("products");
+  const { data: welders } = useFetch<Employee[]>("employee/filter?role=Soldador");
+  const { data: products } = useFetch<Product[]>("product");
 
   const weldersOptions = welders?.map((welder) => ({
     value: welder.employeeUuid || "",
@@ -48,7 +48,7 @@ export const WelderActivityForm = () => {
     e.preventDefault();
 
     try {
-      await api.post("welders-activities/register", {
+      await api.post("welderActivity/register", {
         welderUuid: welder,
         productUuid: producedProduct || null,
         producedQuantity: producedQuantity,

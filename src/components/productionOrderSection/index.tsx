@@ -7,19 +7,14 @@ import CardProductionOrder from "../ui/cardProductionOrder";
 import { useFetch } from "@/hooks/useFetch";
 import { ProductionOrder } from "@/types/productionOrder.interface";
 import { dataFormater } from "@/utils/dataFormater";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { titleFormatter } from "@/utils/titleFormatter";
 
 const ProductionOrderSection = () => {
-  const { data, refetch } = useFetch<ProductionOrder[]>("production-order");
+  const { data, refetch } = useFetch<ProductionOrder[]>("productionOrder/filters?status=Aguardando");
   const initialFetchDone = useRef(false);
-  const title = (production_order: ProductionOrder) => {
-    return `${production_order?.toBeProduced} ${production_order?.products?.acronym}` || "";
-  };
-
-  const pendingProductionOrders = useMemo(
-    () => data?.filter((order) => order.productionOrderStatus === "Pendente") || [],
-    [data],
-  );
+  const title = (productionOrder: ProductionOrder) =>
+    `${productionOrder?.toBeProduced} ${productionOrder?.product?.acronym}` || "";
 
   useEffect(() => {
     if (!initialFetchDone.current) {
@@ -28,7 +23,9 @@ const ProductionOrderSection = () => {
     }
   }, [refetch]);
 
-  const isPendingProductionOrderPopulated = pendingProductionOrders.length > 0;
+  let isProductionOrderPopulated = false;
+
+  if (data) isProductionOrderPopulated = data.length > 0;
 
   return (
     <div className={styles.productionOrderSectionContainer}>
@@ -36,13 +33,13 @@ const ProductionOrderSection = () => {
         Lista completa
       </LinkButton>
       <ul>
-        {isPendingProductionOrderPopulated ? (
-          pendingProductionOrders?.map((order) => (
+        {isProductionOrderPopulated ? (
+          data?.map((order) => (
             <li key={order.productionOrderUuid}>
               <CardProductionOrder
                 registerId={order.productionOrderUuid || ""}
                 status={order.productionOrderStatus}
-                title={title(order)}
+                title={titleFormatter(order.product.acronym, order.toBeProduced)}
                 date={dataFormater(order.productionOrderDeadline)}
                 description={order.productionOrderDescription || ""}
               />

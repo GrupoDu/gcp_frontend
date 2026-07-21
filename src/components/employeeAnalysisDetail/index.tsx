@@ -24,10 +24,8 @@ interface EmployeeAnalysisDetailProps {
  */
 const EmployeeAnalysisDetail = ({ employeeUuid }: EmployeeAnalysisDetailProps) => {
   const { isLoading } = useLoading();
-  const { data: employeeAnalysis } = useFetch<EmployeeAnalysis>(`employees-analysis/${employeeUuid}`);
-  const { data: employeeAnalysisFullYear } = useFetch<EmployeeAnalysis[]>(
-    `employees-analysis/full-year/${employeeUuid}`,
-  );
+  const { data: employeeAnalysis } = useFetch<EmployeeAnalysis>(`employeeAnalysis/${employeeUuid}`);
+  const { data: employeeAnalysisFullYear } = useFetch<EmployeeAnalysis[]>(`employeeAnalysis/fullYear/${employeeUuid}`);
 
   console.log(employeeAnalysis);
 

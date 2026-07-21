@@ -40,7 +40,7 @@ const EmployeeForm = ({ isEdit, employeeUuid }: { isEdit: boolean; employeeUuid?
   }, [isEdit, employeeUuid, employees]);
 
   const method = isEdit ? "PUT" : "POST";
-  const endpoint = isEdit ? `employees/${employeeUuid}` : "employees";
+  const endpoint = isEdit ? `employee/${employeeUuid}` : "employee";
 
   return (
     <form

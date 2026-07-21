@@ -22,15 +22,17 @@ const WeldersActivitiesList = () => {
   const pageSize = searchParams.get("pageSize");
   const itemRef = useRef<HTMLTableRowElement | null>(null);
 
-  const { data: welders } = useFetch<Employee[]>("employees/welders");
-  const { data } = useFetch<WeldersActivitiesPagination>(`welders-activities?page=${page}&pageSize=${pageSize}`);
-  const isListPopulated = !!data?.weldersActivities && data.weldersActivities.length > 0;
+  const { data: welders } = useFetch<Employee[]>("employee/filter?role=Soldador");
+  const { data } = useFetch<WeldersActivitiesPagination>(`welderActivity/offset?page=${page}&pageSize=${pageSize}`);
+  const isListPopulated = !!data && data?.length > 0;
   const weldersOptions = welders?.map((welder) => ({
     value: welder.employeeUuid || "",
     label: welder.name,
   }));
 
-  useEffect(() => {}, [data]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   if (!page) return <h3>Página não encontrada</h3>;
 
@@ -66,11 +68,11 @@ const WeldersActivitiesList = () => {
                   <th>Data</th>
                 </tr>
               </thead>
-              {data?.weldersActivities.map((activity) => (
+              {data?.map((activity) => (
                 <tbody key={activity.welderActivityUuid}>
                   <tr className={"listItem"}>
-                    <td>{activity.employees.name}</td>
-                    <td>{activity.products ? activity.products.acronym : activity.descriptionGeneralActivity}</td>
+                    <td>{activity.employee.name}</td>
+                    <td>{activity.product ? activity.product.acronym : activity.descriptionGeneralActivity}</td>
                     <td>{activity.producedQuantity}</td>
                     <td>{dataFormater(activity.registeredAt)}</td>
                   </tr>
@@ -78,7 +80,7 @@ const WeldersActivitiesList = () => {
               ))}
             </table>
           </div>
-          <Pagination max_pages={data.maxPages} />{" "}
+          <Pagination maxPages={data.maxPages} />{" "}
         </>
       )}
     </div>

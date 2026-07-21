@@ -13,7 +13,7 @@ type CardRegisterProps = {
 };
 
 const CardProductionOrder = (props: CardRegisterProps) => {
-  const statusColor = props.status === "Pendente" ? "#FFD079" : props.status === "Entregue" ? "green" : "red";
+  const statusColor = props.status === "Aguardando" ? "#FFD079" : props.status === "Entregue" ? "green" : "red";
 
   return (
     <div className={styles.cardRegisterContainer}>
@@ -22,7 +22,7 @@ const CardProductionOrder = (props: CardRegisterProps) => {
         <h3>{props.title}</h3>
         <div className={styles.buttons}>
           {props.status === "Pendente" && <EditButton href={`/producao/edit/${props.registerId}`} />}
-          <DeleteButton endpoint="production-order" uuid={props.registerId} refetch={props.refetch} />
+          <DeleteButton endpoint="productionOrder" uuid={props.registerId} refetch={props.refetch} />
         </div>
       </div>
       <span>{props.date}</span>

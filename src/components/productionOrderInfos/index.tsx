@@ -15,6 +15,7 @@ import { handleDelivery } from "@/utils/handleDeliveryProductionOrder";
 import { useRouter } from "next/navigation";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "@/components/ui/loading";
+import { titleFormatter } from "@/utils/titleFormatter";
 
 /**
  * Componente que exibe as informações de um registro de produção
@@ -28,22 +29,21 @@ const ProductionOrderInfos = ({ productionOrderUuid }: { productionOrderUuid: st
   const { isLoading, setIsLoading } = useLoading();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
-  const { data: productionOrder } = useFetch<ProductionOrder>(`production-order/${productionOrderUuid}`);
+  const { data: productionOrder } = useFetch<ProductionOrder>(`productionOrder/${productionOrderUuid}`);
   const description = productionOrder?.productionOrderDescription || "Registro sem descrição";
   const welderName = productionOrder?.welders?.name || "Ainda sem soldador.";
-  const title = `${productionOrder?.toBeProduced} ${productionOrder?.products?.acronym}` || "";
 
   const statusIcon =
     productionOrder?.productionOrderStatus === "Entregue" ? (
       <LuClipboardCheck color="green" className={styles.clipboardIcon} />
-    ) : productionOrder?.productionOrderStatus === "Pendente" ? (
+    ) : productionOrder?.productionOrderStatus === "Aguardando" ? (
       <LuClipboardPenLine color="#FFD079" className={styles.clipboardIcon} />
     ) : (
       <LuClipboardX color="red" className={styles.clipboardIcon} />
     );
 
   const productionOrderId = productionOrder?.productionOrderUuid || "";
-  const endpoint = `deliver-production-order/${productionOrderId}`;
+  const endpoint = `deliverProductionOrder/${productionOrderId}`;
   const redirectHref = "/producao";
   const employeeUuid = productionOrder?.welders?.employeeUuid || "";
 
@@ -79,14 +79,14 @@ const ProductionOrderInfos = ({ productionOrderUuid }: { productionOrderUuid: st
           <LinkButton Icon={IoIosArrowBack} color="black" href={`/producao`}>
             Voltar
           </LinkButton>
-          {productionOrder?.productionOrderStatus === "Pendente" && (
+          {productionOrder?.productionOrderStatus === "Aguardando" && (
             <DeliverButton isProcessing={isProcessing}>
               <CiSquareCheck /> Marcar como entregue
             </DeliverButton>
           )}
         </div>
         <div className={styles.registerInfosContainer}>
-          <h2>{title}</h2>
+          <h2>{titleFormatter(productionOrder?.product?.acronym, productionOrder?.toBeProduced)}</h2>
           <span className={styles.dates}>
             prazo de entrega: {dataFormater(productionOrder?.productionOrderDeadline || new Date())}
           </span>

@@ -26,7 +26,7 @@ const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) =
       <td>
         <div className={styles.buttons}>
           <EditButton href={`${pathname}/edit/${userInfos.userUuid}`} />
-          {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.userUuid}`} />}
+          {isEmployeePage && <AnalysisButton employee_uuid={`analise/${userInfos.userUuid}`} />}
           <DeleteButton endpoint={deleteButtonEndpoint} refetch={refetch} uuid={userUuid} />
         </div>
       </td>

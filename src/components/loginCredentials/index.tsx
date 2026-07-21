@@ -12,28 +12,9 @@ const LoginCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginTries, setLoginTries] = useState(0);
-  const [userRole, setUserRole] = useState("Admin");
+  const [userRole, setUserRole] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  async function tryAutoLogin() {
-    setIsLoading(true);
-    try {
-      const response = await api.get("/auth/verify");
-
-      const autoLoginPayload = response.data;
-      const isAdmin = autoLoginPayload.userRole === "Admin";
-
-      if (isAdmin) return router.push("/dashboard");
-
-      return router.push("/producao");
-    } catch (err) {
-      setIsLoading(false);
-      const error = err as Error;
-
-      console.log(error.message);
-    }
-  }
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -46,10 +27,12 @@ const LoginCredentials = () => {
         userRole: userRole,
       });
 
-      const user = response.data.data.user;
-      console.log(user);
+      const data = await response.data;
+      console.log(data.message);
 
-      redirectByUserRole(user.userRole, router, setUserRole);
+      localStorage.setItem("@App:userRole", data.data.userRole);
+
+      redirectByUserRole(data.data.userRole, router, setUserRole);
     } catch (err) {
       const error = err as Error;
       setLoginTries((prevTries) => prevTries + 1);
@@ -57,11 +40,6 @@ const LoginCredentials = () => {
       toast.error(error.message);
     }
   }
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    // tryAutoLogin();
-  }, []);
 
   return (
     <form onSubmit={(e) => handleLogin(e)} className={styles.loginCredentials}>

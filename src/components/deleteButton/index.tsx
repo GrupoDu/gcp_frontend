@@ -13,7 +13,7 @@ const DeleteButton = ({ uuid, refetch, endpoint }: { uuid: string; refetch?: () 
   async function handleUserDeactivation() {
     setIsLoading(true);
     try {
-      await api.delete(`users/deactivate/${uuid}`);
+      await api.delete(`user/deactivate/${uuid}`);
 
       toast.success("Registro excluido com sucesso!");
 
@@ -28,7 +28,7 @@ const DeleteButton = ({ uuid, refetch, endpoint }: { uuid: string; refetch?: () 
     setIsLoading(true);
     console.log(`uuid: ${uuid}`);
 
-    if (endpoint === "users") {
+    if (endpoint === "user") {
       await handleUserDeactivation();
       return;
     }

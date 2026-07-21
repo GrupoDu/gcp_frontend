@@ -1,12 +1,12 @@
 "use client";
 
-import { AssistantsActivities, AssistantsActivitiesPagination } from "@/types/assistantsActivities.interface";
+import { AssistantsActivities } from "@/types/assistantsActivities.interface";
 import { dataFormater } from "@/utils/dataFormater";
 import DataNotFound from "@/components/dataNotFound";
 import { useFetch } from "@/hooks/useFetch";
 import { useSearchParams } from "next/navigation";
 import FiltersList from "@/components/filtersList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Employee } from "@/types/employee.interface";
 import SelectInput from "../ui/selectInput";
 import { Pagination } from "../pagination";
@@ -19,19 +19,23 @@ const AssistantsActivitiesList = () => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
   const pageSize = searchParams.get("pageSize");
-  const { data: activities } = useFetch<AssistantsActivitiesPagination>(
-    `assistants-activities?page=${page}&pageSize=${pageSize}`,
+  const { data: activities, maxPages } = useFetch<AssistantsActivities[]>(
+    `assistantActivity/offset?page=${page}&pageSize=${pageSize}`,
   );
-  const { data: assistants } = useFetch<Employee[]>("employee/assistants");
+  const { data: assistants } = useFetch<Employee[]>("employee/filter?role=Assistente");
 
   const assistantsOptions = assistants?.map((assistant) => ({
     value: assistant.employeeUuid || "",
     label: assistant.name,
   }));
 
+  useEffect(() => {
+    console.log(activities);
+  }, [activities]);
+
   if (!page) return <h1>Página não encontrada</h1>;
 
-  const isActivitiesEmpty = !activities?.assistantsActivities || activities.assistantsActivities.length < 1;
+  const isActivitiesEmpty = !activities || activities.length < 1;
 
   return (
     <div className={"mainContainer"}>
@@ -59,10 +63,10 @@ const AssistantsActivitiesList = () => {
                   <th>Data</th>
                 </tr>
               </thead>
-              {renderActivities(activities.assistantsActivities)}
+              {renderActivities(activities)}
             </table>
           </div>
-          <Pagination max_pages={activities.maxPages} />
+          <Pagination maxPages={maxPages} />
         </>
       )}
     </div>
@@ -73,7 +77,7 @@ function renderActivities(activies: AssistantsActivities[]) {
   return activies?.map((activity, index) => (
     <tbody className={"listItem"} key={index}>
       <tr>
-        <td>{activity.employees.name}</td>
+        <td>{activity.employee.name}</td>
         <td>{activity.activityType}</td>
         <td>{activity.producedQuantity}</td>
         <td>{dataFormater(activity.registeredAt)}</td>

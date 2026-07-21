@@ -18,7 +18,7 @@ export const AssistantActivityForm = () => {
   const [description, setDescription] = useState("");
 
   const router = useRouter();
-  const { data: assistants } = useFetch<Employee[]>("employees/assistants");
+  const { data: assistants } = useFetch<Employee[]>("employee/filter?role=Assistente");
 
   const assistantsOptions = assistants?.map((assistants) => ({
     value: assistants.employeeUuid || "",
@@ -47,15 +47,15 @@ export const AssistantActivityForm = () => {
     e.preventDefault();
 
     try {
-      await api.post("assistants-activities", {
-        assistant_uuid: assistant,
-        activity_description: description || null,
-        produced_quantity: producedQuantity,
-        activity_type: activityType,
+      await api.post("assistantActivity", {
+        assistantUuid: assistant,
+        activityDescription: description || null,
+        producedQuantity: producedQuantity,
+        activityType: activityType,
       });
 
       toast.success("Atividade registrada com sucesso!");
-      router.push("/assistentes?page=1&per_page=13");
+      router.push("/assistentes?page=1&pageSize=13");
     } catch (err) {
       const error = err as Error;
       console.log(error.message);

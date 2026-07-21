@@ -2,132 +2,41 @@
 
 import styles from "./styles.module.scss";
 import MenuOption from "../menuOption";
-import { MdDashboard, MdKeyboardArrowRight, MdOutlineFeedback } from "react-icons/md";
-import { IoMdClipboard } from "react-icons/io";
-import { LuGoal } from "react-icons/lu";
-import { FaUserCog } from "react-icons/fa";
-import { GrAnalytics } from "react-icons/gr";
-import { GrUserWorker } from "react-icons/gr";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { BiLogOutCircle } from "react-icons/bi";
 import Image from "next/image";
 import GrupoduImage from "../../assets/grupodu_new_logo.png";
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { MdKeyboardArrowLeft } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { adminPages, supervisorPages } from "@/Constants/menuOptions.constant";
+import { usePathname } from "next/navigation";
 
 const SidebarMenu = () => {
   const [actualPage, setActualPage] = useState("");
-  const pathname = usePathname();
-  const [user_role, setUserRole] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [isSidebarClosed, setIsSidebarClosed] = useState(false);
-  const [isSidebarLoading, setIsSidebarLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    async function tokenValidator() {
-      try {
-        const response = await api.get(`/users/validator`);
-
-        if (response) {
-          const data = await response.data.data;
-          setUserRole(data.user_role);
-        } else {
-          router.push("/login");
-        }
-      } catch (err) {
-        console.log((err as Error).message);
-      }
-    }
-
-    tokenValidator();
-    setActualPage(pathname.split("/")[1]);
-    setIsSidebarLoading(false);
-  }, [router, pathname]);
-
-  const supervisorPages = [
-    {
-      MenuIcon: IoMdClipboard,
-      pageName: "producao",
-      href: "/producao?page=1&per_page=13",
-      menuTitle: "Produção",
-    },
-    {
-      MenuIcon: LuGoal,
-      pageName: "metas",
-      href: "/metas?page=1&per_page=13",
-      menuTitle: "Metas",
-    },
-    {
-      MenuIcon: IoMdClipboard,
-      pageName: "soldadores",
-      href: "/soldadores?page=1&per_page=13",
-      menuTitle: "Soldadores",
-    },
-  ];
-
-  const adminPages = [
-    {
-      MenuIcon: MdDashboard,
-      pageName: "dashboard",
-      href: "/dashboard",
-      menuTitle: "Dashboard",
-    },
-    {
-      MenuIcon: IoMdClipboard,
-      pageName: "producao",
-      href: "/producao?page=1",
-      menuTitle: "Produção",
-    },
-    {
-      MenuIcon: IoMdClipboard,
-      pageName: "soldadores",
-      href: "/soldadores?page=1&per_page=13",
-      menuTitle: "Soldadores",
-    },
-    {
-      MenuIcon: IoMdClipboard,
-      pageName: "assistentes",
-      href: "/assistentes?page=1&per_page=13",
-      menuTitle: "Assistentes",
-    },
-    {
-      MenuIcon: LuGoal,
-      pageName: "metas",
-      href: "/metas?page=1",
-      menuTitle: "Metas",
-    },
-    {
-      MenuIcon: FaUserCog,
-      pageName: "usuarios",
-      href: "/usuarios?page=1",
-      menuTitle: "Usuários",
-    },
-    {
-      MenuIcon: GrUserWorker,
-      pageName: "funcionarios",
-      href: "/funcionarios?page=1",
-      menuTitle: "Funcionários",
-    },
-    {
-      MenuIcon: GrAnalytics,
-      pageName: "analises",
-      href: "/analises",
-      menuTitle: "Análises",
-    },
-  ];
+    const role = localStorage.getItem("@App:userRole") || "";
+    setUserRole(role);
+    if (userRole !== "") setIsLoading(false);
+    setActualPage(pathname);
+  }, [pathname, userRole]);
 
   function toggleSidebar() {
     setIsSidebarClosed(!isSidebarClosed);
   }
 
+  const isAdmin = userRole === "Admin";
+
   async function handleLogout() {
     setIsLoading(true);
     try {
-      await api.post("/login/logout");
+      await api.post("/auth/logout");
 
       window.location.href = "/login";
     } catch (err) {
@@ -150,13 +59,13 @@ const SidebarMenu = () => {
         <Image src={GrupoduImage} alt="Login" className={styles.grupoduLogo} />
         <h1>GCP</h1>
       </div>
-      {isSidebarLoading ? (
+      {isLoading ? (
         <div className={styles.loadingContainer}>
           <span>Carregando...</span>
         </div>
       ) : (
         <div className={styles.menuOptionsContainer}>
-          {user_role === "admin"
+          {isAdmin
             ? adminPages.map((option) => (
                 <MenuOption
                   onClick={handleClick}
