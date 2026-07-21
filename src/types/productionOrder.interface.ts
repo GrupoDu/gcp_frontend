@@ -9,8 +9,8 @@ export interface ProductionOrder {
   productionOrderStatus: string;
   deliveredAt?: string | null;
   welders?: Welder | null;
-  products: Product;
-  orders: Order;
+  product: Product;
+  order: Order;
   deliveryObservation: string;
   supervisorUuid: string;
   toBeProduced: number;

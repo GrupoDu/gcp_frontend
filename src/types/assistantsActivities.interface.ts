@@ -5,7 +5,7 @@ export interface AssistantsActivities {
   registeredAt: Date;
   producedQuantity: number;
   activityType: string;
-  employees: Employee;
+  employee: Employee;
   activityDescription?: string;
 }
 
