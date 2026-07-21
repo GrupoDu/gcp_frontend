@@ -49,26 +49,6 @@ export async function handleDelivery(
   }
 }
 
-async function employeeUpdateActivityQuantity(employeeUuid: string) {
-  try {
-    await api.patch(`/employee/activity/${employeeUuid}`);
-
-    return toast.success("Quantidade de entregas atualizada com sucesso!");
-  } catch (err) {
-    return toast.error((err as Error).message);
-  }
-}
-
-async function incrementEmployeeProducedQuantity(employeeUuid: string, productsQuantity: number) {
-  try {
-    await api.patch(`/employee/producedQuantity/${employeeUuid}`, {
-      products_quantity: productsQuantity,
-    });
-  } catch (err) {
-    return toast.error((err as Error).message);
-  }
-}
-
 async function incrementDeliveredProductionOrderAnalysis(deliveredQuantity: number) {
   try {
     await api.patch(`/anual-analysis/update-analysis`, {
