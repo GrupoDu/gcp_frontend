@@ -28,7 +28,7 @@ const RegisterListContainer = () => {
           <main style={{ gap: 0 }} className={`${styles.listContainer} mainContainer`}>
             <FiltersList
               buttonLabel={"Ordem de produção"}
-              hrefButton={""}
+              hrefButton={"producao/atividade"}
               style={{ borderRadius: ".4rem .4rem 0 0", borderBottom: 0 }}
             >
               <DeadlineInput />
