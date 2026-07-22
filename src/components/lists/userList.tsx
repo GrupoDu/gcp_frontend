@@ -26,7 +26,7 @@ const UserListContainer = () => {
     <>
       {isLoading && <Loading />}
       <main style={{ gap: "1rem" }} className={`mainContainer ${isLoading && "loading"}`}>
-        <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register" setFilters={filtersString}>
+        <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register">
           <SearchBar targetFilter={"name"} />
           <UserRoleFilter />
         </FiltersList>
