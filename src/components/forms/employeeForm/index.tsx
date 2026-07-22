@@ -71,8 +71,8 @@ const EmployeeForm = ({ isEdit, employeeUuid }: { isEdit: boolean; employeeUuid?
           name="employee-function"
         >
           <option value="">Selecionar função</option>
-          <option value="soldador">Soldador</option>
-          <option value="assistente">Assistente</option>
+          <option value="Soldador">Soldador</option>
+          <option value="Assistente">Assistente</option>
         </select>
       </label>
       <div className={styles.buttons}>
