@@ -14,17 +14,17 @@ const PieChartContainer = () => {
 
   const analysisData = [
     {
-      value: productionOrderAnalysis?.deliveredRegisterQuantity || 0,
+      value: productionOrderAnalysis?.deliveredQuantity || 0,
       label: "Concluido",
     },
     {
-      value: productionOrderAnalysis?.pendingRegisterQuantity || 0,
-      label: "Pendente",
+      value: productionOrderAnalysis?.pendingQuantity || 0,
+      label: "Em Produção",
     },
 
     {
-      value: productionOrderAnalysis?.notDeliveredRegisterQuantity || 0,
-      label: "Não finalizado",
+      value: productionOrderAnalysis?.notDeliveredQuantity || 0,
+      label: "Não Entregue",
     },
   ];
 
