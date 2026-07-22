@@ -45,7 +45,7 @@ const RegisterListContainer = () => {
               <StatusDropdown />
             </FilterMobileContainer>
             <ProductionOrderList />
-            <ListFooter status={["Pendente", "Entregue", "Não entregue"]} />
+            <ListFooter status={["Em Produção", "Entregue", "Não entregue"]} />
           </main>
         </ProductionOrderProvider>
       </OpenMobileProvider>
