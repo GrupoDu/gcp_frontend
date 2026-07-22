@@ -5,7 +5,6 @@ import { FaUserCog } from "react-icons/fa";
 import UserListContainer from "@/components/lists/userList";
 import OpenMobileProvider from "@/providers/openMobile.provider";
 import Loading from "@/components/ui/loading";
-import { Breadcrumb } from "@/components/breadcrumb";
 
 const UsersPage = () => {
   return (

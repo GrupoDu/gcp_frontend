@@ -1,6 +1,5 @@
 import PageHeader from "@/components/ui/pageHeader";
 import "../../../globals.scss";
-import styles from "./page.module.scss";
 import { FaUserCog } from "react-icons/fa";
 import UserForm from "@/components/forms/userForm";
 import { UserProvider } from "@/providers/users.provider";
