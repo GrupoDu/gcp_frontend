@@ -10,7 +10,7 @@ export function EmployeeProvider({ children }: { children: React.ReactNode }) {
 
   const employeesData = useMemo(
     () => ({
-      employeesData: data || undefined,
+      employees: data || undefined,
       status,
       err,
       refetch,

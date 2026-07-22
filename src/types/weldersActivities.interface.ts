@@ -9,8 +9,8 @@ export interface WeldersActivities {
   isGeneralActivity: boolean;
   producedQuantity: number;
   registeredAt: Date;
-  employees: Employee;
-  products: Product;
+  employee: Employee;
+  product: Product;
 }
 
 export interface WeldersActivitiesPagination {
