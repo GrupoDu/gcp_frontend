@@ -42,7 +42,7 @@ const UserForm = ({ isEdit, userId }: { isEdit?: boolean; userId?: string }) => 
     setCanEdit(true);
   }, [isEdit, userId, usersData]);
 
-  const endpoint = isEdit ? `users/${userId}` : "users";
+  const endpoint = isEdit ? `user/${userId}` : "user";
   const method = isEdit ? "PUT" : "POST";
 
   return (
@@ -81,8 +81,8 @@ const UserForm = ({ isEdit, userId }: { isEdit?: boolean; userId?: string }) => 
           required
         >
           <option value="">Tipo de usuário</option>
-          <option value="admin">Administrador</option>
-          <option value="supervisor">Supervisor</option>
+          <option value="Admin">Administrador</option>
+          <option value="Supervisor">Supervisor</option>
         </select>
       </label>
       <label>
