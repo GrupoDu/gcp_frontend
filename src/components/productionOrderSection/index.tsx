@@ -11,7 +11,7 @@ import { useEffect, useRef } from "react";
 import { titleFormatter } from "@/utils/titleFormatter";
 
 const ProductionOrderSection = () => {
-  const { data, refetch } = useFetch<ProductionOrder[]>("productionOrder/filters?status=Aguardando");
+  const { data, refetch } = useFetch<ProductionOrder[]>("productionOrder/filters?status=EmProducao");
   const initialFetchDone = useRef(false);
 
   useEffect(() => {

@@ -13,7 +13,7 @@ type CardRegisterProps = {
 };
 
 const CardProductionOrder = (props: CardRegisterProps) => {
-  const statusColor = props.status === "Aguardando" ? "#FFD079" : props.status === "Entregue" ? "green" : "red";
+  const statusColor = props.status === "EmProducao" ? "#FFD079" : props.status === "Entregue" ? "green" : "red";
 
   return (
     <div className={styles.cardRegisterContainer}>
