@@ -5,7 +5,6 @@ import LinkButton from "../linkButton";
 import { IoFilter, IoReload } from "react-icons/io5";
 import { useLoading } from "@/hooks/useLoading";
 import { ClipLoader } from "react-spinners";
-import { socket } from "@/socket";
 import { toast } from "react-toastify";
 import { useOpenMobile } from "@/hooks/useOpenMobile";
 
@@ -19,16 +18,6 @@ type FiltersListProps = {
 const FiltersList = (props: FiltersListProps) => {
   const { isLoading, setIsLoading } = useLoading();
   const { setOpenMobile, openMobile } = useOpenMobile();
-
-  useEffect(() => {
-    socket.on("productionOrderNotify", () => {
-      toast.info("Nova ordem de produção registrada.");
-    });
-
-    return () => {
-      socket.off("productionOrderNotify");
-    };
-  });
 
   return (
     <div style={props.style} className={`${styles.filtersListContainer} filter`}>

@@ -48,16 +48,6 @@ const LineChartContainer = () => {
           <LineChart
             series={[
               {
-                data: anualAnalysis?.map((item: AnualAnalysis) => item.delivered || 0) as number[],
-                label: "Concluído",
-                color: "#4caf50",
-              },
-              {
-                data: anualAnalysis?.map((item: AnualAnalysis) => item.notDelivered || 0) as number[],
-                label: "Não finalizado",
-                color: "#f44336",
-              },
-              {
                 data: anualAnalysis?.map((item: AnualAnalysis): number => item.totalProduction || 0),
                 label: "Produção total",
                 color: "#2196f3",

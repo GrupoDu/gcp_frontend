@@ -8,7 +8,6 @@ import PieChartContainer from "../pieChartContainer";
 import { ProductionOrderAnalysisProvider } from "@/providers/productionOrderAnalysis.provider";
 import GoalSection from "../goalSection";
 import { GoalProvider } from "@/providers/goal.provider";
-import { EmployeeProvider } from "@/providers/employee.provider";
 import EmployeeAnalysisContainer from "../employeeAnalysisContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
@@ -34,10 +33,8 @@ const AnalysticsContainer = () => {
           </GoalProvider>
         </div>
         <div className={styles.employeesAnalysis}>
-          <EmployeeProvider>
-            <EmployeeAnalysisContainer employeeRole={"soldadores"} />
-            <EmployeeAnalysisContainer employeeRole={"assistentes"} />
-          </EmployeeProvider>
+          <EmployeeAnalysisContainer employeeRole={"Soldador"} />
+          <EmployeeAnalysisContainer employeeRole={"Assistente"} />
         </div>
       </main>
     </>

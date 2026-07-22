@@ -42,8 +42,4 @@ function displayProductionOrders(refetch: () => void, orders?: ProductionOrder[]
   ));
 }
 
-function formatTitle(productionOrder: ProductionOrder) {
-  return `${productionOrder.toBeProduced} ${productionOrder.product.acronym}`;
-}
-
 export default ProductionOrderList;
