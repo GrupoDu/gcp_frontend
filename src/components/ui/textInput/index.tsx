@@ -9,7 +9,7 @@ interface TextInputProps extends InputType {
 }
 
 const TextInput = (props: TextInputProps) => {
-  const { placeholder, label, name, value, type, style, onChange, max, min, required } = props;
+  const { placeholder, label, name, value, type, style, onChange, max, min, required, readonly } = props;
 
   return (
     <div className={`${styles.textInput} ${required && styles.isRequired}`}>
@@ -20,6 +20,7 @@ const TextInput = (props: TextInputProps) => {
         min={min}
         name={name}
         style={style}
+        readOnly={readonly}
         value={value}
         onChange={onChange}
         placeholder={placeholder}

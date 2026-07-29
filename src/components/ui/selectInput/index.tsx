@@ -1,16 +1,15 @@
 import styles from "./styles.module.scss";
 import { InputType } from "@/types/input.interface";
 import { ChangeEvent } from "react";
-
-export type SelectOption = {
-  value: string;
-  label: string;
-};
+import { SelectOption } from "@/types/selectOption.interface";
+import { useLoading } from "@/hooks/useLoading";
 
 interface SelectInputProps extends Omit<InputType, "onChange"> {
   options: SelectOption[] | undefined;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   defaultValue: string;
+  className?: string;
+  isDisabled?: boolean;
 }
 
 /**
@@ -25,15 +24,20 @@ interface SelectInputProps extends Omit<InputType, "onChange"> {
  * @param {string} props.label - Texto do label
  */
 const SelectInput = (props: SelectInputProps) => {
-  const { options, defaultValue, value, onChange, style, label, required } = props;
-  let isDisabled = false;
-
-  if (!options) isDisabled = true;
+  const { isLoading } = useLoading();
+  const { options, defaultValue, value, onChange, style, label, required, isDisabled, className } = props;
 
   return (
-    <div className={`${styles.selectInput} ${required && styles.isRequired}`}>
+    <div className={`${styles.selectInput} ${required && styles.isRequired} ${isDisabled && styles.isDisabled}`}>
       <h4>{label}</h4>
-      <select required={required} disabled={isDisabled} value={value} onChange={onChange} style={style}>
+      <select
+        className={className}
+        required={required}
+        disabled={isLoading || isDisabled}
+        value={value}
+        onChange={onChange}
+        style={style}
+      >
         <option value="">{defaultValue}</option>
         {displayOptions(options)}
       </select>
