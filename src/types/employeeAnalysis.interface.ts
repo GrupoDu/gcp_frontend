@@ -11,16 +11,35 @@ interface FullActivityAnalysis {
   count: number;
 }
 
-export interface EmployeeAnalysis {
-  employeeAnalysisUuid: string;
+interface Activity {
+  activityType: string;
+  producedQuantity: number;
+}
+
+export interface EmployeeAnalysisEmployeeInfo {
   employeeUuid: string;
+  name: string;
+  employeeRole: string;
+  producedQuantity: number;
+}
+
+export interface ProductActivity {
+  name: string;
+  acronym: string;
+  totalProduction: number;
+}
+
+export interface EmployeeAnalysisFullYear {
+  month: number;
+  monthlyProduction: number;
+}
+
+export interface EmployeeAnalysis {
   month: number;
   year: number;
+  employee: EmployeeAnalysisEmployeeInfo;
+  generalActivity: number;
+  activities: Activity[];
+  productActivity: ProductActivity[];
   monthlyTotalProduction: number;
-  mostProduced: string;
-  primaryActivity: string;
-  employees: Employee;
-  products: Product[];
-  fullProductsAnalysis: FullProductsAnalysis[] | null;
-  fullActivityAnalysis: FullActivityAnalysis[] | null;
 }

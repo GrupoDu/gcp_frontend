@@ -3,8 +3,10 @@ export interface Goal {
   goalTitle: string;
   goalDescription: string;
   goalStatus?: string;
-  goalType?: string;
+  isEmployeeGoal?: boolean;
   goalDeadline: string;
-  employeeGoal: string | null;
+  employeeUuid: string | null;
   createdAt?: string;
 }
+
+export interface GoalPayload extends Omit<Goal, "goalUuid" | "createdAt" | "goalStatus"> {}

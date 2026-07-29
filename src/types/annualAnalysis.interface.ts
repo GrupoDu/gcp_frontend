@@ -1,5 +1,5 @@
-export interface AnualAnalysis {
-  anualAnalysisUuid: string;
+export interface AnnualAnalysis {
+  annualAnalysisUuid: string;
   month: number;
   year: number;
   delivered: number;

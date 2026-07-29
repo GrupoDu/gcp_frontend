@@ -6,3 +6,11 @@ export interface Employee {
   notDeliveredActivitiesQuantity?: number;
   producedQuantity?: number;
 }
+
+type OmitPayload =
+  | "employeeUuid"
+  | "deliveredActivitiesQuantity"
+  | "notDeliveredActivitiesQuantity"
+  | "producedQuantity";
+
+export interface EmployeePayload extends Omit<Employee, OmitPayload> {}

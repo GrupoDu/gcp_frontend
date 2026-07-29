@@ -13,6 +13,10 @@ export interface WeldersActivities {
   product: Product;
 }
 
+type OmitFields = "welderActivityUuid" | "registeredAt" | "employee" | "product";
+
+export interface WelderActivityPayload extends Omit<WeldersActivities, OmitFields> {}
+
 export interface WeldersActivitiesPagination {
   weldersActivities: WeldersActivities[];
   maxPages: number;
