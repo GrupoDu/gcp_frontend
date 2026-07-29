@@ -1,20 +1,28 @@
+"use client";
+
 import PageHeader from "@/components/ui/pageHeader";
-import "../../../globals.scss";
 import { FaUserCog } from "react-icons/fa";
 import UserForm from "@/components/forms/userForm";
-import { UserProvider } from "@/providers/users.provider";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { useLoading } from "@/hooks/useLoading";
+import Loading from "@/components/ui/loading";
+import { useEffect } from "react";
 
 const RegisterUserPage = () => {
+  const { isLoading, setIsLoading } = useLoading();
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   return (
     <div className="pageContainer">
       <PageHeader headerTitle="Usuários" HeaderIcon={FaUserCog} />
-      <main className="mainContainer">
+      {isLoading && <Loading />}
+      <main className={`mainContainer ${isLoading ? "loading" : ""}`}>
         <Breadcrumb />
         <h3>Registrar novo usuário</h3>
-        <UserProvider>
-          <UserForm />
-        </UserProvider>
+        <UserForm />
       </main>
     </div>
   );

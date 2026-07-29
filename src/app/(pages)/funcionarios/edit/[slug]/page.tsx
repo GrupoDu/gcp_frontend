@@ -8,7 +8,7 @@ import { EmployeeProvider } from "@/providers/employee.provider";
 const EmployeeEditPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   return (
-    <div className={styles.pageContainer}>
+    <div className={"pageContainer"}>
       <PageHeader headerTitle="Usuários" HeaderIcon={GrUserWorker} />
 
       <main className="mainContainer">
