@@ -19,6 +19,8 @@ export function useFetch<T>(endpoint: string, params?: string) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+
       try {
         const url = `/${endpoint}${params ? params : ""}`;
         const apiResponse = await api.get(url);

@@ -23,6 +23,14 @@ type FailedQueue = {
   reject: (reason?: unknown) => void;
 };
 
+interface AxiosErrorMessage {
+  response: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 let isRefreshing = false;
 let failedQueue: FailedQueue[] = [];
 
@@ -37,28 +45,57 @@ const processQueue = (error: Error | null = null) => {
   failedQueue = [];
 };
 
+function addToProcessQueue(originalRequest: CustomAxiosConfig) {
+  return new Promise((resolve, reject) => {
+    failedQueue.push({ resolve, reject });
+  })
+    .then(() => {
+      return api(originalRequest);
+    })
+    .catch((err) => {
+      console.log("Mensagem de erro: ", err.message);
+      return Promise.reject(err);
+    });
+}
+
+async function tooManyRequests() {
+  try {
+    await axios.post(
+      `${API_URL}auth/logout`,
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        timeout: 5000,
+      },
+    );
+
+    localStorage.removeItem("@App:userRole");
+  } catch (e) {
+    console.log("Não foi possível fazer o logout: ", e);
+  } finally {
+    if (typeof window !== "undefined") window.location.href = "/login";
+  }
+}
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest: CustomAxiosConfig = error.config;
 
-    if (originalRequest._retry) return Promise.reject(error);
+    if (error.status === 503) {
+      await tooManyRequests();
+      return Promise.reject({ message: "Muitas requisições, tente novamente mais tarde." });
+    }
+
+    if (originalRequest._retry || error.status !== 401) return Promise.reject(error.response.data);
 
     const isNotLoginPage = typeof window !== "undefined" && !window.location.pathname.includes("login");
 
     // Se já está fazendo refresh, coloca na fila
-    if (isRefreshing) {
-      return new Promise((resolve, reject) => {
-        failedQueue.push({ resolve, reject });
-      })
-        .then(() => {
-          return api(originalRequest);
-        })
-        .catch((err) => {
-          console.log("Mensagem de erro: ", err.message);
-          return Promise.reject(err);
-        });
-    }
+    if (isRefreshing) return addToProcessQueue(originalRequest);
 
     // Marca que vai tentar refresh
     originalRequest._retry = true;
