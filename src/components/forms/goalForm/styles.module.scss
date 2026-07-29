@@ -3,14 +3,24 @@
 .registerGoalFormContainer {
   padding: 1rem;
   border: colors.$borderDefault;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  grid-template-areas:
-    "deadline-date deadline-date" "title title"
-    "description description"
-    "goal-type goal-name"
-    "buttons buttons";
-  border-radius: 0.4rem;
+  
+  .warning {
+    display: flex;
+    align-items: center;
+    background-color: #818181;
+    gap: 0.4rem;
+    font-size: 1rem;
+    padding: .6rem;
+    color: #f3f3f3;
+    border-radius: 0.4rem;
+    
+    .icon {
+      font-size: 1.6rem;
+    }
+  }
 
   label {
     display: flex;
@@ -29,13 +39,6 @@
     span {
       font-size: 1.1rem;
       font-weight: 500;
-
-      &::after {
-        content: "*";
-        color: red;
-        margin-left: 0.2rem;
-        font-size: 1.2rem;
-      }
     }
   }
 
@@ -50,13 +53,14 @@
     }
   }
 
-  .titleInput {
-    grid-area: title;
-  }
-
   .descriptionInput {
-    grid-area: description;
-
+    span::after {
+      content: "*";
+      color: red;
+      margin-left: 0.2rem;
+      font-size: 1.2rem;
+    }
+    
     textarea {
       padding: 0.4rem;
       border-radius: 0.5rem;
@@ -68,15 +72,23 @@
   }
 
   .goalType {
-    grid-area: goal-type;
+    flex-direction: row;
+    gap: 0.4rem;
+    
+    input {
+      width: 1rem;
+    }
   }
 
   .isNotEmployeeRole {
     cursor: not-allowed;
   }
-
-  .employeeInput {
-    grid-area: employee-name;
+  
+  .inputGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    width: 100%;
   }
 
   .buttons {

@@ -39,11 +39,6 @@ export const WelderActivityForm = () => {
     setDescription(value);
   };
 
-  productsOptions.push({
-    value: "Solda Geral",
-    label: "Solda Geral",
-  });
-
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
@@ -60,7 +55,7 @@ export const WelderActivityForm = () => {
       router.push("/soldadores?page=1&pageSize=13");
     } catch (err) {
       const error = err as Error;
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -87,6 +82,7 @@ export const WelderActivityForm = () => {
         defaultValue={"Selecione o produto"}
         value={producedProduct}
         label={"Produto produzido"}
+        isDisabled={isGeneralActivity}
       />
       <div className={styles.inputCheck}>
         <input type="checkbox" checked={isGeneralActivity} onChange={(e) => setIsGeneralActivity(e.target.checked)} />
