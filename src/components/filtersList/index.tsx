@@ -1,11 +1,12 @@
-import React, { CSSProperties, useEffect } from "react";
+"use client";
+
+import React, { CSSProperties } from "react";
 import styles from "./styles.module.scss";
 import { FaPlus } from "react-icons/fa";
 import LinkButton from "../linkButton";
 import { IoFilter, IoReload } from "react-icons/io5";
 import { useLoading } from "@/hooks/useLoading";
 import { ClipLoader } from "react-spinners";
-import { toast } from "react-toastify";
 import { useOpenMobile } from "@/hooks/useOpenMobile";
 
 type FiltersListProps = {
@@ -16,7 +17,7 @@ type FiltersListProps = {
 };
 
 const FiltersList = (props: FiltersListProps) => {
-  const { isLoading, setIsLoading } = useLoading();
+  const { isLoading } = useLoading();
   const { setOpenMobile, openMobile } = useOpenMobile();
 
   return (

@@ -21,7 +21,7 @@
 .card {
   background-color: colors.$backgroundGray;
   border: colors.$borderDefault;
-  border-radius: 0.5rem;
+  //border-radius: 0.5rem;
   padding: 1.25rem;
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@
     justify-content: center;
     width: 3.5rem;
     height: 3.5rem;
-    border-radius: 0.5rem;
+    //border-radius: 0.5rem;
     background-color: #E8F1FF; // bg requested by user
     color: #2B79DE; // primary color requested by user
     font-size: 1.8rem;
@@ -69,7 +69,7 @@
       text-transform: capitalize;
       background-color: rgba(0, 0, 0, 0.04);
       padding: 0.15rem 0.5rem;
-      border-radius: 1rem;
+      //border-radius: 1rem;
       width: fit-content;
     }
   }
@@ -84,7 +84,7 @@
     justify-content: center;
     width: 3rem;
     height: 3rem;
-    border-radius: 50%;
+    //border-radius: 50%;
     font-size: 1.4rem;
     flex-shrink: 0;
   }
@@ -130,7 +130,7 @@
 .chartCard {
   background-color: colors.$backgroundGray;
   border: colors.$borderDefault;
-  border-radius: 0.5rem;
+  //border-radius: 0.5rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -169,12 +169,12 @@
 
     &::-webkit-scrollbar-track {
       background: colors.$borderColor;
-      border-radius: 3px;
+      //border-radius: 3px;
     }
 
     &::-webkit-scrollbar-thumb {
       background: colors.$textSecondary;
-      border-radius: 3px;
+      //border-radius: 3px;
 
       &:hover {
         background: colors.$textPrimary;
@@ -199,7 +199,7 @@
   span {
     background-color: colors.$borderColor;
     padding: 0.15rem 0.75rem;
-    border-radius: 1rem;
+    //border-radius: 1rem;
     display: inline-block;
   }
 
@@ -233,7 +233,7 @@
     color: white;
     border: none;
     padding: 0.6rem 1.2rem;
-    border-radius: 0.25rem;
+    //border-radius: 0.25rem;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;

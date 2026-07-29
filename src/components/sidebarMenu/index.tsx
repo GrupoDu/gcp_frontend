@@ -6,7 +6,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { BiLogOutCircle } from "react-icons/bi";
 import Image from "next/image";
 import GrupoduImage from "../../assets/grupodu_new_logo.png";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
@@ -14,30 +14,23 @@ import { adminPages, supervisorPages } from "@/Constants/menuOptions.constant";
 import { usePathname } from "next/navigation";
 
 const SidebarMenu = () => {
-  const [actualPage, setActualPage] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    const role = localStorage.getItem("@App:userRole") || "";
-    setUserRole(role);
-    if (userRole !== "") setIsLoading(false);
-    setActualPage(pathname);
-  }, [pathname, userRole]);
+  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
 
   function toggleSidebar() {
     setIsSidebarClosed(!isSidebarClosed);
   }
 
-  const isAdmin = userRole === "Admin";
+  function handleClick() {
+    setIsSidebarClosed(!isSidebarClosed);
+  }
 
   async function handleLogout() {
     setIsLoading(true);
     try {
       await api.post("/auth/logout");
 
+      localStorage.removeItem("@App:userRole");
       window.location.href = "/login";
     } catch (err) {
       const error = err as Error;
@@ -47,10 +40,6 @@ const SidebarMenu = () => {
       window.location.href = "/login";
       setIsLoading(false);
     }
-  }
-
-  function handleClick() {
-    setIsSidebarClosed(!isSidebarClosed);
   }
 
   return (
@@ -65,27 +54,7 @@ const SidebarMenu = () => {
         </div>
       ) : (
         <div className={styles.menuOptionsContainer}>
-          {isAdmin
-            ? adminPages.map((option) => (
-                <MenuOption
-                  onClick={handleClick}
-                  key={option.menuTitle}
-                  MenuIcon={option.MenuIcon}
-                  isSelected={option.pageName === actualPage}
-                  href={option.href}
-                  menuTitle={option.menuTitle}
-                />
-              ))
-            : supervisorPages.map((option) => (
-                <MenuOption
-                  onClick={handleClick}
-                  key={option.menuTitle}
-                  MenuIcon={option.MenuIcon}
-                  isSelected={option.pageName === actualPage}
-                  href={option.href}
-                  menuTitle={option.menuTitle}
-                />
-              ))}
+          <Options handleClick={handleClick} />
         </div>
       )}
 
@@ -111,5 +80,41 @@ const SidebarMenu = () => {
     </aside>
   );
 };
+
+function Options({ handleClick }: { handleClick: () => void }) {
+  const [userRole, setUserRole] = useState("");
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const role = localStorage.getItem("@App:userRole") || "";
+    setUserRole(role);
+  }, []);
+
+  const isAdmin = userRole === "Admin";
+
+  if (isAdmin) {
+    return adminPages.map((option) => (
+      <MenuOption
+        onClick={handleClick}
+        key={option.menuTitle}
+        MenuIcon={option.MenuIcon}
+        isSelected={option.pageName === pathname.split("/")[1]}
+        href={option.href}
+        menuTitle={option.menuTitle}
+      />
+    ));
+  }
+
+  return supervisorPages.map((option) => (
+    <MenuOption
+      onClick={handleClick}
+      key={option.menuTitle}
+      MenuIcon={option.MenuIcon}
+      isSelected={option.pageName === pathname.split("/")[1]}
+      href={option.href}
+      menuTitle={option.menuTitle}
+    />
+  ));
+}
 
 export default SidebarMenu;

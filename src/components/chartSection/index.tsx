@@ -9,12 +9,8 @@ import { AnualAnalysisProvider } from "@/providers/anualAnalysis.provider";
 const ChartSection = () => {
   return (
     <div className={styles.chartSectionContainer}>
-      <ProductionOrderAnalysisProvider>
-        <PieChartContainer />
-      </ProductionOrderAnalysisProvider>
-      <AnualAnalysisProvider>
-        <LineChartContainer />
-      </AnualAnalysisProvider>
+      <PieChartContainer />
+      <LineChartContainer />
     </div>
   );
 };

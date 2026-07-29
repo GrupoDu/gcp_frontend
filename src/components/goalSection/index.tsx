@@ -5,12 +5,11 @@ import LinkButton from "../linkButton";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import CardGoal from "../ui/cardGoal";
-import { useGoal } from "@/hooks/useGoal";
+import { useFetch } from "@/hooks/useFetch";
+import { Goal } from "@/types/goal.interface";
 
 const GoalSection = () => {
-  const { goalsData, refetch } = useGoal();
-  const isGoalsEmpty: boolean | undefined = goalsData && goalsData.length > 0;
-  const pendingGoals = goalsData?.filter((goal) => goal.goalStatus === "Pendente");
+  const { data: goals, refetch } = useFetch<Goal[]>("goal?status=EmProgresso");
 
   return (
     <div className={styles.goalSectionContainer}>
@@ -24,25 +23,29 @@ const GoalSection = () => {
         </LinkButton>
       </div>
       <ul>
-        {isGoalsEmpty ? (
-          <h4 className={styles.noGoalsText}>Nenhuma meta cadastrada</h4>
-        ) : (
-          pendingGoals?.map((meta) => (
-            <li key={meta.goalUuid}>
-              <CardGoal
-                refetch={refetch}
-                goalId={meta.goalUuid || ""}
-                title={meta.goalTitle}
-                description={meta.goalDescription}
-                deadline={meta.goalDeadline.toString()}
-                status={meta.goalStatus || "Pendente"}
-              />
-            </li>
-          ))
-        )}
+        <DisplayGoals goals={goals} refetch={refetch} />
       </ul>
     </div>
   );
 };
+
+function DisplayGoals({ goals, refetch }: { goals: Goal[] | undefined; refetch: () => void }) {
+  const isGoalsEmpty: boolean | undefined = goals && goals.length < 0;
+
+  if (isGoalsEmpty) return <h4 className={styles.noGoalsText}>Nenhuma meta cadastrada</h4>;
+
+  return goals?.map((meta) => (
+    <li key={meta.goalUuid}>
+      <CardGoal
+        refetch={refetch}
+        goalId={meta.goalUuid || ""}
+        title={meta.goalTitle}
+        description={meta.goalDescription}
+        deadline={meta.goalDeadline.toString()}
+        status={meta.goalStatus || "EmProgresso"}
+      />
+    </li>
+  ));
+}
 
 export default GoalSection;

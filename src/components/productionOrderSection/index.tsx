@@ -9,21 +9,16 @@ import { ProductionOrder } from "@/types/productionOrder.interface";
 import { dataFormater } from "@/utils/dataFormater";
 import { useEffect, useRef } from "react";
 import { titleFormatter } from "@/utils/titleFormatter";
+import { getSlug } from "@/utils/getSlug";
 
 const ProductionOrderSection = () => {
-  const { data, refetch } = useFetch<ProductionOrder[]>("productionOrder/filters?status=EmProducao");
-  const initialFetchDone = useRef(false);
-
-  useEffect(() => {
-    if (!initialFetchDone.current) {
-      initialFetchDone.current = true;
-      refetch();
-    }
-  }, [refetch]);
+  const { data } = useFetch<ProductionOrder[]>("productionOrder/filters?status=EmProducao");
+  const productionOrderUuid = getSlug()[2];
+  const productionOrders = data?.filter((order) => order.productionOrderUuid !== productionOrderUuid);
 
   let isProductionOrderPopulated = false;
 
-  if (data) isProductionOrderPopulated = data.length > 0;
+  if (data && productionOrders) isProductionOrderPopulated = productionOrders.length > 0;
 
   return (
     <div className={styles.productionOrderSectionContainer}>
@@ -32,7 +27,7 @@ const ProductionOrderSection = () => {
       </LinkButton>
       <ul>
         {isProductionOrderPopulated ? (
-          data?.map((order) => (
+          productionOrders?.map((order) => (
             <li key={order.productionOrderUuid}>
               <CardProductionOrder
                 registerId={order.productionOrderUuid || ""}

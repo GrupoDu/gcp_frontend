@@ -8,9 +8,11 @@ import { ProductionOrder } from "@/types/productionOrder.interface";
 import { useFetch } from "@/hooks/useFetch";
 import DataNotFound from "@/components/dataNotFound";
 import { titleFormatter } from "@/utils/titleFormatter";
+import { useLoading } from "@/hooks/useLoading";
 
 const ProductionOrderList = () => {
   const { data: productionOrders, refetch } = useFetch<ProductionOrder[]>("productionOrder");
+  const { isLoading } = useLoading();
   const searchParams = useSearchParams();
   const productFilter = searchParams.get("product");
   const statusFilter = searchParams.get("status");
@@ -20,26 +22,22 @@ const ProductionOrderList = () => {
 
   return (
     <ul className={`${styles.cardListContainer} ${isListEmpty && styles.emptyList}`}>
-      {displayProductionOrders(refetch, productionOrders)}
+      {isListEmpty && <DataNotFound />}
+      {productionOrders &&
+        productionOrders?.map((order) => (
+          <li key={order.productionOrderUuid}>
+            <CardProductionOrder
+              date={dataFormater(order.productionOrderDeadline)}
+              description={order.productionOrderDescription || ""}
+              title={titleFormatter(order.product.acronym, order.toBeProduced)}
+              status={order.productionOrderStatus}
+              registerId={order?.productionOrderUuid || ""}
+              refetch={refetch}
+            />
+          </li>
+        ))}
     </ul>
   );
 };
-
-function displayProductionOrders(refetch: () => void, orders?: ProductionOrder[]) {
-  if (!orders || orders.length < 1) return <DataNotFound />;
-
-  return orders?.map((order) => (
-    <li key={order.productionOrderUuid}>
-      <CardProductionOrder
-        date={dataFormater(order.productionOrderDeadline)}
-        description={order.productionOrderDescription || ""}
-        title={titleFormatter(order.product.acronym, order.toBeProduced)}
-        status={order.productionOrderStatus}
-        registerId={order?.productionOrderUuid || ""}
-        refetch={refetch}
-      />
-    </li>
-  ));
-}
 
 export default ProductionOrderList;

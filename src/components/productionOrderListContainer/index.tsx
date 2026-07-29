@@ -24,30 +24,24 @@ const RegisterListContainer = () => {
     <>
       {isLoading && <Loading />}
       <OpenMobileProvider>
-        <ProductionOrderProvider>
-          <main style={{ gap: 0 }} className={`${styles.listContainer} mainContainer`}>
-            <FiltersList
-              buttonLabel={"Ordem de produção"}
-              hrefButton={"producao/atividade"}
-              style={{ borderRadius: ".4rem .4rem 0 0", borderBottom: 0 }}
-            >
-              <DeadlineInput />
-              <ProductsDropdown />
-              <ActivityDropdown />
-              <SearchBar targetFilter={"employee"} />
-              <StatusDropdown />
-            </FiltersList>
-            <FilterMobileContainer>
-              <DeadlineInput />
-              <ProductsDropdown />
-              <ActivityDropdown />
-              <SearchBar targetFilter={"employee"} />
-              <StatusDropdown />
-            </FilterMobileContainer>
-            <ProductionOrderList />
-            <ListFooter status={["Em Produção", "Entregue", "Não entregue"]} />
-          </main>
-        </ProductionOrderProvider>
+        <main style={{ gap: 0 }} className={`${styles.listContainer} mainContainer`}>
+          <FiltersList
+            buttonLabel={"Ordem de produção"}
+            hrefButton={"producao/atividade"}
+            style={{ borderRadius: ".4rem .4rem 0 0", borderBottom: 0 }}
+          >
+            <DeadlineInput />
+            <ProductsDropdown />
+            <StatusDropdown />
+          </FiltersList>
+          <FilterMobileContainer>
+            <DeadlineInput />
+            <ProductsDropdown />
+            <StatusDropdown />
+          </FilterMobileContainer>
+          <ProductionOrderList />
+          <ListFooter status={["Em Produção", "Entregue", "Não entregue"]} />
+        </main>
       </OpenMobileProvider>
     </>
   );

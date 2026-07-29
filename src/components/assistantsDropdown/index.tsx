@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import SelectInput from "@/components/ui/selectInput";
-import getEmployees from "@/utils/getEmployees";
+import { useFetch } from "@/hooks/useFetch";
+import { Employee } from "@/types/employee.interface";
 
 type AssistantsDropdownProps = {
   setAssistantsFilter: (value: string) => void;
@@ -11,31 +11,15 @@ type AssistantsDropdownProps = {
 
 const AssistantsDropdown = (props: AssistantsDropdownProps) => {
   const { setAssistantsFilter, assistantsFilter } = props;
-  const [assistantsDropdown, setAssistantsDropdown] = useState<{ value: string; label: string }[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const { assistants } = await getEmployees();
-
-        if (!assistants) throw new Error("Funcionários não encontrados.");
-
-        assistants.forEach((assistant) =>
-          setAssistantsDropdown((prevState) => [
-            ...prevState,
-            { value: assistant.employeeUuid || "", label: assistant.name || "" },
-          ]),
-        );
-      } catch (err) {
-        const error = err as Error;
-        console.error(error.message);
-      }
-    })();
-  }, []);
+  const { data: assistants } = useFetch<Employee[]>("employee/filter?role=Assistente");
+  const assistantsOptions = assistants?.map((assistant) => ({
+    value: assistant.employeeUuid || "",
+    label: assistant.name || "",
+  }));
 
   return (
     <SelectInput
-      options={assistantsDropdown}
+      options={assistantsOptions}
       onChange={(e) => setAssistantsFilter(e.target.value)}
       defaultValue={"Selecione um assistente"}
       value={assistantsFilter}

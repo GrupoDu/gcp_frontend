@@ -5,15 +5,14 @@
   background-color: white;
   color: black;
   object-fit: contain;
-  width: fit-content;
+  width: 1rem;
+  height: 1rem;
   display: flex;
-  height: fit-content;
   cursor: pointer;
   padding: 0.4rem;
-  border-radius: 0.2rem;
+  //border-radius: 0.2rem;
   // box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   border: colors.$borderDefault;
-  display: flex;
   justify-content: center;
   align-items: center;
 

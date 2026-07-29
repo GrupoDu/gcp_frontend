@@ -13,7 +13,8 @@ type CardRegisterProps = {
 };
 
 const CardProductionOrder = (props: CardRegisterProps) => {
-  const statusColor = props.status === "EmProducao" ? "#FFD079" : props.status === "Entregue" ? "green" : "red";
+  const statusColor = props.status === "EmProducao" ? "#FFD079" : props.status === "Finalizado" ? "green" : "red";
+  const isInProduction = props.status === "EmProducao";
 
   return (
     <div className={styles.cardRegisterContainer}>
@@ -21,22 +22,23 @@ const CardProductionOrder = (props: CardRegisterProps) => {
         <div className={styles.status} style={{ backgroundColor: statusColor }}></div>
         <h3>{props.title}</h3>
         <div className={styles.buttons}>
-          {props.status === "Pendente" && <EditButton href={`/producao/edit/${props.registerId}`} />}
           <DeleteButton endpoint="productionOrder" uuid={props.registerId} refetch={props.refetch} />
         </div>
       </div>
       <span>{props.date}</span>
       <div className={styles.dash} />
-      {props.description ? (
-        <p className={styles.observationField}>{props.description}</p>
-      ) : (
-        <p className={styles.noObservation}>Registro sem observação</p>
-      )}
+      <ProductionOrderDescription description={props.description} />
       <LinkButton color="black" fullWidth={true} textAlign="center" href={`/producao/${props.registerId}`}>
         Visualizar ordem de produção
       </LinkButton>
     </div>
   );
 };
+
+function ProductionOrderDescription({ description }: { description?: string }) {
+  if (description) return <p className={styles.observationField}>{description}</p>;
+
+  return <p className={styles.noObservation}>Registro sem observação</p>;
+}
 
 export default CardProductionOrder;

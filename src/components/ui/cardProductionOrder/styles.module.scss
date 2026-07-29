@@ -7,7 +7,7 @@
   }
   25% {
     opacity: 1;
-    transform: translateY(5);
+    transform: translateY(5px);
   }
   50% {
     opacity: 1;
@@ -15,7 +15,7 @@
   }
   75% {
     opacity: 1;
-    transform: translateY(2);
+    transform: translateY(2px);
   }
   100% {
     opacity: 1;
@@ -28,7 +28,7 @@
   flex-direction: column;
   gap: 0.5rem;
   border: colors.$borderDefault;
-  border-radius: 8px;
+  //border-radius: 8px;
   padding: 1rem;
   box-sizing: border-box;
   width: 100%;
@@ -56,16 +56,15 @@
   }
 
   .status {
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
+    width: .4em;
+    height: 1.4em;
+    border-radius: 15%;
   }
 
   .dash {
     width: 100%;
-    border: colors.$borderDefault;
-    height: none;
-    border-style: dashed;
+    border: 1px dashed colors.$borderColor;
+    height: 0;
   }
 
   .observationField {
