@@ -30,7 +30,6 @@ const ProductionOrderInfos = ({ productionOrderUuid }: { productionOrderUuid: st
   const [deliveryObservation, setDeliveryObservation] = useState<string>("");
   const [producedQuantity, setProducedQuantity] = useState<number>(1);
   const { isLoading, setIsLoading } = useLoading();
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const router = useRouter();
   const { data: productionOrder } = useFetch<ProductionOrder>(`productionOrder/${productionOrderUuid}`);
 
