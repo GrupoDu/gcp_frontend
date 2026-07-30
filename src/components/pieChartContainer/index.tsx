@@ -17,15 +17,18 @@ const PieChartContainer = () => {
     {
       value: productionOrderAnalysis?.deliveredQuantity || 0,
       label: "Concluido",
+      color: "#009688",
     },
     {
       value: productionOrderAnalysis?.pendingQuantity || 0,
       label: "Em Produção",
+      color: "#FFD079",
     },
 
     {
       value: productionOrderAnalysis?.notDeliveredQuantity || 0,
       label: "Não Entregue",
+      color: "#d32f2f",
     },
   ];
 

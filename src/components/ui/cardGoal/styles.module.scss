@@ -55,6 +55,24 @@
     box-sizing: border-box;
   }
 
+  .deliveredDisplay {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background-color: colors.$doneBg;
+    color: colors.$done;
+    width: fit-content;
+    box-sizing: border-box;
+    border: 1px solid colors.$done;
+    margin: 0.6rem;
+    
+    p {
+      padding: 0;
+    }
+  }
+
   .deadline {
     font-style: italic;
     padding: 0.6rem;

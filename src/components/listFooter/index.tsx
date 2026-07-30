@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 
 const ListFooter = ({ status }: { status: string[] }) => {
-  const statusColors = ["#FFD079", "green", "red"];
+  const statusColors = ["#FFD079", "#009688", "#d32f2"];
 
   return (
     <div className={styles.listFooterContainer}>

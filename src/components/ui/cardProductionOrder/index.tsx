@@ -13,7 +13,7 @@ type CardRegisterProps = {
 };
 
 const CardProductionOrder = (props: CardRegisterProps) => {
-  const statusColor = props.status === "EmProducao" ? "#FFD079" : props.status === "Finalizado" ? "green" : "red";
+  const statusColor = props.status === "EmProducao" ? "#FFD079" : props.status === "Finalizado" ? "#009688" : "#d32f2f";
   const isInProduction = props.status === "EmProducao";
 
   return (

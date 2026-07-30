@@ -6,11 +6,9 @@ import { dataFormater } from "@/utils/dataFormater";
 import DeleteButton from "@/components/deleteButton";
 import EditButton from "@/components/editButton";
 import DeliverButton from "../deliverButton";
-import { handlePatch } from "@/utils/handleSubmitUtils/handlePatch";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
-import { AxiosError } from "axios";
-import { useState } from "react";
+import { BsCheck } from "react-icons/bs";
 
 async function handleDelivery(e: React.SubmitEvent, goalId: string) {
   e.preventDefault();
@@ -37,11 +35,11 @@ type CardGoalProps = {
 const CardGoal = ({ title, description, status, deadline, goalId, refetch }: CardGoalProps) => {
   const statusIcon =
     status === "Alcancada" ? (
-      <FaCheckCircle color="green" className={styles.iconStatus} />
+      <FaCheckCircle color="#009688" className={styles.iconStatus} />
     ) : status === "EmProgresso" ? (
       <FaClock color="#FFD079" className={styles.iconStatus} />
     ) : (
-      <IoIosCloseCircle color="red" className={styles.iconStatus} />
+      <IoIosCloseCircle color="#d32f2f" className={styles.iconStatus} />
     );
 
   return (
@@ -57,19 +55,34 @@ const CardGoal = ({ title, description, status, deadline, goalId, refetch }: Car
       <hr />
       <p className={styles.deadline}>Prazo: {dataFormater(deadline)}</p>
       <p>{description ? description : "Sem descrição"}</p>
-      {status === "EmProgresso" && (
-        <form
-          onSubmit={async (e) => {
-            await handleDelivery(e, goalId);
-            if (refetch) refetch();
-          }}
-          className={styles.deliverButtonContainer}
-        >
-          <DeliverButton>Marcar como batida</DeliverButton>
-        </form>
-      )}
+      <DisplayBottomButton status={status} goalId={goalId} refetch={refetch} />
     </div>
   );
 };
+
+function DisplayBottomButton({ status, goalId, refetch }: { status: string; goalId: string; refetch?: () => void }) {
+  const isInProgress = status === "EmProgresso";
+
+  if (isInProgress) {
+    return (
+      <form
+        onSubmit={async (e) => {
+          await handleDelivery(e, goalId);
+          if (refetch) refetch();
+        }}
+        className={styles.deliverButtonContainer}
+      >
+        <DeliverButton>Marcar como batida</DeliverButton>
+      </form>
+    );
+  }
+
+  return (
+    <div className={styles.deliveredDisplay}>
+      <BsCheck />
+      <p>Meta batida</p>
+    </div>
+  );
+}
 
 export default CardGoal;
