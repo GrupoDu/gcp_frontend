@@ -9,7 +9,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { Goal } from "@/types/goal.interface";
 
 const GoalSection = () => {
-  const { data: goals, refetch } = useFetch<Goal[]>("goal?status=EmProgresso");
+  const { data: goals, refetch } = useFetch<Goal[]>("goal/filter?status=EmProgresso");
 
   return (
     <div className={styles.goalSectionContainer}>
