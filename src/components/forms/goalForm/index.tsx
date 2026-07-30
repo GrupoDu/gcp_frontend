@@ -22,8 +22,7 @@ type GoalFormProps = {
   handleSubmit: (
     e: React.SubmitEvent,
     router: AppRouterInstance,
-    endpoint: string,
-    payload: unknown,
+    payload: GoalPayload,
     setIsLoading: (value: boolean) => void,
   ) => void;
 };
@@ -38,10 +37,7 @@ function GoalForm({ isEdit, goal, handleSubmit, setGoal }: GoalFormProps) {
   const endpoint = isEdit ? `goal/${(goal as Goal).goalUuid}` : "goal";
 
   return (
-    <form
-      onSubmit={(e) => handleSubmit(e, router, endpoint, goal, setIsLoading)}
-      className={styles.registerGoalFormContainer}
-    >
+    <form onSubmit={(e) => handleSubmit(e, router, newGoal, setIsLoading)} className={styles.registerGoalFormContainer}>
       <div className={styles.warning}>
         <CiCircleInfo className={styles.icon} />
         <span>
@@ -101,7 +97,7 @@ function GoalForm({ isEdit, goal, handleSubmit, setGoal }: GoalFormProps) {
         <LinkButton color="black" href="/metas">
           Cancelar
         </LinkButton>
-        <SubmitButton isProcessing={isLoading}>{isEdit ? "Editar" : "Salvar"}</SubmitButton>
+        <SubmitButton>{isEdit ? "Editar" : "Salvar"}</SubmitButton>
       </div>
     </form>
   );

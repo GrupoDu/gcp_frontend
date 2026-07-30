@@ -69,7 +69,7 @@ const ProductionOrderInfos = ({ productionOrderUuid }: { productionOrderUuid: st
             Voltar
           </LinkButton>
           {isInProduction && (
-            <DeliverButton isProcessing={isProcessing}>
+            <DeliverButton>
               <CiSquareCheck /> Marcar como entregue
             </DeliverButton>
           )}
