@@ -74,11 +74,7 @@ const EmployeeAnalysisDetail = () => {
           <span>← Arraste para ver todos os meses →</span>
         </div>
       </section>
-      <ProductionAnalysisChart
-        productActivity={employeeAnalysis.productActivity}
-        activities={employeeAnalysis.activities}
-        generalActivity={employeeAnalysis.generalActivity}
-      />
+      <ProductionAnalysisChart />
     </main>
   );
 };

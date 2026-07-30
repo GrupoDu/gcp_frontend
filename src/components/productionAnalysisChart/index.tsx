@@ -5,6 +5,7 @@ import { ProductActivity } from "@/types/employeeAnalysis.interface";
 import { Activity } from "@/types/assistantAnalysis.interface";
 import { BarChart } from "@mui/x-charts";
 import { FaChartBar } from "react-icons/fa";
+import { useEmployeeAnalysis } from "@/hooks/useEmployeeAnalysis";
 
 type ProductionAnalysisProps = {
   productActivity: ProductActivity[];
@@ -12,30 +13,35 @@ type ProductionAnalysisProps = {
   activities: Activity[];
 };
 
-export const ProductionAnalysisChart = ({ productActivity, activities, generalActivity }: ProductionAnalysisProps) => {
-  const isProductActivityPopulated = !!productActivity && productActivity.length > 0;
-  const isActivitiesPopulated = !!activities && activities.length > 0;
-  const hasGeneralActivity = !!generalActivity && generalActivity > 0;
+export const ProductionAnalysisChart = () => {
+  const { employeeAnalysis, analysisFullYear } = useEmployeeAnalysis();
+  const isProductActivityPopulated = !!employeeAnalysis.productActivity && employeeAnalysis.productActivity.length > 0;
+  const isActivitiesPopulated = !!employeeAnalysis.activities && employeeAnalysis.activities.length > 0;
+  const hasGeneralActivity = !!employeeAnalysis.generalActivity && employeeAnalysis.generalActivity > 0;
 
   const title = isProductActivityPopulated ? "Produtos" : isActivitiesPopulated ? "Atividades" : "";
 
-  const xAxisProduct = isProductActivityPopulated ? productActivity.map((activity) => activity.acronym) : [];
+  const xAxisProduct = isProductActivityPopulated
+    ? employeeAnalysis.productActivity.map((activity) => activity.acronym)
+    : [];
 
   const yAxisProduct = isProductActivityPopulated
     ? [
         {
-          data: productActivity.map((product) => product.totalProduction),
+          data: employeeAnalysis.productActivity.map((product) => product.totalProduction),
           label: "Produção total",
         },
       ]
     : [];
 
-  const xAxisActivity = isActivitiesPopulated ? activities.map((activity) => activity.activityType) : [];
+  const xAxisActivity = isActivitiesPopulated
+    ? employeeAnalysis.activities.map((activity) => activity.activityType)
+    : [];
 
   const yAxisActivity = isActivitiesPopulated
     ? [
         {
-          data: activities.map((activity) => activity.producedQuantity),
+          data: employeeAnalysis.activities.map((activity) => activity.producedQuantity),
           label: "Produção total",
         },
       ]
@@ -55,7 +61,7 @@ export const ProductionAnalysisChart = ({ productActivity, activities, generalAc
       <BarChart xAxis={[{ data: xAxis }]} series={yAxis} height={300} />
       {hasGeneralActivity && (
         <div className={styles.generalActivity}>
-          <span>Atividade Geral: {generalActivity} produções</span>
+          <span>Atividade Geral: {employeeAnalysis.generalActivity} produções</span>
         </div>
       )}
     </section>

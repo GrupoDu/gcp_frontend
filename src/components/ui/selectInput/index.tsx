@@ -5,7 +5,7 @@ import { SelectOption } from "@/types/selectOption.interface";
 import { useLoading } from "@/hooks/useLoading";
 
 interface SelectInputProps extends Omit<InputType, "onChange"> {
-  options: SelectOption[] | undefined;
+  options: readonly SelectOption[] | undefined;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   defaultValue: string;
   className?: string;
@@ -45,7 +45,7 @@ const SelectInput = (props: SelectInputProps) => {
   );
 };
 
-function displayOptions(options: SelectOption[] | undefined) {
+function displayOptions(options: readonly SelectOption[] | undefined) {
   return options?.map((option) => (
     <option key={option.value} value={option.value}>
       {option.label}

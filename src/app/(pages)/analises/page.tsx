@@ -2,7 +2,6 @@
 
 import { FaGears } from "react-icons/fa6";
 import PageHeader from "@/components/ui/pageHeader";
-import AnalyticsContainer from "@/components/analyticsContainer";
 import styles from "./page.module.scss";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "@/components/ui/loading";

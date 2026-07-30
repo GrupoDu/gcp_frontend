@@ -9,6 +9,13 @@ export interface AssistantsActivities {
   activityDescription?: string;
 }
 
+export interface AssistantActivityPayload {
+  assistantUuid: string;
+  activityDescription?: string | null;
+  producedQuantity: number;
+  activityType: string;
+}
+
 export interface AssistantsActivitiesPagination {
   assistantsActivities: AssistantsActivities[];
   maxPages: number;
