@@ -1,19 +1,17 @@
 "use client";
 
 import styles from "./styles.module.scss";
+import { useLoading } from "@/hooks/useLoading";
 
 type DeliverButtonProps = {
   children: React.ReactNode;
-  isProcessing: boolean;
 };
 
-const DeliverButton = ({ children, isProcessing }: DeliverButtonProps) => {
+const DeliverButton = ({ children }: DeliverButtonProps) => {
+  const { isLoading } = useLoading();
+
   return (
-    <button
-      type="submit"
-      className={`${styles.deliverButton} ${isProcessing && styles.processing}`}
-      disabled={isProcessing}
-    >
+    <button type="submit" className={`${styles.deliverButton} ${isLoading && styles.processing}`} disabled={isLoading}>
       {children}
     </button>
   );

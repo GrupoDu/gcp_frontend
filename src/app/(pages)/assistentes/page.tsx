@@ -1,19 +1,17 @@
-import styles from "./page.module.scss";
+import AssistantContainer from "@/components/assistentesContainer";
+import { Suspense } from "react";
+
 import PageHeader from "@/components/ui/pageHeader";
 import { IoMdClipboard } from "react-icons/io";
-import OpenMobileProvider from "@/providers/openMobile.provider";
-import AssistantsActivitiesList from "@/components/lists/assistantsActivitiesList";
-import { Suspense } from "react";
+import Loading from "@/components/ui/loading";
 
 function AssistantActivityPage() {
   return (
-    <div className={"pageContainer"}>
+    <div className={`pageContainer `}>
       <PageHeader HeaderIcon={IoMdClipboard} headerTitle={"Atividades de Assistentes"} />
-      <OpenMobileProvider>
-        <Suspense>
-          <AssistantsActivitiesList />
-        </Suspense>
-      </OpenMobileProvider>
+      <Suspense fallback={<Loading />}>
+        <AssistantContainer />
+      </Suspense>
     </div>
   );
 }

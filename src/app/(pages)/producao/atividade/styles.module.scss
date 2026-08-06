@@ -1,0 +1,12 @@
+
+.buttons {
+  display: flex;
+  flex: 1;
+  gap: .8rem;
+  
+  .backButton {
+    background-color: black;
+    color: white;
+    border: none;
+  }
+}

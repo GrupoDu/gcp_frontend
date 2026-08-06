@@ -1,126 +1,106 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styles from "./styles.module.scss";
-import { useEmployeeRole } from "@/hooks/useEmployeeRole";
 import LinkButton from "@/components/linkButton";
-import { useRouter } from "next/navigation";
-import { useGoal } from "@/hooks/useGoal";
-import { Goal } from "@/types/goal.type";
-import { handleFormSubmit } from "@/utils/handleFormSubmit";
 import SubmitButton from "@/components/ui/submitButton";
+import { useFetch } from "@/hooks/useFetch";
+import { Employee } from "@/types/employee.interface";
+import { Goal, GoalPayload } from "@/types/goal.interface";
+import TextInput from "@/components/ui/textInput";
+import { useLoading } from "@/hooks/useLoading";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "next/navigation";
+import SelectInput from "@/components/ui/selectInput";
+import { getOptions } from "@/utils/getOptions";
+import { CiCircleInfo } from "react-icons/ci";
 
-const GoalForm = ({ isEdit, goal_id }: { isEdit: boolean; goal_id?: string }) => {
-  const { welders } = useEmployeeRole();
-  const { goalsData } = useGoal();
-  const [canEdit, setCanEdit] = useState(false);
+type GoalFormProps = {
+  isEdit: boolean;
+  goal: unknown;
+  setGoal: Dispatch<SetStateAction<Goal>>;
+  handleSubmit: (
+    e: React.SubmitEvent,
+    router: AppRouterInstance,
+    payload: GoalPayload,
+    setIsLoading: (value: boolean) => void,
+  ) => void;
+};
+
+function GoalForm({ isEdit, goal, handleSubmit, setGoal }: GoalFormProps) {
+  const { data: welders } = useFetch<Employee[]>("employee?role=Soldador");
+  const { isLoading, setIsLoading } = useLoading();
+  const newGoal = goal as GoalPayload;
   const router = useRouter();
-  const [goalField, setGoalField] = useState<Goal>({
-    goal_title: "",
-    goal_description: "",
-    goal_type: "geral",
-    goal_deadline: "",
-    employee_goal: null,
-  });
+  const weldersOptions = welders?.map((welder) => getOptions(welder.employeeUuid, welder.name));
 
-  useEffect(() => {
-    if (isEdit && goalsData) {
-      const fetchedGoal = goalsData?.find((goal) => goal.goal_uuid === goal_id);
-
-      if (fetchedGoal) {
-        const formattedDeadline = fetchedGoal && new Date(fetchedGoal.goal_deadline).toISOString();
-
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setGoalField({
-          goal_title: fetchedGoal?.goal_title || "",
-          goal_description: fetchedGoal?.goal_description || "",
-          goal_type: fetchedGoal?.goal_type || "geral",
-          goal_deadline: formattedDeadline || "",
-          employee_goal: fetchedGoal?.employee_goal || null,
-        });
-      }
-      setCanEdit(fetchedGoal?.goal_status === "Pendente");
-    } else {
-      setCanEdit(true);
-    }
-  }, [isEdit, goalsData, goal_id]);
-
-  const method = isEdit ? "PUT" : "POST";
-  const endpoint = isEdit ? `goals/${goal_id}` : "goals";
+  const endpoint = isEdit ? `goal/${(goal as Goal).goalUuid}` : "goal";
 
   return (
-    <form
-      onSubmit={(e) => handleFormSubmit(e, { method, endpoint, bodyValues: goalField }, { router, canEdit })}
-      className={styles.registerGoalFormContainer}
-    >
+    <form onSubmit={(e) => handleSubmit(e, router, newGoal, setIsLoading)} className={styles.registerGoalFormContainer}>
+      <div className={styles.warning}>
+        <CiCircleInfo className={styles.icon} />
+        <span>
+          Para selecionar um funcionário, marque a opção{" "}
+          <i>
+            <strong>&quot;Meta de funcionário&quot;</strong>
+          </i>
+        </span>
+      </div>
       <label className={styles.deadlineInput}>
         <span>Data de entrega</span>
         <input
           type="date"
           onChange={(e) =>
-            setGoalField({
-              ...goalField,
-              goal_deadline: new Date(e.target.value).toISOString(),
+            setGoal({
+              ...newGoal,
+              goalDeadline: new Date(e.target.value).toISOString(),
             })
           }
-          value={goalField.goal_deadline.split("T")[0]}
-        />
-      </label>
-      <label className={styles.titleInput}>
-        <span>Título</span>
-        <input
-          value={goalField.goal_title}
-          onChange={(e) => setGoalField({ ...goalField, goal_title: e.target.value })}
-          type="text"
-          placeholder="Título da nova meta"
-        />
-      </label>
-      <label className={styles.descriptionInput}>
-        <span>Descrição</span>
-        <textarea
-          value={goalField.goal_description}
-          onChange={(e) => setGoalField({ ...goalField, goal_description: e.target.value })}
+          value={String(newGoal.goalDeadline).split("T")[0]}
         />
       </label>
       <label className={`${styles.goalType}`}>
-        <span>Tipo de meta</span>
-        <select
-          name="goal-type"
-          value={goalField.goal_type}
-          onChange={(e) => setGoalField({ ...goalField, goal_type: e.target.value })}
-        >
-          <option value="geral">Geral</option>
-          <option value="funcionario">Funcionário</option>
-        </select>
+        <input
+          type="checkbox"
+          name=""
+          id=""
+          onChange={(e) => setGoal({ ...newGoal, isEmployeeGoal: e.target.checked })}
+        />
+        <span>Meta de funcionário</span>
       </label>
-      <label
-        className={`${styles.employeeGoalInput} ${goalField.goal_type !== "funcionario" && styles.isNotEmployeeRole}`}
-      >
-        <span>Funcionário</span>
-        <select
-          disabled={goalField.goal_type !== "funcionario"}
-          value={goalField.employee_goal || ""}
-          onChange={(e) => {
-            setGoalField({ ...goalField, employee_goal: e.target.value });
-          }}
-          name="employee-goal"
-        >
-          <option value="">Selecionar funcionário</option>
-          {welders?.map((welder) => (
-            <option key={welder.employee_uuid} value={welder.employee_uuid}>
-              {welder.name}
-            </option>
-          ))}
-        </select>
+      <div className={styles.inputGrid}>
+        <TextInput
+          type={"text"}
+          onChange={(e) => setGoal({ ...newGoal, goalTitle: e.target.value })}
+          value={String(newGoal.goalTitle)}
+          label={"Título"}
+          required={true}
+        />
+        <SelectInput
+          options={weldersOptions}
+          value={String(newGoal.employeeUuid)}
+          onChange={(e) => setGoal({ ...newGoal, employeeUuid: e.target.value })}
+          label={"Funcionário"}
+          defaultValue={"Funcionário"}
+          isDisabled={!newGoal.isEmployeeGoal}
+        />
+      </div>
+      <label className={styles.descriptionInput}>
+        <span>Descrição</span>
+        <textarea
+          value={String(newGoal.goalDescription)}
+          onChange={(e) => setGoal({ ...newGoal, goalDescription: e.target.value })}
+        />
       </label>
       <div className={styles.buttons}>
         <LinkButton color="black" href="/metas">
           Cancelar
         </LinkButton>
-        <SubmitButton canEdit={canEdit}>{isEdit ? "Editar" : "Salvar"}</SubmitButton>
+        <SubmitButton>{isEdit ? "Editar" : "Salvar"}</SubmitButton>
       </div>
     </form>
   );
-};
+}
 
 export default GoalForm;

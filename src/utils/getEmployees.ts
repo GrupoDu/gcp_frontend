@@ -1,6 +1,6 @@
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 
 type EmployeesTypeProps = {
   employees: Employee[] | undefined;
@@ -10,10 +10,10 @@ type EmployeesTypeProps = {
 
 async function getEmployees(): Promise<EmployeesTypeProps> {
   try {
-    const response = await api.get("/employees");
+    const response = await api.get("/employee");
     const employees: Employee[] | undefined = response.data.data;
-    const welders: Employee[] | undefined = employees?.filter((employee) => employee.employee_role === "soldador");
-    const assistants: Employee[] | undefined = employees?.filter((employee) => employee.employee_role === "assistente");
+    const welders: Employee[] | undefined = employees?.filter((employee) => employee.employeeRole === "Soldador");
+    const assistants: Employee[] | undefined = employees?.filter((employee) => employee.employeeRole === "Assistente");
 
     return { employees, welders, assistants };
   } catch (err) {

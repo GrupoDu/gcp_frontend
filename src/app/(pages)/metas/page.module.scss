@@ -1,5 +1,39 @@
-.pageContainer {
-  width: 100%;
+@use "@/styles/_colors.scss";
+
+.goalListContainer {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+  overflow: hidden;
 }
+
+.cardListContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: 11rem 11rem 11rem;
+  gap: 0.6rem;
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.8rem;
+  list-style: none;
+  background-color: colors.$backgroundGray;
+  border: colors.$borderDefault;
+
+  li {
+    height: fit-content;
+  }
+}
+
+.emptyList {
+  display: flex;
+}
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  .cardListContainer {
+    display: flex;
+    flex-direction: column;
+    // height: 100dvh;
+  }
+}
+

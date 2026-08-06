@@ -21,7 +21,7 @@
       align-items: center;
       gap: .4rem;
       border: 1px solid colors.$borderColor;
-      border-radius: .4rem .4rem 0 0;
+      //border-radius: .4rem .4rem 0 0;
       cursor: pointer;
       transition: all .2s ease-in-out;
       border-bottom: 0;
@@ -89,7 +89,7 @@
       gap: 0.4rem;
       height: 100%;
       border: none;
-      border-radius: 0.3rem;
+      //border-radius: 0.3rem;
       background-color: black;
       color: white;
       font-size: 1.0rem;
@@ -141,7 +141,7 @@
       transition: all 1s ease-in-out;
       width: 85%;
       border: colors.$borderDefault;
-      border-radius: 0.8rem;
+      //border-radius: 0.8rem;
       background-color: white;
       box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
     }

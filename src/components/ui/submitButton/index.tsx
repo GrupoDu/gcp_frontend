@@ -1,9 +1,18 @@
+"use client";
+
 import React from "react";
 import styles from "./styles.module.scss";
+import { useLoading } from "@/hooks/useLoading";
 
-const SubmitButton = ({ canEdit, children }: { canEdit: boolean; children: React.ReactNode }) => {
+const SubmitButton = ({ children }: { children: React.ReactNode }) => {
+  const { isLoading } = useLoading();
+
   return (
-    <button className={styles.submitButtonContainer} type="submit">
+    <button
+      className={`${styles.submitButtonContainer} ${isLoading ? styles.processing : ""}`}
+      type="submit"
+      disabled={isLoading}
+    >
       {children}
     </button>
   );

@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { AnualAnalysis } from "@/types/anualAnalysis.type";
+import { AnnualAnalysis } from "@/types/annualAnalysis.interface";
 
 interface AnualAnalysisContextType {
-  anualAnalysis: AnualAnalysis[] | undefined;
+  annualAnalysis: AnnualAnalysis[] | undefined;
   status: string | undefined;
   err: string | undefined;
 }

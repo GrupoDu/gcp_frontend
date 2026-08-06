@@ -2,11 +2,11 @@
 
 import { ProductionOrderAnalysisContext } from "@/context/registerAnalysis.context";
 import { useFetch } from "@/hooks/useFetch";
-import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.type";
+import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.interface";
 import React, { useMemo } from "react";
 
 export function ProductionOrderAnalysisProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status } = useFetch<ProductionOrderAnalysis>("production-order-analysis");
+  const { data, err, status } = useFetch<ProductionOrderAnalysis>("productionOrderAnalysis");
 
   const productionOrderAnalysis = useMemo(
     () => ({

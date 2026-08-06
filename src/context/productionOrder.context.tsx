@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductionOrder } from "@/types/productionOrder.type";
+import { ProductionOrder } from "@/types/productionOrder.interface";
 import { createContext } from "react";
 
 type ProductionOrderContextValues = {

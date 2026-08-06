@@ -2,11 +2,11 @@
 
 import { GoalContext } from "@/context/goal.context";
 import { useFetch } from "@/hooks/useFetch";
-import { Goal } from "@/types/goal.type";
+import { Goal } from "@/types/goal.interface";
 import { useMemo } from "react";
 
 export function GoalProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<Goal[]>("goals");
+  const { data, err, status, refetch } = useFetch<Goal[]>("goal");
 
   const goalData = useMemo(
     () => ({

@@ -1,20 +1,20 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import CardGoal from "../ui/cardGoal";
-import { Goal } from "@/types/goal.type";
+import { Goal } from "@/types/goal.interface";
 
 const GoalList = ({ goalData, refetch }: { goalData: Goal[] | undefined; refetch?: () => void }) => {
   return (
     <ul className={styles.cardListContainer}>
       {goalData?.map((goal) => (
-        <li key={goal.goal_uuid}>
+        <li key={goal.goalUuid}>
           <CardGoal
-            goal_id={goal.goal_uuid || ""}
-            status={goal.goal_status || ""}
+            goalId={goal.goalUuid || ""}
+            status={goal.goalStatus || ""}
             refetch={refetch}
-            description={goal.goal_description}
-            title={goal.goal_title}
-            deadline={goal.goal_deadline.toString()}
+            description={goal.goalDescription}
+            title={goal.goalTitle}
+            deadline={goal.goalDeadline.toString()}
           />
         </li>
       ))}

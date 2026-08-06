@@ -3,72 +3,44 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import { BarChart } from "@mui/x-charts";
-import { useEmployees } from "@/hooks/useEmployees";
 import { FaChartBar } from "react-icons/fa";
-
-interface EmployeeData {
-  name: string;
-  delivered: number;
-  notDelivered: number;
-  produced: number;
-}
+import { useFetch } from "@/hooks/useFetch";
+import { Employee } from "@/types/employee.interface";
 
 const EmployeeAnalysisContainer = ({ employeeRole }: { employeeRole: string }) => {
-  const { employeesData } = useEmployees();
+  const { data: employees } = useFetch<Employee[]>(`employee/filter?role=${employeeRole}`);
 
-  // Filtra apenas os soldadores e mapeia os dados necessários
-  const weldersData: EmployeeData[] =
-    employeesData
-      ?.filter((employee) => employee.employee_role === "soldador")
-      .map((employee) => ({
-        name: employee.name || "Sem nome",
-        delivered: employee.delivered_activities_quantity || 0,
-        notDelivered: employee.not_delivered_activities_quantity || 0,
-        produced: employee.produced_quantity || 0,
-      })) || [];
-
-  const assistantsData: EmployeeData[] =
-    employeesData
-      ?.filter((employee) => employee.employee_role === "assistente")
-      .map((employee) => ({
-        name: employee.name || "Sem nome",
-        delivered: employee.delivered_activities_quantity || 0,
-        notDelivered: employee.not_delivered_activities_quantity || 0,
-        produced: employee.produced_quantity || 0,
-      })) || [];
-
-  const targetEmployees = employeeRole === "soldadores" ? weldersData : assistantsData;
-
-  // Prepara os dados para o gráfico apenas com soldadores
-  const employeesAnalysis = [
-    {
-      data: targetEmployees.map((w) => w.delivered),
-      label: "Entregue",
-      color: "#4caf50",
-    },
-    {
-      data: targetEmployees.map((w) => w.notDelivered),
-      label: "Não entregue",
-      color: "#f44336",
-    },
-    {
-      data: targetEmployees.map((w) => w.produced),
-      label: "Produzido",
-      color: "#2196f3",
-    },
-  ];
-
-  const employeesNames = targetEmployees.map((w) => w.name);
-
-  // Se não houver soldadores, mostra aviso
-  if (targetEmployees.length === 0) {
+  if (!employees) {
     return (
       <div className={styles.chartContainer}>
         <div className={styles.chartTitle}>
           <FaChartBar className={styles.chartIcon} />
           <h3>Gráfico de soldadores</h3>
         </div>
-        <div className={styles.emptyState}>Nenhum soldador encontrado</div>
+        <div className={styles.emptyState}>Nenhum funcionário encontrado</div>
+      </div>
+    );
+  }
+
+  const employeesAnalysis = [
+    {
+      data: employees.map((w) => w.producedQuantity || 0),
+      label: "Produzido",
+      color: "#2196f3",
+    },
+  ];
+
+  const employeesNames = employees?.map((employee) => employee.name) || [];
+
+  // Se não houver soldadores, mostra aviso
+  if (employeesAnalysis.length === 0 || !employees) {
+    return (
+      <div className={styles.chartContainer}>
+        <div className={styles.chartTitle}>
+          <FaChartBar className={styles.chartIcon} />
+          <h3>Gráfico de soldadores</h3>
+        </div>
+        <div className={styles.emptyState}>Nenhum funcionário encontrado</div>
       </div>
     );
   }
@@ -78,7 +50,7 @@ const EmployeeAnalysisContainer = ({ employeeRole }: { employeeRole: string }) =
       <div className={styles.chartTitle}>
         <FaChartBar className={styles.chartIcon} />
         <h3>
-          Gráfico de {employeeRole} ({weldersData.length})
+          Gráfico de {employeeRole} ({employees.length})
         </h3>
       </div>
       <div className={styles.chartWrapper}>
@@ -96,7 +68,7 @@ const EmployeeAnalysisContainer = ({ employeeRole }: { employeeRole: string }) =
               },
             ]}
             series={employeesAnalysis}
-            width={targetEmployees.length * 150}
+            width={employees.length * 150}
             height={190}
             slotProps={{
               legend: {

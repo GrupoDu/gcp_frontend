@@ -6,26 +6,40 @@ import { dataFormater } from "@/utils/dataFormater";
 import DeleteButton from "@/components/deleteButton";
 import EditButton from "@/components/editButton";
 import DeliverButton from "../deliverButton";
-import { useState } from "react";
+import { api } from "@/services/api";
+import { toast } from "react-toastify";
+import { BsCheck } from "react-icons/bs";
+
+async function handleDelivery(e: React.SubmitEvent, goalId: string) {
+  e.preventDefault();
+
+  try {
+    await api.patch(`/goal/${goalId}`);
+
+    toast.success("Meta marcada como alcançada");
+  } catch (e) {
+    console.error(e);
+    toast.error((e as Error).message);
+  }
+}
 
 type CardGoalProps = {
   title: string;
   description: string;
   status: string;
   deadline: string;
-  goal_id: string;
+  goalId: string;
   refetch?: () => void;
 };
 
-const CardGoal = ({ title, description, status, deadline, goal_id, refetch }: CardGoalProps) => {
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+const CardGoal = ({ title, description, status, deadline, goalId, refetch }: CardGoalProps) => {
   const statusIcon =
-    status === "Batida" ? (
-      <FaCheckCircle color="green" className={styles.iconStatus} />
-    ) : status === "Pendente" ? (
+    status === "Alcancada" ? (
+      <FaCheckCircle color="#009688" className={styles.iconStatus} />
+    ) : status === "EmProgresso" ? (
       <FaClock color="#FFD079" className={styles.iconStatus} />
     ) : (
-      <IoIosCloseCircle color="red" className={styles.iconStatus} />
+      <IoIosCloseCircle color="#d32f2f" className={styles.iconStatus} />
     );
 
   return (
@@ -34,20 +48,41 @@ const CardGoal = ({ title, description, status, deadline, goal_id, refetch }: Ca
         {statusIcon}
         <h4>{title}</h4>
         <div className={styles.buttons}>
-          <DeleteButton refetch={refetch} endpoint="goals" uuid={goal_id} />
-          {status === "Pendente" && <EditButton href={`/metas/edit/${goal_id}`} />}
+          <DeleteButton refetch={refetch} endpoint="goal" uuid={goalId} />
+          {status === "EmProgresso" && <EditButton href={`/metas/edit/${goalId}`} />}
         </div>
       </div>
       <hr />
       <p className={styles.deadline}>Prazo: {dataFormater(deadline)}</p>
       <p>{description ? description : "Sem descrição"}</p>
-      {status === "Pendente" && (
-        <div className={styles.deliverButtonContainer}>
-          <DeliverButton isProcessing={isProcessing}>Marcar como batida</DeliverButton>
-        </div>
-      )}
+      <DisplayBottomButton status={status} goalId={goalId} refetch={refetch} />
     </div>
   );
 };
+
+function DisplayBottomButton({ status, goalId, refetch }: { status: string; goalId: string; refetch?: () => void }) {
+  const isInProgress = status === "EmProgresso";
+
+  if (isInProgress) {
+    return (
+      <form
+        onSubmit={async (e) => {
+          await handleDelivery(e, goalId);
+          if (refetch) refetch();
+        }}
+        className={styles.deliverButtonContainer}
+      >
+        <DeliverButton>Marcar como batida</DeliverButton>
+      </form>
+    );
+  }
+
+  return (
+    <div className={styles.deliveredDisplay}>
+      <BsCheck />
+      <p>Meta batida</p>
+    </div>
+  );
+}
 
 export default CardGoal;

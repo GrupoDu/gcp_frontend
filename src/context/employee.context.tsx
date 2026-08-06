@@ -1,8 +1,8 @@
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 import { createContext } from "react";
 
 type EmployeeContextValues = {
-  employeesData: Employee[] | undefined;
+  employees: Employee[] | undefined;
   status: string | undefined;
   err: string | undefined;
   refetch: () => void;

@@ -1,17 +1,15 @@
 "use client";
 
 import { useFetch } from "@/hooks/useFetch";
-import { AssistantsRegisters } from "@/types/assistantsRegister.type";
+import { AssistantsRegisters } from "@/types/assistantsRegister.interface";
 import React, { useMemo } from "react";
-import { AssistantsRegisterContext, assistantsRegisterContextValues } from "../context/assistantsRegisterContext";
+import { AssistantsRegisterContext, assistantsRegisterContextValues } from "@/context/assistantsRegisterContext";
 import { usePathname } from "next/navigation";
 
 export default function AssistantsRegisterProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const productionOrderId = pathname.split("/")[2];
-  const { data, status, err, refetch } = useFetch<AssistantsRegisters[]>(
-    `assistants-po-registers/${productionOrderId}`,
-  );
+  const { data, status, err, refetch } = useFetch<AssistantsRegisters[]>(`assistants-po-register/${productionOrderId}`);
 
   const assistantsRegisters: assistantsRegisterContextValues = useMemo(
     () => ({

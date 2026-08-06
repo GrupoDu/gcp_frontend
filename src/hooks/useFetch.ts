@@ -15,9 +15,12 @@ export function useFetch<T>(endpoint: string, params?: string) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
   const { setIsLoading } = useLoading();
   const [trigger, setTrigger] = useState(0);
+  const [maxPages, setMaxPages] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+
       try {
         const url = `/${endpoint}${params ? params : ""}`;
         const apiResponse = await api.get(url);
@@ -34,6 +37,8 @@ export function useFetch<T>(endpoint: string, params?: string) {
           toast.error(apiResponse.data.error);
           return;
         }
+
+        setMaxPages(apiResponse.data.maxPages);
 
         setFetchedData({
           status: "success",
@@ -61,6 +66,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
     data: fetchedData?.data,
     err: fetchedData?.err,
     status: fetchedData?.status,
+    maxPages,
     refetch,
   };
 }

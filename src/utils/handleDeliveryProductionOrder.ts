@@ -1,7 +1,7 @@
 import { api } from "@/services/api";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { toast } from "react-toastify";
-import { ErrorResponse } from "@/types/errorResponse.type";
+import { ErrorResponse } from "@/types/errorResponse.interface";
 import React from "react";
 
 /**

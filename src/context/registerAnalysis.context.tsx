@@ -1,4 +1,4 @@
-import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.type";
+import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.interface";
 import { createContext } from "react";
 
 export type ProductionOrderAnalysisContextValues = {

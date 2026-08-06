@@ -7,7 +7,7 @@
   padding: 1rem;
   padding-bottom: 0;
   box-sizing: border-box;
-  border-radius: 0.4rem;
+  border-radius: 0.2rem;
   border: colors.$borderDefault;
 
   .chartTitle {
@@ -73,12 +73,12 @@
 
       &::-webkit-scrollbar-track {
         background: colors.$borderColor;
-        border-radius: 3px;
+        border-radius: .2rem;
       }
 
       &::-webkit-scrollbar-thumb {
         background: colors.$textSecondary;
-        border-radius: 3px;
+        border-radius: .2rem;
 
         &:hover {
           background: colors.$textPrimary;
@@ -107,7 +107,7 @@
       span {
         background-color: colors.$borderColor;
         padding: 0.2rem 1rem;
-        border-radius: 1rem;
+        border-radius: .2rem;
         display: inline-block;
       }
     }

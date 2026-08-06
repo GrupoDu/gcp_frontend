@@ -21,3 +21,10 @@
     }
   }
 }
+
+.isDisabled {
+  select {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+}

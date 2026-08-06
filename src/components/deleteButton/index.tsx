@@ -7,47 +7,61 @@ import { toast } from "react-toastify";
 import { api } from "@/services/api";
 import { useLoading } from "@/hooks/useLoading";
 
-const DeleteButton = ({ uuid, refetch, endpoint }: { uuid: string; refetch?: () => void; endpoint: string }) => {
+async function handleUserDeactivation(setIsLoading: (isLoading: boolean) => void, uuid: string, refetch?: () => void) {
+  setIsLoading(true);
+  try {
+    await api.delete(`user/deactivate/${uuid}`);
+
+    toast.success("Registro excluido com sucesso!");
+
+    if (refetch) refetch();
+  } catch (e) {
+    const err = e as Error;
+    toast.error(err.message);
+  }
+}
+
+async function handleDelete(
+  uuid: string,
+  setIsLoading: (value: boolean) => void,
+  endpoint: string,
+  refetch?: () => void,
+) {
+  setIsLoading(true);
+
+  if (endpoint === "user") {
+    await handleUserDeactivation(setIsLoading, uuid);
+    return;
+  }
+
+  try {
+    await api.delete(`${endpoint}/${uuid}`);
+
+    toast.success("Registro excluido com sucesso!");
+
+    if (refetch) refetch();
+  } catch (err) {
+    toast.error((err as Error).message);
+  } finally {
+    setIsLoading(false);
+  }
+}
+
+type DeleteButtonProps = {
+  uuid: string;
+  endpoint: string;
+  refetch?: () => void;
+};
+
+const DeleteButton = ({ uuid, refetch, endpoint }: DeleteButtonProps) => {
   const { setIsLoading } = useLoading();
 
-  async function handleUserDeactivation() {
-    setIsLoading(true);
-    try {
-      await api.delete(`users/deactivate/${uuid}`);
-
-      toast.success("Registro excluido com sucesso!");
-
-      if (refetch) refetch();
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message);
-    }
-  }
-
-  async function handleDelete(uuid: string) {
-    setIsLoading(true);
-    console.log(`uuid: ${uuid}`);
-
-    if (endpoint === "users") {
-      await handleUserDeactivation();
-      return;
-    }
-
-    try {
-      await api.delete(`${endpoint}/${uuid}`);
-
-      toast.success("Registro excluido com sucesso!");
-
-      if (refetch) refetch();
-    } catch (err) {
-      toast.error((err as Error).message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
   return (
-    <button onClick={() => handleDelete(uuid)} type="button" className={styles.deleteButton}>
+    <button
+      onClick={() => handleDelete(uuid, setIsLoading, endpoint, refetch)}
+      type="button"
+      className={styles.deleteButton}
+    >
       <MdOutlineDelete className={styles.buttonIcon} />
     </button>
   );

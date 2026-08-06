@@ -1,10 +1,10 @@
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
-import { Product } from "@/types/product.type";
+import { Product } from "@/types/product.interface";
 
 async function getProducts(): Promise<Product[] | undefined> {
   try {
-    const response = await api.get("/products");
+    const response = await api.get("/product");
     return response.data.data;
   } catch (err) {
     const error = err as Error;

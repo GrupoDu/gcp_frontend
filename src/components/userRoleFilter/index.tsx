@@ -15,14 +15,14 @@ const UserRoleFilter = () => {
     <FilterDropdownBase
       value={userFilter}
       setValue={(e) =>
-        handleFilterChange(router, setUserFilter, searchParams, userFilterParam, e.target.value, "user_role")
+        handleFilterChange(router, setUserFilter, searchParams, userFilterParam, e.target.value, "userRole")
       }
       label="Tipo de usuário"
       placeholder="Tipo de usuário"
     >
       <option value="">Todos</option>
-      <option value="admin">Admin</option>
-      <option value="supervisor">Supervisor</option>
+      <option value="Admin">Admin</option>
+      <option value="Supervisor">Supervisor</option>
     </FilterDropdownBase>
   );
 };

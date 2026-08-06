@@ -8,18 +8,18 @@ import SelectInput from "@/components/ui/selectInput";
 import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
 import { useFetch } from "@/hooks/useFetch";
-import { Product } from "@/types/product.type";
 import { DateInput } from "@/components/ui/dateInput";
 import { DefaultButton } from "@/components/ui/defaultButton";
+import { Product } from "@/types/product.interface";
 
 const ActivityForm = () => {
   const [deadline, setDeadline] = useState("");
   const [quantityToProduce, setQuantityToProduce] = useState(0);
   const [product, setProduct] = useState("");
-  const { data: products } = useFetch<Product[]>("products");
+  const { data: products } = useFetch<Product[]>("product");
   const router = useRouter();
   const productOptions = products?.map((product) => ({
-    value: product.product_uuid!,
+    value: product.productUuid!,
     label: product.name,
   }));
 
@@ -28,12 +28,12 @@ const ActivityForm = () => {
 
     try {
       const payload = {
-        product_uuid: product,
-        quantity_to_produce: quantityToProduce,
-        production_order_deadline: new Date(deadline),
+        productUuid: product,
+        toBeProduced: quantityToProduce,
+        productionOrderDeadline: new Date(deadline),
       };
 
-      await api.post("/production-orders", payload);
+      await api.post("/productionOrder", payload);
 
       router.push("/producao");
       toast.success("Quantidade produzida registrada com sucesso");

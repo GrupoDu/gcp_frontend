@@ -1,0 +1,123 @@
+@use "@/styles/_colors.scss";
+
+.headerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background-color: colors.$backgroundGray;
+  border: colors.$borderDefault;
+  border-radius: 0.2rem;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.employeeCard {
+  @extend .card;
+
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    border: 1px solid #2B79DE;
+    height: 3.5rem;
+    background-color: #E8F1FF; // bg requested by user
+    color: #2B79DE; // primary color requested by user
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: colors.$textPrimary;
+      margin: 0;
+    }
+
+    .role {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: colors.$textSecondary;
+      text-transform: capitalize;
+      background-color: rgba(0, 0, 0, 0.04);
+      padding: 0.15rem 0.5rem;
+      border-radius: .2rem;
+      width: fit-content;
+    }
+  }
+}
+
+.statCard {
+  @extend .card;
+
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    .label {
+      font-size: 0.85rem;
+      color: colors.$textSecondary;
+      font-weight: 500;
+    }
+
+    .value {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: colors.$textPrimary;
+    }
+
+    .subText {
+      font-size: 0.75rem;
+      color: colors.$textSecondary;
+    }
+  }
+
+  &.last {
+    .iconWrapper {
+      background-color: #f5f2e8;
+      color: #af984c;
+      border: 1px solid #af984c;
+    }
+  }
+
+  &.current {
+    .iconWrapper {
+      background-color: #e8f5e9;
+      color: #4caf50;
+      border: 1px solid #4caf50;
+    }
+  }
+}

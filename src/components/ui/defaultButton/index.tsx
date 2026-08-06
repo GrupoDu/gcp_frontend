@@ -4,15 +4,23 @@ import React from "react";
 type DefaultButtonProps = {
   type: "submit" | "button" | "reset";
   children: React.ReactNode;
+  isDisabled?: boolean;
   onClick?: () => void;
   style?: React.CSSProperties;
+  className?: string;
 };
 
 export const DefaultButton = (props: DefaultButtonProps) => {
-  const { children, onClick, type, style } = props;
+  const { children, onClick, type, style, isDisabled, className } = props;
 
   return (
-    <button type={type} onClick={onClick} style={style} className={styles.defaultButton}>
+    <button
+      disabled={isDisabled}
+      type={type}
+      onClick={onClick}
+      style={style}
+      className={`${styles.defaultButton} ${isDisabled && styles.disabled} ${className}`}
+    >
       {children}
     </button>
   );

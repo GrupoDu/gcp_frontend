@@ -2,15 +2,15 @@
 
 import { EmployeeContext } from "@/context/employee.context";
 import { useFetch } from "@/hooks/useFetch";
-import { Employee } from "@/types/employee.type";
+import { Employee } from "@/types/employee.interface";
 import { useMemo } from "react";
 
 export function EmployeeProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<Employee[]>("employees");
+  const { data, err, status, refetch } = useFetch<Employee[]>("employee");
 
   const employeesData = useMemo(
     () => ({
-      employeesData: data || undefined,
+      employees: data || undefined,
       status,
       err,
       refetch,

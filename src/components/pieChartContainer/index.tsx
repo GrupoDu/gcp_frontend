@@ -3,28 +3,32 @@
 import styles from "./styles.module.scss";
 import { GrAnalytics } from "react-icons/gr";
 import { PieChart } from "@mui/x-charts";
-import { useProductionOrderAnalysis } from "@/hooks/useProductionOrderAnalysis";
 import { usePathname } from "next/navigation";
+import { useFetch } from "@/hooks/useFetch";
+import { ProductionOrderAnalysis } from "@/types/productionOrderAnalysis.interface";
 
 const PieChartContainer = () => {
-  const { productionOrderAnalysis } = useProductionOrderAnalysis();
+  const { data: productionOrderAnalysis } = useFetch<ProductionOrderAnalysis>("productionOrderAnalysis");
   const pathname = usePathname();
 
   const isAnalysisPage = pathname.includes("analises");
 
   const analysisData = [
     {
-      value: productionOrderAnalysis?.deliveredRegisterQuantity || 0,
+      value: productionOrderAnalysis?.deliveredQuantity || 0,
       label: "Concluido",
+      color: "#009688",
     },
     {
-      value: productionOrderAnalysis?.pendingRegisterQuantity || 0,
-      label: "Pendente",
+      value: productionOrderAnalysis?.pendingQuantity || 0,
+      label: "Em Produção",
+      color: "#FFD079",
     },
 
     {
-      value: productionOrderAnalysis?.notDeliveredRegisterQuantity || 0,
-      label: "Não finalizado",
+      value: productionOrderAnalysis?.notDeliveredQuantity || 0,
+      label: "Não Entregue",
+      color: "#d32f2f",
     },
   ];
 
