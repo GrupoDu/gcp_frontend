@@ -3,7 +3,6 @@
 import styles from "./styles.module.scss";
 import { usePathname, useRouter } from "next/navigation";
 import { CSSProperties } from "react";
-import { MdKeyboardArrowLeft } from "react-icons/md";
 
 export const Breadcrumb = () => {
   const pathname = usePathname();

@@ -11,6 +11,41 @@ import { EmployeeAnalysisHeader } from "@/components/employeeAnalysisHeader";
 import { months } from "@/Constants/months.constant";
 import { useEmployeeAnalysis } from "@/hooks/useEmployeeAnalysis";
 import { ProductionAnalysisChart } from "@/components/productionAnalysisChart";
+import { IoWarningOutline } from "react-icons/io5";
+
+type LineChartSeries = {
+  data: number[];
+  label: string;
+  color: string;
+};
+
+// Bagulho horroroso da porra
+type LineChartXAxis = {
+  data: (
+    | "Janeiro"
+    | "Fevereiro"
+    | "Março"
+    | "Abril"
+    | "Maio"
+    | "Junho"
+    | "Julho"
+    | "Agosto"
+    | "Setembro"
+    | "Outubro"
+    | "Novembro"
+    | "Dezembro"
+  )[];
+  readonly scaleType: "band";
+  tickLabelStyle: {
+    fontSize: number;
+  };
+};
+
+type LineChartProps = {
+  lineChartSeries: LineChartSeries[];
+  lineChartXAxis: LineChartXAxis[];
+  analysisNotFound: boolean;
+};
 
 /**
  * Client Component that displays detailed performance analytics for a single employee.
@@ -19,6 +54,7 @@ import { ProductionAnalysisChart } from "@/components/productionAnalysisChart";
 const EmployeeAnalysisDetail = () => {
   const { isLoading } = useLoading();
   const { employeeAnalysis, analysisFullYear } = useEmployeeAnalysis();
+  const analysisNotFound = employeeAnalysis.monthlyTotalProduction === 0;
 
   if (isLoading || !employeeAnalysis || !analysisFullYear) {
     return (
@@ -28,7 +64,7 @@ const EmployeeAnalysisDetail = () => {
     );
   }
 
-  const lineChartSeries = [
+  const lineChartSeries: LineChartSeries[] = [
     {
       data: analysisFullYear.map((analysis) => analysis.monthlyProduction) || [],
       label: "Produção Total (un)",
@@ -36,7 +72,7 @@ const EmployeeAnalysisDetail = () => {
     },
   ];
 
-  const lineChartXAxis = [
+  const lineChartXAxis: LineChartXAxis[] = [
     {
       data: analysisFullYear.map((analysis) => months[analysis.month - 1]) || [],
       scaleType: "band" as const,
@@ -57,16 +93,10 @@ const EmployeeAnalysisDetail = () => {
         </div>
         <div className={styles.chartWrapper}>
           <div className={styles.chartInnerWrapper}>
-            <LineChart
-              series={lineChartSeries}
-              xAxis={lineChartXAxis}
-              min={0}
-              height={250}
-              slotProps={{
-                legend: {
-                  position: { vertical: "top", horizontal: "end" },
-                },
-              }}
+            <DisplayLineChart
+              lineChartXAxis={lineChartXAxis}
+              lineChartSeries={lineChartSeries}
+              analysisNotFound={analysisNotFound}
             />
           </div>
         </div>
@@ -78,5 +108,33 @@ const EmployeeAnalysisDetail = () => {
     </main>
   );
 };
+
+function DisplayLineChart({ lineChartSeries, lineChartXAxis, analysisNotFound }: LineChartProps) {
+  if (analysisNotFound) {
+    return (
+      <>
+        <div className={styles.dataNotFound}>
+          <IoWarningOutline className={styles.warningIcon} />
+          <h3>Nenhum dado encontrado</h3>
+        </div>
+        <span className={styles.warning}>Verifique se o funcionário tem dados de produção do mês atual</span>
+      </>
+    );
+  }
+
+  return (
+    <LineChart
+      series={lineChartSeries}
+      xAxis={lineChartXAxis}
+      min={0}
+      height={250}
+      slotProps={{
+        legend: {
+          position: { vertical: "top", horizontal: "end" },
+        },
+      }}
+    />
+  );
+}
 
 export default EmployeeAnalysisDetail;

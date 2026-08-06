@@ -1,7 +1,6 @@
 import styles from "./styles.module.scss";
 import LinkButton from "../../linkButton";
 import DeleteButton from "@/components/deleteButton";
-import EditButton from "@/components/editButton";
 
 type CardRegisterProps = {
   status: string;

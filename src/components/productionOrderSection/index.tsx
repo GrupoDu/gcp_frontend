@@ -7,18 +7,14 @@ import CardProductionOrder from "../ui/cardProductionOrder";
 import { useFetch } from "@/hooks/useFetch";
 import { ProductionOrder } from "@/types/productionOrder.interface";
 import { dataFormater } from "@/utils/dataFormater";
-import { useEffect, useRef } from "react";
 import { titleFormatter } from "@/utils/titleFormatter";
-import { getSlug } from "@/utils/getSlug";
+import { usePathname } from "next/navigation";
 
 const ProductionOrderSection = () => {
   const { data } = useFetch<ProductionOrder[]>("productionOrder/filters?status=EmProducao");
-  const productionOrderUuid = getSlug()[2];
+  const pathname = usePathname();
+  const productionOrderUuid = pathname.split("/")[2];
   const productionOrders = data?.filter((order) => order.productionOrderUuid !== productionOrderUuid);
-
-  let isProductionOrderPopulated = false;
-
-  if (data && productionOrders) isProductionOrderPopulated = productionOrders.length > 0;
 
   return (
     <div className={styles.productionOrderSectionContainer}>
@@ -26,24 +22,35 @@ const ProductionOrderSection = () => {
         Lista completa
       </LinkButton>
       <ul>
-        {isProductionOrderPopulated ? (
-          productionOrders?.map((order) => (
-            <li key={order.productionOrderUuid}>
-              <CardProductionOrder
-                registerId={order.productionOrderUuid || ""}
-                status={order.productionOrderStatus}
-                title={titleFormatter(order.product.acronym, order.toBeProduced)}
-                date={dataFormater(order.productionOrderDeadline)}
-                description={order.productionOrderDescription || ""}
-              />
-            </li>
-          ))
-        ) : (
-          <h3>Nenhum registro pendente</h3>
-        )}
+        <DisplayProductionOrders data={data} productionOrders={productionOrders} />
       </ul>
     </div>
   );
 };
+
+type DisplayProductionOrdersProps = {
+  data: ProductionOrder[] | undefined;
+  productionOrders: ProductionOrder[] | undefined;
+};
+
+function DisplayProductionOrders({ data, productionOrders }: DisplayProductionOrdersProps) {
+  let isProductionOrderPopulated = false;
+
+  if (data && productionOrders) isProductionOrderPopulated = productionOrders.length > 0;
+
+  if (!isProductionOrderPopulated) return <h3>Nenhum registro pendente</h3>;
+
+  return productionOrders?.map((order) => (
+    <li key={order.productionOrderUuid}>
+      <CardProductionOrder
+        registerId={order.productionOrderUuid || ""}
+        status={order.productionOrderStatus}
+        title={titleFormatter(order.product.acronym, order.toBeProduced)}
+        date={dataFormater(order.productionOrderDeadline)}
+        description={order.productionOrderDescription || ""}
+      />
+    </li>
+  ));
+}
 
 export default ProductionOrderSection;
