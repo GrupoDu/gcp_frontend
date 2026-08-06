@@ -3,7 +3,7 @@
 import PageHeader from "@/components/ui/pageHeader";
 import styles from "./styles.module.scss";
 import { IoMdClipboard } from "react-icons/io";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { useLoading } from "@/hooks/useLoading";
 import { useFetch } from "@/hooks/useFetch";
@@ -68,7 +68,9 @@ function ActivityPage() {
         <Breadcrumb />
         <h2>Registrar atividade</h2>
         <FormTemplate submitHandler={(e) => handleSubmit(e, setIsLoading, router, payload)}>
-          <DateInput label={"Prazo"} setValue={setDeadline} value={deadline} isFilter={false} />
+          <Suspense>
+            <DateInput label={"Prazo"} setValue={setDeadline} value={deadline} isFilter={false} />
+          </Suspense>
           <SelectInput
             options={productOptions}
             onChange={(e) => setProduct(e.target.value)}

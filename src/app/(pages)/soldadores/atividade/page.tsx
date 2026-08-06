@@ -116,6 +116,7 @@ function WeldersActivityPage() {
                 onChange={(e) => handleTextLimitChange(e.target.value)}
                 maxLength={50}
                 placeholder={"Fechamento de caçamba"}
+                disabled={!isGeneralActivity}
                 className={"input"}
               ></textarea>
               <span className={styles.textLimitCount}>Caracteres restantes: {textLimitCount}</span>

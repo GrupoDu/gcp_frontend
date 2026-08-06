@@ -5,7 +5,6 @@ import { FaUserCog } from "react-icons/fa";
 import UserForm from "@/components/forms/userForm";
 import { api } from "@/services/api";
 import { User } from "@/types/user.interface";
-import { debugLogger } from "@/utils/logger";
 import { cookies } from "next/headers";
 
 const getUser = async (slug: string): Promise<User | undefined> => {
@@ -21,7 +20,6 @@ const getUser = async (slug: string): Promise<User | undefined> => {
         Cookie: `accessToken=${token?.value}`,
       },
     });
-    console.log(`=> Dados: ${JSON.stringify(response.data)}`);
     return response.data.data;
   } catch (e) {
     const err = e as Error;
