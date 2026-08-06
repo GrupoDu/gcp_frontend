@@ -1,3 +1,7 @@
 export const getSlug = () => {
-  return document.location.pathname.split("/");
+  if (document !== undefined) {
+    return document.location.pathname.split("/");
+  }
+
+  return "";
 };
