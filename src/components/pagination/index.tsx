@@ -6,7 +6,7 @@ export const Pagination = ({ maxPages }: { maxPages?: number }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const page = searchParams.get("page");
-  const perPage = searchParams.get("per_page");
+  const perPage = searchParams.get("pageSize");
 
   const isPage = (selectedPage: number) => parseInt(page as string, 10) === selectedPage;
 
@@ -27,7 +27,7 @@ export const Pagination = ({ maxPages }: { maxPages?: number }) => {
     <div className={styles.paginationContainer}>
       {calculatePagination()?.map((p, index) => (
         <Link
-          href={`${pathname}?page=${p}&per_page=${perPage}`}
+          href={`${pathname}?page=${p}&pageSize=${perPage}`}
           key={index}
           className={`${styles.page} ${isPage(p) ? styles.isPage : ""}`}
         >
