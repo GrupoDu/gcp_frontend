@@ -6,6 +6,7 @@
   background-color: colors.$backgroundGray;
   box-sizing: border-box;
   border: 1px solid var(--default-border);
+  border-radius: .2rem;
   
   .title {
     display: flex;

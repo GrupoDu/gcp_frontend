@@ -15,7 +15,7 @@
 .card {
   background-color: colors.$backgroundGray;
   border: colors.$borderDefault;
-  //border-radius: 0.5rem;
+  border-radius: 0.2rem;
   padding: 1.25rem;
   display: flex;
   align-items: center;
@@ -63,7 +63,7 @@
       text-transform: capitalize;
       background-color: rgba(0, 0, 0, 0.04);
       padding: 0.15rem 0.5rem;
-      //border-radius: 1rem;
+      border-radius: .2rem;
       width: fit-content;
     }
   }
