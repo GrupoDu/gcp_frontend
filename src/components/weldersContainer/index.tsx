@@ -46,7 +46,7 @@ function WeldersContainer() {
   return (
     <>
       {isLoading && <Loading />}
-      <main className={"mainContainer"}>
+      <main className={`mainContainer ${isLoading ? "loading" : ""}`}>
         <OpenMobileProvider>
           <div className={styles.weldersActivitiesContainer}>
             <FiltersList hrefButton={"/soldadores/atividade"} buttonLabel={"Registrar atividade"}>
