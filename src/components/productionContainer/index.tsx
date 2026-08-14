@@ -63,7 +63,7 @@ const ProductionContainer = () => {
                 </li>
               ))}
           </ul>
-          <ListFooter status={["Em Produção", "Entregue", "Não entregue"]} />
+          <ListFooter status={["Em Produção", "Entregue", "Atrasado"]} />
         </main>
       </OpenMobileProvider>
     </>
