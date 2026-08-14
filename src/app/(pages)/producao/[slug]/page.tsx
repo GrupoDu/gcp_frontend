@@ -61,7 +61,6 @@ function ViewProductionOrderPage() {
 
   const description = productionOrder?.productionOrderDescription || "Registro sem descrição";
   const formatedStatus = Status[productionOrder?.productionOrderStatus as keyof typeof Status];
-  const isInProduction = formatedStatus === "Em Produção";
   const isDone = formatedStatus === "Finalizado";
   const payload = {
     deliveryObservation,
@@ -81,7 +80,7 @@ function ViewProductionOrderPage() {
             <LinkButton Icon={IoIosArrowBack} color="black" href={`/producao`}>
               Voltar
             </LinkButton>
-            {isInProduction && (
+            {!isDone && (
               <DeliverButton>
                 <CiSquareCheck /> Marcar como entregue
               </DeliverButton>
