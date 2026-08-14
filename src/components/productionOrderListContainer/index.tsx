@@ -8,14 +8,12 @@ import StatusDropdown from "../ui/statusDropdown";
 import ListFooter from "../listFooter";
 import React, { useRef, useState } from "react";
 import ProductionOrderList from "../cardLists/productionOrderList";
-import { ProductionOrderProvider } from "@/providers/productionOrder.provider";
 import FilterMobileContainer from "../filterMobileContainer";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "../ui/loading";
 import OpenMobileProvider from "@/providers/openMobile.provider";
 import { useRouter, useSearchParams } from "next/navigation";
 import { handleFilterChange } from "@/utils/handleFilterChange";
-import SearchBar from "@/components/searchBar";
 
 const RegisterListContainer = () => {
   const { isLoading } = useLoading();
