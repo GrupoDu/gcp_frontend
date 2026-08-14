@@ -47,6 +47,7 @@ function DisplayProductionOrders({ data, productionOrders }: DisplayProductionOr
         status={order.productionOrderStatus}
         title={titleFormatter(order.product.acronym, order.toBeProduced)}
         date={dataFormater(order.productionOrderDeadline)}
+        deliveryDate={dataFormater(order.deliveredAt)}
         description={order.productionOrderDescription || ""}
       />
     </li>

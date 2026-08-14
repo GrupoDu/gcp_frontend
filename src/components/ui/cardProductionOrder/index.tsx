@@ -8,12 +8,13 @@ type CardRegisterProps = {
   title: string;
   date: string;
   description: string;
+  deliveryDate?: string;
   refetch?: () => void;
 };
 
 const CardProductionOrder = (props: CardRegisterProps) => {
   const statusColor = props.status === "EmProducao" ? "#FFD079" : props.status === "Finalizado" ? "#009688" : "#d32f2f";
-  const isInProduction = props.status === "EmProducao";
+  const deliveryDate = props.deliveryDate || props.deliveryDate === "" ? ` - ${props.deliveryDate}` : "";
 
   return (
     <div className={styles.cardRegisterContainer}>
@@ -24,7 +25,10 @@ const CardProductionOrder = (props: CardRegisterProps) => {
           <DeleteButton endpoint="productionOrder" uuid={props.registerId} refetch={props.refetch} />
         </div>
       </div>
-      <span>{props.date}</span>
+      <span>
+        {props.date}
+        {deliveryDate}
+      </span>
       <div className={styles.dash} />
       <ProductionOrderDescription description={props.description} />
       <LinkButton color="black" fullWidth={true} textAlign="center" href={`/producao/${props.registerId}`}>
