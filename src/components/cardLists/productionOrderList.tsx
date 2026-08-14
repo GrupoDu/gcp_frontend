@@ -28,7 +28,7 @@ const ProductionOrderList = () => {
           <li key={order.productionOrderUuid}>
             <CardProductionOrder
               date={dataFormater(order.productionOrderDeadline)}
-              deliveryDate={dataFormater(order.deliveredAt)}
+              deliveryDate={order.deliveredAt}
               description={order.productionOrderDescription || ""}
               title={titleFormatter(order.product.acronym, order.toBeProduced)}
               status={order.productionOrderStatus}

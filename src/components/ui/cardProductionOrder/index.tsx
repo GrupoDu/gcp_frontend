@@ -1,6 +1,7 @@
 import styles from "./styles.module.scss";
 import LinkButton from "../../linkButton";
 import DeleteButton from "@/components/deleteButton";
+import { dataFormater } from "@/utils/dataFormater";
 
 type CardRegisterProps = {
   status: string;
@@ -8,13 +9,13 @@ type CardRegisterProps = {
   title: string;
   date: string;
   description: string;
-  deliveryDate?: string;
+  deliveryDate?: string | null;
   refetch?: () => void;
 };
 
 const CardProductionOrder = (props: CardRegisterProps) => {
   const statusColor = props.status === "EmProducao" ? "#FFD079" : props.status === "Finalizado" ? "#009688" : "#d32f2f";
-  const deliveryDate = props.deliveryDate || props.deliveryDate === "" ? ` - ${props.deliveryDate}` : "";
+  const deliveryDate = props.deliveryDate || props.deliveryDate === "" ? ` - ${dataFormater(props.deliveryDate)}` : "";
 
   return (
     <div className={styles.cardRegisterContainer}>
