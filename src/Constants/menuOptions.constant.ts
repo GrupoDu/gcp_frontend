@@ -4,7 +4,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaUserCog } from "react-icons/fa";
 import { GrAnalytics, GrUserWorker } from "react-icons/gr";
 
-const defaultUrl = (pathname: string) => `/${pathname}?page=1&pageSize=13`;
+const defaultUrl = (pathname: string) => `/${pathname}?page=1&pageSize=10`;
 
 export const supervisorPages = [
   {
