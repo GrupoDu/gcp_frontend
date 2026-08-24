@@ -28,6 +28,13 @@ const handleSubmit = async (
 ) => {
   e.preventDefault();
 
+  const { productUuid, isGeneralActivity } = payload;
+
+  if (isNotGeneralAndIsMissingProduct(isGeneralActivity, productUuid)) {
+    toast.error("Informe o produto produzido.");
+    return;
+  }
+
   setIsLoading(true);
 
   const success = await handlePost(payload, "welderActivity/register");
@@ -140,6 +147,11 @@ function WeldersActivityPage() {
       </div>
     </>
   );
+}
+
+function isNotGeneralAndIsMissingProduct(isGeneralActivity: boolean, productUuid?: string | null): boolean {
+  const isMissingProduct = productUuid === null || productUuid === "";
+  return !isGeneralActivity && isMissingProduct;
 }
 
 export default WeldersActivityPage;
