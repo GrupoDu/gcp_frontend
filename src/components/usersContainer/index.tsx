@@ -23,7 +23,7 @@ const UsersContainer = () => {
   const isFiltered = userRoleFilter || searchFilter;
   const endpoint = isFiltered ? filtersString : "user";
   const { data: users, refetch } = useFetch<User[]>(endpoint);
-  const tHeadValues = ["ID", "Nome", "Email", "Tipo de usuário", "Ações"];
+  const tHeadValues = ["Nome", "Email", "Tipo de usuário", "Ações"];
   const isListPopulated = !!users && users.length > 0;
   const displayList = users?.map((user) => (
     <ListItem key={user.userUuid} deleteButtonEndpoint="user" refetch={refetch} userInfos={user} />

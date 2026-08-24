@@ -19,7 +19,6 @@ const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) =
 
   return (
     <tr>
-      <td>{userUuid}</td>
       <td>{name}</td>
       {email && <td>{email}</td>}
       <td>{userRole}</td>
