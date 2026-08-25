@@ -3,16 +3,17 @@
   background-color: #000000;
   color: white;
   object-fit: contain;
-  width: 2rem;
-  height: 2rem;
   display: flex;
   cursor: pointer;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   justify-content: center;
   align-items: center;
+  height: 100%;
+  text-decoration: none;
+  padding: 0.4rem;
   border: none;
-  
+
   .buttonIcon {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 }

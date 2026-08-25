@@ -5,16 +5,15 @@
   background-color: white;
   color: black;
   object-fit: contain;
-  width: 1rem;
+  width: fit-content;
   height: 1rem;
   display: flex;
   cursor: pointer;
   padding: 0.4rem;
-  //border-radius: 0.2rem;
-  // box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   border: colors.$borderDefault;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
 
   .buttonIcon {
     object-fit: contain;
