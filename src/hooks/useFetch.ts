@@ -17,9 +17,9 @@ type FetchResponse<T> = {
  * Custom hook para buscar dados de uma API.
  *
  * @param endpoint - endpoint da requisição
- * @param useParams - Booleano que indica se deve buscar os query params
+ * @param trackParams - Booleano que indica se deve buscar os query params
  */
-export function useFetch<T>(endpoint: string, useParams?: boolean) {
+export function useFetch<T>(endpoint: string, trackParams?: boolean) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
   const searchParams = useSearchParams();
   const { setIsLoading } = useLoading();
@@ -31,7 +31,7 @@ export function useFetch<T>(endpoint: string, useParams?: boolean) {
       setIsLoading(true);
 
       const { paramsString, hasParams } = createParamsString(searchParams);
-      const params = useParams && hasParams ? `/filter?${paramsString}` : "";
+      const params = trackParams && hasParams ? `/filter?${paramsString}` : "";
 
       try {
         const url = `/${endpoint}${params}`;
@@ -68,7 +68,7 @@ export function useFetch<T>(endpoint: string, useParams?: boolean) {
     };
 
     fetchData();
-  }, [endpoint, trigger, searchParams, useParams]);
+  }, [endpoint, trigger, searchParams, trackParams]);
 
   const refetch = useCallback(() => {
     setTrigger((prev) => prev + 1);
