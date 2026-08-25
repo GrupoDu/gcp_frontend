@@ -4,6 +4,8 @@ import { api } from "@/services/api";
 import { useState, useEffect, useCallback } from "react";
 import { useLoading } from "./useLoading";
 import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
+import { createParamsString } from "@/utils/createParamsString";
 
 type FetchResponse<T> = {
   status: string;
@@ -11,8 +13,9 @@ type FetchResponse<T> = {
   err?: string;
 };
 
-export function useFetch<T>(endpoint: string, params?: string) {
+export function useFetch<T>(endpoint: string, useParams?: boolean) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
+  const searchParams = useSearchParams();
   const { setIsLoading } = useLoading();
   const [trigger, setTrigger] = useState(0);
   const [maxPages, setMaxPages] = useState(0);
@@ -21,8 +24,11 @@ export function useFetch<T>(endpoint: string, params?: string) {
     const fetchData = async () => {
       setIsLoading(true);
 
+      const { paramsString, hasParams } = createParamsString(searchParams);
+      const params = useParams && hasParams ? `/filter?${paramsString}` : "";
+
       try {
-        const url = `/${endpoint}${params ? params : ""}`;
+        const url = `/${endpoint}${params}`;
         const apiResponse = await api.get(url);
 
         const responseData = await apiResponse.data.data;
@@ -56,7 +62,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
     };
 
     fetchData();
-  }, [endpoint, params, trigger]);
+  }, [endpoint, trigger, searchParams, useParams]);
 
   const refetch = useCallback(() => {
     setTrigger((prev) => prev + 1);
