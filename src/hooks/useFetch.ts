@@ -13,6 +13,12 @@ type FetchResponse<T> = {
   err?: string;
 };
 
+/**
+ * Custom hook para buscar dados de uma API.
+ *
+ * @param endpoint - endpoint da requisição
+ * @param useParams - Booleano que indica se deve buscar os query params
+ */
 export function useFetch<T>(endpoint: string, useParams?: boolean) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
   const searchParams = useSearchParams();
