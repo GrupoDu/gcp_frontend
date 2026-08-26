@@ -3,15 +3,19 @@
 import { api } from "@/services/api";
 import { useState, useEffect, useCallback } from "react";
 import { useLoading } from "./useLoading";
-import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
-import { createParamsString } from "@/utils/createParamsString";
 
 type FetchResponse<T> = {
   status: string;
   data?: T;
   err?: string;
 };
+
+async function fetchItems(endpoint: string) {
+  const response = await api.get(endpoint);
+
+  return response.data;
+}
 
 /**
  * Custom hook para buscar dados de uma API.
@@ -30,31 +34,18 @@ export function useFetch<T>(endpoint: string, trackParams?: boolean) {
     const fetchData = async () => {
       setIsLoading(true);
 
-      const { paramsString, hasParams } = createParamsString(searchParams);
-      const params = trackParams && hasParams ? `/filter?${paramsString}` : "";
+      const params = new URLSearchParams(searchParams);
+      const hasParams = trackParams && params.toString().length > 0;
 
       try {
-        const url = `/${endpoint}${params}`;
-        const apiResponse = await api.get(url);
+        const url = `/${endpoint}${hasParams ? `?${params.toString()}` : ""}`;
+        const fetchedData = await fetchItems(url);
 
-        const responseData = await apiResponse.data.data;
-        const responseError = !responseData || apiResponse.data.error;
-
-        if (responseError) {
-          setFetchedData({
-            status: "failed",
-            err: "Dados não encontrados.",
-          });
-
-          toast.error(apiResponse.data.error);
-          return;
-        }
-
-        setMaxPages(apiResponse.data.maxPages);
+        setMaxPages(fetchedData.maxPages);
 
         setFetchedData({
           status: "success",
-          data: responseData,
+          data: fetchedData.data,
         });
       } catch (err) {
         const error = err as Error;
