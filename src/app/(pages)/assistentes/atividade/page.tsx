@@ -9,7 +9,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { Employee } from "@/types/employee.interface";
 import SelectInput from "@/components/ui/selectInput";
 import TextInput from "@/components/ui/textInput";
-import { assistantActivityOptions } from "@/Constants/assistantActivityOptions.constant";
+import { ASSISTANT_ACTIVITY_OPTIONS } from "@/constants/assistantActivityOptions.constant";
 import styles from "./page.module.scss";
 import { DefaultButton } from "@/components/ui/defaultButton";
 import { toast } from "react-toastify";
@@ -85,7 +85,7 @@ function AssistantActivityPage() {
             label={"Quantidade produzida"}
           />
           <SelectInput
-            options={assistantActivityOptions}
+            options={ASSISTANT_ACTIVITY_OPTIONS}
             onChange={(e) => setActivityType(e.target.value)}
             defaultValue={"Selecione a atividade"}
             value={activityType}

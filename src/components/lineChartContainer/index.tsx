@@ -5,7 +5,7 @@ import { FaChartLine } from "react-icons/fa";
 import { LineChart } from "@mui/x-charts";
 import { AnnualAnalysis } from "@/types/annualAnalysis.interface";
 import { useFetch } from "@/hooks/useFetch";
-import { months } from "@/Constants/months.constant";
+import { MONTHS } from "@/constants/months.constant";
 
 const LineChartContainer = () => {
   const { data: annualAnalysis } = useFetch<AnnualAnalysis[]>("annualAnalysis");
@@ -44,7 +44,7 @@ const LineChartContainer = () => {
 
 function LineChartAnalysis({ annualAnalysis }: { annualAnalysis?: AnnualAnalysis[] }) {
   const totalProduction = annualAnalysis?.map((item: AnnualAnalysis): number => item.totalProduction || 0);
-  const monthsNames = annualAnalysis?.map((item: AnnualAnalysis) => months[item.month - 1] || "");
+  const monthsNames = annualAnalysis?.map((item: AnnualAnalysis) => MONTHS[item.month - 1] || "");
   const seriesData = [
     {
       data: totalProduction,

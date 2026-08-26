@@ -10,7 +10,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { useLoading } from "@/hooks/useLoading";
 import TextInput from "@/components/ui/textInput";
 import SelectInput from "@/components/ui/selectInput";
-import { employeeNames } from "@/Constants/employeeNames.constant";
+import { EMPLOYEE_NAMES } from "@/constants/employeeNames.constant";
 
 type EmployeeFormProp = {
   setEmployee: Dispatch<SetStateAction<EmployeePayload>>;
@@ -33,7 +33,7 @@ type EmployeeFormProp = {
 const EmployeeForm = ({ employee, handleSubmit, setEmployee }: EmployeeFormProp) => {
   const router = useRouter();
   const { setIsLoading } = useLoading();
-  const sortedNumber = Math.floor(Math.random() * employeeNames.length);
+  const sortedNumber = Math.floor(Math.random() * EMPLOYEE_NAMES.length);
   const roleOptions = [
     { value: "Soldador", label: "Soldador" },
     { value: "Assistente", label: "Assistente" },
@@ -46,7 +46,7 @@ const EmployeeForm = ({ employee, handleSubmit, setEmployee }: EmployeeFormProp)
         onChange={(e) => setEmployee({ ...employee, name: e.target.value })}
         value={employee.name}
         required={true}
-        placeholder={employeeNames[sortedNumber]}
+        placeholder={EMPLOYEE_NAMES[sortedNumber]}
         label={"Nome do funcionário"}
       />
       <SelectInput

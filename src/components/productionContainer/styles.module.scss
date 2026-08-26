@@ -16,14 +16,14 @@
     button {
       flex: 1;
       position: relative;
-      padding: .8rem;
+      padding: 0.8rem;
       display: flex;
       align-items: center;
-      gap: .4rem;
+      gap: 0.4rem;
       border: 1px solid colors.$borderColor;
-      border-radius: .4rem .4rem 0 0;
+      border-radius: 0.4rem 0.4rem 0 0;
       cursor: pointer;
-      transition: all .2s ease-in-out;
+      transition: all 0.2s ease-in-out;
       border-bottom: 0;
       background-color: white;
       text-align: start;
@@ -81,7 +81,6 @@
     flex-direction: column;
     gap: 0.4rem;
 
-
     .registerButton {
       padding: 0.4rem 0.8rem;
       display: flex;
@@ -92,7 +91,7 @@
       border-radius: 0.2rem;
       background-color: black;
       color: white;
-      font-size: 1.0rem;
+      font-size: 1rem;
       cursor: pointer;
       text-decoration: none;
     }
@@ -104,7 +103,6 @@
     flex: 1;
     gap: 0.4rem;
   }
-
 
   .mobileFilters {
     display: none;

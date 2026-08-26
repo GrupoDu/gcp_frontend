@@ -3,7 +3,7 @@
 .textInput {
   display: flex;
   flex-direction: column;
-  gap: .8rem;
+  gap: 0.8rem;
   box-sizing: border-box;
   flex: 1;
 
@@ -13,10 +13,9 @@
 }
 
 .isRequired {
-
   h4 {
     display: flex;
-    gap: .2rem;
+    gap: 0.2rem;
 
     &:after {
       content: "*";

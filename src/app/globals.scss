@@ -85,7 +85,7 @@ h4 {
   flex-direction: column;
   overflow-y: auto;
   transition: all 0.3s ease-in-out;
-  gap: .4rem;
+  gap: 0.4rem;
 
   h2 {
     color: #383838;
@@ -93,11 +93,11 @@ h4 {
 }
 
 input {
-  padding: .6rem;
-  border-radius: .2rem;
+  padding: 0.6rem;
+  border-radius: 0.2rem;
   border: colors.$borderDefault;
   outline: none;
-  
+
   &:focus {
     border: 1px solid #2953f6;
   }
@@ -114,7 +114,7 @@ select {
   border: colors.$borderDefault;
   border-radius: 0.2rem;
   flex: 1;
-  padding: .6rem;
+  padding: 0.6rem;
   outline: none;
 
   &:focus {
@@ -130,7 +130,7 @@ select {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   overflow: hidden;
 }
 
@@ -155,9 +155,10 @@ select {
     }
   }
 
-  th, td {
+  th,
+  td {
     text-align: left;
-    padding: .8rem;
+    padding: 0.8rem;
   }
 
   .listHeader {
@@ -186,10 +187,10 @@ select {
 .form {
   display: flex;
   flex-direction: column;
-  gap: .4rem;
+  gap: 0.4rem;
   padding: 1rem;
   border: colors.$borderDefault;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
 }
 
 @media screen and (min-width: 320px) and (max-width: 768px) {

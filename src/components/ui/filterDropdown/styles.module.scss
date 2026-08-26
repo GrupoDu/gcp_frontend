@@ -1,7 +1,7 @@
 .filterDropdownContainer {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.6rem;
   box-sizing: border-box;
   flex: 1;
 
@@ -9,6 +9,8 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    font-weight: 500;
+    color: #3a3a3a;
   }
 
   select {

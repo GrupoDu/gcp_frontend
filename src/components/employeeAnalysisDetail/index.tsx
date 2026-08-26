@@ -8,7 +8,7 @@ import styles from "./styles.module.scss";
 import { useLoading } from "@/hooks/useLoading";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { EmployeeAnalysisHeader } from "@/components/employeeAnalysisHeader";
-import { months } from "@/Constants/months.constant";
+import { MONTHS } from "@/constants/months.constant";
 import { useEmployeeAnalysis } from "@/hooks/useEmployeeAnalysis";
 import { ProductionAnalysisChart } from "@/components/productionAnalysisChart";
 import { IoWarningOutline } from "react-icons/io5";
@@ -74,7 +74,7 @@ const EmployeeAnalysisDetail = () => {
 
   const lineChartXAxis: LineChartXAxis[] = [
     {
-      data: analysisFullYear.map((analysis) => months[analysis.month - 1]) || [],
+      data: analysisFullYear.map((analysis) => MONTHS[analysis.month - 1]) || [],
       scaleType: "band" as const,
       tickLabelStyle: {
         fontSize: 11,
