@@ -3,6 +3,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineReload } from "react-icons/ai";
+import { getSearchParams } from "@/utils/getSearchParams";
 
 const calculatePagination = (maxPages: number) => {
   const pages: number[] = [];
@@ -28,7 +29,7 @@ export const Pagination = ({ maxPages }: { maxPages?: number }) => {
   if (!maxPages) return <h3>Página não encontrada</h3>;
 
   const reloadToPageSize = () => {
-    const params = new URLSearchParams(searchParams);
+    const params = getSearchParams(searchParams);
     params.set("pageSize", pageSize.toString());
     setPageSize(pageSize);
     router.replace(`${pathname}?page=${1}&pageSize=${pageSize}`);
