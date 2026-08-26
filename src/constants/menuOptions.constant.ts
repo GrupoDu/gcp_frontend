@@ -10,7 +10,7 @@ export const SUPERVISOR_PAGES = [
   {
     MenuIcon: IoMdClipboard,
     pageName: "producao",
-    href: DEFAULT_URL("producao"),
+    href: "producao",
     menuTitle: "Produção",
   },
   {
@@ -25,6 +25,12 @@ export const SUPERVISOR_PAGES = [
     href: DEFAULT_URL("soldadores"),
     menuTitle: "Soldadores",
   },
+  {
+    MenuIcon: IoMdClipboard,
+    pageName: "assistentes",
+    href: DEFAULT_URL("assistentes"),
+    menuTitle: "Assistentes",
+  },
 ];
 
 export const ADMIN_PAGES = [
@@ -37,7 +43,7 @@ export const ADMIN_PAGES = [
   {
     MenuIcon: IoMdClipboard,
     pageName: "producao",
-    href: DEFAULT_URL("producao"),
+    href: "producao",
     menuTitle: "Produção",
   },
   {
@@ -61,13 +67,13 @@ export const ADMIN_PAGES = [
   {
     MenuIcon: FaUserCog,
     pageName: "usuarios",
-    href: DEFAULT_URL("usuarios"),
+    href: "usuarios",
     menuTitle: "Usuários",
   },
   {
     MenuIcon: GrUserWorker,
     pageName: "funcionarios",
-    href: DEFAULT_URL("funcionarios"),
+    href: "funcionarios",
     menuTitle: "Funcionários",
   },
   {
