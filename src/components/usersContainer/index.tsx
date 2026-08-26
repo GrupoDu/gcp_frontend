@@ -12,14 +12,7 @@ import SearchBar from "@/components/searchBar";
 import UserRoleFilter from "@/components/userRoleFilter";
 import { TableList } from "@/components/lists/tableList";
 import { TRACK_PARAMS } from "@/constants/trackParams.constant";
-import { getSearchParams } from "@/utils/getSearchParams";
 import { useSearchParams } from "next/navigation";
-import { hasFilters } from "@/utils/hasFilters";
-
-type UserFilterProps = {
-  role?: string | null;
-  name?: string | null;
-};
 
 const UsersContainer = () => {
   const { isLoading } = useLoading();
