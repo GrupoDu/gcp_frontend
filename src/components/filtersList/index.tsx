@@ -4,26 +4,51 @@ import React, { CSSProperties } from "react";
 import styles from "./styles.module.scss";
 import { FaPlus } from "react-icons/fa";
 import LinkButton from "../linkButton";
-import { IoFilter, IoReload } from "react-icons/io5";
-import { useLoading } from "@/hooks/useLoading";
-import { ClipLoader } from "react-spinners";
+import { IoFilter } from "react-icons/io5";
 import { useOpenMobile } from "@/hooks/useOpenMobile";
+import { AiOutlineClear } from "react-icons/ai";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { isNotPageParams } from "@/utils/isNotPageParams";
 
 type FiltersListProps = {
   children: React.ReactNode;
   hrefButton: string;
   buttonLabel: string;
+  filterFunc?: () => void;
   style?: CSSProperties;
 };
 
+function clearFilters(searchParams: URLSearchParams) {
+  const params = new URLSearchParams(searchParams.toString());
+
+  params.forEach((_, key) => {
+    if (isNotPageParams(key)) params.delete(key);
+  });
+
+  return params.toString();
+}
+
 const FiltersList = (props: FiltersListProps) => {
-  const { isLoading } = useLoading();
   const { setOpenMobile, openMobile } = useOpenMobile();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const handleClear = () => {
+    const params = clearFilters(searchParams);
+    router.push(`${pathname}?${params}`);
+  };
 
   return (
     <div style={props.style} className={`${styles.filtersListContainer} filter`}>
       <div className={styles.desktopFilters}>
         {props.children}
+        <label className={styles.filterButton}>
+          <span>Limpar Filtros</span>
+          <button type="button" onClick={handleClear}>
+            <AiOutlineClear size={20} />
+          </button>
+        </label>
         <label className={styles.addButton}>
           <span>{props.buttonLabel}</span>
           <LinkButton href={props.hrefButton} color="black" fullWidth={true}>
@@ -47,12 +72,6 @@ const FiltersList = (props: FiltersListProps) => {
           <IoFilter />
         </button>
       </div>
-      <label className={styles.reloadButton}>
-        <span>Atualizar</span>
-        <button type="button">
-          {isLoading ? <ClipLoader color="#000000" size={10} /> : <IoReload className={styles.reloadIcon} />}
-        </button>
-      </label>
     </div>
   );
 };
