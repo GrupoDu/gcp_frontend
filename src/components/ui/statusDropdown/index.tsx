@@ -20,11 +20,11 @@ const StatusDropdown = () => {
       setValue={(e) => handleFilterChange(router, setStatus, searchParams, statusFilterParam, e.target.value, "status")}
     >
       <option value="">Todos</option>
-      <option value={pathname.includes("producao") ? "Entregue" : "Batida"}>
-        {pathname.includes("producao") ? "Entregue" : "Batida"}
+      <option value={pathname.includes("producao") ? "Finalizado" : "Batida"}>
+        {pathname.includes("producao") ? "Finalizado" : "Batida"}
       </option>
-      <option value="Pendente">Pendente</option>
-      <option value="Não entregue">Não entregue</option>
+      <option value="EmProducao">Em Produção</option>
+      <option value="Atrasado">Atrasado</option>
     </FilterDropdownBase>
   );
 };
