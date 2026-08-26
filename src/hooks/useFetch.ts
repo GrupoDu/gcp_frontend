@@ -4,6 +4,7 @@ import { api } from "@/services/api";
 import { useState, useEffect, useCallback } from "react";
 import { useLoading } from "./useLoading";
 import { useSearchParams } from "next/navigation";
+import { getSearchParams } from "@/utils/getSearchParams";
 
 type FetchResponse<T> = {
   status: string;
@@ -34,7 +35,7 @@ export function useFetch<T>(endpoint: string, trackParams?: boolean) {
     const fetchData = async () => {
       setIsLoading(true);
 
-      const params = new URLSearchParams(searchParams);
+      const params = getSearchParams(searchParams);
       const hasParams = trackParams && params.toString().length > 0;
 
       try {
