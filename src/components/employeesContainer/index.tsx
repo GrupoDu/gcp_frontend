@@ -10,23 +10,18 @@ import { Employee } from "@/types/employee.interface";
 import FiltersList from "@/components/filtersList";
 import SearchBar from "@/components/searchBar";
 import { EmployeeRoleFilter } from "@/components/employeeRoleFilter";
-import FilterMobileContainer from "@/components/filterMobileContainer";
 import ListItem from "@/components/userListItem";
 import { TableList } from "@/components/lists/tableList";
+import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 
 const EmployeesContainer = () => {
   const { isLoading } = useLoading();
-  const { data: employees, refetch } = useFetch<Employee[]>("employee");
   const searchParams = useSearchParams();
-  const searchFilter = searchParams.get("name");
-  const employeeRoleFilter = searchParams.get("employee");
-  const tHeadValues = ["ID", "Nome", "Função", "Ações"];
-  const filteredEmployees = employees?.filter(
-    (employee) =>
-      (employeeRoleFilter ? employee.employeeRole === employeeRoleFilter : true) &&
-      (searchFilter ? employee.name.includes(searchFilter) : true),
-  );
-  const isListPopulated = !!filteredEmployees && filteredEmployees.length > 0;
+  const hasFilters = searchParams.size > 0;
+  const endpoint = `employee${hasFilters ? "/filter" : ""}`;
+  const { data: employees, refetch } = useFetch<Employee[]>(endpoint, TRACK_PARAMS);
+  const tHeadValues = ["Nome", "Função", "Ações"];
+  const isListPopulated = !!employees && employees.length > 0;
   const displayList = employees?.map((employee) => (
     <ListItem
       key={employee.employeeUuid}
@@ -49,10 +44,6 @@ const EmployeesContainer = () => {
             <SearchBar targetFilter={"name"} />
             <EmployeeRoleFilter />
           </FiltersList>
-          <FilterMobileContainer>
-            <SearchBar targetFilter={"name"} />
-            <EmployeeRoleFilter />
-          </FilterMobileContainer>
           <TableList tHeadValues={tHeadValues} isListPopulated={isListPopulated}>
             {displayList}
           </TableList>

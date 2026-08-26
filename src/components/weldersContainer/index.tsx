@@ -16,14 +16,10 @@ import SelectInput from "@/components/ui/selectInput";
 import { TableList } from "@/components/lists/tableList";
 import { Pagination } from "@/components/pagination";
 import { CustomDropdown } from "@/components/ui/customDropdown";
-import { monthsOptions } from "@/Constants/monthsOptions.constant";
-
-function setFilterParam(value: string, searchParams: URLSearchParams): string {
-  const params = new URLSearchParams(searchParams.toString());
-  params.set("welderUuid", value);
-
-  return params.toString();
-}
+import { MONTHS_OPTIONS } from "@/constants/monthsOptions.constant";
+import { TRACK_PARAMS } from "@/constants/trackParams.constant";
+import { hasFilters } from "@/utils/hasFilters";
+import { setQueryParams } from "@/utils/setQueryParams";
 
 function WeldersContainer() {
   const { isLoading } = useLoading();
@@ -33,17 +29,10 @@ function WeldersContainer() {
   const router = useRouter();
 
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
-  const pageSize = searchParams.get("pageSize");
-  const month = searchParams.get("month");
-  const welderUuid = searchParams.get("welderUuid");
-  const isFiltering = !!month || !!welderUuid;
+  const endpoint = `welderActivity${hasFilters(searchParams) ? `/filter` : `/offset`}`;
 
   const { data: welders } = useFetch<Employee[]>("employee/filter?role=Soldador");
-  const { data: weldersActivities, maxPages } = useFetch<WeldersActivities[]>(
-    `welderActivity${isFiltering ? "" : `/offset?page=${page}&pageSize=${pageSize}`}`,
-    true,
-  );
+  const { data: weldersActivities, maxPages } = useFetch<WeldersActivities[]>(endpoint, TRACK_PARAMS);
 
   const weldersOptions = welders?.map((welder) => getOptions(welder.employeeUuid, welder.name));
   const isListPopulated = !!weldersActivities && weldersActivities?.length > 0;
@@ -56,9 +45,16 @@ function WeldersContainer() {
       <td>{dataFormater(activity.registeredAt)}</td>
     </tr>
   ));
+
   const handleWelderChange = (value: string) => {
     setWelderFilter(value);
-    const params = setFilterParam(value, searchParams);
+    const params = setQueryParams({ searchParams, key: "welderUuid", value });
+    router.push(`${pathname}?${params}`);
+  };
+
+  const handleMonthChange = (value: string) => {
+    setMonthFilter(value);
+    const params = setQueryParams({ searchParams, key: "month", value });
     router.push(`${pathname}?${params}`);
   };
 
@@ -78,10 +74,10 @@ function WeldersContainer() {
               />
               <CustomDropdown
                 label={"Mês"}
-                options={monthsOptions}
+                options={MONTHS_OPTIONS}
                 isFilter={true}
                 filterTarget={"month"}
-                setOption={setMonthFilter}
+                setOption={(e) => handleMonthChange(e.target.value)}
                 value={monthFilter}
               />
             </FiltersList>

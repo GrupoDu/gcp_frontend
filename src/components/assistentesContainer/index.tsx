@@ -2,7 +2,7 @@
 
 import OpenMobileProvider from "@/providers/openMobile.provider";
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useFetch } from "@/hooks/useFetch";
 import { AssistantsActivities } from "@/types/assistantsActivities.interface";
 import { Employee } from "@/types/employee.interface";
@@ -11,22 +11,25 @@ import { dataFormater } from "@/utils/dataFormater";
 import { Pagination } from "@/components/pagination";
 import { TableList } from "@/components/lists/tableList";
 import FiltersList from "@/components/filtersList";
-import { DateInput } from "@/components/ui/dateInput";
 import SelectInput from "@/components/ui/selectInput";
 import { useLoading } from "@/hooks/useLoading";
 import Loading from "@/components/ui/loading";
+import { TRACK_PARAMS } from "@/constants/trackParams.constant";
+import { hasFilters } from "@/utils/hasFilters";
+import { CustomDropdown } from "@/components/ui/customDropdown";
+import { MONTHS_OPTIONS } from "@/constants/monthsOptions.constant";
+import { setQueryParams } from "@/utils/setQueryParams";
 
 function AssistantContainer() {
   const { isLoading } = useLoading();
   const [assistantFilter, setAssistantFilter] = useState("");
-  const [dateFilter, setDateFilter] = useState("");
+  const [monthFilter, setMonthFilter] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
 
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
-  const pageSize = searchParams.get("pageSize");
-  const { data: activities, maxPages } = useFetch<AssistantsActivities[]>(
-    `assistantActivity/offset?page=${page}&pageSize=${pageSize}`,
-  );
+  const endpoint = `assistantActivity/${hasFilters(searchParams) ? "filter" : "offset"}`;
+  const { data: activities, maxPages } = useFetch<AssistantsActivities[]>(endpoint, TRACK_PARAMS);
   const { data: assistants } = useFetch<Employee[]>("employee/filter?role=Assistente");
 
   const assistantsOptions = assistants?.map((assistant) => getOptions(assistant.employeeUuid, assistant.name));
@@ -41,6 +44,18 @@ function AssistantContainer() {
     </tr>
   ));
 
+  const handleMonthChange = (value: string) => {
+    setMonthFilter(value);
+    const params = setQueryParams({ searchParams, key: "month", value });
+    router.push(`${pathname}?${params}`);
+  };
+
+  const handleAssistantChange = (value: string) => {
+    setAssistantFilter(value);
+    const params = setQueryParams({ searchParams, key: "assistantUuid", value });
+    router.push(`${pathname}?${params}`);
+  };
+
   return (
     <>
       {isLoading && <Loading />}
@@ -48,13 +63,18 @@ function AssistantContainer() {
         <main className={`mainContainer ${isLoading ? "loading" : ""}`}>
           <FiltersList hrefButton={"assistentes/atividade"} buttonLabel={"Registrar"}>
             <SelectInput
-              onChange={(e) => setAssistantFilter(e.target.value)}
+              onChange={(e) => handleAssistantChange(e.target.value)}
               value={assistantFilter}
-              defaultValue={"Filtra por assistente"}
+              defaultValue={"Filtrar por assistente"}
               label={"Assistente"}
               options={assistantsOptions}
             />
-            <DateInput label={"Data"} setValue={setDateFilter} value={dateFilter} isFilter={true} />
+            <CustomDropdown
+              label={"Mês"}
+              options={MONTHS_OPTIONS}
+              setOption={(e) => handleMonthChange(e.target.value)}
+              value={monthFilter}
+            />
           </FiltersList>
           <TableList tHeadValues={headValues} isListPopulated={isListPopulated}>
             {displayList}
