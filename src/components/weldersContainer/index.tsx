@@ -15,7 +15,6 @@ import FiltersList from "@/components/filtersList";
 import SelectInput from "@/components/ui/selectInput";
 import { TableList } from "@/components/lists/tableList";
 import { Pagination } from "@/components/pagination";
-import { CustomDropdown } from "@/components/ui/customDropdown";
 import { MONTHS_OPTIONS } from "@/constants/monthsOptions.constant";
 import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 import { hasFilters } from "@/utils/hasFilters";
@@ -72,12 +71,11 @@ function WeldersContainer() {
                 options={weldersOptions}
                 defaultValue={"Selecione um soldador"}
               />
-              <CustomDropdown
+              <SelectInput
                 label={"Mês"}
                 options={MONTHS_OPTIONS}
-                isFilter={true}
-                filterTarget={"month"}
-                setOption={(e) => handleMonthChange(e.target.value)}
+                defaultValue={"Filtrar por mês"}
+                onChange={(e) => handleMonthChange(e.target.value)}
                 value={monthFilter}
               />
             </FiltersList>

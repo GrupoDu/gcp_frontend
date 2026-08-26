@@ -16,7 +16,6 @@ import { useLoading } from "@/hooks/useLoading";
 import Loading from "@/components/ui/loading";
 import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 import { hasFilters } from "@/utils/hasFilters";
-import { CustomDropdown } from "@/components/ui/customDropdown";
 import { MONTHS_OPTIONS } from "@/constants/monthsOptions.constant";
 import { setQueryParams } from "@/utils/setQueryParams";
 
@@ -69,11 +68,12 @@ function AssistantContainer() {
               label={"Assistente"}
               options={assistantsOptions}
             />
-            <CustomDropdown
+            <SelectInput
               label={"Mês"}
               options={MONTHS_OPTIONS}
-              setOption={(e) => handleMonthChange(e.target.value)}
+              onChange={(e) => handleMonthChange(e.target.value)}
               value={monthFilter}
+              defaultValue={"Filtrar por mês"}
             />
           </FiltersList>
           <TableList tHeadValues={headValues} isListPopulated={isListPopulated}>
