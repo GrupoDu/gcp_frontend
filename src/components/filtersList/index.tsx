@@ -9,6 +9,7 @@ import { useOpenMobile } from "@/hooks/useOpenMobile";
 import { AiOutlineClear } from "react-icons/ai";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { isNotPageParams } from "@/utils/isNotPageParams";
+import { getSearchParams } from "@/utils/getSearchParams";
 
 type FiltersListProps = {
   children: React.ReactNode;
@@ -19,7 +20,7 @@ type FiltersListProps = {
 };
 
 function clearFilters(searchParams: URLSearchParams) {
-  const params = new URLSearchParams(searchParams.toString());
+  const params = getSearchParams(searchParams);
 
   params.forEach((_, key) => {
     if (isNotPageParams(key)) params.delete(key);
