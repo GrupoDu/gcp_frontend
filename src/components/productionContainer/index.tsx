@@ -9,13 +9,12 @@ import { useSearchParams } from "next/navigation";
 import CardProductionOrder from "@/components/ui/cardProductionOrder";
 import { dataFormater } from "@/utils/dataFormater";
 import { titleFormatter } from "@/utils/titleFormatter";
-import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 
 const ProductionContainer = () => {
   const searchParams = useSearchParams();
   const hasFilters = searchParams.size > 0;
-  const endpoint = `productionOrder${hasFilters ? "/filter" : ""}`;
-  const { data: productionOrders, refetch } = useFetch<ProductionOrder[]>(endpoint, TRACK_PARAMS);
+  const endpoint = `productionOrder${hasFilters ? `/filter?${searchParams.toString()}` : ""}`;
+  const { data: productionOrders, refetch } = useFetch<ProductionOrder[]>(endpoint);
   const isListEmpty = !productionOrders || productionOrders.length < 1;
 
   return (
