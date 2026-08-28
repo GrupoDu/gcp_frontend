@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Employee } from "@/types/employee.interface";
 import ListItem from "@/components/userListItem";
 import { TableList } from "@/components/lists/tableList";
-import { EMPLOYEE_TABLE_HEADS } from "@/constants/tableHeads";
+import { EMPLOYEE_TABLE_HEADS } from "@/constants/tableHeads.constant";
 
 const EmployeesContainer = () => {
   const searchParams = useSearchParams();

@@ -6,7 +6,7 @@ import { User } from "@/types/user.interface";
 import ListItem from "@/components/userListItem";
 import { TableList } from "@/components/lists/tableList";
 import { useSearchParams } from "next/navigation";
-import { USER_TABLE_HEADS } from "@/constants/tableHeads";
+import { USER_TABLE_HEADS } from "@/constants/tableHeads.constant";
 
 const UsersContainer = () => {
   const searchParams = useSearchParams();
