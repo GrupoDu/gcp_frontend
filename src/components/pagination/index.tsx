@@ -31,8 +31,15 @@ export const Pagination = ({ maxPages }: { maxPages?: number }) => {
   const reloadToPageSize = () => {
     const params = getSearchParams(searchParams);
     params.set("pageSize", pageSize.toString());
+    params.set("page", "1");
     setPageSize(pageSize);
-    router.replace(`${pathname}?page=${1}&pageSize=${pageSize}`);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleChangePage = (targetPage: number) => {
+    const params = getSearchParams(searchParams);
+    params.set("page", targetPage.toString());
+    return params.toString();
   };
 
   return (
@@ -40,7 +47,7 @@ export const Pagination = ({ maxPages }: { maxPages?: number }) => {
       <div className={styles.pagination}>
         {calculatePagination(maxPages)?.map((p, index) => (
           <Link
-            href={`${pathname}?page=${p}&pageSize=${pageSize}`}
+            href={`${pathname}?${handleChangePage(p)}`}
             key={index}
             className={`${styles.page} ${isPage(p) ? styles.isPage : ""}`}
           >
