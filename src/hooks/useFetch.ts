@@ -3,7 +3,6 @@
 import { api } from "@/services/api";
 import { useState, useEffect, useCallback } from "react";
 import { useLoading } from "./useLoading";
-import { useSearchParams } from "next/navigation";
 
 type FetchResponse<T> = {
   status: string;
@@ -24,7 +23,6 @@ async function fetchItems(endpoint: string) {
  */
 export function useFetch<T>(endpoint: string) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
-  const searchParams = useSearchParams();
   const { setIsLoading } = useLoading();
   const [trigger, setTrigger] = useState(0);
   const [maxPages, setMaxPages] = useState(0);
@@ -54,7 +52,7 @@ export function useFetch<T>(endpoint: string) {
     };
 
     fetchData();
-  }, [endpoint, trigger, searchParams]);
+  }, [endpoint, trigger]);
 
   const refetch = useCallback(() => {
     setTrigger((prev) => prev + 1);
