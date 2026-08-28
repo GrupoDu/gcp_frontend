@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import FilterDropdownBase from "../filterDropdown";
 import { useFetch } from "@/hooks/useFetch";
 import { Product } from "@/types/product.interface";
