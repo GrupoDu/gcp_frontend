@@ -1,30 +1,39 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import FilterDropdownBase from "../filterDropdown";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { handleFilterChange } from "@/utils/handleFilterChange";
+import { setQueryParams } from "@/utils/setQueryParams";
 
 const StatusDropdown = () => {
   const pathname = usePathname();
   const [status, setStatus] = useState("");
-  const statusFilterParam = useRef("");
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const handleStatusChange = (value: string) => {
+    setStatus(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "status",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
 
   return (
     <FilterDropdownBase
       label="status"
       placeholder="Status da ordem"
       value={status}
-      setValue={(e) => handleFilterChange(router, setStatus, searchParams, statusFilterParam, e.target.value, "status")}
+      setValue={(e) => handleStatusChange(e.target.value)}
     >
       <option value="">Todos</option>
-      <option value={pathname.includes("producao") ? "Entregue" : "Batida"}>
-        {pathname.includes("producao") ? "Entregue" : "Batida"}
+      <option value={pathname.includes("producao") ? "Finalizado" : "Batida"}>
+        {pathname.includes("producao") ? "Finalizado" : "Batida"}
       </option>
-      <option value="Pendente">Pendente</option>
-      <option value="Não entregue">Não entregue</option>
+      <option value="EmProducao">Em Produção</option>
+      <option value="Atrasado">Atrasado</option>
     </FilterDropdownBase>
   );
 };

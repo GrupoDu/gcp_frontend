@@ -1,4 +1,4 @@
-export const assistantActivityOptions = [
+export const ASSISTANT_ACTIVITY_OPTIONS = [
   {
     label: "Corte",
     value: "Corte",

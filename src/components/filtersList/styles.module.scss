@@ -20,6 +20,35 @@
     }
   }
 
+  .filterButton {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    box-sizing: border-box;
+    height: 100%;
+    width: fit-content;
+    gap: 0.4rem;
+
+    button {
+      padding: 0.4rem;
+      box-sizing: border-box;
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      border: colors.$borderDefault;
+      border-radius: 0.2rem;
+      cursor: pointer;
+
+      .reloadIcon {
+        object-fit: contain;
+        width: 1.2rem;
+        height: fit-content;
+      }
+    }
+  }
+
   .addButton {
     display: none;
     flex-direction: column;
@@ -44,35 +73,6 @@
       border-radius: 0.2rem;
       color: white;
       cursor: pointer;
-    }
-  }
-
-  .reloadButton {
-    display: flex;
-    flex-direction: column;
-    border: none;
-    box-sizing: border-box;
-    height: 100%;
-    width: 8%;
-    gap: 0.4rem;
-
-    button {
-      padding: 0.4rem;
-      box-sizing: border-box;
-      height: 80%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: white;
-      border: colors.$borderDefault;
-      border-radius: 0.2rem;
-      cursor: pointer;
-
-      .reloadIcon {
-        object-fit: contain;
-        width: 1.2rem;
-        height: fit-content;
-      }
     }
   }
 

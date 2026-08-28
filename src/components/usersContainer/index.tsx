@@ -1,53 +1,28 @@
 "use client";
 
 import React from "react";
-import OpenMobileProvider from "@/providers/openMobile.provider";
-import Loading from "@/components/ui/loading";
-import { useLoading } from "@/hooks/useLoading";
-import { useSearchParams } from "next/navigation";
 import { useFetch } from "@/hooks/useFetch";
 import { User } from "@/types/user.interface";
 import ListItem from "@/components/userListItem";
-import FiltersList from "@/components/filtersList";
-import SearchBar from "@/components/searchBar";
-import UserRoleFilter from "@/components/userRoleFilter";
-import FilterMobileContainer from "@/components/filterMobileContainer";
 import { TableList } from "@/components/lists/tableList";
+import { useSearchParams } from "next/navigation";
+import { USER_TABLE_HEADS } from "@/constants/tableHeads.constant";
 
 const UsersContainer = () => {
-  const { isLoading } = useLoading();
   const searchParams = useSearchParams();
-  const userRoleFilter = searchParams.get("userRole");
-  const searchFilter = searchParams.get("name");
-  const filtersString = `user/filter?userRole=${userRoleFilter || ""}&name=${searchFilter || ""}`;
-  const isFiltered = userRoleFilter || searchFilter;
-  const endpoint = isFiltered ? filtersString : "user";
+  const hasFilters = searchParams.size > 0;
+  const endpoint = `user${hasFilters ? "/filter" : ""}?${searchParams.toString()}`;
   const { data: users, refetch } = useFetch<User[]>(endpoint);
-  const tHeadValues = ["Nome", "Email", "Tipo de usuário", "Ações"];
+
   const isListPopulated = !!users && users.length > 0;
   const displayList = users?.map((user) => (
     <ListItem key={user.userUuid} deleteButtonEndpoint="user" refetch={refetch} userInfos={user} />
   ));
 
   return (
-    <>
-      {isLoading && <Loading />}
-      <OpenMobileProvider>
-        <main style={{ gap: "1rem" }} className={`mainContainer ${isLoading && "loading"}`}>
-          <FiltersList buttonLabel="Adicionar usuário" hrefButton="/usuarios/register">
-            <SearchBar targetFilter={"name"} />
-            <UserRoleFilter />
-          </FiltersList>
-          <FilterMobileContainer>
-            <SearchBar targetFilter={"name"} />
-            <UserRoleFilter />
-          </FilterMobileContainer>
-          <TableList tHeadValues={tHeadValues} isListPopulated={isListPopulated}>
-            {displayList}
-          </TableList>
-        </main>
-      </OpenMobileProvider>
-    </>
+    <TableList tHeadValues={USER_TABLE_HEADS} isListPopulated={isListPopulated}>
+      {displayList}
+    </TableList>
   );
 };
 

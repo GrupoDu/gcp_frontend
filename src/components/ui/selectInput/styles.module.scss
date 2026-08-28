@@ -1,7 +1,7 @@
 .selectInput {
   display: flex;
   flex-direction: column;
-  gap: .6rem;
+  gap: 0.6rem;
   box-sizing: border-box;
   flex: 1;
 
@@ -13,7 +13,7 @@
 .isRequired {
   h4 {
     display: flex;
-    gap: .2rem;
+    gap: 0.2rem;
 
     &:after {
       content: "*";
@@ -25,6 +25,6 @@
 .isDisabled {
   select {
     cursor: not-allowed;
-    opacity: .5;
+    opacity: 0.5;
   }
 }

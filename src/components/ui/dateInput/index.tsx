@@ -2,7 +2,8 @@
 
 import styles from "./styles.module.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
+import { setQueryParams } from "@/utils/setQueryParams";
 
 interface DateInputProps {
   label: string;
@@ -22,9 +23,12 @@ export const DateInput = (props: DateInputProps) => {
     setValue(e.target.value);
 
     if (isFilter && filterTarget) {
-      const params = new URLSearchParams(searchParams);
-      params.set(filterTarget, e.target.value);
-      router.push(`${pathname}?${params.toString()}`);
+      const params = setQueryParams({
+        searchParams,
+        key: filterTarget,
+        value: e.target.value,
+      });
+      router.push(`${pathname}?${params}`);
     }
   };
 

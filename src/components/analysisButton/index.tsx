@@ -9,6 +9,7 @@ export const AnalysisButton = ({ employee_uuid }: { employee_uuid: string }) => 
   return (
     <Link className={styles.analysisButtonContainer} href={employee_uuid}>
       <FaChartLine className={styles.chartIcon} />
+      <span>Análises</span>
     </Link>
   );
 };

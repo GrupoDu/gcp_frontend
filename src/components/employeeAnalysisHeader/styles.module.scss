@@ -20,7 +20,9 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
@@ -36,10 +38,10 @@
     align-items: center;
     justify-content: center;
     width: 3.5rem;
-    border: 1px solid #2B79DE;
+    border: 1px solid #2b79de;
     height: 3.5rem;
-    background-color: #E8F1FF; // bg requested by user
-    color: #2B79DE; // primary color requested by user
+    background-color: #e8f1ff; // bg requested by user
+    color: #2b79de; // primary color requested by user
     font-size: 1.8rem;
     flex-shrink: 0;
   }
@@ -63,7 +65,7 @@
       text-transform: capitalize;
       background-color: rgba(0, 0, 0, 0.04);
       padding: 0.15rem 0.5rem;
-      border-radius: .2rem;
+      border-radius: 0.2rem;
       width: fit-content;
     }
   }

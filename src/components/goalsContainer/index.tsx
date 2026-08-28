@@ -19,9 +19,6 @@ import CardGoal from "@/components/ui/cardGoal";
 const GoalsContainer = () => {
   const { data: goals, refetch } = useFetch<Goal[]>("goal");
   const searchParams = useSearchParams();
-  const searchFilter = searchParams.get("title");
-  const statusFilter = searchParams.get("status");
-  const deadlineFilter = searchParams.get("deadline");
   const { isLoading } = useLoading();
 
   return (
@@ -31,13 +28,11 @@ const GoalsContainer = () => {
         <h2>Lista da Metas</h2>
         <OpenMobileProvider>
           <FiltersList buttonLabel="Adicionar meta" hrefButton="/metas/register">
-            <DeadlineInput />
             <SearchBar targetFilter={"title"} />
             <EmployeeDropdown />
             <StatusDropdown />
           </FiltersList>
           <FilterMobileContainer>
-            <DeadlineInput />
             <SearchBar targetFilter={"title"} />
             <EmployeeDropdown />
             <StatusDropdown />

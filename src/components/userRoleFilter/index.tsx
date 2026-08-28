@@ -1,22 +1,36 @@
 "use client";
 
 import FilterDropdownBase from "../ui/filterDropdown";
-import { useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { handleFilterChange } from "@/utils/handleFilterChange";
+import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getSearchParams } from "@/utils/getSearchParams";
+
+function setUserQueryParams(searchParams: URLSearchParams, targetFilter: string, value: string) {
+  const params = getSearchParams(searchParams);
+
+  params.set(targetFilter, value);
+
+  if (value === "") params.delete(targetFilter);
+
+  return params.toString();
+}
 
 const UserRoleFilter = () => {
   const [userFilter, setUserFilter] = useState("");
-  const userFilterParam = useRef("");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const params = setUserQueryParams(searchParams, "userRole", e.target.value || "");
+    setUserFilter(e.target.value);
+    router.push(`${pathname}?${params}`);
+  };
 
   return (
     <FilterDropdownBase
       value={userFilter}
-      setValue={(e) =>
-        handleFilterChange(router, setUserFilter, searchParams, userFilterParam, e.target.value, "userRole")
-      }
+      setValue={(e) => handleFilterChange(e)}
       label="Tipo de usuário"
       placeholder="Tipo de usuário"
     >

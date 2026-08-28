@@ -1,27 +1,35 @@
 "use client";
 
 import FilterDropdownBase from "../ui/filterDropdown";
-import { useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { handleFilterChange } from "@/utils/handleFilterChange";
+import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { setQueryParams } from "@/utils/setQueryParams";
 
 const EmployeeDropdown = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [employeeFilter, setEmployeeFilter] = useState("");
-  const employeeFiterParam = useRef("");
   const employeeRoles = [
     { value: "", label: "Todos" },
-    { value: "soldador", label: "Soldador" },
-    { value: "assistente", label: "Assistente" },
+    { value: "Soldador", label: "Soldador" },
+    { value: "Assistente", label: "Assistente" },
   ];
+
+  const handleEmployeeChange = (value: string) => {
+    setEmployeeFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "employee",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
 
   return (
     <FilterDropdownBase
       value={employeeFilter}
-      setValue={(e) =>
-        handleFilterChange(router, setEmployeeFilter, searchParams, employeeFiterParam, e.target.value, "employee")
-      }
+      setValue={(e) => handleEmployeeChange(e.target.value)}
       label={"Cargo"}
       placeholder={"Cargo"}
     >

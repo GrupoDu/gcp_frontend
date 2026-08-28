@@ -4,30 +4,36 @@ import { MdDashboard } from "react-icons/md";
 import { FaUserCog } from "react-icons/fa";
 import { GrAnalytics, GrUserWorker } from "react-icons/gr";
 
-const defaultUrl = (pathname: string) => `/${pathname}?page=1&pageSize=10`;
+const DEFAULT_URL = (pathname: string) => `/${pathname}?page=1&pageSize=10`;
 
-export const supervisorPages = [
+export const SUPERVISOR_PAGES = [
   {
     MenuIcon: IoMdClipboard,
     pageName: "producao",
-    href: defaultUrl("producao"),
+    href: "producao",
     menuTitle: "Produção",
   },
   {
     MenuIcon: LuGoal,
     pageName: "metas",
-    href: defaultUrl("metas"),
+    href: DEFAULT_URL("metas"),
     menuTitle: "Metas",
   },
   {
     MenuIcon: IoMdClipboard,
     pageName: "soldadores",
-    href: defaultUrl("soldadores"),
+    href: DEFAULT_URL("soldadores"),
     menuTitle: "Soldadores",
+  },
+  {
+    MenuIcon: IoMdClipboard,
+    pageName: "assistentes",
+    href: DEFAULT_URL("assistentes"),
+    menuTitle: "Assistentes",
   },
 ];
 
-export const adminPages = [
+export const ADMIN_PAGES = [
   {
     MenuIcon: MdDashboard,
     pageName: "dashboard",
@@ -37,37 +43,37 @@ export const adminPages = [
   {
     MenuIcon: IoMdClipboard,
     pageName: "producao",
-    href: defaultUrl("producao"),
+    href: "producao",
     menuTitle: "Produção",
   },
   {
     MenuIcon: IoMdClipboard,
     pageName: "soldadores",
-    href: defaultUrl("soldadores"),
+    href: DEFAULT_URL("soldadores"),
     menuTitle: "Soldadores",
   },
   {
     MenuIcon: IoMdClipboard,
     pageName: "assistentes",
-    href: defaultUrl("assistentes"),
+    href: DEFAULT_URL("assistentes"),
     menuTitle: "Assistentes",
   },
   {
     MenuIcon: LuGoal,
     pageName: "metas",
-    href: defaultUrl("metas"),
+    href: DEFAULT_URL("metas"),
     menuTitle: "Metas",
   },
   {
     MenuIcon: FaUserCog,
     pageName: "usuarios",
-    href: defaultUrl("usuarios"),
+    href: "usuarios",
     menuTitle: "Usuários",
   },
   {
     MenuIcon: GrUserWorker,
     pageName: "funcionarios",
-    href: defaultUrl("funcionarios"),
+    href: "funcionarios",
     menuTitle: "Funcionários",
   },
   {
@@ -76,4 +82,4 @@ export const adminPages = [
     href: "/analises",
     menuTitle: "Análises",
   },
-];
+] as const;

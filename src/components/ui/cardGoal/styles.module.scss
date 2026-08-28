@@ -6,7 +6,7 @@
   flex-direction: column;
   border: colors.$borderDefault;
   background-color: white;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   box-sizing: border-box;
 
   .goalTitle {
@@ -67,7 +67,7 @@
     box-sizing: border-box;
     border: 1px solid colors.$done;
     margin: 0.6rem;
-    
+
     p {
       padding: 0;
     }

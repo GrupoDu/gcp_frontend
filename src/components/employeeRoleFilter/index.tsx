@@ -1,28 +1,36 @@
 "use client";
 
 import FilterDropdownBase from "../ui/filterDropdown";
-import { useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { handleFilterChange } from "@/utils/handleFilterChange";
+import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { setQueryParams } from "@/utils/setQueryParams";
 
 export function EmployeeRoleFilter() {
   const [employeeRoleFilter, setEmployeeRoleFilter] = useState("");
-  const employeeParam = useRef("");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const handleFilterChange = (value: string) => {
+    setEmployeeRoleFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      value,
+      key: "role",
+    });
+    router.push(`${pathname}?${params}`);
+  };
 
   return (
     <FilterDropdownBase
       value={employeeRoleFilter}
-      setValue={(e) =>
-        handleFilterChange(router, setEmployeeRoleFilter, searchParams, employeeParam, e.target.value, "employee")
-      }
+      setValue={(e) => handleFilterChange(e.target.value)}
       label="Tipo de funcionário"
       placeholder="Tipo de funcionário"
     >
       <option value="">Todos</option>
-      <option value="assistente">Assistente</option>
-      <option value="soldador">Soldador</option>
+      <option value="Assistente">Assistente</option>
+      <option value="Soldador">Soldador</option>
     </FilterDropdownBase>
   );
 }

@@ -7,6 +7,7 @@ const EditButton = ({ href }: { href: string }) => {
   return (
     <Link href={href} type="button" className={styles.editButton}>
       <FaEdit className={styles.buttonIcon} />
+      <span>Editar</span>
     </Link>
   );
 };

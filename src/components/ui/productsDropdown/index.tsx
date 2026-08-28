@@ -1,40 +1,41 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import FilterDropdownBase from "../filterDropdown";
 import { useFetch } from "@/hooks/useFetch";
 import { Product } from "@/types/product.interface";
-import { useRouter, useSearchParams } from "next/navigation";
-import { handleFilterChange } from "@/utils/handleFilterChange";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { setQueryParams } from "@/utils/setQueryParams";
 
 const ProductsDropdown = () => {
   const { data: products } = useFetch<Product[]>("product");
   const [productFilter, setProductFilter] = useState("");
-  const productFilterParam = useRef("");
+  const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const handleProductChange = (value: string) => {
+    setProductFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      value,
+      key: "productUuid",
+    });
+    router.push(`${pathname}?${params}`);
+  };
 
   return (
     <FilterDropdownBase
       label="produto"
       placeholder="Produto"
-      setValue={(e) =>
-        handleFilterChange(
-          router,
-          setProductFilter,
-          searchParams,
-          productFilterParam,
-          e.target.options[e.target.selectedIndex].innerText,
-          "product",
-        )
-      }
+      setValue={(e) => handleProductChange(e.target.value)}
       value={productFilter}
     >
       <option value="" data-key={""}>
-        todos
+        Todos
       </option>
       {products?.map((product, index) => (
-        <option key={product.productUuid} data-key={index}>
+        <option key={product.productUuid} value={product.productUuid} data-key={index}>
           {product.acronym}
         </option>
       ))}

@@ -9,11 +9,13 @@ export interface WeldersActivities {
   isGeneralActivity: boolean;
   producedQuantity: number;
   registeredAt: Date;
+  month: number;
+  year: number;
   employee: Employee;
   product: Product;
 }
 
-type OmitFields = "welderActivityUuid" | "registeredAt" | "employee" | "product";
+type OmitFields = "welderActivityUuid" | "registeredAt" | "employee" | "product" | "month" | "year";
 
 export interface WelderActivityPayload extends Omit<WeldersActivities, OmitFields> {}
 

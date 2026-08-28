@@ -1,5 +1,5 @@
 export interface Employee {
-  employeeUuid?: string;
+  employeeUuid: string;
   name: string;
   employeeRole: string;
   deliveredActivitiesQuantity?: number;

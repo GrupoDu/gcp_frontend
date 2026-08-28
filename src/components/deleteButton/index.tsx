@@ -63,6 +63,7 @@ const DeleteButton = ({ uuid, refetch, endpoint }: DeleteButtonProps) => {
       className={styles.deleteButton}
     >
       <MdOutlineDelete className={styles.buttonIcon} />
+      <span>Remover</span>
     </button>
   );
 };

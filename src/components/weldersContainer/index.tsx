@@ -1,37 +1,19 @@
 "use client";
 
-import styles from "./styles.module.scss";
-import OpenMobileProvider from "@/providers/openMobile.provider";
-import { useLoading } from "@/hooks/useLoading";
-import Loading from "@/components/ui/loading";
-import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFetch } from "@/hooks/useFetch";
-import { Employee } from "@/types/employee.interface";
 import { WeldersActivities } from "@/types/weldersActivities.interface";
-import { getOptions } from "@/utils/getOptions";
 import { dataFormater } from "@/utils/dataFormater";
-import FiltersList from "@/components/filtersList";
-import SelectInput from "@/components/ui/selectInput";
-import { DateInput } from "@/components/ui/dateInput";
 import { TableList } from "@/components/lists/tableList";
 import { Pagination } from "@/components/pagination";
+import { hasFilters } from "@/utils/hasFilters";
 
 function WeldersContainer() {
-  const { isLoading } = useLoading();
-  const [registeredAtFilter, setRegisteredAtFilter] = useState("");
-  const [welderFilter, setWelderFilter] = useState("");
-
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
-  const pageSize = searchParams.get("pageSize");
+  const endpoint = `welderActivity${hasFilters(searchParams) ? `/filter` : `/offset`}?${searchParams.toString()}`;
 
-  const { data: welders } = useFetch<Employee[]>("employee/filter?role=Soldador");
-  const { data: weldersActivities, maxPages } = useFetch<WeldersActivities[]>(
-    `welderActivity/offset?page=${page}&pageSize=${pageSize}`,
-  );
+  const { data: weldersActivities, maxPages } = useFetch<WeldersActivities[]>(endpoint);
 
-  const weldersOptions = welders?.map((welder) => getOptions(welder.employeeUuid, welder.name));
   const isListPopulated = !!weldersActivities && weldersActivities?.length > 0;
   const headValues = ["Soldador", "Produto/Atividade", "Qtd.", "Data"];
   const displayList = weldersActivities?.map((activity) => (
@@ -45,33 +27,10 @@ function WeldersContainer() {
 
   return (
     <>
-      {isLoading && <Loading />}
-      <main className={`mainContainer ${isLoading ? "loading" : ""}`}>
-        <OpenMobileProvider>
-          <div className={styles.weldersActivitiesContainer}>
-            <FiltersList hrefButton={"/soldadores/atividade"} buttonLabel={"Registrar atividade"}>
-              <SelectInput
-                onChange={(e) => setWelderFilter(e.target.value)}
-                value={welderFilter}
-                label={"Soldador"}
-                options={weldersOptions}
-                defaultValue={"Selecione um soldador"}
-              />
-              <DateInput
-                label={"Data da atividade"}
-                isFilter={true}
-                filterTarget={"registered_at"}
-                value={registeredAtFilter}
-                setValue={setRegisteredAtFilter}
-              />
-            </FiltersList>
-            <TableList isListPopulated={isListPopulated} tHeadValues={headValues}>
-              {displayList}
-            </TableList>
-            <Pagination maxPages={maxPages} />
-          </div>
-        </OpenMobileProvider>
-      </main>
+      <TableList isListPopulated={isListPopulated} tHeadValues={headValues}>
+        {displayList}
+      </TableList>
+      <Pagination maxPages={maxPages} />
     </>
   );
 }

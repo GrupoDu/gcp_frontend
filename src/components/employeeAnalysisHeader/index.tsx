@@ -2,10 +2,10 @@
 
 import { CiCalendar } from "react-icons/ci";
 import styles from "./styles.module.scss";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
+import { FaArrowDown } from "react-icons/fa6";
 import { FaIdCard } from "react-icons/fa";
 import { useEmployeeAnalysis } from "@/hooks/useEmployeeAnalysis";
-import { months } from "@/Constants/months.constant";
+import { MONTHS } from "@/constants/months.constant";
 
 export const EmployeeAnalysisHeader = () => {
   const { employeeAnalysis, analysisFullYear } = useEmployeeAnalysis();
@@ -30,7 +30,7 @@ export const EmployeeAnalysisHeader = () => {
         <div className={styles.info}>
           <span className={styles.label}>Produção passada</span>
           <span className={styles.value}>{lastProductionCount?.monthlyProduction || 0} un</span>
-          <span className={styles.subText}>{months[lastProductionCount?.month || 0 - 1 || 1]}</span>
+          <span className={styles.subText}>{MONTHS[lastProductionCount?.month || 0 - 1 || 1]}</span>
         </div>
       </div>
       <div className={`${styles.statCard} ${styles.current}`}>
@@ -40,7 +40,7 @@ export const EmployeeAnalysisHeader = () => {
         <div className={styles.info}>
           <span className={styles.label}>Produção atual</span>
           <span className={styles.value}>{employeeAnalysis.monthlyTotalProduction || 0} un</span>
-          <span className={styles.subText}>{months[employeeAnalysis.month - 1 || 1]}</span>
+          <span className={styles.subText}>{MONTHS[employeeAnalysis.month - 1 || 1]}</span>
         </div>
       </div>
     </section>

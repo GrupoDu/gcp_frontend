@@ -3,7 +3,6 @@
 import { api } from "@/services/api";
 import { useState, useEffect, useCallback } from "react";
 import { useLoading } from "./useLoading";
-import { toast } from "react-toastify";
 
 type FetchResponse<T> = {
   status: string;
@@ -11,7 +10,18 @@ type FetchResponse<T> = {
   err?: string;
 };
 
-export function useFetch<T>(endpoint: string, params?: string) {
+async function fetchItems(endpoint: string) {
+  const response = await api.get(endpoint);
+
+  return response.data;
+}
+
+/**
+ * Custom hook para buscar dados de uma API.
+ *
+ * @param endpoint - endpoint da requisição
+ */
+export function useFetch<T>(endpoint: string) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
   const { setIsLoading } = useLoading();
   const [trigger, setTrigger] = useState(0);
@@ -22,27 +32,13 @@ export function useFetch<T>(endpoint: string, params?: string) {
       setIsLoading(true);
 
       try {
-        const url = `/${endpoint}${params ? params : ""}`;
-        const apiResponse = await api.get(url);
+        const fetchedData = await fetchItems(endpoint);
 
-        const responseData = await apiResponse.data.data;
-        const responseError = !responseData || apiResponse.data.error;
-
-        if (responseError) {
-          setFetchedData({
-            status: "failed",
-            err: "Dados não encontrados.",
-          });
-
-          toast.error(apiResponse.data.error);
-          return;
-        }
-
-        setMaxPages(apiResponse.data.maxPages);
+        setMaxPages(fetchedData.maxPages);
 
         setFetchedData({
           status: "success",
-          data: responseData,
+          data: fetchedData.data,
         });
       } catch (err) {
         const error = err as Error;
@@ -56,7 +52,7 @@ export function useFetch<T>(endpoint: string, params?: string) {
     };
 
     fetchData();
-  }, [endpoint, params, trigger]);
+  }, [endpoint, trigger]);
 
   const refetch = useCallback(() => {
     setTrigger((prev) => prev + 1);
