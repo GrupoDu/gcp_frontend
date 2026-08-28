@@ -4,7 +4,6 @@ import SelectInput from "../ui/selectInput";
 import { MONTHS_OPTIONS } from "@/constants/monthsOptions.constant";
 import { useState } from "react";
 import { setQueryParams } from "@/utils/setQueryParams";
-import { router } from "next/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export const MonthInputSelect = () => {
