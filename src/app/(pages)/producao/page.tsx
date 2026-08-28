@@ -22,17 +22,17 @@ const ProductionPage = () => {
       {isLoading && <Loading />}
       <main style={{ gap: 0 }} className={`${styles.listContainer} mainContainer ${isLoading ? "loading" : ""}`}>
         <OpenMobileProvider>
-          <FiltersList
-            buttonLabel={"Ordem de produção"}
-            hrefButton={"producao/atividade"}
-            style={{ borderRadius: ".2rem .2rem 0 0", borderBottom: 0 }}
-          >
-            <Suspense>
+          <Suspense>
+            <FiltersList
+              buttonLabel={"Ordem de produção"}
+              hrefButton={"producao/atividade"}
+              style={{ borderRadius: ".2rem .2rem 0 0", borderBottom: 0 }}
+            >
               <MonthInputSelect />
-            </Suspense>
-            <ProductsDropdown />
-            <StatusDropdown />
-          </FiltersList>
+              <ProductsDropdown />
+              <StatusDropdown />
+            </FiltersList>
+          </Suspense>
         </OpenMobileProvider>
         <Suspense fallback={<Loading />}>
           <ProductionContainer />
