@@ -4,7 +4,6 @@ import { api } from "@/services/api";
 import { useState, useEffect, useCallback } from "react";
 import { useLoading } from "./useLoading";
 import { useSearchParams } from "next/navigation";
-import { getSearchParams } from "@/utils/getSearchParams";
 
 type FetchResponse<T> = {
   status: string;
@@ -22,9 +21,8 @@ async function fetchItems(endpoint: string) {
  * Custom hook para buscar dados de uma API.
  *
  * @param endpoint - endpoint da requisição
- * @param trackParams - Booleano que indica se deve buscar os query params
  */
-export function useFetch<T>(endpoint: string, trackParams?: boolean) {
+export function useFetch<T>(endpoint: string) {
   const [fetchedData, setFetchedData] = useState<FetchResponse<T>>();
   const searchParams = useSearchParams();
   const { setIsLoading } = useLoading();
@@ -35,12 +33,8 @@ export function useFetch<T>(endpoint: string, trackParams?: boolean) {
     const fetchData = async () => {
       setIsLoading(true);
 
-      const params = getSearchParams(searchParams);
-      const hasParams = trackParams && params.toString().length > 0;
-
       try {
-        const url = `/${endpoint}${hasParams ? `?${params.toString()}` : ""}`;
-        const fetchedData = await fetchItems(url);
+        const fetchedData = await fetchItems(endpoint);
 
         setMaxPages(fetchedData.maxPages);
 
@@ -60,7 +54,7 @@ export function useFetch<T>(endpoint: string, trackParams?: boolean) {
     };
 
     fetchData();
-  }, [endpoint, trigger, searchParams, trackParams]);
+  }, [endpoint, trigger, searchParams]);
 
   const refetch = useCallback(() => {
     setTrigger((prev) => prev + 1);
