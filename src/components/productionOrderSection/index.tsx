@@ -11,7 +11,7 @@ import { titleFormatter } from "@/utils/titleFormatter";
 import { usePathname } from "next/navigation";
 
 const ProductionOrderSection = () => {
-  const { data } = useFetch<ProductionOrder[]>("productionOrder/filters?status=EmProducao");
+  const { data } = useFetch<ProductionOrder[]>("productionOrder/filter?status=EmProducao");
   const pathname = usePathname();
   const productionOrderUuid = pathname.split("/")[2];
   const productionOrders = data?.filter((order) => order.productionOrderUuid !== productionOrderUuid);
