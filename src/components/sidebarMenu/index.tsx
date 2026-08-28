@@ -76,7 +76,11 @@ const SidebarMenu = () => {
 
 function Options({ handleClick }: { handleClick: () => void }) {
   const pathname = usePathname();
-  const role = localStorage.getItem("@App:userRole") || "";
+  let role = "";
+
+  if (typeof window !== "undefined") {
+    role = localStorage.getItem("@App:userRole") || "";
+  }
 
   const isAdmin = role === "Admin";
 

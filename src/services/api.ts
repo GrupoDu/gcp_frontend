@@ -72,7 +72,9 @@ async function tooManyRequests() {
       },
     );
 
-    localStorage.removeItem("@App:userRole");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("@App:userRole");
+    }
   } catch (e) {
     console.log("Não foi possível fazer o logout: ", e);
   } finally {
