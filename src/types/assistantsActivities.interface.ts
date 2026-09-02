@@ -1,7 +1,7 @@
 import { Employee } from "@/types/employee.interface";
 
 export interface AssistantsActivities {
-  assistantsActivitiesUuid: string;
+  assistantActivityUuid?: string;
   registeredAt: Date;
   producedQuantity: number;
   activityType: string;
