@@ -21,7 +21,7 @@ function AssistantContainer() {
       <TableList tHeadValues={headValues} isListPopulated={isListPopulated}>
         <DisplayList activities={activities} />
       </TableList>
-      <Pagination maxPages={maxPages} />
+      <Pagination maxPage={maxPages} />
     </>
   );
 }

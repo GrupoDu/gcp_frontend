@@ -30,7 +30,7 @@ function WeldersContainer() {
       <TableList isListPopulated={isListPopulated} tHeadValues={headValues}>
         {displayList}
       </TableList>
-      <Pagination maxPages={maxPages} />
+      <Pagination maxPage={maxPages} />
     </>
   );
 }
