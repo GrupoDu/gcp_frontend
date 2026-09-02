@@ -20,7 +20,7 @@ const AssistantContainer = () => {
   const isListPopulated = !!activities && activities?.length > 0;
 
   const displayList = activities?.map((activity, index) => (
-    <tr key={activity.assistantsActivitiesUuid || activity.assistantActivityUuid || index}>
+    <tr key={activity.assistantActivityUuid || index}>
       <td>{activity.employee.name}</td>
       <td>{activity.activityType}</td>
       <td>{activity.producedQuantity}</td>
@@ -39,4 +39,3 @@ const AssistantContainer = () => {
 };
 
 export default AssistantContainer;
-
