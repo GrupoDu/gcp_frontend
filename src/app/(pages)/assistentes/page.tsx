@@ -24,7 +24,7 @@ function AssistantsPage() {
       <main className={`mainContainer ${isLoading ? "loading" : ""}`}>
         <OpenMobileProvider>
           <Suspense>
-            <FiltersList hrefButton={"assistentes/atividade"} buttonLabel={"Registrar"}>
+            <FiltersList hrefButton={"/assistentes/atividade"} buttonLabel={"Registrar"}>
               <EmployeeInputSelect targetFilter={"assistantUuid"} employeeRole={"Assistente"} />
               <MonthInputSelect />
             </FiltersList>
