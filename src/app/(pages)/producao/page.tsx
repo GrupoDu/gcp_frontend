@@ -25,7 +25,7 @@ const ProductionPage = () => {
           <Suspense>
             <FiltersList
               buttonLabel={"Ordem de produção"}
-              hrefButton={"producao/atividade"}
+              hrefButton={"producao/atividade?formTo=create"}
               style={{ borderRadius: ".2rem .2rem 0 0", borderBottom: 0 }}
             >
               <MonthInputSelect />
