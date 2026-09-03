@@ -25,6 +25,7 @@ const ProductionContainer = () => {
           productionOrders.map((order) => (
             <li key={order.productionOrderUuid}>
               <CardProductionOrder
+                productionOrderUuid={order.productionOrderUuid ?? ""}
                 date={dataFormater(order.productionOrderDeadline)}
                 deliveryDate={order.deliveredAt}
                 description={order.productionOrderDescription || ""}
