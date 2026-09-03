@@ -43,12 +43,13 @@ function DisplayProductionOrders({ data, productionOrders }: DisplayProductionOr
   return productionOrders?.map((order) => (
     <li key={order.productionOrderUuid}>
       <CardProductionOrder
-        registerId={order.productionOrderUuid || ""}
+        productionOrderUuid={order.productionOrderUuid ?? ""}
+        registerId={order.productionOrderUuid ?? ""}
         status={order.productionOrderStatus}
         title={titleFormatter(order.product.acronym, order.toBeProduced)}
         date={dataFormater(order.productionOrderDeadline)}
         deliveryDate={order.deliveredAt}
-        description={order.productionOrderDescription || ""}
+        description={order.productionOrderDescription ?? ""}
       />
     </li>
   ));
