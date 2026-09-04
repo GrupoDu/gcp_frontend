@@ -48,7 +48,7 @@ const CardGoal = ({ title, description, status, deadline, goalId, refetch }: Car
         {statusIcon}
         <h4>{title}</h4>
         <div className={styles.buttons}>
-          <DeleteButton refetch={refetch} endpoint="goal" uuid={goalId} />
+          <DeleteButton deleteAction={() => toast.warning("Funcionalidade em desenvolvimento.")} />
           {status === "EmProgresso" && <EditButton href={`/metas/edit/${goalId}`} />}
         </div>
       </div>
