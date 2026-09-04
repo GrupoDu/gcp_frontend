@@ -17,7 +17,6 @@ function ActivityPage() {
       {isLoading && <Loading />}
       <main className={`mainContainer ${isLoading ? "loading" : ""}`}>
         <Breadcrumb />
-        <h2>Registrar atividade</h2>
         <Suspense>
           <ProductionOrderForm />
         </Suspense>

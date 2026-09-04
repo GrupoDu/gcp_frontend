@@ -1,0 +1,71 @@
+.modalContainer {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  left: 38%;
+  top: 35%;
+  z-index: 11;
+  background-color: rgba(255, 255, 255, .4);
+  width: 36rem;
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--modal-background);
+  
+  .textContainer {
+    background-color: var(--modal-background);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-bottom: 1px solid var(--modal-background);
+    gap: .4rem;
+    color: white;
+    
+    .title {
+      display: flex;
+      align-items: center;
+      gap: .2rem;
+      font-size: 1.8rem;
+      
+      h3 {
+        color: white;
+      }
+    }
+  }
+  
+  .buttons {
+    padding: 1.2rem;
+    display: flex; 
+    gap: .6rem;
+    
+    button {
+      flex: 1;
+      padding: .6rem;
+      cursor: pointer;
+      border: none;
+      border-radius: .2rem;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .cancel {
+      background-color: black;
+      color: white;
+    }
+    
+    .confirm {
+      background-color: var(--modal-background);
+      color: white;
+    }
+  }
+}
+
+.show {
+  display: flex;  
+  
+  .buttons {
+    button {
+      pointer-events: all;
+    }
+  }
+}

@@ -4,6 +4,7 @@ import "../globals.scss";
 import SidebarMenu from "@/components/sidebarMenu";
 import { ToastContainer } from "react-toastify";
 import { LoadingProvider } from "@/providers/loading.provider";
+import { ModalProvider } from "@/providers/modal.provider";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -22,9 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <LoadingProvider>
-      <SidebarMenu />
-      <ToastContainer stacked position="top-center" autoClose={3000} theme="light" />
-      {children}
+      <ModalProvider>
+        <SidebarMenu />
+        <ToastContainer stacked position="top-center" autoClose={3000} theme="light" />
+        {children}
+      </ModalProvider>
     </LoadingProvider>
   );
 }
