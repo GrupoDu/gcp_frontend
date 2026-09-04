@@ -63,39 +63,42 @@ export const ProductionOrderForm = () => {
   };
 
   return (
-    <FormTemplate submitHandler={async (e) => handleSubmit(e)}>
-      <DateInput label={"Prazo"} setValue={setDeadline} value={deadline} isFilter={false} />
-      <SelectInput
-        options={productsOptions}
-        onChange={(e) => setSelectedProduct(e.target.value)}
-        defaultValue={"Selecione um produto"}
-        value={selectedProduct}
-        label={"Produto a ser produzido"}
-        required={true}
-      />
-      <TextInput
-        type={"number"}
-        onChange={(e) => setQuantity(parseInt(e.target.value))}
-        value={quantity}
-        min={0}
-        label={"Quantidade a ser produzida"}
-      />
-      <div className={styles.buttons}>
-        <DefaultButton
-          type={"button"}
-          onClick={() => {
-            setIsLoading(true);
-            router.back();
-          }}
-          className={styles.backButton}
-        >
-          Voltar
-        </DefaultButton>
-        <DefaultButton type={"submit"} isDisabled={isLoading}>
-          {isEdit ? "Salvar" : "Registrar"}
-        </DefaultButton>
-      </div>
-    </FormTemplate>
+    <>
+      <h2>{isEdit ? "Editar" : "Registrar"} ordem de produção</h2>
+      <FormTemplate submitHandler={async (e) => handleSubmit(e)}>
+        <DateInput label={"Prazo"} setValue={setDeadline} value={deadline} isFilter={false} />
+        <SelectInput
+          options={productsOptions}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+          defaultValue={"Selecione um produto"}
+          value={selectedProduct}
+          label={"Produto a ser produzido"}
+          required={true}
+        />
+        <TextInput
+          type={"number"}
+          onChange={(e) => setQuantity(parseInt(e.target.value))}
+          value={quantity}
+          min={0}
+          label={"Quantidade a ser produzida"}
+        />
+        <div className={styles.buttons}>
+          <DefaultButton
+            type={"button"}
+            onClick={() => {
+              setIsLoading(true);
+              router.back();
+            }}
+            className={styles.backButton}
+          >
+            Voltar
+          </DefaultButton>
+          <DefaultButton type={"submit"} isDisabled={isLoading}>
+            {isEdit ? "Salvar" : "Registrar"}
+          </DefaultButton>
+        </div>
+      </FormTemplate>
+    </>
   );
 };
 
