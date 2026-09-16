@@ -32,9 +32,9 @@ function GoalForm({ isEdit, goal, handleSubmit, setGoal }: GoalFormProps) {
   const { isLoading, setIsLoading } = useLoading();
   const newGoal = goal as GoalPayload;
   const router = useRouter();
-  const weldersOptions = welders?.map((welder) => getOptions(welder.employeeUuid, welder.name));
+  const weldersOptions = welders?.map((welder) => getOptions(welder.uuid, welder.name));
 
-  const endpoint = isEdit ? `goal/${(goal as Goal).goalUuid}` : "goal";
+  const endpoint = isEdit ? `goal/${(goal as Goal).uuid}` : "goal";
 
   return (
     <form onSubmit={(e) => handleSubmit(e, router, newGoal, setIsLoading)} className={styles.registerGoalFormContainer}>
@@ -54,10 +54,10 @@ function GoalForm({ isEdit, goal, handleSubmit, setGoal }: GoalFormProps) {
           onChange={(e) =>
             setGoal({
               ...newGoal,
-              goalDeadline: new Date(e.target.value).toISOString(),
+              deadline: new Date(e.target.value).toISOString(),
             })
           }
-          value={String(newGoal.goalDeadline).split("T")[0]}
+          value={String(newGoal.deadline).split("T")[0]}
         />
       </label>
       <label className={`${styles.goalType}`}>
@@ -72,8 +72,8 @@ function GoalForm({ isEdit, goal, handleSubmit, setGoal }: GoalFormProps) {
       <div className={styles.inputGrid}>
         <TextInput
           type={"text"}
-          onChange={(e) => setGoal({ ...newGoal, goalTitle: e.target.value })}
-          value={String(newGoal.goalTitle)}
+          onChange={(e) => setGoal({ ...newGoal, title: e.target.value })}
+          value={String(newGoal.title)}
           label={"Título"}
           required={true}
         />
@@ -89,8 +89,8 @@ function GoalForm({ isEdit, goal, handleSubmit, setGoal }: GoalFormProps) {
       <label className={styles.descriptionInput}>
         <span>Descrição</span>
         <textarea
-          value={String(newGoal.goalDescription)}
-          onChange={(e) => setGoal({ ...newGoal, goalDescription: e.target.value })}
+          value={String(newGoal.description)}
+          onChange={(e) => setGoal({ ...newGoal, description: e.target.value })}
         />
       </label>
       <div className={styles.buttons}>

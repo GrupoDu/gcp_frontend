@@ -12,14 +12,14 @@ interface FullActivityAnalysis {
 }
 
 interface Activity {
-  activityType: string;
+  type: string;
   producedQuantity: number;
 }
 
 export interface EmployeeAnalysisEmployeeInfo {
-  employeeUuid: string;
+  uuid: string;
   name: string;
-  employeeRole: string;
+  role: string;
   producedQuantity: number;
 }
 

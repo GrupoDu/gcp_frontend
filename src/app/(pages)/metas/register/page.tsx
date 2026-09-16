@@ -33,26 +33,24 @@ async function handleSubmit(
 
   toast.success("Meta registrada com sucesso");
   router.push("/metas");
-
-  setIsLoading(false);
 }
 
 const GoalRegisterPage = () => {
   const { isLoading, setIsLoading } = useLoading();
   const router = useRouter();
   const [goal, setGoal] = useState<GoalPayload>({
-    goalTitle: "",
-    goalDescription: "",
+    title: "",
+    description: "",
     isEmployeeGoal: false,
-    goalDeadline: "",
+    deadline: "",
     employeeUuid: "",
   });
 
   const payload = {
-    goalTitle: goal.goalTitle,
-    goalDescription: goal.goalDescription,
+    title: goal.title,
+    description: goal.description,
     isEmployeeGoal: goal.isEmployeeGoal,
-    goalDeadline: goal.goalDeadline,
+    deadline: goal.deadline,
     employeeUuid: goal.employeeUuid === "" ? null : goal.employeeUuid,
   };
 

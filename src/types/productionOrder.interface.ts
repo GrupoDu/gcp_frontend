@@ -4,10 +4,10 @@ import { Order } from "@/types/order.interface";
 import { Status } from "@/enums/status.enum";
 
 export interface ProductionOrder {
-  productionOrderUuid?: string;
-  productionOrderDeadline: string;
-  productionOrderDescription?: string;
-  productionOrderStatus: Status;
+  uuid?: string;
+  deadline: string;
+  description?: string;
+  status: Status;
   productUuid: string;
   deliveredAt?: string | null;
   welders?: Welder | null;
@@ -23,10 +23,10 @@ export interface ProductionOrder {
 export interface ProductionOrderPayload {
   productUuid: string;
   toBeProduced: number;
-  productionOrderDeadline: Date;
+  deadline: Date;
 }
 
 export interface ProductionOrderEditPayload {
   toBeProduced: number;
-  productionOrderDeadline: Date;
+  deadline: Date;
 }

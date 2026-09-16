@@ -17,15 +17,15 @@ const ProductionOrderList = () => {
       {isListEmpty && <DataNotFound />}
       {productionOrders &&
         productionOrders?.map((order) => (
-          <li key={order.productionOrderUuid}>
+          <li key={order.uuid}>
             <CardProductionOrder
-              productionOrderUuid={order.productionOrderUuid ?? ""}
-              date={dataFormater(order.productionOrderDeadline)}
+              productionOrderUuid={order.uuid ?? ""}
+              date={dataFormater(order.deadline)}
               deliveryDate={order.deliveredAt}
-              description={order.productionOrderDescription ?? ""}
+              description={order.description ?? ""}
               title={titleFormatter(order.product.acronym, order.toBeProduced)}
-              status={order.productionOrderStatus}
-              registerId={order?.productionOrderUuid ?? ""}
+              status={order.status}
+              registerId={order?.uuid ?? ""}
               refetch={refetch}
             />
           </li>

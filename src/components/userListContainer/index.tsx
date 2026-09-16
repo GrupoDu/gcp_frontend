@@ -18,7 +18,7 @@ const UserListContainer = () => {
   const userRoleFilter = searchParams.get("userRole");
   const userListFiltered = users?.filter(
     (user) =>
-      (userRoleFilter ? user.userRole === userRoleFilter : true) &&
+      (userRoleFilter ? user.role === userRoleFilter : true) &&
       (searchFilterParam ? user.email.includes(searchFilterParam) || user.name.includes(searchFilterParam) : true),
   );
 
@@ -43,8 +43,8 @@ const UserListContainer = () => {
           <span className={styles.actionsSpan}>Ações</span>
         </div>
         {userListFiltered?.map((user) => (
-          <li key={user.userUuid}>
-            <ListItem deleteButtonEndpoint={`/usuarios/${user.userUuid}`} refetch={refetch} userInfos={user} />
+          <li key={user.uuid}>
+            <ListItem deleteButtonEndpoint={`/usuarios/${user.uuid}`} refetch={refetch} userInfos={user} />
           </li>
         ))}
       </ul>

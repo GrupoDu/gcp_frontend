@@ -35,14 +35,14 @@ function DisplayGoals({ goals, refetch }: { goals: Goal[] | undefined; refetch: 
   if (isGoalsEmpty) return <h4 className={styles.noGoalsText}>Nenhuma meta cadastrada</h4>;
 
   return goals?.map((meta) => (
-    <li key={meta.goalUuid}>
+    <li key={meta.uuid}>
       <CardGoal
         refetch={refetch}
-        goalId={meta.goalUuid || ""}
-        title={meta.goalTitle}
-        description={meta.goalDescription}
-        deadline={meta.goalDeadline.toString()}
-        status={meta.goalStatus || "EmProgresso"}
+        goalId={meta.uuid || ""}
+        title={meta.title}
+        description={meta.description}
+        deadline={meta.deadline.toString()}
+        status={meta.status || "EmProgresso"}
       />
     </li>
   ));

@@ -60,8 +60,8 @@ function WeldersActivityPage() {
   const { data: welders } = useFetch<Employee[]>("employee/filter?role=Soldador");
   const { data: products } = useFetch<Product[]>("product");
 
-  const weldersOptions = welders?.map((welder) => getOptions(welder.employeeUuid, welder.name)) || [];
-  const productsOptions = products?.map((product) => getOptions(product.productUuid, product.acronym)) || [];
+  const weldersOptions = welders?.map((welder) => getOptions(welder.uuid, welder.name)) || [];
+  const productsOptions = products?.map((product) => getOptions(product.uuid, product.acronym)) || [];
   const handleTextLimitChange = (value: string) => {
     const fullLengthString = value.length;
     setTextLimitCount(50 - fullLengthString);

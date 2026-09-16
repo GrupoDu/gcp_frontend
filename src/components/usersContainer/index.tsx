@@ -16,7 +16,7 @@ const UsersContainer = () => {
 
   const isListPopulated = !!users && users.length > 0;
   const displayList = users?.map((user) => (
-    <ListItem key={user.userUuid} deleteButtonEndpoint="user" refetch={refetch} userInfos={user} />
+    <ListItem key={user.uuid} deleteButtonEndpoint="user" refetch={refetch} userInfos={user} />
   ));
 
   return (

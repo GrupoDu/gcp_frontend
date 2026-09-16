@@ -13,7 +13,7 @@ const AssistantsDropdown = (props: AssistantsDropdownProps) => {
   const { setAssistantsFilter, assistantsFilter } = props;
   const { data: assistants } = useFetch<Employee[]>("employee/filter?role=Assistente");
   const assistantsOptions = assistants?.map((assistant) => ({
-    value: assistant.employeeUuid || "",
+    value: assistant.uuid || "",
     label: assistant.name || "",
   }));
 

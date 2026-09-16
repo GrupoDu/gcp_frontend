@@ -17,7 +17,7 @@ function WeldersContainer() {
   const isListPopulated = !!weldersActivities && weldersActivities?.length > 0;
   const headValues = ["Soldador", "Produto/Atividade", "Qtd.", "Data"];
   const displayList = weldersActivities?.map((activity) => (
-    <tr key={activity.welderActivityUuid}>
+    <tr key={activity.uuid}>
       <td>{activity.employee.name}</td>
       <td>{activity.product ? activity.product.name : activity.descriptionGeneralActivity}</td>
       <td>{activity.producedQuantity}</td>

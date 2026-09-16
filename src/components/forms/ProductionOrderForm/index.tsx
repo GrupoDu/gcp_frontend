@@ -30,15 +30,15 @@ export const ProductionOrderForm = () => {
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState("");
 
-  const productsOptions = products?.map((product) => getOptions(product.productUuid, product.name));
+  const productsOptions = products?.map((product) => getOptions(product.uuid, product.name));
   const editPayload: ProductionOrderEditPayload = {
-    productionOrderDeadline: new Date(deadline),
+    deadline: new Date(deadline),
     toBeProduced: quantity,
   };
   const createPayload: ProductionOrderPayload = {
     productUuid: selectedProduct,
     toBeProduced: quantity,
-    productionOrderDeadline: new Date(deadline),
+    deadline: new Date(deadline),
   };
 
   const hasSucceded = (success: boolean) => {

@@ -30,7 +30,6 @@ async function handleSubmit(
     return;
   }
 
-  setIsLoading(false);
   toast.success("Usuário registrado com sucesso");
   router.push("/funcionarios");
 }
@@ -39,7 +38,7 @@ const EmployeeRegisterPage = () => {
   const { isLoading, setIsLoading } = useLoading();
   const [newEmployee, setNewEmployee] = useState<EmployeePayload>({
     name: "",
-    employeeRole: "",
+    role: "",
   });
 
   useEffect(() => {

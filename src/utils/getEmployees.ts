@@ -12,8 +12,8 @@ async function getEmployees(): Promise<EmployeesTypeProps> {
   try {
     const response = await api.get("/employee");
     const employees: Employee[] | undefined = response.data.data;
-    const welders: Employee[] | undefined = employees?.filter((employee) => employee.employeeRole === "Soldador");
-    const assistants: Employee[] | undefined = employees?.filter((employee) => employee.employeeRole === "Assistente");
+    const welders: Employee[] | undefined = employees?.filter((employee) => employee.role === "Soldador");
+    const assistants: Employee[] | undefined = employees?.filter((employee) => employee.role === "Assistente");
 
     return { employees, welders, assistants };
   } catch (err) {

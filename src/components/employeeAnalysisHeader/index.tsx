@@ -20,7 +20,7 @@ export const EmployeeAnalysisHeader = () => {
         </div>
         <div className={styles.info}>
           <h2 className={styles.name}>{employeeAnalysis.employee.name}</h2>
-          <span className={styles.role}>{employeeAnalysis.employee.employeeRole}</span>
+          <span className={styles.role}>{employeeAnalysis.employee.role}</span>
         </div>
       </div>
       <div className={`${styles.statCard} ${styles.last}`}>

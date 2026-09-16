@@ -16,13 +16,13 @@ const EmployeesContainer = () => {
   const isListPopulated = !!employees && employees.length > 0;
   const displayList = employees?.map((employee) => (
     <ListItem
-      key={employee.employeeUuid}
+      key={employee.uuid}
       deleteButtonEndpoint="employees"
       refetch={refetch}
       userInfos={{
-        userUuid: employee.employeeUuid || "",
+        uuid: employee.uuid || "",
         name: employee.name,
-        userRole: employee.employeeRole,
+        role: employee.role,
       }}
     />
   ));

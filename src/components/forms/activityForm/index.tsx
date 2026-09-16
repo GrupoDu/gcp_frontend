@@ -19,7 +19,7 @@ const ActivityForm = () => {
   const { data: products } = useFetch<Product[]>("product");
   const router = useRouter();
   const productOptions = products?.map((product) => ({
-    value: product.productUuid!,
+    value: product.uuid!,
     label: product.name,
   }));
 

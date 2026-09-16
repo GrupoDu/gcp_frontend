@@ -40,7 +40,7 @@ function extractEmployeeOptions(employees: Employee[] | undefined) {
   if (!employees) return [];
 
   return employees.map((employee) => ({
-    value: employee.employeeUuid,
+    value: employee.uuid,
     label: employee.name,
   }));
 }

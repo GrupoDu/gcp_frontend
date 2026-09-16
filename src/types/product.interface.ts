@@ -1,5 +1,5 @@
 export interface Product {
-  productUuid: string;
+  uuid: string;
   name: string;
   acronym: string;
 }

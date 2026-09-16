@@ -38,7 +38,7 @@ const EmployeeEditPage = () => {
   const { data: fetchedEmployee } = useFetch<EmployeePayload>(`employee/${slug}`);
   const [employee, setEmployee] = useState<EmployeePayload>({
     name: "",
-    employeeRole: "",
+    role: "",
   });
 
   useEffect(() => {

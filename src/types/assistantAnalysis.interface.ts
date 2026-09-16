@@ -1,7 +1,7 @@
 import { Employee } from "@/types/employee.interface";
 
 export interface Activity {
-  activityType: string;
+  type: string;
   producedQuantity: number;
 }
 

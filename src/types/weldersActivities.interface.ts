@@ -2,7 +2,7 @@ import { Employee } from "@/types/employee.interface";
 import { Product } from "@/types/product.interface";
 
 export interface WeldersActivities {
-  welderActivityUuid: string;
+  uuid: string;
   welderUuid: string;
   productUuid?: string | null;
   descriptionGeneralActivity?: string | null;
@@ -15,7 +15,7 @@ export interface WeldersActivities {
   product: Product;
 }
 
-type OmitFields = "welderActivityUuid" | "registeredAt" | "employee" | "product" | "month" | "year";
+type OmitFields = "uuid" | "registeredAt" | "employee" | "product" | "month" | "year";
 
 export interface WelderActivityPayload extends Omit<WeldersActivities, OmitFields> {}
 

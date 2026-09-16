@@ -1,12 +1,12 @@
 export interface Goal {
-  goalUuid?: string;
-  goalTitle: string;
-  goalDescription: string;
-  goalStatus?: string;
+  uuid?: string;
+  title: string;
+  description: string;
+  status?: string;
   isEmployeeGoal?: boolean;
-  goalDeadline: string;
+  deadline: string;
   employeeUuid: string | null;
   createdAt?: string;
 }
 
-export interface GoalPayload extends Omit<Goal, "goalUuid" | "createdAt" | "goalStatus"> {}
+export interface GoalPayload extends Omit<Goal, "uuid" | "createdAt" | "status"> {}

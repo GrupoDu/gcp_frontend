@@ -59,8 +59,8 @@ function ViewProductionOrderPage() {
   const router = useRouter();
   const { data: productionOrder } = useFetch<ProductionOrder>(`productionOrder/${productionOrderUuid}`);
 
-  const description = productionOrder?.productionOrderDescription || "Registro sem descrição";
-  const formatedStatus = Status[productionOrder?.productionOrderStatus as keyof typeof Status];
+  const description = productionOrder?.description || "Registro sem descrição";
+  const formatedStatus = Status[productionOrder?.status as keyof typeof Status];
   const isDone = formatedStatus === "Finalizado";
   const payload = {
     deliveryObservation,
@@ -89,7 +89,7 @@ function ViewProductionOrderPage() {
           <div className={styles.registerInfosContainer}>
             <h2>{titleFormatter(productionOrder?.product?.acronym, productionOrder?.toBeProduced)}</h2>
             <span className={styles.dates}>
-              prazo de entrega: {dataFormater(productionOrder?.productionOrderDeadline || new Date())}
+              prazo de entrega: {dataFormater(productionOrder?.deadline || new Date())}
             </span>
             <span className={styles.dates}>status: {formatedStatus}</span>
             {isDone && (

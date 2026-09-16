@@ -9,8 +9,8 @@ export function useEmployeeRole() {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setWelder(employeesData?.filter((employee) => employee.employeeRole === "soldador"));
-    setAssistants(employeesData?.filter((employee) => employee.employeeRole === "assistente"));
+    setWelder(employeesData?.filter((employee) => employee.role === "soldador"));
+    setAssistants(employeesData?.filter((employee) => employee.role === "assistente"));
   }, [employeesData]);
 
   return { welders, assistants };

@@ -35,7 +35,7 @@ export const ProductionAnalysisChart = () => {
     : [];
 
   const xAxisActivity = isActivitiesPopulated
-    ? employeeAnalysis.activities.map((activity) => activity.activityType)
+    ? employeeAnalysis.activities.map((activity) => activity.type)
     : [];
 
   const yAxisActivity = isActivitiesPopulated

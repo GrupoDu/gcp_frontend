@@ -14,7 +14,7 @@ const ProductionOrderSection = () => {
   const { data } = useFetch<ProductionOrder[]>("productionOrder/filter?status=EmProducao");
   const pathname = usePathname();
   const productionOrderUuid = pathname.split("/")[2];
-  const productionOrders = data?.filter((order) => order.productionOrderUuid !== productionOrderUuid);
+  const productionOrders = data?.filter((order) => order.uuid !== productionOrderUuid);
 
   return (
     <div className={styles.productionOrderSectionContainer}>
@@ -41,15 +41,15 @@ function DisplayProductionOrders({ data, productionOrders }: DisplayProductionOr
   if (!isProductionOrderPopulated) return <h3>Nenhum registro pendente</h3>;
 
   return productionOrders?.map((order) => (
-    <li key={order.productionOrderUuid}>
+    <li key={order.uuid}>
       <CardProductionOrder
-        productionOrderUuid={order.productionOrderUuid ?? ""}
-        registerId={order.productionOrderUuid ?? ""}
-        status={order.productionOrderStatus}
+        productionOrderUuid={order.uuid ?? ""}
+        registerId={order.uuid ?? ""}
+        status={order.status}
         title={titleFormatter(order.product.acronym, order.toBeProduced)}
-        date={dataFormater(order.productionOrderDeadline)}
+        date={dataFormater(order.deadline)}
         deliveryDate={order.deliveredAt}
-        description={order.productionOrderDescription ?? ""}
+        description={order.description ?? ""}
       />
     </li>
   ));

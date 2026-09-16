@@ -1,14 +1,14 @@
 export interface Employee {
-  employeeUuid: string;
+  uuid: string;
   name: string;
-  employeeRole: string;
+  role: string;
   deliveredActivitiesQuantity?: number;
   notDeliveredActivitiesQuantity?: number;
   producedQuantity?: number;
 }
 
 type OmitPayload =
-  | "employeeUuid"
+  | "uuid"
   | "deliveredActivitiesQuantity"
   | "notDeliveredActivitiesQuantity"
   | "producedQuantity";

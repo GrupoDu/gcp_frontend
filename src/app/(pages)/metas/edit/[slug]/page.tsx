@@ -39,9 +39,9 @@ const GoalEditPage = () => {
   const { data: fetchedGoal } = useFetch<GoalPayload>(`goal/${slug}`);
   const [goal, setGoal] = useState<GoalPayload>({
     isEmployeeGoal: false,
-    goalDeadline: new Date().toISOString(),
-    goalTitle: "",
-    goalDescription: "",
+    deadline: new Date().toISOString(),
+    title: "",
+    description: "",
     employeeUuid: "",
   });
 

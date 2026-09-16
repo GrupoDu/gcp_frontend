@@ -1,4 +1,4 @@
 export interface WeldersFilters {
-  welderUuid: string;
+  uuid: string;
   registeredAt: string;
 }

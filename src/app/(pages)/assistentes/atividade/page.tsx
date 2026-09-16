@@ -52,12 +52,12 @@ function AssistantActivityPage() {
   const router = useRouter();
   const { data: assistants } = useFetch<Employee[]>("employee/filter?role=Assistente");
 
-  const assistantsOptions = assistants?.map((assistant) => getOptions(assistant.employeeUuid, assistant.name));
+  const assistantsOptions = assistants?.map((assistant) => getOptions(assistant.uuid, assistant.name));
   const payload: AssistantActivityPayload = {
-    assistantUuid: assistant,
+    uuid: assistant,
     activityDescription: description || null,
     producedQuantity: producedQuantity,
-    activityType: activityType,
+    type: activityType,
   };
 
   return (

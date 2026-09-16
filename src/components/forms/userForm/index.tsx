@@ -53,14 +53,14 @@ const UserForm = ({ isEdit, user }: { isEdit?: boolean; user?: User }) => {
   const password = generator.generate({ length: 20, numbers: true });
   const [seePassword, setSeePassword] = useState(false);
   const [userInfos, setUserInfos] = useState<User>({
-    userUuid: user?.userUuid || "",
+    uuid: user?.uuid || "",
     name: user?.name || "",
-    userRole: user?.userRole || "",
+    role: user?.role || "",
     email: user?.email || "",
     password: isEdit ? "" : password,
   });
 
-  const endpoint = user && isEdit ? `user/${user.userUuid}` : "user";
+  const endpoint = user && isEdit ? `user/${user.uuid}` : "user";
   const method: Method = isEdit ? "PUT" : "POST";
 
   const handleChange = (key: string, value: string) => setUserInfos((prev) => ({ ...prev, [key]: value }));
@@ -77,7 +77,7 @@ const UserForm = ({ isEdit, user }: { isEdit?: boolean; user?: User }) => {
         value={userInfos.name}
       />
       <SelectInput
-        value={userInfos.userRole}
+        value={userInfos.role}
         onChange={(e) => handleChange("userRole", e.target.value)}
         options={[
           { value: "Admin", label: "Administrador" },

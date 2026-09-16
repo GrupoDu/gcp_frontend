@@ -50,10 +50,10 @@ const EmployeeForm = ({ employee, handleSubmit, setEmployee }: EmployeeFormProp)
         label={"Nome do funcionário"}
       />
       <SelectInput
-        value={employee.employeeRole}
+        value={employee.role}
         defaultValue={"Função"}
         label={"Função do funcionário"}
-        onChange={(e) => setEmployee({ ...employee, employeeRole: e.target.value })}
+        onChange={(e) => setEmployee({ ...employee, role: e.target.value })}
         options={roleOptions}
       />
       <div className={styles.buttons}>

@@ -17,9 +17,9 @@ export const EmployeeAnalysisProvider = ({
 }) => {
   const [analysis, setAnalysis] = useState<EmployeeAnalysis>({
     employee: {
-      employeeUuid: "",
+      uuid: "",
       name: "",
-      employeeRole: "",
+      role: "",
       producedQuantity: 0,
     },
     monthlyTotalProduction: 0,

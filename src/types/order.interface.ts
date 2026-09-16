@@ -1,3 +1,3 @@
 export interface Order {
-  orderUuid: string;
+  uuid: string;
 }

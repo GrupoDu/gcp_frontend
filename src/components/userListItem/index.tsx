@@ -16,17 +16,17 @@ type ListItemProps = {
 const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) => {
   const pathname = usePathname();
   const isEmployeePage = pathname.includes("funcionarios");
-  const { userUuid, userRole, name, email } = userInfos;
+  const { uuid, role, name, email } = userInfos;
 
   return (
     <tr>
       <td>{name}</td>
       {email && <td>{email}</td>}
-      <td>{userRole}</td>
+      <td>{role}</td>
       <td>
         <div className={styles.buttons}>
-          <EditButton href={`${pathname}/edit/${userInfos.userUuid}`} />
-          {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.userUuid}?role=${userRole}`} />}
+          <EditButton href={`${pathname}/edit/${userInfos.uuid}`} />
+          {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.uuid}?role=${role}`} />}
           <DeleteButton deleteAction={() => toast.warning("Funcionalidade em desenvolvimento")} />
         </div>
       </td>

@@ -25,12 +25,12 @@ export const WelderActivityForm = () => {
   const { data: products } = useFetch<Product[]>("product");
 
   const weldersOptions = welders?.map((welder) => ({
-    value: welder.employeeUuid || "",
+    value: welder.uuid || "",
     label: welder.name,
   }));
   const productsOptions =
     products?.map((product) => ({
-      value: product.productUuid || "",
+      value: product.uuid || "",
       label: product.acronym,
     })) || [];
   const handleTextLimitChange = (value: string) => {

@@ -12,7 +12,7 @@ const LoginCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginTries, setLoginTries] = useState(0);
-  const [userRole, setUserRole] = useState("");
+  const [role, setRole] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -24,15 +24,15 @@ const LoginCredentials = () => {
       const response = await api.post("/auth/login", {
         email,
         password,
-        userRole: userRole,
+        role,
       });
 
       const data = await response.data;
       console.log(data.message);
 
-      localStorage.setItem("@App:userRole", data.data.userRole);
+      localStorage.setItem("@App:userRole", data.data.role);
 
-      redirectByUserRole(data.data.userRole, router, setUserRole);
+      redirectByUserRole(data.data.role, router, setRole);
     } catch (err) {
       const error = err as Error;
       setLoginTries((prevTries) => prevTries + 1);
@@ -45,7 +45,7 @@ const LoginCredentials = () => {
     <form onSubmit={(e) => handleLogin(e)} className={styles.loginCredentials}>
       <label>
         <span>Tipo de usuário</span>
-        <select value={userRole} onChange={(e) => setUserRole(e.target.value)} name="user-type-input">
+        <select value={role} onChange={(e) => setRole(e.target.value)} name="user-type-input">
           <option value="">Selecionar tipo</option>
           <option value="Admin">Admin</option>
           <option value="Supervisor">Supervisor</option>
@@ -85,15 +85,15 @@ const LoginCredentials = () => {
   );
 };
 
-function redirectByUserRole(userRole: string, router: AppRouterInstance, setUserRole: (value: string) => void) {
-  const isAdmin = userRole === "Admin";
-  const isSupervisor = userRole === "Supervisor";
+function redirectByUserRole(role: string, router: AppRouterInstance, setRole: (value: string) => void) {
+  const isAdmin = role === "Admin";
+  const isSupervisor = role === "Supervisor";
 
   if (isAdmin) {
-    setUserRole(userRole);
+    setRole(role);
     return router.push("/dashboard");
   } else if (isSupervisor) {
-    setUserRole(userRole);
+    setRole(role);
     return router.push("/producao");
   } else {
     throw new Error("Usuário não encontrado.");

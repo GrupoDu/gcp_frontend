@@ -1,27 +1,22 @@
 import { Employee } from "@/types/employee.interface";
 
 export interface AssistantsActivities {
-  assistantActivityUuid?: string;
+  uuid?: string;
   registeredAt: Date;
   producedQuantity: number;
-  activityType: string;
+  type: string;
   employee: Employee;
   activityDescription?: string;
 }
 
 export interface AssistantActivityPayload {
-  assistantUuid: string;
+  uuid: string;
   activityDescription?: string | null;
   producedQuantity: number;
-  activityType: string;
-}
-
-export interface AssistantsActivitiesPagination {
-  assistantsActivities: AssistantsActivities[];
-  maxPages: number;
+  type: string;
 }
 
 export interface CreateAssistantsActivities extends Omit<
   AssistantsActivities,
-  "assistantsActivitiesUuid" | "registeredAt"
+  "uuid" | "registeredAt"
 > {}

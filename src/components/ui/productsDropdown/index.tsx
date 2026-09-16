@@ -35,7 +35,7 @@ const ProductsDropdown = () => {
         Todos
       </option>
       {products?.map((product, index) => (
-        <option key={product.productUuid} value={product.productUuid} data-key={index}>
+        <option key={product.uuid} value={product.uuid} data-key={index}>
           {product.acronym}
         </option>
       ))}

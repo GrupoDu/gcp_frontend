@@ -39,14 +39,14 @@ const GoalsContainer = () => {
           </FilterMobileContainer>
           <ul className={styles.cardListContainer}>
             {goals?.map((goal) => (
-              <li key={goal.goalUuid}>
+              <li key={goal.uuid}>
                 <CardGoal
-                  goalId={goal.goalUuid || ""}
-                  status={goal.goalStatus || ""}
+                  goalId={goal.uuid || ""}
+                  status={goal.status || ""}
                   refetch={refetch}
-                  description={goal.goalDescription}
-                  title={goal.goalTitle}
-                  deadline={goal.goalDeadline.toString()}
+                  description={goal.description}
+                  title={goal.title}
+                  deadline={goal.deadline.toString()}
                 />
               </li>
             ))}
