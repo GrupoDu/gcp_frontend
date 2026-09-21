@@ -43,8 +43,9 @@ const LineChartContainer = () => {
 };
 
 function LineChartAnalysis({ annualAnalysis }: { annualAnalysis?: AnnualAnalysis[] }) {
-  const totalProduction = annualAnalysis?.map((item: AnnualAnalysis): number => item.totalProduction || 0);
-  const monthsNames = annualAnalysis?.map((item: AnnualAnalysis) => MONTHS[item.month - 1] || "");
+  const sortedAnalysis = annualAnalysis?.sort((a, b) => a.month - b.month);
+  const totalProduction = sortedAnalysis?.map((item: AnnualAnalysis): number => item.totalProduction || 0);
+  const monthsNames = sortedAnalysis?.map((item: AnnualAnalysis) => MONTHS[item.month - 1] || "");
   const seriesData = [
     {
       data: totalProduction,
