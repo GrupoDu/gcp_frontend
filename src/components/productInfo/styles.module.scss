@@ -1,0 +1,23 @@
+.productInfoContainer {
+  padding: .8rem;    
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  user-select: none;
+  pointer-events: none;
+  background-color: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  top: 2.8rem;
+  opacity: 0;
+  z-index: 11;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.2rem;
+  border: 1px solid var(--default-border);
+  transition: opacity 0.1s ease;
+  
+  .description {
+    color: #878787;
+    font-style: italic;
+  }
+}

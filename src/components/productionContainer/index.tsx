@@ -29,6 +29,8 @@ const ProductionContainer = () => {
                 date={dataFormater(order.deadline)}
                 deliveryDate={order.deliveredAt}
                 description={order.description || ""}
+                productDescription={order.product.description || "Produto sem descrição"}
+                name={order.product.name}
                 title={titleFormatter(order.product.acronym, order.toBeProduced)}
                 status={order.status}
                 registerId={order?.uuid || ""}

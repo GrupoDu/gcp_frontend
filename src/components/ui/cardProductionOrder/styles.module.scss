@@ -25,6 +25,7 @@
 
 .cardRegisterContainer {
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 0.5rem;
   border: colors.$borderDefault;

@@ -23,6 +23,8 @@ const ProductionOrderList = () => {
               date={dataFormater(order.deadline)}
               deliveryDate={order.deliveredAt}
               description={order.description ?? ""}
+              name={order.product.name}
+              productDescription={order.product.description}
               title={titleFormatter(order.product.acronym, order.toBeProduced)}
               status={order.status}
               registerId={order?.uuid ?? ""}

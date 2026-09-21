@@ -47,6 +47,8 @@ function DisplayProductionOrders({ data, productionOrders }: DisplayProductionOr
         registerId={order.uuid ?? ""}
         status={order.status}
         title={titleFormatter(order.product.acronym, order.toBeProduced)}
+        name={order.product.name}
+        productDescription={order.product.description}
         date={dataFormater(order.deadline)}
         deliveryDate={order.deliveredAt}
         description={order.description ?? ""}
