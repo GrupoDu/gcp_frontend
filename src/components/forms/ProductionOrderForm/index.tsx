@@ -21,8 +21,6 @@ import { api } from "@/services/api";
 const formatDateToInput = (date: string) => date.split("T")[0];
 
 const getOldValues = async (orderUuid: string) => {
-  console.log(orderUuid);
-
   const response = await api.get(`productionOrder/${orderUuid}`, {
     withCredentials: true,
   });
