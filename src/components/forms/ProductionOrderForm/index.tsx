@@ -91,8 +91,8 @@ export const ProductionOrderForm = () => {
   };
 
   useEffect(() => {
-    if (isEdit) handleProductionOrderOldValues();
-  }, []);
+    if (isEdit && orderUuid) handleProductionOrderOldValues();
+  }, [isEdit, orderUuid]);
 
   return (
     <>
