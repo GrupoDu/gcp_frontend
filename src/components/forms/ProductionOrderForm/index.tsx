@@ -10,12 +10,26 @@ import { useLoading } from "@/hooks/useLoading";
 import TextInput from "@/components/ui/textInput";
 import { toast } from "react-toastify";
 import { handlePost } from "@/utils/handleSubmitUtils/handlePost";
-import { ProductionOrderEditPayload, ProductionOrderPayload } from "@/types/productionOrder.interface";
-import { useState } from "react";
+import { ProductionOrder, ProductionOrderEditPayload, ProductionOrderPayload } from "@/types/productionOrder.interface";
+import { useEffect, useState } from "react";
 import { getOptions } from "@/utils/getOptions";
 import { useFetch } from "@/hooks/useFetch";
 import { Product } from "@/types/product.interface";
 import { handlePatch } from "@/utils/handleSubmitUtils/handlePatch";
+import { api } from "@/services/api";
+
+const formatDateToInput = (date: string) => date.split("T")[0];
+
+const getOldValues = async (orderUuid: string) => {
+  const response = await api.get(`productionOrder/${orderUuid}`);
+
+  const data = response.data;
+
+  return {
+    deadline: formatDateToInput(data.data.deadline),
+    quantity: data.data.toBeProduced,
+  };
+};
 
 export const ProductionOrderForm = () => {
   const searchParams = useSearchParams();
@@ -29,6 +43,18 @@ export const ProductionOrderForm = () => {
   const [deadline, setDeadline] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState("");
+
+  const handleProductionOrderOldValues = async () => {
+    try {
+      const { deadline, quantity } = await getOldValues(orderUuid);
+      setDeadline(deadline);
+      setQuantity(quantity);
+    } catch (e) {
+      const err = e as Error;
+      console.error(err.message);
+      toast.error(err.message);
+    }
+  };
 
   const productsOptions = products?.map((product) => getOptions(product.uuid, product.name));
   const editPayload: ProductionOrderEditPayload = {
@@ -62,19 +88,25 @@ export const ProductionOrderForm = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    if (isEdit) handleProductionOrderOldValues();
+  }, []);
+
   return (
     <>
       <h2>{isEdit ? "Editar" : "Registrar"} ordem de produção</h2>
       <FormTemplate submitHandler={async (e) => handleSubmit(e)}>
         <DateInput label={"Prazo"} setValue={setDeadline} value={deadline} isFilter={false} />
-        <SelectInput
-          options={productsOptions}
-          onChange={(e) => setSelectedProduct(e.target.value)}
-          defaultValue={"Selecione um produto"}
-          value={selectedProduct}
-          label={"Produto a ser produzido"}
-          required={true}
-        />
+        {!isEdit && (
+          <SelectInput
+            options={productsOptions}
+            onChange={(e) => setSelectedProduct(e.target.value)}
+            defaultValue={"Selecione um produto"}
+            value={selectedProduct}
+            label={"Produto a ser produzido"}
+            required={true}
+          />
+        )}
         <TextInput
           type={"number"}
           onChange={(e) => setQuantity(parseInt(e.target.value))}
