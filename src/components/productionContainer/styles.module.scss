@@ -21,6 +21,12 @@
   display: flex;
 }
 
+@media screen and (max-width: 1310px) {
+  .cardListContainer {
+    grid-template-columns: auto auto; 
+  }
+}
+
 @media screen and (min-width: 320px) and (max-width: 768px) {
   .listContainer {
     .desktopFilters {
