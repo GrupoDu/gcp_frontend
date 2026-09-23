@@ -5,15 +5,19 @@ import { useFetch } from "@/hooks/useFetch";
 import { User } from "@/types/user.interface";
 import ListItem from "@/components/userListItem";
 import { TableList } from "@/components/lists/tableList";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { USER_TABLE_HEADS } from "@/constants/tableHeads.constant";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
 import { Modal } from "../modal";
 import { useModal } from "@/hooks/useModal";
+import EditButton from "@/components/editButton";
+import { AnalysisButton } from "@/components/analysisButton";
+import DeleteButton from "@/components/deleteButton";
 
 const UsersContainer = () => {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const hasFilters = searchParams.size > 0;
   const { setShowModal } = useModal();
   const endpoint = `user${hasFilters ? "/filter?" : "/active"}${searchParams.toString()}`;
@@ -38,7 +42,7 @@ const UsersContainer = () => {
   const displayList = users?.map((user) => (
     <>
       <Modal action={() => handleDeactivateUser(user.uuid)} />
-      <ListItem key={user.uuid} deleteButtonEndpoint="user" refetch={refetch} userInfos={user} />
+      <ListItem key={user.uuid} deleteButtonEndpoint="user" refetch={refetch} data={user} />
     </>
   ));
 

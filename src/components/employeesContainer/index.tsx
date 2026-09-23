@@ -38,16 +38,7 @@ const EmployeesContainer = () => {
   const displayList = employees?.map((employee) => (
     <>
       <Modal action={() => handleDeactivateEmployee(employee.uuid)} />
-      <ListItem
-        key={employee.uuid}
-        deleteButtonEndpoint="employees"
-        refetch={refetch}
-        userInfos={{
-          uuid: employee.uuid || "",
-          name: employee.name,
-          role: employee.role,
-        }}
-      />
+      <ListItem key={employee.uuid} deleteButtonEndpoint="employees" refetch={refetch} data={employee} />
     </>
   ));
 

@@ -7,17 +7,24 @@ import { UserPublic } from "@/types/user.interface";
 import { AnalysisButton } from "@/components/analysisButton";
 import { useModal } from "@/hooks/useModal";
 
+type ListItemData = {
+  uuid: string;
+  name: string;
+  role: string;
+  email?: string;
+};
+
 type ListItemProps = {
-  userInfos: UserPublic;
+  data: ListItemData;
   refetch: () => void;
   deleteButtonEndpoint: string;
 };
 
-const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) => {
+const ListItem = ({ data, refetch, deleteButtonEndpoint }: ListItemProps) => {
   const { setShowModal } = useModal();
   const pathname = usePathname();
   const isEmployeePage = pathname.includes("funcionarios");
-  const { uuid, role, name, email } = userInfos;
+  const { role, name, email, uuid } = data;
 
   return (
     <tr>
@@ -26,8 +33,8 @@ const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) =
       <td>{role}</td>
       <td>
         <div className={styles.buttons}>
-          <EditButton href={`${pathname}/edit/${userInfos.uuid}`} />
-          {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.uuid}?role=${role}`} />}
+          <EditButton href={`${pathname}/edit/${uuid}`} />
+          {isEmployeePage && <AnalysisButton employee_uuid={`analises/${uuid}?role=${role}`} />}
           <DeleteButton deleteAction={() => setShowModal(true)} />
         </div>
       </td>
