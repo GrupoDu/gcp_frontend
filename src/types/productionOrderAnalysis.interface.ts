@@ -1,5 +1,5 @@
 export interface ProductionOrderAnalysis {
   deliveredQuantity: number;
-  notDeliveredQuantity: number;
+  overdueQuantity: number;
   pendingQuantity: number;
 }

@@ -24,9 +24,8 @@ const PieChartContainer = () => {
       label: "Em Produção",
       color: "#FFD079",
     },
-
     {
-      value: productionOrderAnalysis?.notDeliveredQuantity || 0,
+      value: productionOrderAnalysis?.overdueQuantity || 0,
       label: "Atrasado",
       color: "#d32f2f",
     },
