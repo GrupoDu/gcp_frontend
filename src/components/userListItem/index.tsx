@@ -5,7 +5,7 @@ import EditButton from "../editButton";
 import { usePathname } from "next/navigation";
 import { UserPublic } from "@/types/user.interface";
 import { AnalysisButton } from "@/components/analysisButton";
-import { toast } from "react-toastify";
+import { useModal } from "@/hooks/useModal";
 
 type ListItemProps = {
   userInfos: UserPublic;
@@ -14,6 +14,7 @@ type ListItemProps = {
 };
 
 const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) => {
+  const { setShowModal } = useModal();
   const pathname = usePathname();
   const isEmployeePage = pathname.includes("funcionarios");
   const { uuid, role, name, email } = userInfos;
@@ -27,7 +28,7 @@ const ListItem = ({ userInfos, refetch, deleteButtonEndpoint }: ListItemProps) =
         <div className={styles.buttons}>
           <EditButton href={`${pathname}/edit/${userInfos.uuid}`} />
           {isEmployeePage && <AnalysisButton employee_uuid={`analises/${userInfos.uuid}?role=${role}`} />}
-          <DeleteButton deleteAction={() => toast.warning("Funcionalidade em desenvolvimento")} />
+          <DeleteButton deleteAction={() => setShowModal(true)} />
         </div>
       </td>
     </tr>

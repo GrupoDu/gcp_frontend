@@ -6,7 +6,7 @@ import { User } from "@/types/user.interface";
 import { useMemo } from "react";
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const { data, err, status, refetch } = useFetch<User[]>("users");
+  const { data, err, status, refetch } = useFetch<User[]>("user/active");
 
   const usersData = useMemo(
     () => ({
