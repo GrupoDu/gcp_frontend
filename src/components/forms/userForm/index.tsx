@@ -78,7 +78,7 @@ const UserForm = ({ isEdit, user }: { isEdit?: boolean; user?: User }) => {
       />
       <SelectInput
         value={userInfos.role}
-        onChange={(e) => handleChange("userRole", e.target.value)}
+        onChange={(e) => handleChange("role", e.target.value)}
         options={[
           { value: "Admin", label: "Administrador" },
           { value: "Supervisor", label: "Supervisor" },
