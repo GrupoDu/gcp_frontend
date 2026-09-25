@@ -5,23 +5,25 @@ import styles from "./page.module.scss";
 import PageHeader from "@/components/ui/pageHeader";
 import { LuGoal } from "react-icons/lu";
 import GoalForm from "@/components/forms/goalForm";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useFetch } from "@/hooks/useFetch";
 import { GoalPayload } from "@/types/goal.interface";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { handlePatch } from "@/utils/handleSubmitUtils/handlePatch";
 import { toast } from "react-toastify";
+import { useLoading } from "@/hooks/useLoading";
 
 const handleSubmit = async (
   e: React.SubmitEvent,
   router: AppRouterInstance,
   payload: GoalPayload,
   setIsLoading: (value: boolean) => void,
+  goalUuid?: string,
 ) => {
   e.preventDefault();
   setIsLoading(true);
 
-  const success = await handlePatch(payload, "goal/update");
+  const success = await handlePatch(payload, `goal/update/${goalUuid}`);
 
   if (!success) {
     setIsLoading(false);
@@ -36,6 +38,8 @@ const handleSubmit = async (
 
 const GoalEditPage = () => {
   const { slug } = useParams();
+  const router = useRouter();
+  const { setIsLoading } = useLoading();
   const { data: fetchedGoal } = useFetch<GoalPayload>(`goal/${slug}`);
   const [goal, setGoal] = useState<GoalPayload>({
     isEmployeeGoal: false,
@@ -54,7 +58,12 @@ const GoalEditPage = () => {
       <PageHeader headerTitle="Metas" HeaderIcon={LuGoal} />
       <main className="mainContainer">
         <h3>Editar meta</h3>
-        <GoalForm isEdit={true} goal={goal} setGoal={setGoal} handleSubmit={handleSubmit} />
+        <GoalForm
+          isEdit={true}
+          goal={goal}
+          setGoal={setGoal}
+          handleSubmit={(e) => handleSubmit(e, router, goal, setIsLoading, slug?.toString())}
+        />
       </main>
     </div>
   );
