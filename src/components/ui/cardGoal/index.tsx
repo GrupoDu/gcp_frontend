@@ -42,13 +42,27 @@ const CardGoal = ({ title, description, status, deadline, goalId, refetch }: Car
       <IoIosCloseCircle color="#d32f2f" className={styles.iconStatus} />
     );
 
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/goal/${goalId}`);
+
+      if (refetch) refetch();
+
+      toast.success("Meta excluida com sucesso");
+    } catch (e) {
+      const err = e as Error;
+      console.error(err.message);
+      toast.error(err.message);
+    }
+  };
+
   return (
     <div className={styles.cardGoalContainer}>
       <div className={styles.goalTitle}>
         {statusIcon}
         <h4>{title}</h4>
         <div className={styles.buttons}>
-          <DeleteButton deleteAction={() => toast.warning("Funcionalidade em desenvolvimento.")} />
+          <DeleteButton deleteAction={() => handleDelete()} />
           {status === "EmProgresso" && <EditButton href={`/metas/edit/${goalId}`} />}
         </div>
       </div>
