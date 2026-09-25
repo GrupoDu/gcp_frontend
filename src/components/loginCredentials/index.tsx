@@ -7,13 +7,14 @@ import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { ClipLoader } from "react-spinners";
+import { useLoading } from "@/hooks/useLoading";
 
 const LoginCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginTries, setLoginTries] = useState(0);
   const [role, setRole] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useLoading();
   const router = useRouter();
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
