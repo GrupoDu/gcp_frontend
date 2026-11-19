@@ -196,15 +196,15 @@ select {
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
   html {
-    font-size: 14px;
-  }
-
-  input {
-    //padding: 2rem;
+    font-size: 12px;
   }
 
   .loadingAnimation {
     left: 40%;
     z-index: 10;
+  }
+
+  .tableWrapper {
+    overflow-x: scroll;
   }
 }
