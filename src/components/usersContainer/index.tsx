@@ -17,7 +17,6 @@ import DeleteButton from "@/components/deleteButton";
 
 const UsersContainer = () => {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const hasFilters = searchParams.size > 0;
   const { setShowModal } = useModal();
   const endpoint = `user${hasFilters ? "/filter?" : "/active"}${searchParams.toString()}`;
