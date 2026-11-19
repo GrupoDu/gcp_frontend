@@ -54,19 +54,10 @@ const FiltersList = (props: FiltersListProps) => {
           <span>{props.buttonLabel}</span>
           <LinkButton href={props.hrefButton} color="black" fullWidth={true}>
             <FaPlus color={"white"} />
-            Adicionar
+            <span>Adicionar</span>
           </LinkButton>
         </label>
       </div>
-      {props.hrefButton && (
-        <label className={styles.addButton}>
-          <span>{props.buttonLabel}</span>
-          <LinkButton href={props.hrefButton} color="black" fullWidth={true}>
-            <FaPlus color={"white"} />
-            Adicionar
-          </LinkButton>
-        </label>
-      )}
       <div className={styles.mobileFilters}>
         <span>Filtros</span>
         <button onClick={() => setOpenMobile(!openMobile)} type="button">
