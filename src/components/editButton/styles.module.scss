@@ -21,3 +21,13 @@
     height: fit-content;
   }
 }
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  .editButton {
+    padding: .8rem;
+    
+    span {
+      display: none;
+    }
+  } 
+}

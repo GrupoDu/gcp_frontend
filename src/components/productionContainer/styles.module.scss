@@ -27,40 +27,49 @@
   }
 }
 
+@media screen and (max-width: 875px) {
+  .cardListContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 @media screen and (min-width: 320px) and (max-width: 768px) {
   .listContainer {
-    .desktopFilters {
-      display: none;
-    }
+    //.desktopFilters {
+    //  display: none;
+    //}
 
-    .mobileFilters {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
+    //.mobileFilters {
+    //  display: flex;
+    //  flex-direction: column;
+    //  gap: 0.4rem;
+    //
+    //  button {
+    //    box-sizing: border-box;
+    //    padding: 0.4rem;
+    //  }
+    //}
 
-      button {
-        box-sizing: border-box;
-        padding: 0.4rem;
-      }
-    }
-
-    .filterMobileContainer {
-      position: absolute;
-      transform: translateY(30%);
-      z-index: 4;
-      display: none;
-      opacity: 0;
-      transition: all 1s ease-in-out;
-      width: 85%;
-      border: colors.$borderDefault;
-      border-radius: 0.2rem;
-      background-color: white;
-      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
-    }
+    //.filterMobileContainer {
+    //  position: absolute;
+    //  transform: translateY(30%);
+    //  z-index: 4;
+    //  display: none;
+    //  opacity: 0;
+    //  transition: all 1s ease-in-out;
+    //  width: 85%;
+    //  border: colors.$borderDefault;
+    //  border-radius: 0.2rem;
+    //  background-color: white;
+    //  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    //}
 
     .open {
       display: block;
       opacity: 1;
     }
+
+    
   }
 }
