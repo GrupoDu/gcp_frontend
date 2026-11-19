@@ -122,11 +122,11 @@ api.interceptors.response.use(
       return api(originalRequest);
     } catch (err) {
       const refreshError = err as AxiosError;
-      console.log("Não foi possível fazer o refresh");
       // Processa a fila com erro
       processQueue(refreshError);
+      const isAuthError = refreshError.response?.status === 401 || refreshError.response?.status === 403;
 
-      if (isNotLoginPage && refreshError.response?.status === 401) window.location.href = "/login";
+      if (isNotLoginPage && isAuthError) window.location.href = "/login";
 
       return Promise.reject(refreshError);
     } finally {
